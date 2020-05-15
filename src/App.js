@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+console.log(1);
+console.log(2);
+
 function App() {
   return (
     <div className="App">
