@@ -1,20 +1,20 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import ComponentA from "./Component_A/ComponentA";
+import ComponentB from "./Component_B/ComponentB";
+// import * as testService from "./services/test-service";
 
-console.log(1);
-console.log(2);
-console.log(3);
-console.log(4);
-console.log("hello");
-console.log(4); 
-console.log("goodbye");
-console.log(6);
+// console.log(testService.getValue());
+// testService.setValue(6);
+// console.log(testService.getValue());
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <ComponentA />
+        <ComponentB />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
