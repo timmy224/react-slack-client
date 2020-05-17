@@ -1,8 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import io from 'socket.io-client';
+import SocketService from './services/socket-service';
+
 
 console.log(1);
+const socket = io("http://localhost:5000");
 
 function App() {
   return (
@@ -11,6 +15,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
+          <SocketService />
         </p>
         <a
           className="App-link"
