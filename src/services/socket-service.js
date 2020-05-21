@@ -1,14 +1,20 @@
 import io from "socket.io-client";
+import { Subject } from "rxjs";
+import * as chatService from "./chat-service";
 
 let socket; 
+let connected$ = new Subject();
+
+export const getConnected$ = () => connected$;
 
 export function connect(dataObject) { 
-    let localUrl = "http:localhost:5000"
+    let localUrl = "http://localhost:5000"
     let value = dataObject.username
     let query_val = `username=${value}`
     let queryObj = {query: query_val}
     socket = io(localUrl, queryObj)
-    return socket //maybe set this as a parent (app) state property?
+    setUpEventListeners();
+    return socket 
 }
 
 export function getSocket() {
@@ -28,15 +34,23 @@ export function disconnect() {
     return "Socket disconnect sent"
 }
 
-export function setSocketListeners() {
+export function setUpEventListeners() {
+    socket.on("connect", () => {
+    	connected$.next(true);
+    });
+
+	socket.on("connect_error", () => {
+		connected$.next(false);
+    });
+
     socket.on('message-catchup', (messages) => {
         console.log(`Message Catchup: ${messages.messages}`);
-        return messages
+        chatService.onMessagesReceived(messages);
     })
 
     socket.on('user-joined-chat', (user_join) => {
         console.log(`User joined the chat: ${user_join.username}`);
-        return user_join
+        chatService.onUserJoinedChat(user_join.username);
     })
 
     socket.on('message-received', (message_received) => {
@@ -45,7 +59,7 @@ export function setSocketListeners() {
              Time Sent: ${message},
              Content: ${message_received.content}`
         );
-        return message_received
+        chatService.onMessageReceived(message_received);
     })
 }
 
