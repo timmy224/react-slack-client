@@ -1,17 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-
-class InputMessage extends React.Component{
-	constructor(props){
-		super(props);
-		this.state={
-			input:'',
-			messages:[]
-		}
-		this.handleKeyPressed=this.handleKeyPressed.bind(this)
-	}
-
-	handleKeyPressed(event) {
+class InputMessage extends Component {
+	handleKeyPressed = event => {
   		if (event.key === "Enter") {
   			this.props.onEnter(event.target.value)
   		}
