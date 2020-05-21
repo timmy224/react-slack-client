@@ -1,15 +1,28 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+// import * as chatService from "./services/chat-service"; 
 
-console.log(1);
-console.log(2);
-console.log(3);
-console.log(4);
-console.log("hello");
-console.log(4); 
-console.log("goodbye");
-console.log(6);
+// Commented out code is a test of how the chatService runs
+// TODO remove eventually
+// chatService.getMessages$().subscribe(message => console.log("Message received from chatService: ", message));
+// chatService.getJoinedChat$().subscribe(username => console.log("User joined chat received from chatService: ", username));
+
+// let messages = [
+//   {sender: "Luis", time_sent: "12:01", content: "yo"},
+//   {sender: "Sleyter", time_sent: "12:01", content: "sup"},
+//   {sender: "Konrad", time_sent: "12:01", content: "greetings"}
+// ];
+
+// chatService.onMessagesReceived(messages);
+
+// chatService.onUserJoinedChat("Timmy");
+
+// let messageTypedFromClient = {
+//   sender: "Timmy", time_sent: "12:02", content: "Whazzaaap"
+// };
+
+// chatService.sendMessage(messageTypedFromClient);
 
 function App() {
   return (
