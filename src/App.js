@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import * as apiService from "./services/api-service";
 // import * as chatService from "./services/chat-service"; 
 
 // Commented out code is a test of how the chatService runs
@@ -23,6 +24,9 @@ import "./App.css";
 // };
 
 // chatService.sendMessage(messageTypedFromClient);
+
+
+// apiService.checkUsername("Luis").then(isAvailable => console.log(isAvailable));
 
 function App() {
   return (
