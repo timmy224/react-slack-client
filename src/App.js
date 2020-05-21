@@ -2,6 +2,8 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 // import * as chatService from "./services/chat-service"; 
+import * as socketService from "./services/socket-service";
+import { take } from "rxjs/operators";
 
 // Commented out code is a test of how the chatService runs
 // TODO remove eventually
@@ -23,6 +25,22 @@ import "./App.css";
 // };
 
 // chatService.sendMessage(messageTypedFromClient);
+
+// respond to whether we connected successfully or not 
+socketService.getConnected$()
+  .pipe(take(1))
+  .subscribe(connected => {
+    if (connected) {
+      console.log("Successful connection!")
+      // do stuff on successful connection
+    } else {
+      console.log("Unsuccessful connection")
+      // do stuff on unsuccessful connection 
+    }
+  });
+
+// try to connect
+socketService.connect({username: "codeninja"});
 
 function App() {
   return (
