@@ -6,10 +6,6 @@ import EnterUsername from "./EnterUsernameComponent/EnterUsername";
 console.log(1);
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     state = {
         username: "parent state",
     }

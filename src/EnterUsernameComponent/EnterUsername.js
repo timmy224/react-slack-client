@@ -1,21 +1,19 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 //import * as UserService from "../services/user-service"
 //import * as StorageService from "../services/storage-service"
 //import * as APIService from "../services/API-service"
 
 class EnterUsername extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     state = {
         input: 'child input',
         submit: "child submit"
     }
 
     handleChange = (event) => {
-        state.input = event.target.value
+        this.setState({
+            input: event.target.value
+        })
     }
 
     handleSubmit = (event) => {
