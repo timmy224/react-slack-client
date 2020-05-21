@@ -43,17 +43,19 @@ export function setUpEventListeners() {
 		connected$.next(false);
     });
 
-    socket.on('message-catchup', (messages) => {
-        console.log(`Message Catchup: ${messages.messages}`);
+    socket.on('message-catchup', (data) => {
+        let messages = JSON.parse(data);
         chatService.onMessagesReceived(messages);
     })
 
     socket.on('user-joined-chat', (user_join) => {
+        user_join = JSON.parse(user_join);
         console.log(`User joined the chat: ${user_join.username}`);
         chatService.onUserJoinedChat(user_join.username);
     })
 
     socket.on('message-received', (message_received) => {
+        message_received = JSON.parse(message_received);
         console.log(
             `Sender: ${message_received.sender},
              Time Sent: ${message_received.time_sent},
