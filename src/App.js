@@ -8,23 +8,18 @@ console.log(1);
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: "parent state"
-        }
-        this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this)
-    };
-
-    handleUsernameSubmit = (childUsername) => {
-        this.setState({
-            username: childUsername,
-        })
     }
+
+    state = {
+        username: "parent state",
+    }
+
     render() {
         return (
             <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <EnterUsername selectedUsername={this.handleUsernameSubmit}/>
+                <EnterUsername />
                 <p>
                 Edit <code>src/App.js</code> and save to reload.
                 </p>

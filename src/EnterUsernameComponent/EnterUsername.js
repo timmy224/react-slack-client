@@ -7,32 +7,22 @@ import './App.css';
 class EnterUsername extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            input: 'child input',
-            submit: "child submit"
-        }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({
-            input: event.target.value
-        });
+    state = {
+        input: 'child input',
+        submit: "child submit"
+    }
+
+    handleChange = (event) => {
+        state.input = event.target.value
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({
             submit: this.state.input
-        }, 
-        () => console.log(this.state.items));  // testing 
-        this.props.selectedUsername(this.state.submit); 
-        // ^ supposed to change parent state username in App.js
-    }
-
-    render() {
+        });
         //let response = "valid";
         // if (APIService.checkUsername(this.state.username)) {
         //     response = "Valid Username"
@@ -43,13 +33,14 @@ class EnterUsername extends React.Component {
         //     UserService.joinChat(username)
         //          // route to Alert User Component
         //          // route to Chat Component 
-    
         // } else {
         //     response = <p>Please pick another username</p>
         // }
+    }
 
-
-
+    render() {
+        
+    
         return (
             <form onSubmit={this.handleSubmit}>
                 {/* response */}
