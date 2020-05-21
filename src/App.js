@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import EnterUsername from "./EnterUsernameComponent/EnterUsername";
+
+///////////////////// CHAT SERVICE TEST ////////////////////////////// 
+
 // import * as chatService from "./services/chat-service"; 
 
 // Commented out code is a test of how the chatService runs
@@ -24,6 +27,26 @@ import EnterUsername from "./EnterUsernameComponent/EnterUsername";
 // };
 
 // chatService.sendMessage(messageTypedFromClient);
+
+
+///////////////////// CHAT SERVICE TEST //////////////////////////////
+// import * as socketService from "./services/socket-service";
+// import { take } from "rxjs/operators";
+
+// socketService.getConnected$()
+//   .pipe(take(1))
+//   .subscribe(connected => {
+//     if (connected) {
+//       console.log("Successful connection!")
+//       // do stuff on successful connection
+//     } else {
+//       console.log("Unsuccessful connection")
+//       // do stuff on unsuccessful connection 
+//     }
+//   });
+
+// // try to connect
+// socketService.connect({username: "codeninja"});
 
 class App extends React.Component {
     state = {

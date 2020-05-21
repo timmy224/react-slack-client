@@ -56,7 +56,7 @@ export function setUpEventListeners() {
     socket.on('message-received', (message_received) => {
         console.log(
             `Sender: ${message_received.sender},
-             Time Sent: ${message},
+             Time Sent: ${message_received.time_sent},
              Content: ${message_received.content}`
         );
         chatService.onMessageReceived(message_received);
