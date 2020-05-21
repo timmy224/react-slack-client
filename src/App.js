@@ -29,7 +29,7 @@ import EnterUsername from "./EnterUsernameComponent/EnterUsername";
 // chatService.sendMessage(messageTypedFromClient);
 
 
-///////////////////// CHAT SERVICE TEST //////////////////////////////
+///////////////////// SOCKET SERVICE CONNECT OBSERVABLE TEST //////////////////////////////
 // import * as socketService from "./services/socket-service";
 // import { take } from "rxjs/operators";
 
