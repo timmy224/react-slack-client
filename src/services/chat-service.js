@@ -12,13 +12,14 @@ export const getJoinedChat$ = () => joinedChat$;
 // export const sendMessage = message => socketService.send("send-message", message)
 
 // TODO - remove once socketService is in the project and the real sendMessage() above is uncommented
-export const sendMessage = message => console.log("Sending message to socketService", message);
+export const sendMessage = (message) =>
+  console.log("Sending message to socketService", message);
 
-export const onMessagesReceived = messages => {
-    for (const message of messages) {
-        onMessageReceived(message);
-    }
+export const onMessagesReceived = (messages) => {
+  for (const message of messages) {
+    onMessageReceived(message);
+  }
 };
-export const onMessageReceived = message => messages$.next(message);
+export const onMessageReceived = (message) => messages$.next(message);
 
-export const onUserJoinedChat = username => joinedChat$.next(username);
+export const onUserJoinedChat = (username) => joinedChat$.next(username);

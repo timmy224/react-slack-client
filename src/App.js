@@ -1,7 +1,9 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-// import * as chatService from "./services/chat-service"; 
+import Chat from "./Component/Chat";
+//import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+//import User from './User-service'
+// import * as chatService from "./services/chat-service";
 
 // Commented out code is a test of how the chatService runs
 // TODO remove eventually
@@ -24,25 +26,42 @@ import "./App.css";
 
 // chatService.sendMessage(messageTypedFromClient);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  componentDidMount() {
+    /* if (StorageService.load("username") ===null)
+     {
+      <Router>
+      <Route path="/username" component={Username} />
+      </Router> 
+     }      
+     else{
+      UserService.setUsername(username) 
+     }
+       if (UserService.joinChat() == true ){
+    UserService.joinChat()
+       }
+       else {  
+        <Router>
+      <Route path="/alertUsername" component={AlertUsername} />
+      </Router> 
+        }
+    } 
+    
+    */
+  }
+
+  render() {
+    return (
+      <div>
+        <Chat />
+      </div>
+    );
+  }
 }
 
 export default App;
