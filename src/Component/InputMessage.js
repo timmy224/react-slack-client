@@ -5,11 +5,13 @@ class InputMessage extends Component {
 		message: ""
 	}
 
-	handleKeyPressed = event => {
-		console.log("key pressed: ", event.target.value);
-		this.setState({
+	handleChange = (event) => {
+        this.setState({
 			message: event.target.value
 		});
+    }
+
+	handleKeyPressed = event => {
   		if (event.key === "Enter") {
 			  this.props.onEnter(event.target.value);
 			  this.setState({
@@ -25,7 +27,8 @@ class InputMessage extends Component {
 				className= "bg-light-gray dib br3 pa2 ma3 w-90 h4"
 				style={{resize:'none'}}
 				value={this.state.message}
-				onChange={this.handleKeyPressed}
+				onChange={this.handleChange}
+				onKeyPress={this.handleKeyPressed}
 			/>
 			)
 	}
