@@ -21,6 +21,7 @@ class App extends Component {
 
     componentDidMount() {
         let username = storageService.get("username");
+        username = "codeninja";
         let isNewUser =  username === null;
         if (isNewUser) {
             this.setState({
@@ -57,7 +58,7 @@ class App extends Component {
         if (!this.state.routePath) {
             return <h1>Loading....</h1>
         } else {
-            <Redirect to={{ pathname: this.state.routePath, 
+            return <Redirect to={{ pathname: this.state.routePath, 
                     state: this.state.routeState }} />
         }
         // return <AlertUser alert={"Heyoooo"}></AlertUser>
