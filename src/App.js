@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import * as apiService from "./services/api-service";
+// import * as apiService from "./services/api-service";
 // import * as chatService from "./services/chat-service"; 
 
 // Commented out code is a test of how the chatService runs
@@ -25,28 +25,51 @@ import * as apiService from "./services/api-service";
 
 // chatService.sendMessage(messageTypedFromClient);
 
+///////////////////// SOCKET SERVICE CONNECT OBSERVABLE TEST //////////////////////////////
+// import * as socketService from "./services/socket-service";
+// import { take } from "rxjs/operators";
 
-// apiService.checkUsername("Luis").then(isAvailable => console.log(isAvailable));
+// socketService.getConnected$()
+//   .pipe(take(1))
+//   .subscribe(connected => {
+//     if (connected) {
+//       console.log("Successful connection!")
+//       // do stuff on successful connection
+//     } else {
+//       console.log("Unsuccessful connection")
+//       // do stuff on unsuccessful connection 
+//     }
+//   });
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// // try to connect
+// socketService.connect({username: "codeninja"});
+
+class App extends React.Component {
+    state = {
+        username: "parent state",
+    }
+
+    render() {
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <EnterUsername />
+                <p>
+                Edit <code>src/App.js</code> and save to reload.
+                </p>
+                <a
+                className="App-link"
+                href="https://reactjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                Learn React
+                </a>
+            </header>
+            </div>
+        );
+    };
 }
 
 export default App;
