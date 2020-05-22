@@ -11,7 +11,7 @@ import EnterUsername from "./Component/EnterUsername";
 
 const createRoutes = () => (
   <Router>
-    <Route exact path="/" component={App}></Route>
+    <Route path="/" component={App}></Route>
     <Route exact path="/alert-user" component={AlertUser}></Route>
     <Route exact path="/chat" component={Chat}></Route>
     <Route exact path="/enter-username" component={EnterUsername}></Route>
