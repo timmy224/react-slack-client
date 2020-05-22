@@ -1,5 +1,6 @@
 import { Subject } from "rxjs";
 import * as socketService from "./socket-service";
+import * as userService from "./user-service";
 
 let messages$ = new Subject();
 let joinedChat$ = new Subject();
@@ -7,7 +8,14 @@ let joinedChat$ = new Subject();
 export const getMessages$ = () => messages$;
 export const getJoinedChat$ = () => joinedChat$;
 
-export const sendMessage = message => socketService.send("send-message", message)
+export const sendMessage = message_content => {
+  const message = {
+    sender: userService.getUsername(),
+    time_sent: new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+    content: message_content
+  };
+  return socketService.send("send-message", message);
+}
 
 export const onMessagesReceived = (messages) => {
   for (const message of messages) {

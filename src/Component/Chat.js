@@ -32,8 +32,8 @@ class Chat extends React.Component {
   //   this.submitMessage = this.submitMessage.bind(this);
   // }
 
-  onEnterPressed(message) {
-    chatService.sendMessage(message);
+  onEnterPressed(message_content) {
+    chatService.sendMessage(message_content);
   }
 
   render() {
