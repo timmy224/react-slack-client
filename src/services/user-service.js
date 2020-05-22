@@ -1,26 +1,20 @@
-import * as SocketService from "./socket-service";
+import * as socketService from "./socket-service";
+import * as storageService from "./storage-service";
 
-export function setUsername(username) {
-    localStorage.setItem("username", username); // Luis
-    // Timmy: set client app name to username 
+let username;
+
+export function setUsername(usernameValue) {
+    username = usernameValue;
 }
 
 export function getUsername() {
-    return localStorage.getItem("username")
+    if (username === null) {
+        username = storageService.get("username");
+    }
+    return username;
 }
 
-export function joinChat(username_val) {
-    let socket = SocketService.connect({username: username_val});
-
-    // look into component lifecycle (want to remove these listeners after join)
-    socket.on("connect_error", () => {
-        // route to Alert User Component
-        return "Connection failure"
-    })
-
-    socket.on("connect", () => {
-        setUsername(username_val)
-        // route to Chat Component 
-    })
+export function joinChat() {
+    socketService.connect({username: username});
 }
 
