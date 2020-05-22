@@ -1,9 +1,3 @@
+export const get = key => localStorage.getItem(key);
+export const set = (key, value) => localStorage.setItem(key, value);
 
-
-
-
-
-export const setLocalStorage =(username)=>{
-		localStorage.setItem('username', username)}
-		
-export const getLocalStorage = localStorage.getItem('username')
