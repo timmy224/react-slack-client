@@ -1,10 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import EnterUsername from "./EnterUsernameComponent/EnterUsername";
-
-///////////////////// CHAT SERVICE TEST ////////////////////////////// 
-
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+// import * as apiService from "./services/api-service";
 // import * as chatService from "./services/chat-service"; 
 
 // Commented out code is a test of how the chatService runs
@@ -27,7 +24,6 @@ import EnterUsername from "./EnterUsernameComponent/EnterUsername";
 // };
 
 // chatService.sendMessage(messageTypedFromClient);
-
 
 ///////////////////// SOCKET SERVICE CONNECT OBSERVABLE TEST //////////////////////////////
 // import * as socketService from "./services/socket-service";
