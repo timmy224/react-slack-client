@@ -37,14 +37,8 @@ class EnterUsername extends React.Component {
     }
 
     render() {
-        
-    
         return (
             <form onSubmit={this.handleSubmit}>
-                {/* response */}
-                {
-                    (this.props.username)
-                }
                 <input
                     value={this.state.input}
                     onChange={this.handleChange} />
