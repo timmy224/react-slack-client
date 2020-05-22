@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+// import * as apiService from "./services/api-service";
 // import * as chatService from "./services/chat-service"; 
 // import * as socketService from "./services/socket-service";
 // import { take } from "rxjs/operators";
@@ -29,7 +30,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // chatService.sendMessage(messageTypedFromClient);
 
-// respond to whether we connected successfully or not 
+///////////////////// SOCKET SERVICE CONNECT OBSERVABLE TEST //////////////////////////////
+// import * as socketService from "./services/socket-service";
+// import { take } from "rxjs/operators";
+
 // socketService.getConnected$()
 //   .pipe(take(1))
 //   .subscribe(connected => {
