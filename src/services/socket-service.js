@@ -50,6 +50,7 @@ export function setUpEventListeners() {
     })
 
     socket.on('user-joined-chat', (user_join) => {
+        console.log("user_join", user_join);
         user_join = JSON.parse(user_join);
         console.log(`User joined the chat: ${user_join.username}`);
         chatService.onUserJoinedChat(user_join.username);
