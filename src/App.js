@@ -21,7 +21,7 @@ class App extends Component {
 
     componentDidMount() {
         let username = storageService.get("username");
-        username = "codeninja";
+        console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
             this.setState({
