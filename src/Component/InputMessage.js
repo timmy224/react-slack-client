@@ -12,12 +12,15 @@ class InputMessage extends Component {
     }
 
 	handleKeyPressed = event => {
-  		if (event.key === "Enter") {
-			  this.props.onEnter(event.target.value);
-			  this.setState({
-				  message: ""
-			  });
-  		}
+		if (event.key === "Enter") {
+			const validMessage = this.state.message;
+			if (validMessage) {
+				this.props.onEnter(validMessage);
+				this.setState({
+					message: ""
+				});
+			}
+		}
 	}	
 
 	render(){
