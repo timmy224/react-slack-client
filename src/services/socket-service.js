@@ -13,7 +13,7 @@ export function connect(dataObject) {
     let value = dataObject.username
     let query_val = `username=${value}`
     let queryObj = {query: query_val}
-    socket = io(localUrl, queryObj)
+    socket = io(remoteUrl, queryObj)
     setUpEventListeners();
     return socket 
 }
