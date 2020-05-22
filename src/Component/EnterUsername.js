@@ -1,50 +1,83 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Redirect } from "react-router-dom";
 // import './App.css';
-//import * as UserService from "../services/user-service"
-//import * as StorageService from "../services/storage-service"
-//import * as APIService from "../services/API-service"
+import * as userService from "../services/user-service";
+import * as storageService from "../services/storage-service";
+import * as apiService from "../services/api-service";
+import * as socketService from "../services/socket-service";
+import { take } from "rxjs/operators";
 
 class EnterUsername extends React.Component {
     state = {
-        input: 'child input',
-        submit: "child submit"
+        username: "",
+        showTakenMsg: false,
+        routePath: null,
+        routeState: {}
+    }
+
+    componentDidMount() {
+        socketService.getConnected$()
+            .pipe(take(1))
+            .subscribe(connected => {
+                if (connected) {
+                    this.setState({
+                        routePath: "/chat"
+                    });
+                } else {
+                    this.setState({
+                        routePath: "/alert-user",
+                        routeState: { alert: "Web socket connection error " }
+                    });
+                }
+            });
     }
 
     handleChange = (event) => {
         this.setState({
-            input: event.target.value
-        })
+            username: event.target.value
+        });
+        this.setState((prevState) => {
+            if (prevState.showTakenMsg) {
+                return {
+                    showTakenMsg: false
+                };
+            }
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({
-            submit: this.state.input
+        let username = this.state.username;
+        apiService.checkUsername(username).then(isAvailable => {
+            if (isAvailable) {
+                storageService.set("username", username);
+                userService.setUsername(username);
+                userService.joinChat();
+            } else {
+                this.setState({
+                    showTakenMsg: true
+                });
+            }
         });
-        //let response = "valid";
-        // if (APIService.checkUsername(this.state.username)) {
-        //     response = "Valid Username"
-        //     let username = this.state.submit
-        //     this.props.username(username) // sets parent prop username 
-        //     UserService.setUsername(username)
-        //     StorageService.store("username", username)
-        //     UserService.joinChat(username)
-        //          // route to Alert User Component
-        //          // route to Chat Component 
-        // } else {
-        //     response = <p>Please pick another username</p>
-        // }
     }
 
     render() {
+        if (this.state.routePath)  {
+            return <Redirect to={{ pathname: this.state.routePath, 
+                state: this.state.routeState }} />
+        }
+        const takenMessage = this.state.showTakenMsg ? <h3>Username taken</h3> : null;
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input
-                    value={this.state.input}
-                    onChange={this.handleChange} />
-                <button type='submit'>Submit!</button>
-            </form>
-        )
+            <Fragment>
+                {takenMessage}
+                <form onSubmit={this.handleSubmit}>
+                    <input
+                        value={this.state.input}
+                        onChange={this.handleChange} />
+                    <button type='submit'>Submit!</button>
+                </form>
+            </Fragment>            
+        );
     }
 }
 

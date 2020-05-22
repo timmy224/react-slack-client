@@ -8,11 +8,12 @@ let connected$ = new Subject();
 export const getConnected$ = () => connected$;
 
 export function connect(dataObject) { 
-    let localUrl = "http://localhost:5000"
+    let localUrl = "http://localhost:5000";
+    let remoteUrl = "https://react-slack-server.herokuapp.com";
     let value = dataObject.username
     let query_val = `username=${value}`
     let queryObj = {query: query_val}
-    socket = io(localUrl, queryObj)
+    socket = io(remoteUrl, queryObj)
     setUpEventListeners();
     return socket 
 }

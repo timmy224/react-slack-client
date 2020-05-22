@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Switch, Route, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "./App.css";
 // COMPONENTS 
 import EnterUsername from "./Component/EnterUsername";
@@ -20,6 +20,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        console.log("Hey");
         let username = storageService.get("username");
         console.log("Username is: ", username);
         let isNewUser =  username === null;
