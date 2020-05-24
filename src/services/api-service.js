@@ -6,3 +6,9 @@ export const checkUsername = (username) => {
         .then(response => response.json())
         .then(data => data.isAvailable);
 }
+
+export const echoMessage = (message) => {
+    let localUrl = `http://localhost:5000/echo?message=${message}`
+    return fetch(localUrl)
+        .then(response => response.json())
+}

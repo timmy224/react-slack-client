@@ -61,6 +61,14 @@ class EnterUsername extends React.Component {
         });
     }
 
+    handleEcho = () => {
+        let message = "Hello everyone"
+        apiService.echoMessage(message).then(data => {
+            console.log(data); // print data response
+            //return data
+        })
+    }
+
     render() {
         if (this.state.routePath)  {
             return <Redirect to={{ pathname: this.state.routePath, 
@@ -76,6 +84,8 @@ class EnterUsername extends React.Component {
                         onChange={this.handleChange} />
                     <button type='submit'>Submit!</button>
                 </form>
+                <button onClick={this.handleEcho}>Echo Button</button>
+
             </Fragment>            
         );
     }
