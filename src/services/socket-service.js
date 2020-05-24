@@ -13,7 +13,7 @@ export function connect(dataObject) {
     let value = dataObject.username
     let query_val = `username=${value}`
     let queryObj = {query: query_val}
-    socket = io(remoteUrl, queryObj)
+    socket = io(localUrl, queryObj) // changed to localUrl
     setUpEventListeners();
     return socket 
 }
@@ -63,6 +63,10 @@ export function setUpEventListeners() {
              Content: ${message_received.content}`
         );
         chatService.onMessageReceived(message_received);
+    })
+
+    socket.on("special-message-received", (special_message) => {
+        console.log("special message: ", special_message);
     })
 }
 

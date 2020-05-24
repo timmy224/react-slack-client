@@ -44,6 +44,11 @@ class Chat extends React.Component {
     })
   }
 
+  handleSpecialEvent = () => {
+    let message = "special event message"
+    chatService.sendSpecialEvent(message);
+  }
+
   render() {
     let { messages } = this.state;
     return (
@@ -56,6 +61,7 @@ class Chat extends React.Component {
           onEnter={this.onEnterPressed}
         />  
         <button onClick={this.handleEcho}>Echo Button</button>
+        <button onClick={this.handleSpecialEvent}>Special Event Button</button>
       </div>
     );
   }

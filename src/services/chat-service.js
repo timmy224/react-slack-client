@@ -25,3 +25,8 @@ export const onMessagesReceived = (messages) => {
 export const onMessageReceived = (message) => messages$.next(message);
 
 export const onUserJoinedChat = (username) => joinedChat$.next(username);
+
+export const sendSpecialEvent = (message) => {
+  console.log(message)
+  return socketService.send("my-special-event", message);
+}
