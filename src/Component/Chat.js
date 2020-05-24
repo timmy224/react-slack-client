@@ -16,6 +16,10 @@ class Chat extends React.Component {
         messages: [...this.state.messages, message]
       });
     });
+
+    chatService.getSpecial$().subscribe(special => {
+      console.log("Special message from special observable stream ", special)
+    })
   }
 
   // constructor(props) {
@@ -36,6 +40,7 @@ class Chat extends React.Component {
     chatService.sendMessage(message_content);
   }
 
+  // Week 1 Challenge 
   handleEcho = () => {
     let message = "Hello everyone"
     apiService.echoMessage(message).then(data => {
@@ -44,6 +49,7 @@ class Chat extends React.Component {
     })
   }
 
+  // Week 1 Challenge 
   handleSpecialEvent = () => {
     let message = "special event message"
     chatService.sendSpecialEvent(message);
@@ -60,6 +66,7 @@ class Chat extends React.Component {
         <InputMessage
           onEnter={this.onEnterPressed}
         />  
+        {/* Week 1 Challenge */}
         <button onClick={this.handleEcho}>Echo Button</button>
         <button onClick={this.handleSpecialEvent}>Special Event Button</button>
       </div>

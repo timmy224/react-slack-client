@@ -26,7 +26,13 @@ export const onMessageReceived = (message) => messages$.next(message);
 
 export const onUserJoinedChat = (username) => joinedChat$.next(username);
 
+// Week 1 Challenge
 export const sendSpecialEvent = (message) => {
   console.log(message)
   return socketService.send("my-special-event", message);
 }
+
+// Week 1 Challenge
+let specialObs$= new Subject(); // creates new observable
+export const onSpecialReceived = (special_message) => specialObs$.next(special_message) // adds specials to observable 
+export const getSpecial$ = () => specialObs$; // getter for observable

@@ -65,8 +65,9 @@ export function setUpEventListeners() {
         chatService.onMessageReceived(message_received);
     })
 
-    socket.on("special-message-received", (special_message) => {
-        console.log("special message: ", special_message);
+    // Week 1 Challenges
+    socket.on("special-message-received", (special_message) => { // listener for "special-message-received" emitted from server
+        //console.log("special message: ", special_message);
     })
 }
 
