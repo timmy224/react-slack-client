@@ -2,6 +2,7 @@ import React from "react";
 import InputMessage from "./InputMessage";
 import Message from "./Message";
 import * as chatService from "../services/chat-service";
+import * as apiService from "../services/api-service";
 
 class Chat extends React.Component {
   state = {
@@ -16,8 +17,6 @@ class Chat extends React.Component {
       });
     });
   }
-
-  
 
   // constructor(props) {
   //   super(props);
@@ -37,6 +36,14 @@ class Chat extends React.Component {
     chatService.sendMessage(message_content);
   }
 
+  handleEcho = () => {
+    let message = "Hello everyone"
+    apiService.echoMessage(message).then(data => {
+        console.log(data); // print data response
+        //return data
+    })
+  }
+
   render() {
     let { messages } = this.state;
     return (
@@ -47,7 +54,8 @@ class Chat extends React.Component {
         })}
         <InputMessage
           onEnter={this.onEnterPressed}
-        />
+        />  
+        <button onClick={this.handleEcho}>Echo Button</button>
       </div>
     );
   }
