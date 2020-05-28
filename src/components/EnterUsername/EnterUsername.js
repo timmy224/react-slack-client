@@ -16,20 +16,24 @@ class EnterUsername extends React.Component {
     }
 
     componentDidMount() {
+        this.setupConnectedSubscription();
+    }
+    
+    setupConnectedSubscription() {
         socketService.getConnected$()
-            .pipe(take(1))
-            .subscribe(connected => {
-                if (connected) {
-                    this.setState({
-                        routePath: "/chat"
-                    });
-                } else {
-                    this.setState({
-                        routePath: "/alert-user",
-                        routeState: { alert: "Web socket connection error " }
-                    });
-                }
-            });
+        .pipe(take(1))
+        .subscribe(connected => {
+            if (connected) {
+                this.setState({
+                    routePath: "/chat"
+                });
+            } else {
+                this.setState({
+                    routePath: "/alert-user",
+                    routeState: { alert: "Web socket connection error " }
+                });
+            }
+        });
     }
 
     handleChange = (event) => {
