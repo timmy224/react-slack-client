@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 // import './App.css';
 import * as userService from "../../services/user-service";
 import * as storageService from "../../services/storage-service";
-import * as apiService from "../../services/api-service";
 import * as socketService from "../../services/socket-service";
 import { take } from "rxjs/operators";
 
@@ -52,7 +51,7 @@ class EnterUsername extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let username = this.state.username;
-        apiService.checkUsername(username).then(isAvailable => {
+        userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
                 storageService.set("username", username);
                 userService.setUsername(username);
