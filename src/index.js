@@ -1,3 +1,5 @@
+// Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';

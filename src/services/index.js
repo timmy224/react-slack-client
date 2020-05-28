@@ -1,3 +1,5 @@
+// Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
+
 import ChannelService from "./channel-service";
 import StorageService from "./storage-service";
 import UserService from "./user-service";

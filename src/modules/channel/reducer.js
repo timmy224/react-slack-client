@@ -1,3 +1,5 @@
+// Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
+
 import types from "./types";
 
 const initReducer = () => {

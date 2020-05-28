@@ -1,3 +1,5 @@
+// Adapted from: https://github.com/dprovodnikov/complex-redux-project-architecture
+
 const ACTIONS_KEY = "actions";
 const REDUCER_KEY = "reducer";
 
