@@ -1,3 +1,14 @@
-export const get = key => localStorage.getItem(key);
-export const set = (key, value) => localStorage.setItem(key, value);
+function StorageService() {
+    const get = key => localStorage.getItem(key);
+    const set = (key, value) => localStorage.setItem(key, value);
+    
+    return Object.freeze({
+        get,
+        set,
+    });
+}
+
+export default StorageService;
+
+
 

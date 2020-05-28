@@ -1,10 +1,7 @@
 import React, { Fragment } from 'react';
 import { Redirect } from "react-router-dom";
-// import './App.css';
-import * as userService from "../services/user-service";
-import * as storageService from "../services/storage-service";
-import * as apiService from "../services/api-service";
-import * as socketService from "../services/socket-service";
+// Depends on userService, storageService, socketService
+import { services } from "../../context";
 import { take } from "rxjs/operators";
 
 class EnterUsername extends React.Component {
@@ -16,20 +13,24 @@ class EnterUsername extends React.Component {
     }
 
     componentDidMount() {
-        socketService.getConnected$()
-            .pipe(take(1))
-            .subscribe(connected => {
-                if (connected) {
-                    this.setState({
-                        routePath: "/chat"
-                    });
-                } else {
-                    this.setState({
-                        routePath: "/alert-user",
-                        routeState: { alert: "Web socket connection error " }
-                    });
-                }
-            });
+        this.setupConnectedSubscription();
+    }
+    
+    setupConnectedSubscription() {
+        services.socketService.getConnected$()
+        .pipe(take(1))
+        .subscribe(connected => {
+            if (connected) {
+                this.setState({
+                    routePath: "/chat"
+                });
+            } else {
+                this.setState({
+                    routePath: "/alert-user",
+                    routeState: { alert: "Web socket connection error " }
+                });
+            }
+        });
     }
 
     handleChange = (event) => {
@@ -48,11 +49,11 @@ class EnterUsername extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let username = this.state.username;
-        apiService.checkUsername(username).then(isAvailable => {
+        services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
-                storageService.set("username", username);
-                userService.setUsername(username);
-                userService.joinChat();
+                services.storageService.set("username", username);
+                services.userService.setUsername(username);
+                services.socketService.connect({ username: username });
             } else {
                 this.setState({
                     showTakenMsg: true

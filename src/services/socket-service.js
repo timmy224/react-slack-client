@@ -1,69 +1,76 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
-import * as chatService from "./chat-service";
 
-let socket; 
-let connected$ = new Subject();
+function SocketService(chatService) {
+    let socket;
+    let connected$ = new Subject();
 
-export const getConnected$ = () => connected$;
+    const getConnected$ = () => connected$;
 
-export function connect(dataObject) { 
-    let localUrl = "http://localhost:5000";
-    let remoteUrl = "https://react-slack-server.herokuapp.com";
-    let value = dataObject.username
-    let query_val = `username=${value}`
-    let queryObj = {query: query_val}
-    socket = io(remoteUrl, queryObj)
-    setUpEventListeners();
-    return socket 
-}
+    const connect = dataObject => {
+        let localUrl = "http://localhost:5000";
+        let remoteUrl = "https://react-slack-server.herokuapp.com";
+        let value = dataObject.username
+        let query_val = `username=${value}`
+        let queryObj = { query: query_val }
+        socket = io(remoteUrl, queryObj)
+        setUpEventListeners();
+        return socket
+    };
 
-export function getSocket() {
-    return socket;
-}
+    const send = (event_name, obj) => {
+        // assuming socket declared when connected
+        socket.emit(event_name, obj)
+        console.log(event_name, " with ", obj, " sent.")
+    };
 
-export function send(event_name, obj) {
-    // assuming socket declared when connected
-    socket.emit(event_name, obj)
-    console.log(event_name, " with ", obj, " sent.")
-}
+    const disconnect = () => {
+        // assuming socket declared when connected
+        socket.emit("disconnect")
+        socket.disconnect()
+        return "Socket disconnect sent"
+    };
 
-export function disconnect() {
-    // assuming socket declared when connected
-    socket.emit("disconnect")
-    socket.disconnect()
-    return "Socket disconnect sent"
-}
+    const setUpEventListeners = () => {
+        socket.on("connect", () => {
+            connected$.next(true);
+        });
 
-export function setUpEventListeners() {
-    socket.on("connect", () => {
-    	connected$.next(true);
-    });
+        socket.on("connect_error", () => {
+            connected$.next(false);
+        });
 
-	socket.on("connect_error", () => {
-		connected$.next(false);
-    });
+        socket.on('message-catchup', (data) => {
+            let messages = JSON.parse(data);
+            chatService.onMessagesReceived(messages);
+        })
 
-    socket.on('message-catchup', (data) => {
-        let messages = JSON.parse(data);
-        chatService.onMessagesReceived(messages);
-    })
+        socket.on('user-joined-chat', (user_join) => {
+            console.log("user_join", user_join);
+            console.log(`User joined the chat: ${user_join.username}`);
+            chatService.onUserJoinedChat(user_join.username);
+        })
 
-    socket.on('user-joined-chat', (user_join) => {
-        console.log("user_join", user_join);
-        console.log(`User joined the chat: ${user_join.username}`);
-        chatService.onUserJoinedChat(user_join.username);
-    })
-
-    socket.on('message-received', (message_received) => {
-        console.log("message-received: ", message_received);
-        console.log(
-            `Sender: ${message_received.sender},
+        socket.on('message-received', (message_received) => {
+            console.log("message-received: ", message_received);
+            console.log(
+                `Sender: ${message_received.sender},
              Time Sent: ${message_received.time_sent},
              Content: ${message_received.content}`
-        );
-        chatService.onMessageReceived(message_received);
-    })
+            );
+            chatService.onMessageReceived(message_received);
+        })
+    }
+
+    return Object.freeze({
+        getConnected$,
+        connect,
+        send,
+    });
 }
+
+export default SocketService;
+
+
 
 
