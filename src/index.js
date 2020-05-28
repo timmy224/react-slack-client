@@ -1,31 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
-// router imports
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import AlertUser from "./components/AlertUser/AlertUser";
-import Chat from "./components/Chat/Chat";
-import EnterUsername from "./components/EnterUsername/EnterUsername";
+import configureServices from "./services";
+import configureModules from "./modules";
+import configureStore from "./store";
 
-const createRoutes = () => (
-  <Router>
-    <Route path="/" component={App}></Route>
-    <Route exact path="/alert-user" component={AlertUser}></Route>
-    <Route exact path="/chat" component={Chat}></Route>
-    <Route exact path="/enter-username" component={EnterUsername}></Route>
-  </Router>
-);
+const loadRoot = async () => {
+  const rootModule = await import("./components/Root");
+  return rootModule.default;
+}
 
-const routes = createRoutes();
+const render = async (store) => {
+  const target = document.getElementById("root");
+  const Root = await loadRoot();
 
-// TODO - find out what removed <React.StrictMode> does
-ReactDOM.render(
-  routes,
-  document.getElementById('root')
-);
+  ReactDOM.render(<Root store={store} />, target);
+};
 
+(async function init() {
+  const services = await configureServices();
+  const { actions, reducers } = await configureModules(services);
+
+  // TODO register services
+  // TODO register actions
+
+  render(configureStore(reducers));
+})();
 
 
 // If you want your app to work offline and load faster, you can change
