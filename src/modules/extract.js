@@ -16,7 +16,7 @@ const extract = (modules, key) => {
         .map(entry => {
             /* Now we want to transform from array to object 
             [moduleName, module] --> { moduleName: module[key] } */
-            [moduleName, module] = entry;
+            const [moduleName, module] = entry;
             return { [moduleName]: module[key] };
         })
         .reduce((output, entry) => {

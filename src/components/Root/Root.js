@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import '../../index.css';
-import App from './components/App/App';
-import AlertUser from "./components/AlertUser/AlertUser";
-import Chat from "./components/Chat/Chat";
-import EnterUsername from "./components/EnterUsername/EnterUsername";
+import App from "../App/App";
+import AlertUser from "../AlertUser/AlertUser";
+import Chat from "../Chat/Chat";
+import EnterUsername from "../EnterUsername/EnterUsername";
 
 const Root = ({ store }) => (
     <Provider store={store}>

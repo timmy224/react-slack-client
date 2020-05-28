@@ -7,7 +7,7 @@ import configureStore from "./store";
 import context from "./context";
 
 const loadRoot = async () => {
-  const rootModule = await import("./components/Root");
+  const rootModule = await import("./components/Root/Root");
   return rootModule.default;
 }
 
