@@ -1,7 +1,7 @@
 import React from "react";
-import InputMessage from "./InputMessage";
-import Message from "./Message";
-import * as chatService from "../services/chat-service";
+import InputMessage from "../InputMessage/InputMessage";
+import Message from "../Message/Message";
+import * as chatService from "../../services/chat-service";
 
 class Chat extends React.Component {
   state = {
