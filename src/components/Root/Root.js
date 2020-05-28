@@ -7,6 +7,7 @@ import App from "../App/App";
 import AlertUser from "../AlertUser/AlertUser";
 import Chat from "../Chat/Chat";
 import EnterUsername from "../EnterUsername/EnterUsername";
+import ChannelTest from "../ChannelTest/ChannelTest";
 
 const Root = ({ store }) => (
     <Provider store={store}>
@@ -15,6 +16,7 @@ const Root = ({ store }) => (
             <Route exact path="/alert-user" component={AlertUser}></Route>
             <Route exact path="/chat" component={Chat}></Route>
             <Route exact path="/enter-username" component={EnterUsername}></Route>
+            <Route exact path="/channel-test" component={ChannelTest}></Route>
         </Router>
     </Provider>
 );

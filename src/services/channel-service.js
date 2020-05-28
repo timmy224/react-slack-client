@@ -1,14 +1,14 @@
 const ChannelService = function() {
-    const getChannels = () => {
+    const fetchChannels = () => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channels";
         let localUrl = "http://localhost:5000/channels";
-        return fetch(remoteUrl)
+        return fetch(localUrl)
             .then(response => response.json())
-            .then(data => data.channels);
+            .then(data => JSON.parse(data.channels));
     }
 
     return Object.freeze({
-       getChannels, 
+        fetchChannels, 
     });
 };
 
