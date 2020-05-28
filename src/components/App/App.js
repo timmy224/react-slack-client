@@ -33,7 +33,7 @@ class App extends Component {
             this.setupConnectedSubscription();
             // user exists
             userService.setUsername(username)
-            userService.joinChat()
+            socketService.connect({ username: username });
         }
     }
 

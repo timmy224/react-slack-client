@@ -1,28 +1,33 @@
-import * as socketService from "./socket-service";
-import * as storageService from "./storage-service";
+const UserService = function (storageService) {
+    let username;
 
-let username;
+    const setUsername = usernameValue => {
+        username = usernameValue;
+    };
 
-export function setUsername(usernameValue) {
-    username = usernameValue;
-}
+    const getUsername = () => {
+        if (username === null) {
+            username = storageService.get("username");
+        }
+        return username;
+    };
 
-export function getUsername() {
-    if (username === null) {
-        username = storageService.get("username");
-    }
-    return username;
-}
+    const checkUsername = username => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/check-username/?username=${username}`;
+        let localUrl = `http://localhost:5000/check-username/?username=${username}`;
+        return fetch(remoteUrl)
+            .then(response => response.json())
+            .then(data => data.isAvailable);
+    };
 
-export const checkUsername = (username) => {
-    let remoteUrl = `https://react-slack-server.herokuapp.com/check-username/?username=${username}`;
-    let localUrl = `http://localhost:5000/check-username/?username=${username}`;
-    return fetch(remoteUrl)
-        .then(response => response.json())
-        .then(data => data.isAvailable);
-}
+    return Object.freeze({
+       setUsername,
+       getUsername,
+       checkUsername,
+    });
+};
 
-export function joinChat() {
-    socketService.connect({username: username});
-}
+export default UserService;
+
+
 

@@ -1,27 +1,41 @@
 import { Subject } from "rxjs";
-import * as socketService from "./socket-service";
-import * as userService from "./user-service";
 
-let messages$ = new Subject();
-let joinedChat$ = new Subject();
+function ChatService(userService) {
+  let messages$ = new Subject();
+  let joinedChat$ = new Subject();
 
-export const getMessages$ = () => messages$;
-export const getJoinedChat$ = () => joinedChat$;
+  const getMessages$ = () => messages$;
+  const getJoinedChat$ = () => joinedChat$;
 
-export const sendMessage = message_content => {
-  const message = {
-    sender: userService.getUsername(),
-    time_sent: new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
-    content: message_content
+  const prepareMessage = message_content => {
+    const message = {
+      sender: userService.getUsername(),
+      time_sent: new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+      content: message_content
+    };
+    return message;
+  }
+
+  const onMessagesReceived = (messages) => {
+    for (const message of messages) {
+      onMessageReceived(message);
+    }
   };
-  return socketService.send("send-message", message);
+
+  const onMessageReceived = (message) => messages$.next(message);
+
+  const onUserJoinedChat = (username) => joinedChat$.next(username);
+
+  return Object.freeze({
+    getMessages$,
+    getJoinedChat$,
+    prepareMessage,
+    onMessagesReceived,
+    onMessageReceived,
+    onUserJoinedChat,
+  });
 }
 
-export const onMessagesReceived = (messages) => {
-  for (const message of messages) {
-    onMessageReceived(message);
-  }
-};
-export const onMessageReceived = (message) => messages$.next(message);
+export default ChatService;
 
-export const onUserJoinedChat = (username) => joinedChat$.next(username);
+

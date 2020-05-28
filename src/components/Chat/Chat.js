@@ -2,6 +2,7 @@ import React from "react";
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 import * as chatService from "../../services/chat-service";
+import * as socketService from "../../services/socket-service";
 
 class Chat extends React.Component {
   state = {
@@ -34,7 +35,8 @@ class Chat extends React.Component {
   // }
 
   onEnterPressed(message_content) {
-    chatService.sendMessage(message_content);
+    const message = chatService.prepareMessage(message_content);
+    socketService.send("send-message", message);
   }
 
   render() {

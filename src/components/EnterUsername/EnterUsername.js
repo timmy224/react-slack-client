@@ -55,7 +55,7 @@ class EnterUsername extends React.Component {
             if (isAvailable) {
                 storageService.set("username", username);
                 userService.setUsername(username);
-                userService.joinChat();
+                socketService.connect({ username: username });
             } else {
                 this.setState({
                     showTakenMsg: true
