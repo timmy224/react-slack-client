@@ -1,8 +1,8 @@
 import React from "react";
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
-import * as chatService from "../../services/chat-service";
-import * as socketService from "../../services/socket-service";
+// Depends on chatService, socketService
+import { services } from "../../context";
 
 class Chat extends React.Component {
   state = {
@@ -10,7 +10,7 @@ class Chat extends React.Component {
   };
   
   componentDidMount() {
-    chatService.getMessages$().subscribe(message => {
+    services.chatService.getMessages$().subscribe(message => {
       console.log("Received a message through the observable: ", message);
       this.setState({
         messages: [...this.state.messages, message]
@@ -18,25 +18,9 @@ class Chat extends React.Component {
     });
   }
 
-  
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     input: "",
-  //     username: "Sleyter",
-  //     time: Date(),
-  //     message: ["message1", "second one", "please work"],
-  //   };
-
-  //   this.keyPressed = this.keyPressed.bind(this);
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.submitMessage = this.submitMessage.bind(this);
-  // }
-
   onEnterPressed(message_content) {
-    const message = chatService.prepareMessage(message_content);
-    socketService.send("send-message", message);
+    const message = services.chatService.prepareMessage(message_content);
+    services.socketService.send("send-message", message);
   }
 
   render() {

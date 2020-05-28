@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./App.css";
-// COMPONENTS 
-import EnterUsername from "../EnterUsername/EnterUsername";
-import AlertUser from "../AlertUser/AlertUser";
-import Chat from "../Chat/Chat";
-
-// SERVICES
-import * as storageService from "../../services/storage-service";
-import * as userService from "../../services/user-service";
-import * as socketService from "../../services/socket-service";
+// Depends on storageService, userService, socketService
+import { services } from "../../context";
 import { take } from "rxjs/operators";
 
 class App extends Component {
@@ -21,7 +14,7 @@ class App extends Component {
 
     componentDidMount() {
         console.log("Hey");
-        let username = storageService.get("username");
+        let username = services.storageService.get("username");
         console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
@@ -32,13 +25,13 @@ class App extends Component {
         else {
             this.setupConnectedSubscription();
             // user exists
-            userService.setUsername(username)
-            socketService.connect({ username: username });
+            services.userService.setUsername(username)
+            services.socketService.connect({ username: username });
         }
     }
 
     setupConnectedSubscription() {
-        socketService.getConnected$()
+        services.socketService.getConnected$()
         .pipe(take(1)) // TODO learn what this does
         .subscribe(connected => {
             if (connected) {                    

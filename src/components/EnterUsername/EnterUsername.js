@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import { Redirect } from "react-router-dom";
-// import './App.css';
-import * as userService from "../../services/user-service";
-import * as storageService from "../../services/storage-service";
-import * as socketService from "../../services/socket-service";
+// Depends on userService, storageService, socketService
+import { services } from "../../context";
 import { take } from "rxjs/operators";
 
 class EnterUsername extends React.Component {
@@ -19,7 +17,7 @@ class EnterUsername extends React.Component {
     }
     
     setupConnectedSubscription() {
-        socketService.getConnected$()
+        services.socketService.getConnected$()
         .pipe(take(1))
         .subscribe(connected => {
             if (connected) {
@@ -51,11 +49,11 @@ class EnterUsername extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let username = this.state.username;
-        userService.checkUsername(username).then(isAvailable => {
+        services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
-                storageService.set("username", username);
-                userService.setUsername(username);
-                socketService.connect({ username: username });
+                services.storageService.set("username", username);
+                services.userService.setUsername(username);
+                services.socketService.connect({ username: username });
             } else {
                 this.setState({
                     showTakenMsg: true
