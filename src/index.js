@@ -4,6 +4,7 @@ import * as serviceWorker from './serviceWorker';
 import configureServices from "./services";
 import configureModules from "./modules";
 import configureStore from "./store";
+import context from "./context";
 
 const loadRoot = async () => {
   const rootModule = await import("./components/Root");
@@ -21,8 +22,8 @@ const render = async (store) => {
   const services = await configureServices();
   const { actions, reducers } = await configureModules(services);
 
-  // TODO register services
-  // TODO register actions
+  context.registerServices(services);
+  context.registerActions(actions);
 
   render(configureStore(reducers));
 })();
