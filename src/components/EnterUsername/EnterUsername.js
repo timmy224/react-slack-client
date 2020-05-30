@@ -1,85 +1,89 @@
 import React, { Fragment } from 'react';
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
 import { take } from "rxjs/operators";
+import { actions } from "../../context";
+
+const mapStateToProps = (state)=>{
+    return { 
+        username:state.userModule.username,
+        showTakenMsg: state.userModule.showTakenMsg,
+        routePath: state.userModule.routePath,
+        routeState: state.userModule.routeState,
+    }
+}
+const mapDispatchToProps = (dispatch)=>{
+   return {
+    firstTimeUser: (event) => dispatch(actions.userModule.setUsername(event.target.value)),
+    pathToChat:() => dispatch(actions.userModule.changeRoute("/chat")),
+    pathToAlert:()=>dispatch(actions.userModule.routeToAlert("/alert-user")),
+    naUsername:()=>dispatch(actions.userModule.takenUsername(false)),
+    setUsername:()=>dispatch(actions.userModule.setUsername())
+    }
+}
 
 class EnterUsername extends React.Component {
-    state = {
-        username: "",
-        showTakenMsg: false,
-        routePath: null,
-        routeState: {}
-    }
 
     componentDidMount() {
         this.setupConnectedSubscription();
     }
     
     setupConnectedSubscription() {
+        const { pathToChat, pathToAlert } = this.props
         services.socketService.getConnected$()
         .pipe(take(1))
         .subscribe(connected => {
             if (connected) {
-                this.setState({
-                    routePath: "/chat"
-                });
+                pathToChat();
             } else {
-                this.setState({
-                    routePath: "/alert-user",
-                    routeState: { alert: "Web socket connection error " }
-                });
-            }
-        });
-    }
-
-    handleChange = (event) => {
-        this.setState({
-            username: event.target.value
-        });
-        this.setState((prevState) => {
-            if (prevState.showTakenMsg) {
-                return {
-                    showTakenMsg: false
-                };
+                pathToAlert();
             }
         });
     }
 
     handleSubmit = (event) => {
+        const { username, naUsername, setUsername } = this.props
+        console.log('in EnterUsername username is:', username)
         event.preventDefault();
-        let username = this.state.username;
         services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
+                console.log('handleSubmit_Username:', username)
                 services.storageService.set("username", username);
-                services.userService.setUsername(username);
                 services.socketService.connect({ username: username });
             } else {
-                this.setState({
-                    showTakenMsg: true
-                });
+                naUsername();
             }
         });
     }
 
     render() {
-        if (this.state.routePath)  {
-            return <Redirect to={{ pathname: this.state.routePath, 
-                state: this.state.routeState }} />
-        }
-        const takenMessage = this.state.showTakenMsg ? <h3>Username taken</h3> : null;
+        const { firstTimeUser, showTakenMsg } = this.props;
+        // if (routePath)  {
+        //    return <Redirect to={{ pathname: routePath, 
+        //         state: routeState }} />;
+        //}
+             // console.log('inside_EnterUsername_Conditional:', pathname, state)      
+        
+        const takenMessage = showTakenMsg ? <h3>Username taken</h3> : null;
         return (
             <Fragment>
                 {takenMessage}
                 <form onSubmit={this.handleSubmit}>
                     <input
-                        value={this.state.input}
-                        onChange={this.handleChange} />
+                        onChange={firstTimeUser} 
+                        />
                     <button type='submit'>Submit!</button>
                 </form>
             </Fragment>            
         );
     }
+
+
+
+
 }
 
-export default EnterUsername
+export default connect(mapStateToProps, mapDispatchToProps)(EnterUsername);
+// export default EnterUsername

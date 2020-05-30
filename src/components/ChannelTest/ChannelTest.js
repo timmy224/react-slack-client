@@ -8,6 +8,8 @@ class ChannelTest extends Component {
     }
 
     render() {
+        console.log('in ChannelTest fetchChannels():', this.props.fetchChannels())
+        console.log('in ChannelTest channels():', this.props.channels)
         const { channels } = this.props;
         return !channels.length ?
             <button onClick={this.fetchChannels}>Fetch channels</button>
@@ -17,6 +19,7 @@ class ChannelTest extends Component {
 
 
 const mapStateToProps = (state) => {
+    console.log('in ChannelTest state:', state);
     return {
         channels: state.channel.list,
     };
