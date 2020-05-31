@@ -7,75 +7,72 @@ import { services } from "../../context";
 import { take } from "rxjs/operators";
 import { actions } from "../../context";
 
+const mapStateToProps = (state) => {
+  // console.log('in App.js state:', state)
+  return {
+    username: state.userModule.username,
+    routePath: state.userModule.routePath,
+    routeState: state.userModule.routeState,
+  };
+};
 
-const mapStateToProps = (state)=>{
-    // console.log('in App.js state:', state)
-    return { 
-        username:state.userModule.username,
-        routePath: state.userModule.routePath,
-        routeState: state.userModule.routeState,
-    }
-}
-
-const mapDispatchToProps = (dispatch)=>{
-   // console.log('in App.js actions:', actions);
-   return {
-    routeToEnterUsername:()=>dispatch(actions.userModule.changeRoute("/enter-username")),
-    routeToChat:()=>dispatch(actions.userModule.changeRoute("/chat")),
-    pathToAlert:()=>dispatch(actions.userModule.routeToAlert("/alert-user")),
-    setUsername:()=>dispatch(actions.userModule.setUsername())
-
-    }
-}
+const mapDispatchToProps = (dispatch) => {
+  // console.log('in App.js actions:', actions);
+  return {
+    routeToEnterUsername: () =>
+      dispatch(actions.userModule.changeRoute("/enter-username")),
+    routeToMain: () => dispatch(actions.userModule.changeRoute("/main")),
+    pathToAlert: () => dispatch(actions.userModule.routeToAlert("/alert-user")),
+    setUsername: () => dispatch(actions.userModule.setUsername()),
+  };
+};
 
 class App extends Component {
-
-    componentDidMount() {
-        const { routeToEnterUsername,setUsername } = this.props;
-        let username = services.storageService.get("username");
-        console.log("Username is: ", username);
-        let isNewUser =  username === null;
-        if (isNewUser) {
-            routeToEnterUsername();
-        }
-        else {
-            this.setupConnectedSubscription();
-            // user exists
-            setUsername(username);
-            services.socketService.connect({ username: username });
-        }
+  componentDidMount() {
+    const { routeToEnterUsername, setUsername } = this.props;
+    let username = services.storageService.get("username");
+    console.log("Username is: ", username);
+    let isNewUser = username === null;
+    if (isNewUser) {
+      routeToEnterUsername();
+    } else {
+      this.setupConnectedSubscription();
+      // user exists
+      setUsername(username);
+      services.socketService.connect({ username: username });
     }
+  }
 
-    setupConnectedSubscription() {
-        const { routeToChat, pathToAlert } = this.props
-        services.socketService.getConnected$()
-        .pipe(take(1)) // TODO learn what this does
-        .subscribe(connected => {
-            if (connected) {                    
-                console.log("Successful connection!");
-                // this.setState({
-                //     routePath: "/chat"
-                // });
-                routeToChat();
-            } else {
-                // this.setState({
-                //     routePath: "/alert-user",
-                //     routeState: { alert: "Web socket connection error "}
-                // });
-                pathToAlert();
-            }
-        });  
-    }
-
-    render() {
-        const { routePath, routeState } = this.props;
-        if (!routePath) {
-            return <h1>Loading....</h1>
+  setupConnectedSubscription() {
+    const { routeToMain, pathToAlert } = this.props;
+    services.socketService
+      .getConnected$()
+      .pipe(take(1)) // TODO learn what this does
+      .subscribe((connected) => {
+        if (connected) {
+          console.log("Successful connection!");
+          // this.setState({
+          //     routePath: "/chat"
+          // });
+          routeToMain();
         } else {
-            return <Redirect to={{ pathname: routePath, 
-                    state: routeState }} />
+          // this.setState({
+          //     routePath: "/alert-user",
+          //     routeState: { alert: "Web socket connection error "}
+          // });
+          pathToAlert();
         }
+      });
+  }
+
+  render() {
+    const { routePath, routeState } = this.props;
+    if (!routePath) {
+      return <h1>Loading....</h1>;
+    } else {
+      return <Redirect to={{ pathname: routePath, state: routeState }} />;
     }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
