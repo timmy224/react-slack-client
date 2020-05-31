@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../context";
 import { services } from "../../context";
-import Message from "../Message/Message";
 import { filter } from 'rxjs/operators';
 
 class ChannelTest extends Component {
@@ -23,7 +22,7 @@ class ChannelTest extends Component {
 
     componentDidMount() {
         // messages get filtered here based on selected channel ? 
-        services.chatService.getChannelMessages$()
+        services.chatService.getMessages$()
             .pipe(filter(message => message['channel_id'] == this.props.channel))
             .subscribe(message => {
             console.log("Received a message through the observable: ", message);
@@ -34,9 +33,9 @@ class ChannelTest extends Component {
     }
 
     render() {
-        const { channels, channel, channelMessages } = this.props;
+        const { channels, channel_id, channelMessages } = this.props;
         console.log(channels)
-        console.log(channel)
+        console.log(channel_id)
         console.log(channelMessages)
 
         return (
@@ -62,15 +61,15 @@ class ChannelTest extends Component {
 const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
-        channel: state.channel.channel,
+        channel_id: state.channel.channel_id,
         channelMessages: state.channel.channelMessages,
     };
 };
 
 const mapActionsToProps = {
-    fetchChannels: actions.channel.fetchChannels,
+    fetchChannels: actions.channel.fetchChannelIDs,
     selectChannel: actions.channel.selectChannel,
-    fetchChannelMessages: actions.channel.fetchChannelMessages,
+    fetchChannelMessages: actions.channel.fetchMessagesChannel,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(ChannelTest);
