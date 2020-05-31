@@ -11,7 +11,7 @@ class ChannelTest extends Component {
         const { channels } = this.props;
         return !channels.length ?
             <button onClick={this.fetchChannels}>Fetch channels</button>
-            : (channels.map((el) => <p key={el.id}>{el.id}</p>));
+            : (channels.map((el) => <button key={el}>Channel #{el}</button>));
     };
 }
 
