@@ -1,4 +1,16 @@
 const UserService = function (storageService) {
+    let username;
+
+    const setUsername = usernameValue => {
+        username = usernameValue;
+    };
+
+    const getUsername = () => {
+        if (username === null) {
+            username = storageService.get("username");
+        }
+        return username;
+    };
 
     const checkUsername = username => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/check-username/?username=${username}`;
@@ -9,6 +21,8 @@ const UserService = function (storageService) {
     };
 
     return Object.freeze({
+       setUsername,
+       getUsername,
        checkUsername,
     });
 };
