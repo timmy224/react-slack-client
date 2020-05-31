@@ -26,7 +26,7 @@ const initReducer = () => {
             case FETCH_CHANNEL_MESSAGES:
                 return {
                     ...state, 
-                    channelMessages: [...state, payload],
+                    channelMessages: [...state.channelMessages, payload],
                 }                           
             default: 
                 return state;
