@@ -7,37 +7,48 @@ class ChannelTest extends Component {
         this.props.fetchChannels();
     }
 
-    // need to determine UI input implementation to pass in arg
-    selectChannel = (user_selected_channel) => { 
-        this.props.selectChannel(user_selected_channel);
-    }
-
     // did not implement visuals for last 25 messages received
-    fetchChannelMessages = (user_selected_channel) => {
-        this.props.fetchChannelMessages(user_selected_channel);
+    // selectChannel = (event) => {
+    //     this.props.selectChannel(event.target.value)
+    //     console.log(event.target.value)
+    // }
+
+    fetchChannelMessages = (event) => {
+        this.props.selectChannel(event.target.value)
+        console.log(event.target.value)
+        this.props.fetchChannelMessages(event.target.value);
     }
 
     render() {
-        const { channels } = this.props;
+        const { channels, channel, channelMessages } = this.props;
+        console.log(channels)
+        console.log(channel)
+        console.log(channelMessages)
         return !channels.length ?
                <button onClick={this.fetchChannels}>Fetch channels</button>
-               : (channels.map((el) => <button key={el}>Channel #{el}</button>))
+               : (channels.map((el) => 
+                    <button 
+                        value={el} 
+                        //onClick={this.selectChannel}
+                        onClick={this.fetchChannelMessages}
+                        key={el}>
+                            Channel #{el}
+                    </button>))
     };
 }
-
 
 const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
-        sel_channel: state.channel.channel,
-        messages: state.channel.channelMessages,
+        channel: state.channel.channel,
+        channelMessages: state.channel.channelMessages,
     };
 };
 
 const mapActionsToProps = {
-    fetchChannels: actions.channel.fetchChannels,
-    selectChannel: actions.channel.selectChannel,
-    fetchChannelMessages: actions.channel.fetchChannelMessages,
+        fetchChannels: actions.channel.fetchChannels,
+        selectChannel: actions.channel.selectChannel,
+        fetchChannelMessages: actions.channel.fetchChannelMessages,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(ChannelTest);

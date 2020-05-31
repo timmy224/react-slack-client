@@ -1,12 +1,12 @@
 // Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
 
-import {FETCH_CHANNELS_SUCCESS, CHANNEL_SELECT, FETCH_CHANNEL_MESSAGES} from "./types";
+import {FETCH_CHANNELS_SUCCESS, CHANNEL_SELECT_SUCCESS, FETCH_CHANNEL_MESSAGES_SUCCESS} from "./types";
 
 const initReducer = () => {
     const INITIAL_STATE = {
         channels: [],
-        channel: 0,
-        channelMessages: []
+        channel: 1,
+        channelMessages: ['Hello']
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -18,12 +18,12 @@ const initReducer = () => {
                     ...state,
                     channels: payload,
                 };
-            case CHANNEL_SELECT:
+            case CHANNEL_SELECT_SUCCESS:
                 return {
                     ...state,
                     channel: payload,
                 }
-            case FETCH_CHANNEL_MESSAGES:
+            case FETCH_CHANNEL_MESSAGES_SUCCESS:
                 return {
                     ...state, 
                     channelMessages: [...state.channelMessages, payload],

@@ -1,6 +1,6 @@
 // Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
 
-import {FETCH_CHANNELS_SUCCESS, CHANNEL_SELECT, FETCH_CHANNEL_MESSAGES} from "./types";
+import {FETCH_CHANNELS_SUCCESS, CHANNEL_SELECT_SUCCESS, FETCH_CHANNEL_MESSAGES_SUCCESS} from "./types";
 import { actionCreator } from "../utils";
 
 const initActions = function (channelService) {
@@ -12,14 +12,14 @@ const initActions = function (channelService) {
     };
 
     // select channel
-    const channelSelect = actionCreator(CHANNEL_SELECT);
+    const channelSelectSuccess = actionCreator(CHANNEL_SELECT_SUCCESS);
 
-    const selectChannel = (channel_id) => (dispatch) => {
-        dispatch(CHANNEL_SELECT(channel_id))
+    const selectChannel = (channel_id) => async (dispatch) => {
+        dispatch(channelSelectSuccess(channel_id))
     };
 
     // fetch messages once channel is selected
-    const fetchChannelMessagesSuccess = actionCreator(FETCH_CHANNEL_MESSAGES);
+    const fetchChannelMessagesSuccess = actionCreator(FETCH_CHANNEL_MESSAGES_SUCCESS);
 
     const fetchChannelMessages = (channel_id) => async (dispatch) => {
         const channelMessages = await channelService.fetchChannelMessages(channel_id);
