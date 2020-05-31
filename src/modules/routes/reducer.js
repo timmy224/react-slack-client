@@ -1,4 +1,4 @@
-import { CHANGE_ROUTE, ROUTE_TO_ALERT } from './constants.js'
+import types from "./types";
 
 
 	const initReducer = () =>{
@@ -10,13 +10,11 @@ import { CHANGE_ROUTE, ROUTE_TO_ALERT } from './constants.js'
 	const reducers = ( state = INITIAL_STATE, action = {})=>{
 		const { type, payload } = action;
 		switch(type){
-			case ROUTE_TO_ALERT:
-                return {...state, routePath:payload,
-                                    routeState: { alert: "Web socket connection error " }};
-            case CHANGE_ROUTE:
-                return { ...state, routePath:payload}
+            case types.CHANGE_ROUTE:
+                return { ...state, routePath:payload.path,
+                					routeState:payload.routeState}
             default:
-            return state;
+            	return state;
         }};
 
         return  reducers ;

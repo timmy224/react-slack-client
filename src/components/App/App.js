@@ -9,31 +9,34 @@ import { actions } from "../../context";
 
 
 const mapStateToProps = (state)=>{
+    console.log(state)
     return { 
-        username:state.userModule.username,
-        routePath: state.routeModule.routePath,
-        routeState: state.routeModule.routeState,
+        username:state.user.username,
+        routePath: state.route.routePath,
+        routeState: state.route.routeState,
     }
 }
 
-const mapDispatchToProps = (dispatch)=>{
+const mapActionsToProps = (dispatch)=>{
+    console.log(actions.route.changeRoute("/enter-username"))
    return {
-    routeToEnterUsername:()=>dispatch(actions.routeModule.changeRoute("/enter-username")),
-    routeToChat:()=>dispatch(actions.routeModule.changeRoute("/chat")),
-    pathToAlert:()=>dispatch(actions.routeModule.routeToAlert("/alert-user")),
-    setUsername:()=>dispatch(actions.userModule.setUsername())
+    setUsername:actions.user.setUsername,
+    changeRoute:actions.route.changeRoute,
 
     }
 }
 
 class App extends Component {
+    changeRoute = () => {
+        this.props.changeRoute();
+    }
     componentDidMount() {
-        const { routeToEnterUsername,setUsername } = this.props;
+        const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
         console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
-            routeToEnterUsername();
+            changeRoute('/enter-username');
         }
         else {
             this.setupConnectedSubscription();
@@ -44,15 +47,16 @@ class App extends Component {
     }
 
     setupConnectedSubscription() {
-        const { routeToChat, pathToAlert } = this.props
+        const { changeRoute } = this.props
         services.socketService.getConnected$()
         .pipe(take(1)) // TODO learn what this does
         .subscribe(connected => {
             if (connected) {                    
                 console.log("Successful connection!");
-                routeToChat();
+                changeRoute("/chat");
             } else {
-                pathToAlert();
+                changeRoute("/alert-user", { alert: "Web socket connection error " });
+
             }
         });  
     }
@@ -68,4 +72,4 @@ class App extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(App);

@@ -8,31 +8,28 @@ import { services } from "../../context";
 import { actions } from "../../context";
 
 const mapStateToProps = (state)=> {
+  console.log('in chat.js:', state.user)
     return { 
-        username:state.userModule.username,
-        routePath:state.routeModule.routePath,
-        messages:state.userModule.messages,
+        username:state.user.username,
+        routePath:state.route.routePath,
+        messages:state.user.messages,
     }
 }
 
-const mapDispatchToProps = (dispatch)=> {
+const mapActionsToProps = (dispatch)=> {
    return {
-      fetchMessages:(message)=>dispatch(actions.userModule.messageReceived(message)),
-      routeToChannels:()=>dispatch(actions.routeModule.changeRoute("/channel-test")),
+      changeRoute: actions.route.changeRoute,
+      messageReceived: actions.message.messageReceived
 
     }
 }
 
 class Chat extends React.Component {
-
-  state= {
-    messages:[]
-  }
   
   componentDidMount() {
     services.chatService.getMessages$().subscribe(message => {
       console.log("Received a message through the observable: ", message);
-    this.props.fetchMessages(message)
+    this.props.messageReceived(message)
   })}
 
   onEnterPressed(message_content){
@@ -41,22 +38,21 @@ class Chat extends React.Component {
   }
 
   routeToChannelTest = () => {
-    this.props.routeToChannels();
+    this.props.changeRoute("/channel-test");
   }
 
   render() {
-    let { username } = this.props;
-    let { messages } = this.props
+    const { messages } = this.props;
     // if (routePath)  {
     //   return <Redirect to={{ pathname: routePath }} />
     // }
     return (
       <div>
         <button onClick={this.routeToChannelTest}>Route to Channel Test</button>
-        {messages.map((message) => {
-          return (<Message key={message.username + message.content} 
-          time={message.time_sent} usernames={message.sender} text={message.content} />);
-        })}
+         {this.props.messages.map((message) => {
+            return (<Message key={message.username + message.content} 
+            time={message.time_sent} usernames={message.sender} text={message.content} />);
+         })}
         <InputMessage
           onEnter={this.onEnterPressed}
         />
@@ -65,4 +61,4 @@ class Chat extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+export default connect(mapStateToProps, mapActionsToProps)(Chat);

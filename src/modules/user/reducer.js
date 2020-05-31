@@ -1,22 +1,19 @@
-import { SET_USERNAME, TAKEN_USERNAME, MESSAGE_RECEIVED } from './constants.js'
+import types from "./types";
 
 
 const initReducer = () =>{
     const INITIAL_STATE = {
         username: '',
         showTakenMsg: false,
-        messages:[]
     }
 
     const setUsername = ( state = INITIAL_STATE, action = {})=>{
         const { type, payload } = action;
         switch(type){
-            case SET_USERNAME:
+            case types.SET_USERNAME:
                 return {...state, username:payload};
-            case TAKEN_USERNAME:
-                return {...state, showTakenMsg: true};
-            case MESSAGE_RECEIVED:
-                return { ...state, messages:[...state.messages, payload]}
+            case types.TAKEN_USERNAME:
+                return {...state, showTakenMsg: payload};
             default:
             return state;
         }};
