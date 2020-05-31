@@ -26,7 +26,8 @@ const initReducer = () => {
             case FETCH_CHANNEL_MESSAGES_SUCCESS:
                 return {
                     ...state, 
-                    channelMessages: [...state.channelMessages, payload],
+                    //channelMessages: [...state.channelMessages, payload],
+                    channelMessages: [payload], // flush and return recent messages when switching channels
                 }                           
             default: 
                 return state;
