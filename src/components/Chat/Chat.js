@@ -8,25 +8,21 @@ import { services } from "../../context";
 import { actions } from "../../context";
 
 const mapStateToProps = (state) => {
-  console.log("in Chat state:", state);
   return {
     username: state.userModule.username,
-    routePath: state.userModule.routePath,
+    routePath: state.routeModule.routePath,
     messages: state.userModule.messages,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  console.log("in Chat actions:", actions);
   return {
-    // pathToChannels:()=>dispatch(actions.userModule.routeToChannels("/channel-test")),
     fetchMessages: (message) =>
       dispatch(actions.userModule.messageReceived(message)),
     routeToChannels: () =>
-      dispatch(actions.userModule.changeRoute("/channel-test")),
+      dispatch(actions.routeModule.changeRoute("/channel-test")),
   };
 };
-
 class Chat extends React.Component {
   state = {
     messages: [],
@@ -35,10 +31,6 @@ class Chat extends React.Component {
   componentDidMount() {
     services.chatService.getMessages$().subscribe((message) => {
       console.log("Received a message through the observable: ", message);
-      //   this.setState({
-      // messages: [...this.state.messages, message]
-      //   });
-      // });
       this.props.fetchMessages(message);
     });
   }
@@ -49,15 +41,12 @@ class Chat extends React.Component {
   }
 
   routeToChannelTest = () => {
-    // this.setState({
-    //   routePath: "/channel-test"
-    // });
     this.props.routeToChannels();
   };
 
   render() {
-    let { routePath, username } = this.props;
-    let { messages } = this.props;
+    let { routePath, username, messages } = this.props;
+
     console.log("in_render_chat.js:", username);
     // if (routePath)  {
     //   return <Redirect to={{ pathname: routePath }} />

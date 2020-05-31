@@ -1,16 +1,7 @@
+export const SET_USERNAME = "SET_USERNAME";
 
-export const SET_USERNAME = 'SET_USERNAME';
+export const TAKEN_USERNAME = "TAKEN_USERNAME";
 
-export const GET_USERNAME = 'GET_USERNAME';
-
-export const CHECK_USERNAME = 'CHECK_USERNAME';
-
-export const ROUTE_TO_ALERT = 'ROUTE_TO_ALERT';
-
-export const TAKEN_USERNAME = 'TAKEN_USERNAME';
-
-export const SET_MESSAGE_LIST = 'SET_MESSAGE_LIST';
-
-export const CHANGE_ROUTE = 'CHANGE_ROUTE'
-
-export const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED'
+export const MESSAGE_RECEIVED = "MESSAGE_RECEIVED";
+export const CHANGE_ROUTE = "CHANGE_ROUTE";
+export const ROUTE_TO_ALERT = "ROUTE_TO_ALERT";

@@ -10,17 +10,16 @@ const mapStateToProps = (state)=>{
     return { 
         username:state.userModule.username,
         showTakenMsg: state.userModule.showTakenMsg,
-        routePath: state.userModule.routePath,
-        routeState: state.userModule.routeState,
+        routePath: state.routeModule.routePath,
+        routeState: state.routeModule.routeState,
     }
 }
 const mapDispatchToProps = (dispatch)=>{
    return {
     firstTimeUser: (event) => dispatch(actions.userModule.setUsername(event.target.value)),
-    pathToChat:() => dispatch(actions.userModule.changeRoute("/chat")),
-    pathToAlert:()=>dispatch(actions.userModule.routeToAlert("/alert-user")),
+    pathToChat:() => dispatch(actions.routeModule.changeRoute("/chat")),
+    pathToAlert:()=>dispatch(actions.routeModule.routeToAlert("/alert-user")),
     naUsername:()=>dispatch(actions.userModule.takenUsername(false)),
-    setUsername:()=>dispatch(actions.userModule.setUsername())
     }
 }
 
@@ -44,12 +43,11 @@ class EnterUsername extends React.Component {
     }
 
     handleSubmit = (event) => {
-        const { username, naUsername, setUsername } = this.props
-        console.log('in EnterUsername username is:', username)
+        const { username, naUsername } = this.props
+        console.log('username is:', username)
         event.preventDefault();
         services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
-                console.log('handleSubmit_Username:', username)
                 services.storageService.set("username", username);
                 services.socketService.connect({ username: username });
             } else {
@@ -86,4 +84,3 @@ class EnterUsername extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnterUsername);
-// export default EnterUsername

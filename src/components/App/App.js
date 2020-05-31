@@ -17,7 +17,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  // console.log('in App.js actions:', actions);
   return {
     routeToEnterUsername: () =>
       dispatch(actions.userModule.changeRoute("/enter-username")),
@@ -37,7 +36,7 @@ class App extends Component {
       routeToEnterUsername();
     } else {
       this.setupConnectedSubscription();
-      // user exists
+
       setUsername(username);
       services.socketService.connect({ username: username });
     }
@@ -51,15 +50,8 @@ class App extends Component {
       .subscribe((connected) => {
         if (connected) {
           console.log("Successful connection!");
-          // this.setState({
-          //     routePath: "/chat"
-          // });
           routeToMain();
         } else {
-          // this.setState({
-          //     routePath: "/alert-user",
-          //     routeState: { alert: "Web socket connection error "}
-          // });
           pathToAlert();
         }
       });
