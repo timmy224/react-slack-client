@@ -16,7 +16,7 @@ class SideBar extends Component {
       <button onClick={this.fetchChannels}>Channels</button>
     ) : (
       channels.map((el) => (
-        <button onClick={this.fetchMessages(el.id)}>Channel #{el.id}</button>
+        <button onClick={this.fetchMessages(el.id)}>Channel{el.id} </button>
       ))
     );
   }

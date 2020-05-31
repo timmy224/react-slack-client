@@ -24,10 +24,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 class Chat extends React.Component {
-  state = {
-    messages: [],
-  };
-
   componentDidMount() {
     services.chatService.getMessages$().subscribe((message) => {
       console.log("Received a message through the observable: ", message);
