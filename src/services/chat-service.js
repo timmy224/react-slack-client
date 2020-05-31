@@ -26,6 +26,11 @@ function ChatService(userService) {
 
   const onUserJoinedChat = (username) => joinedChat$.next(username);
 
+  // observables for channel test below
+  let channelMessages$ = new Subject();
+  const getChannelMessages$ = () => channelMessages$;
+  const onChannelReceived = (message) => channelMessages$.next(message)
+
   return Object.freeze({
     getMessages$,
     getJoinedChat$,
@@ -33,6 +38,9 @@ function ChatService(userService) {
     onMessagesReceived,
     onMessageReceived,
     onUserJoinedChat,
+    channelMessages$,
+    getChannelMessages$,
+    onChannelReceived,
   });
 }
 
