@@ -17,17 +17,3 @@ const initActions = function (channelService) {
 
 export default initActions;
 
-
-// const initActions = function (channelService) {
-//     const fetchChannelsSuccess = actionCreator(types.FETCH_CHANNELS_SUCCESS);
-//     const fetchChannelsSuccess = actionCreator("");
-//     const fetchChannelsSuccess = ("") => payload => ({ type, payload });
-
-
-//   	const actionCreator = type => payload => ({ type, payload });
-//    	const types = {FETCH_CHANNELS_SUCCESS: ""}
-
-//    	const fetchChannelsSuccess =(payload)=>{
-//    		type: FETCH_CHANNELS_SUCCESS,
-//    		payload: payload
-//    	}
