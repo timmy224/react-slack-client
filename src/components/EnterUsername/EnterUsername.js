@@ -8,18 +8,18 @@ import { actions } from "../../context";
 
 const mapStateToProps = (state)=>{
     return { 
-        username:state.userModule.username,
-        showTakenMsg: state.userModule.showTakenMsg,
-        routePath: state.routeModule.routePath,
-        routeState: state.routeModule.routeState,
+        username:state.user.username,
+        showTakenMsg: state.user.showTakenMsg,
+        routePath: state.route.routePath,
+        routeState: state.route.routeState,
     }
 }
-const mapDispatchToProps = (dispatch)=>{
+const mapActionsToProps = (dispatch)=>{
    return {
-    firstTimeUser: (event) => dispatch(actions.userModule.setUsername(event.target.value)),
-    pathToChat:() => dispatch(actions.routeModule.changeRoute("/chat")),
-    pathToAlert:()=>dispatch(actions.routeModule.routeToAlert("/alert-user")),
-    naUsername:()=>dispatch(actions.userModule.takenUsername(false)),
+    setUsername:actions.user.setUsername,
+    takenUsername:actions.user.takenUsername,
+    changeRoute:actions.route.changeRoute,
+
     }
 }
 
@@ -30,20 +30,20 @@ class EnterUsername extends React.Component {
     }
     
     setupConnectedSubscription() {
-        const { pathToChat, pathToAlert } = this.props
+        const { changeRoute } = this.props
         services.socketService.getConnected$()
         .pipe(take(1))
         .subscribe(connected => {
             if (connected) {
-                pathToChat();
+                changeRoute("/chat");
             } else {
-                pathToAlert();
+                changeRoute("/alert-user");
             }
         });
     }
 
     handleSubmit = (event) => {
-        const { username, naUsername } = this.props
+        const { username, takenUsername } = this.props
         console.log('username is:', username)
         event.preventDefault();
         services.userService.checkUsername(username).then(isAvailable => {
@@ -51,13 +51,18 @@ class EnterUsername extends React.Component {
                 services.storageService.set("username", username);
                 services.socketService.connect({ username: username });
             } else {
-                naUsername();
+                takenUsername(true);
             }
         });
     }
 
+    handleChange = event =>{
+        return this.props.setUsername(event.target.value)
+
+    }
+
     render() {
-        const { firstTimeUser, showTakenMsg } = this.props;
+        const {  showTakenMsg } = this.props;
         // if (routePath)  {
         //    return <Redirect to={{ pathname: routePath, 
         //         state: routeState }} />;
@@ -70,7 +75,7 @@ class EnterUsername extends React.Component {
                 {takenMessage}
                 <form onSubmit={this.handleSubmit}>
                     <input
-                        onChange={firstTimeUser} 
+                        onChange={this.handleChange} 
                         />
                     <button type='submit'>Submit!</button>
                 </form>
@@ -83,4 +88,4 @@ class EnterUsername extends React.Component {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnterUsername);
+export default connect(mapStateToProps, mapActionsToProps)(EnterUsername);
