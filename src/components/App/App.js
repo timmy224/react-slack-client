@@ -8,20 +8,20 @@ import { take } from "rxjs/operators";
 import { actions } from "../../context";
 
 const mapStateToProps = (state) => {
-  // console.log('in App.js state:', state)
   return {
     username: state.userModule.username,
-    routePath: state.userModule.routePath,
-    routeState: state.userModule.routeState,
+    routePath: state.routeModule.routePath,
+    routeState: state.routeModule.routeState,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     routeToEnterUsername: () =>
-      dispatch(actions.userModule.changeRoute("/enter-username")),
-    routeToMain: () => dispatch(actions.userModule.changeRoute("/main")),
-    pathToAlert: () => dispatch(actions.userModule.routeToAlert("/alert-user")),
+      dispatch(actions.routeModule.changeRoute("/enter-username")),
+    routeToMain: () => dispatch(actions.routeModule.changeRoute("/main")),
+    pathToAlert: () =>
+      dispatch(actions.routeModule.routeToAlert("/alert-user")),
     setUsername: () => dispatch(actions.userModule.setUsername()),
   };
 };
@@ -36,7 +36,7 @@ class App extends Component {
       routeToEnterUsername();
     } else {
       this.setupConnectedSubscription();
-
+      // user exists
       setUsername(username);
       services.socketService.connect({ username: username });
     }

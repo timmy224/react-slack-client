@@ -15,7 +15,7 @@ const Root = ({ store }) => (
     <Router>
       <Route path="/" component={App}></Route>
       <Route exact path="/alert-user" component={AlertUser}></Route>
-      <Route exact path="/main" component={MainComponent}></Route>
+      <Route path="/main" component={MainComponent}></Route>
       <Route exact path="/enter-username" component={EnterUsername}></Route>
       <Route exact path="/channel-test" component={ChannelTest}></Route>
     </Router>
