@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
   };
 };
 
+<<<<<<< HEAD
 const mapDispatchToProps = (dispatch) => {
   return {
     routeToEnterUsername: () =>
@@ -39,9 +40,48 @@ class App extends Component {
       // user exists
       setUsername(username);
       services.socketService.connect({ username: username });
+=======
+const mapStateToProps = (state)=>{
+    console.log(state)
+    return { 
+        username:state.user.username,
+        routePath: state.route.routePath,
+        routeState: state.route.routeState,
+    }
+}
+
+const mapActionsToProps = (dispatch)=>{
+    console.log(actions.route.changeRoute("/enter-username"))
+   return {
+    setUsername:actions.user.setUsername,
+    changeRoute:actions.route.changeRoute,
+
+    }
+}
+
+class App extends Component {
+    changeRoute = () => {
+        this.props.changeRoute();
+    }
+    componentDidMount() {
+        const { changeRoute, setUsername } = this.props;
+        let username = services.storageService.get("username");
+        console.log("Username is: ", username);
+        let isNewUser =  username === null;
+        if (isNewUser) {
+            changeRoute('/enter-username');
+        }
+        else {
+            this.setupConnectedSubscription();
+            // user exists
+            setUsername(username);
+            services.socketService.connect({ username: username });
+        }
+>>>>>>> dev
     }
   }
 
+<<<<<<< HEAD
   setupConnectedSubscription() {
     const { routeToMain, pathToAlert } = this.props;
     services.socketService
@@ -51,6 +91,27 @@ class App extends Component {
         if (connected) {
           console.log("Successful connection!");
           routeToMain();
+=======
+    setupConnectedSubscription() {
+        const { changeRoute } = this.props
+        services.socketService.getConnected$()
+        .pipe(take(1)) // TODO learn what this does
+        .subscribe(connected => {
+            if (connected) {                    
+                console.log("Successful connection!");
+                changeRoute("/chat");
+            } else {
+                changeRoute("/alert-user", { alert: "Web socket connection error " });
+
+            }
+        });  
+    }
+
+    render() {
+        const { routePath, routeState } = this.props;
+        if (!routePath) {
+            return <h1>Loading....</h1>
+>>>>>>> dev
         } else {
           pathToAlert();
         }
@@ -67,4 +128,4 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(App);

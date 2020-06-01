@@ -1,18 +1,27 @@
-import { CHANGE_ROUTE, ROUTE_TO_ALERT } from './constants.js'
+import types from "./types";
 
  const initActions = function() {
-	
-	const routeToAlert = (route) =>({
-			type: ROUTE_TO_ALERT,
-			payload: route
-		})
-	const changeRoute = ( route )=>({
-			type: CHANGE_ROUTE,
-			payload: route
-		})
+	const changeRoute = (route) => (dispatch) => {
+                   dispatch({type: types.CHANGE_ROUTE, 
+                   			payload:route});
+	};
 
-	return { routeToAlert, changeRoute };
+	return { changeRoute };
 		
 	};
 
 export default initActions;
+
+
+// export const setSearchField = (text) =>({
+// 	type : CHANGE_SEARCHFIELD,
+// 	payload : text
+// })
+// const mapDispatchToProps = (dispatch)=>{
+// 	return{
+// 		onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+
+// const setSearchField = (dispatch) => (event) =>{
+// 		dispatch({type:CHANGE_SEARCHFIELD,
+// 					payload:event.target.value})
+// }
