@@ -10,7 +10,9 @@ const initReducer = () => {
 
         switch (type) {
             case types.MESSAGE_RECEIVED:
-                return { ...state, messages:[...state.messages, payload]}                               
+                return { 
+                        ...state,
+                         messages:[...state.messages, payload]}                               
             default: 
                 return state;
         }
