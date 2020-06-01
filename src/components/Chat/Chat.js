@@ -12,12 +12,8 @@ const mapStateToProps = (state)=> {
     return { 
         username:state.user.username,
         routePath:state.route.routePath,
-<<<<<<< HEAD
         //messages:state.user.messages,
         channelMessages: state.channel.channelMessages
-=======
-        messages:state.message.messages,
->>>>>>> dev
     }
 }
 
