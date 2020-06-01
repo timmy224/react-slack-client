@@ -11,6 +11,7 @@ const initReducer = () =>{
         const { type, payload } = action;
         switch(type){
             case types.SET_USERNAME:
+<<<<<<< HEAD
                 return {.
                     ..state, 
                     username:payload};
@@ -18,6 +19,11 @@ const initReducer = () =>{
                 return {
                     ...state, 
                     showTakenMsg: payload};
+=======
+                return {...state, username:payload};
+            case types.TAKEN_USERNAME:
+                return {...state, showTakenMsg: payload};
+>>>>>>> dev
             default:
             return state;
         }};

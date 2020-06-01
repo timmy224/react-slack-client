@@ -8,6 +8,7 @@ import { services } from "../../context";
 import { actions } from "../../context";
 
 const mapStateToProps = (state)=> {
+  console.log('in chat.js:', state.user)
     return { 
         username:state.user.username,
         routePath:state.route.routePath,

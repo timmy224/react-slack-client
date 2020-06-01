@@ -9,6 +9,7 @@ import { actions } from "../../context";
 
 
 const mapStateToProps = (state)=>{
+    console.log(state)
     return { 
         username:state.user.username,
         routePath: state.route.routePath,
