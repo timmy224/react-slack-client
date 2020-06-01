@@ -1,85 +1,91 @@
 import React, { Fragment } from 'react';
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
 import { take } from "rxjs/operators";
+import { actions } from "../../context";
+
+const mapStateToProps = (state)=>{
+    return { 
+        username:state.user.username,
+        showTakenMsg: state.user.showTakenMsg,
+        routePath: state.route.routePath,
+        routeState: state.route.routeState,
+    }
+}
+const mapActionsToProps = (dispatch)=>{
+   return {
+    setUsername:actions.user.setUsername,
+    takenUsername:actions.user.takenUsername,
+    changeRoute:actions.route.changeRoute,
+
+    }
+}
 
 class EnterUsername extends React.Component {
-    state = {
-        username: "",
-        showTakenMsg: false,
-        routePath: null,
-        routeState: {}
-    }
 
     componentDidMount() {
         this.setupConnectedSubscription();
     }
     
     setupConnectedSubscription() {
+        const { changeRoute } = this.props
         services.socketService.getConnected$()
         .pipe(take(1))
         .subscribe(connected => {
             if (connected) {
-                this.setState({
-                    routePath: "/chat"
-                });
+                changeRoute("/chat");
             } else {
-                this.setState({
-                    routePath: "/alert-user",
-                    routeState: { alert: "Web socket connection error " }
-                });
-            }
-        });
-    }
-
-    handleChange = (event) => {
-        this.setState({
-            username: event.target.value
-        });
-        this.setState((prevState) => {
-            if (prevState.showTakenMsg) {
-                return {
-                    showTakenMsg: false
-                };
+                changeRoute("/alert-user");
             }
         });
     }
 
     handleSubmit = (event) => {
+        const { username, takenUsername } = this.props
+        console.log('username is:', username)
         event.preventDefault();
-        let username = this.state.username;
         services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
                 services.storageService.set("username", username);
-                services.userService.setUsername(username);
                 services.socketService.connect({ username: username });
             } else {
-                this.setState({
-                    showTakenMsg: true
-                });
+                takenUsername(true);
             }
         });
     }
 
+    handleChange = event =>{
+        return this.props.setUsername(event.target.value)
+
+    }
+
     render() {
-        if (this.state.routePath)  {
-            return <Redirect to={{ pathname: this.state.routePath, 
-                state: this.state.routeState }} />
-        }
-        const takenMessage = this.state.showTakenMsg ? <h3>Username taken</h3> : null;
+        const {  showTakenMsg } = this.props;
+        // if (routePath)  {
+        //    return <Redirect to={{ pathname: routePath, 
+        //         state: routeState }} />;
+        //}
+             // console.log('inside_EnterUsername_Conditional:', pathname, state)      
+        
+        const takenMessage = showTakenMsg ? <h3>Username taken</h3> : null;
         return (
             <Fragment>
                 {takenMessage}
                 <form onSubmit={this.handleSubmit}>
                     <input
-                        value={this.state.input}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange} 
+                        />
                     <button type='submit'>Submit!</button>
                 </form>
             </Fragment>            
         );
     }
+
+
+
+
 }
 
-export default EnterUsername
+export default connect(mapStateToProps, mapActionsToProps)(EnterUsername);

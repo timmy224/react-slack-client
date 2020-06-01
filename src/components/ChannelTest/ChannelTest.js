@@ -59,6 +59,7 @@ class ChannelTest extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log('in ChannelTest state:', state);
     return {
         channels: state.channel.channels,
         channel_id: state.channel.channel_id,

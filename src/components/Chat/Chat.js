@@ -1,48 +1,59 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 // Depends on chatService, socketService
 import { services } from "../../context";
+import { actions } from "../../context";
+
+const mapStateToProps = (state)=> {
+  console.log('in chat.js:', state.user)
+    return { 
+        username:state.user.username,
+        routePath:state.route.routePath,
+        //messages:state.user.messages,
+        channelMessages: state.channel.channelMessages
+    }
+}
+
+const mapActionsToProps = (dispatch)=> {
+   return {
+      changeRoute: actions.route.changeRoute,
+      messageReceived: actions.message.messageReceived
+
+    }
+}
 
 class Chat extends React.Component {
-  state = {
-    messages: [],
-    routePath: null,
-  };
   
   componentDidMount() {
     services.chatService.getMessages$().subscribe(message => {
       console.log("Received a message through the observable: ", message);
-      this.setState({
-        messages: [...this.state.messages, message]
-      });
-    });
-  }
+    this.props.messageReceived(message)
+  })}
 
-  onEnterPressed(message_content) {
+  onEnterPressed(message_content){
     const message = services.chatService.prepareMessage(message_content);
     services.socketService.send("send-message", message);
   }
 
   routeToChannelTest = () => {
-    this.setState({
-      routePath: "/channel-test"
-    });
+    this.props.changeRoute("/channel-test");
   }
 
   render() {
-    let { messages } = this.state;
-    if (this.state.routePath)  {
-      return <Redirect to={{ pathname: this.state.routePath }} />
-    }
+    const { channelMessages } = this.props;
+    // if (routePath)  {
+    //   return <Redirect to={{ pathname: routePath }} />
+    // }
     return (
       <div>
         <button onClick={this.routeToChannelTest}>Route to Channel Test</button>
-        {messages.map((message) => {
-          return (<Message key={message.username + message.content} 
-          time={message.time_sent} usernames={message.sender} text={message.content} />);
-        })}
+         {channelMessages.map((message) => {
+            return (<Message key={message.username + message.content} 
+            time={message.time_sent} usernames={message.sender} text={message.content} />);
+         })}
         <InputMessage
           onEnter={this.onEnterPressed}
         />
@@ -51,4 +62,4 @@ class Chat extends React.Component {
   }
 }
 
-export default Chat;
+export default connect(mapStateToProps, mapActionsToProps)(Chat);
