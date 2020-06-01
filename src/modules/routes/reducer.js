@@ -11,14 +11,9 @@ import types from "./types";
 		const { type, payload } = action;
 		switch(type){
             case types.CHANGE_ROUTE:
-<<<<<<< HEAD
-                return { ...state, routePath:payload.path,
-                					routeState:payload.routeState}
-=======
                 return { ...state, 
                 		routePath:payload.path,
                 		routeState:payload.routeState}
->>>>>>> dev
             default:
             	return state;
         }};
