@@ -15,32 +15,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-<<<<<<< HEAD
-const mapDispatchToProps = (dispatch) => {
-  return {
-    routeToEnterUsername: () =>
-      dispatch(actions.routeModule.changeRoute("/enter-username")),
-    routeToMain: () => dispatch(actions.routeModule.changeRoute("/main")),
-    pathToAlert: () =>
-      dispatch(actions.routeModule.routeToAlert("/alert-user")),
-    setUsername: () => dispatch(actions.userModule.setUsername()),
-  };
-};
-
-class App extends Component {
-  componentDidMount() {
-    const { routeToEnterUsername, setUsername } = this.props;
-    let username = services.storageService.get("username");
-    console.log("Username is: ", username);
-    let isNewUser = username === null;
-    if (isNewUser) {
-      routeToEnterUsername();
-    } else {
-      this.setupConnectedSubscription();
-      // user exists
-      setUsername(username);
-      services.socketService.connect({ username: username });
-=======
 const mapStateToProps = (state)=>{
     console.log(state)
     return { 
@@ -50,13 +24,9 @@ const mapStateToProps = (state)=>{
     }
 }
 
-const mapActionsToProps = (dispatch)=>{
-    console.log(actions.route.changeRoute("/enter-username"))
-   return {
+const mapActionsToProps = {
     setUsername:actions.user.setUsername,
     changeRoute:actions.route.changeRoute,
-
-    }
 }
 
 class App extends Component {
@@ -69,7 +39,7 @@ class App extends Component {
         console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
-            changeRoute('/enter-username');
+            changeRoute({path:'/enter-username'});
         }
         else {
             this.setupConnectedSubscription();
@@ -77,21 +47,9 @@ class App extends Component {
             setUsername(username);
             services.socketService.connect({ username: username });
         }
->>>>>>> dev
     }
   }
 
-<<<<<<< HEAD
-  setupConnectedSubscription() {
-    const { routeToMain, pathToAlert } = this.props;
-    services.socketService
-      .getConnected$()
-      .pipe(take(1)) // TODO learn what this does
-      .subscribe((connected) => {
-        if (connected) {
-          console.log("Successful connection!");
-          routeToMain();
-=======
     setupConnectedSubscription() {
         const { changeRoute } = this.props
         services.socketService.getConnected$()
@@ -99,10 +57,10 @@ class App extends Component {
         .subscribe(connected => {
             if (connected) {                    
                 console.log("Successful connection!");
-                changeRoute("/chat");
+                changeRoute({path:"/chat"});
             } else {
-                changeRoute("/alert-user", { alert: "Web socket connection error " });
-
+                // changeRoute("/alert-user", { alert: "Web socket connection error " });
+                changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
             }
         });  
     }
@@ -111,7 +69,6 @@ class App extends Component {
         const { routePath, routeState } = this.props;
         if (!routePath) {
             return <h1>Loading....</h1>
->>>>>>> dev
         } else {
           pathToAlert();
         }
