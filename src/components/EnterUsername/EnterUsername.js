@@ -14,13 +14,10 @@ const mapStateToProps = (state)=>{
         routeState: state.route.routeState,
     }
 }
-const mapActionsToProps = (dispatch)=>{
-   return {
+const mapActionsToProps = {
     setUsername:actions.user.setUsername,
     takenUsername:actions.user.takenUsername,
     changeRoute:actions.route.changeRoute,
-
-    }
 }
 
 class EnterUsername extends React.Component {
@@ -35,9 +32,9 @@ class EnterUsername extends React.Component {
         .pipe(take(1))
         .subscribe(connected => {
             if (connected) {
-                changeRoute("/chat");
+                changeRoute({path:"/chat"});
             } else {
-                changeRoute("/alert-user");
+                changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
             }
         });
     }
@@ -56,8 +53,9 @@ class EnterUsername extends React.Component {
         });
     }
 
-    handleChange = event =>{
-        return this.props.setUsername(event.target.value)
+    handleChange = (event) =>{
+        let username = event.target.value
+        return this.props.setUsername(username)
 
     }
 
@@ -66,8 +64,7 @@ class EnterUsername extends React.Component {
         // if (routePath)  {
         //    return <Redirect to={{ pathname: routePath, 
         //         state: routeState }} />;
-        //}
-             // console.log('inside_EnterUsername_Conditional:', pathname, state)      
+        //}    
         
         const takenMessage = showTakenMsg ? <h3>Username taken</h3> : null;
         return (

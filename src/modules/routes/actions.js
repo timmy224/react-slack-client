@@ -1,9 +1,10 @@
 import types from "./types";
+import { actionCreator } from "../utils";
 
  const initActions = function() {
+ 	const routeChange = actionCreator(types.CHANGE_ROUTE)
 	const changeRoute = (route) => (dispatch) => {
-                   dispatch({type: types.CHANGE_ROUTE, 
-                   			payload:route});
+                   dispatch(routeChange(route));
 	};
 
 	return { changeRoute };
@@ -12,16 +13,3 @@ import types from "./types";
 
 export default initActions;
 
-
-// export const setSearchField = (text) =>({
-// 	type : CHANGE_SEARCHFIELD,
-// 	payload : text
-// })
-// const mapDispatchToProps = (dispatch)=>{
-// 	return{
-// 		onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
-
-// const setSearchField = (dispatch) => (event) =>{
-// 		dispatch({type:CHANGE_SEARCHFIELD,
-// 					payload:event.target.value})
-// }
