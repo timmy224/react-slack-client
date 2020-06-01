@@ -12,16 +12,13 @@ const mapStateToProps = (state)=> {
     return { 
         username:state.user.username,
         routePath:state.route.routePath,
-        messages:state.user.messages,
+        messages:state.message.messages,
     }
 }
 
-const mapActionsToProps = (dispatch)=> {
-   return {
+const mapActionsToProps = {
       changeRoute: actions.route.changeRoute,
       messageReceived: actions.message.messageReceived
-
-    }
 }
 
 class Chat extends React.Component {
@@ -38,7 +35,7 @@ class Chat extends React.Component {
   }
 
   routeToChannelTest = () => {
-    this.props.changeRoute("/channel-test");
+    this.props.changeRoute({path:"/channel-test"});
   }
 
   render() {

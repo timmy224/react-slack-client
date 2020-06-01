@@ -17,13 +17,9 @@ const mapStateToProps = (state)=>{
     }
 }
 
-const mapActionsToProps = (dispatch)=>{
-    console.log(actions.route.changeRoute("/enter-username"))
-   return {
+const mapActionsToProps = {
     setUsername:actions.user.setUsername,
     changeRoute:actions.route.changeRoute,
-
-    }
 }
 
 class App extends Component {
@@ -36,7 +32,7 @@ class App extends Component {
         console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
-            changeRoute('/enter-username');
+            changeRoute({path:'/enter-username'});
         }
         else {
             this.setupConnectedSubscription();
@@ -53,10 +49,10 @@ class App extends Component {
         .subscribe(connected => {
             if (connected) {                    
                 console.log("Successful connection!");
-                changeRoute("/chat");
+                changeRoute({path:"/chat"});
             } else {
-                changeRoute("/alert-user", { alert: "Web socket connection error " });
-
+                // changeRoute("/alert-user", { alert: "Web socket connection error " });
+                changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
             }
         });  
     }
