@@ -9,20 +9,11 @@ import { actions } from "../../context";
 
 const mapStateToProps = (state) => {
   return {
-    username: state.userModule.username,
-    routePath: state.routeModule.routePath,
-    routeState: state.routeModule.routeState,
+    username: state.user.username,
+    routePath: state.route.routePath,
+    routeState: state.route.routeState,
   };
 };
-
-const mapStateToProps = (state)=>{
-    console.log(state)
-    return { 
-        username:state.user.username,
-        routePath: state.route.routePath,
-        routeState: state.route.routeState,
-    }
-}
 
 const mapActionsToProps = {
     setUsername:actions.user.setUsername,
@@ -33,6 +24,7 @@ class App extends Component {
     changeRoute = () => {
         this.props.changeRoute();
     }
+
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
@@ -48,7 +40,6 @@ class App extends Component {
             services.socketService.connect({ username: username });
         }
     }
-  }
 
     setupConnectedSubscription() {
         const { changeRoute } = this.props
@@ -57,7 +48,7 @@ class App extends Component {
         .subscribe(connected => {
             if (connected) {                    
                 console.log("Successful connection!");
-                changeRoute({path:"/chat"});
+                changeRoute({path:"/main"});
             } else {
                 // changeRoute("/alert-user", { alert: "Web socket connection error " });
                 changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
@@ -65,22 +56,22 @@ class App extends Component {
         });  
     }
 
-    render() {
-        const { routePath, routeState } = this.props;
-        if (!routePath) {
-            return <h1>Loading....</h1>
-        } else {
-          pathToAlert();
-        }
-      });
-  }
+    // render() {
+    //     const { routePath, routeState } = this.props;
+    //     if (!routePath) {
+    //         return <h1>Loading....</h1>
+    //     } else {
+    //       changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
+    //     }
+    //   };
+
 
   render() {
     const { routePath, routeState } = this.props;
     if (!routePath) {
       return <h1>Loading....</h1>;
     } else {
-      return <Redirect to={{ pathname: routePath, state: routeState }} />;
+      return <Redirect to={{pathname: routePath, state: routeState }} />;
     }
   }
 }

@@ -35,7 +35,7 @@ class SideBar extends Component {
 // }
 const mapStateToProps = (state) => {
   return {
-    channels: state.channel.list,
+    channels: state.channel.channels,
     messages: state.channel.messages,
   };
 };

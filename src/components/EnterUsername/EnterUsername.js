@@ -32,7 +32,7 @@ class EnterUsername extends React.Component {
         .pipe(take(1))
         .subscribe(connected => {
             if (connected) {
-                changeRoute({path:"/chat"});
+                changeRoute({path:"/main"});
             } else {
                 changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
             }
