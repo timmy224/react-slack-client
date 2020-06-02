@@ -4,23 +4,29 @@ import types from "./types";
 import { actionCreator } from "../utils";
 
 const initActions = function (channelService) {
-  const fetchChannelsSuccess = actionCreator(types.FETCH_CHANNELS_SUCCESS);
+    const fetchChannels = actionCreator(types.FETCH_CHANNELS);
 
-  const fetchChannels = () => async (dispatch) => {
-    const channels = await channelService.fetchChannels();
-    dispatch(fetchChannelsSuccess(channels));
-  };
+    const fetchChannelIDs = () => async (dispatch) => {
+        const channels = await channelService.fetchChannelIDs();
+        dispatch(fetchChannels(channels));
+    };
 
-  const fetchChannelsMsgSuccess = actionCreator(
-    types.FETCH_CHANNELS_MSG_SUCCESS
-  );
+    // select channel
+    const channelSelect = actionCreator(types.CHANNEL_SELECT);
 
-  const fetchMessages = () => async (dispatch) => {
-    const messages = await channelService.fetchMessages();
-    dispatch(fetchChannelsMsgSuccess(messages));
-  };
+    const selectChannel = (channel_id) => async (dispatch) => {
+        dispatch(channelSelect(channel_id))
+    };
 
-  return { fetchChannels, fetchMessages };
+    // fetch messages once channel is selected
+    const fetchChannelMessages = actionCreator(types.FETCH_CHANNEL_MESSAGES);
+
+    const fetchMessagesChannel = (channel_id) => async (dispatch) => {
+        const channelMessages = await channelService.fetchMessagesChannel(channel_id);
+        dispatch(fetchChannelMessages(channelMessages));
+    };
+    
+    return { fetchChannelIDs, selectChannel, fetchMessagesChannel};
 };
 
 export default initActions;

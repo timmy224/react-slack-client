@@ -40,11 +40,6 @@ function SocketService(chatService) {
             connected$.next(false);
         });
 
-        socket.on('message-catchup', (data) => {
-            let messages = JSON.parse(data);
-            chatService.onMessagesReceived(messages);
-        })
-
         socket.on('user-joined-chat', (user_join) => {
             console.log("user_join", user_join);
             console.log(`User joined the chat: ${user_join.username}`);

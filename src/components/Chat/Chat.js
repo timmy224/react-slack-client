@@ -12,7 +12,8 @@ const mapStateToProps = (state)=> {
     return { 
         username:state.user.username,
         routePath:state.route.routePath,
-        messages:state.message.messages,   
+        //messages:state.user.messages,
+        channelMessages: state.channel.channelMessages
     }
 }
 
@@ -38,7 +39,7 @@ class Chat extends React.Component {
   };
 
   render() {
-    let { routePath, username, messages } = this.props;
+    let { routePath, username, channelMessages } = this.props;
 
     console.log("in_render_chat.js:", username);
     // if (routePath)  {
@@ -46,18 +47,14 @@ class Chat extends React.Component {
     // }
     return (
       <div>
-        {/* <button onClick={this.routeToChannelTest}>Route to Channel Test</button> */}
-        {messages.map((message) => {
-          return (
-            <Message
-              key={message.username + message.content}
-              time={message.time_sent}
-              usernames={message.sender}
-              text={message.content}
-            />
-          );
-        })}
-        <InputMessage onEnter={this.onEnterPressed} />
+        <button onClick={this.routeToChannelTest}>Route to Channel Test</button>
+         {channelMessages.map((message) => {
+            return (<Message key={message.username + message.content} 
+            time={message.time_sent} usernames={message.sender} text={message.content} />);
+         })}
+        <InputMessage
+          onEnter={this.onEnterPressed}
+        />
       </div>
     );
   }
