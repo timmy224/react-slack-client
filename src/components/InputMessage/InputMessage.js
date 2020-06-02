@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 
-class InputMessage extends Component {
-	state = {
-		message: ""
+const mapStateToProps = state => {
+	return {
+		input: state.message.message
+		
 	}
+}
 
+const mapActionsToProps = {
+}
+
+class InputMessage extends Component {
 	handleChange = (event) => {
         this.setState({
 			message: event.target.value
@@ -13,12 +19,10 @@ class InputMessage extends Component {
 
 	handleKeyPressed = event => {
 		if (event.key === "Enter") {
-			const validMessage = this.state.message;
+			const validMessage = this.props.message;
 			if (validMessage) {
-				this.props.onEnter(validMessage);
-				this.setState({
-					message: ""
-				});
+				this.props.onEnter();
+				this.props.clearAfterInput
 			}
 		}
 	}	
@@ -38,4 +42,4 @@ class InputMessage extends Component {
 }
 
 
-export default InputMessage;
+export default connect(mapStateToProps, mapActionsToProps)(InputMessage);

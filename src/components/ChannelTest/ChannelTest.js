@@ -34,32 +34,30 @@ class ChannelTest extends Component {
 
     render() {
         const { channels, channel_id, channelMessages } = this.props;
-        console.log(channels)
-        console.log(channel_id)
-        console.log(channelMessages)
+        // console.log(channels)
+        // console.log(channel_id)
+        // console.log(channelMessages)
 
         return (
             <div>
-                <div>
-                    {
-                        !channels.length ?
-                            <button onClick={this.fetchChannels}>Fetch channels</button>
-                            : (channels.map((el) => <button
-                                value={el}
-                                //onClick={this.selectChannel}
-                                onClick={this.fetchChannelMessages}
-                                key={el}>
-                                Channel #{el}
-                            </button>))
-                    }
-                </div>
+                {
+                    !channels.length ?
+                        <button onClick={this.fetchChannels}>Fetch channels</button>
+                        : (channels.map((el) => <button
+                            value={el}
+                            //onClick={this.selectChannel}
+                            onClick={this.fetchChannelMessages}
+                            key={el}>
+                            Channel #{el}
+                        </button>))
+                }
             </div>
         )
     };
 }
 
 const mapStateToProps = (state) => {
-    console.log('in ChannelTest state:', state);
+    //console.log('in ChannelTest state:', state);
     return {
         channels: state.channel.channels,
         channel_id: state.channel.channel_id,

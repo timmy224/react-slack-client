@@ -13,7 +13,7 @@ function SocketService(chatService) {
         let value = dataObject.username
         let query_val = `username=${value}`
         let queryObj = { query: query_val }
-        socket = io(remoteUrl, queryObj)
+        socket = io(localUrl, queryObj)
         setUpEventListeners();
         return socket
     };

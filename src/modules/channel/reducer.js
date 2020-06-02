@@ -27,7 +27,7 @@ const initReducer = () => {
                 return {
                     ...state, 
                     //channelMessages: [...state.channelMessages, payload],
-                    channelMessages: [payload], // flush and return recent messages when switching channels
+                    channelMessages: payload, // flush and return recent messages when switching channels
                 }                           
             default: 
                 return state;

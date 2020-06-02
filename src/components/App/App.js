@@ -37,6 +37,7 @@ class App extends Component {
             this.setupConnectedSubscription();
             // user exists
             setUsername(username);
+            //console.log(username)
             services.socketService.connect({ username: username });
         }
     }
