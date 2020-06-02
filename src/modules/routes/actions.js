@@ -12,4 +12,3 @@ import { actionCreator } from "../utils";
 	};
 
 export default initActions;
-

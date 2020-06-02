@@ -1,6 +1,5 @@
 import types from "./types";
 
-
 const initReducer = () =>{
     const INITIAL_STATE = {
         username: '',
@@ -14,6 +13,7 @@ const initReducer = () =>{
                 return {
                     ...state, 
                     username:payload};
+ 
             case types.TAKEN_USERNAME:
                 return {
                     ...state, 
@@ -22,7 +22,7 @@ const initReducer = () =>{
             return state;
         }};
 
-        return  setUsername ;
+        return  setUsername;
 };
 export default initReducer
 

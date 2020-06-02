@@ -9,8 +9,8 @@ const initReducer = () => {
         channelMessages: []
     };
 
-    const reducer = (state = INITIAL_STATE, action) => {
-        const { type, payload } = action;
+  const reducer = (state = INITIAL_STATE, action) => {
+    const { type, payload } = action;
 
         switch (type) {
             case types.FETCH_CHANNELS:
@@ -34,7 +34,7 @@ const initReducer = () => {
         }
     };
 
-    return reducer;
+  return reducer;
 };
 
 export default initReducer;

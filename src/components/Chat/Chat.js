@@ -23,24 +23,25 @@ const mapActionsToProps = {
 }
 
 class Chat extends React.Component {
-  
   componentDidMount() {
-    services.chatService.getMessages$().subscribe(message => {
+    services.chatService.getMessages$().subscribe((message) => {
       console.log("Received a message through the observable: ", message);
     this.props.messageReceived(message)
   })}
 
-  onEnterPressed(message_content){
+  onEnterPressed(message_content) {
     const message = services.chatService.prepareMessage(message_content);
     services.socketService.send("send-message", message);
   }
 
   routeToChannelTest = () => {
-    this.props.changeRoute({path:"/channel-test"});
-  }
+    this.props.changeRoute({path:"/channel-test"}); 
+  };
 
   render() {
-    const { channelMessages } = this.props;
+    let { routePath, username, channelMessages } = this.props;
+
+    console.log("in_render_chat.js:", username);
     // if (routePath)  {
     //   return <Redirect to={{ pathname: routePath }} />
     // }

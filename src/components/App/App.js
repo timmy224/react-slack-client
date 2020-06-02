@@ -7,6 +7,13 @@ import { services } from "../../context";
 import { take } from "rxjs/operators";
 import { actions } from "../../context";
 
+const mapStateToProps = (state) => {
+  return {
+    username: state.userModule.username,
+    routePath: state.routeModule.routePath,
+    routeState: state.routeModule.routeState,
+  };
+};
 
 const mapStateToProps = (state)=>{
     console.log(state)
@@ -41,6 +48,7 @@ class App extends Component {
             services.socketService.connect({ username: username });
         }
     }
+  }
 
     setupConnectedSubscription() {
         const { changeRoute } = this.props
@@ -62,10 +70,19 @@ class App extends Component {
         if (!routePath) {
             return <h1>Loading....</h1>
         } else {
-            return <Redirect to={{ pathname: routePath, 
-                    state: routeState }} />
+          pathToAlert();
         }
+      });
+  }
+
+  render() {
+    const { routePath, routeState } = this.props;
+    if (!routePath) {
+      return <h1>Loading....</h1>;
+    } else {
+      return <Redirect to={{ pathname: routePath, state: routeState }} />;
     }
+  }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

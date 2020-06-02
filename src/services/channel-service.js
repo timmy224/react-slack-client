@@ -25,4 +25,3 @@ const ChannelService = function() {
 };
 
 export default ChannelService;
-

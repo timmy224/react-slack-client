@@ -3,7 +3,6 @@
 import types from "./types";
 import { actionCreator } from "../utils";
 
-
 const initActions = function (channelService) {
     const fetchChannels = actionCreator(types.FETCH_CHANNELS);
 
@@ -31,4 +30,3 @@ const initActions = function (channelService) {
 };
 
 export default initActions;
-
