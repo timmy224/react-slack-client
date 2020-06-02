@@ -58,14 +58,14 @@ const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
         channel_id: state.channel.channel_id,
-        channelMessages: state.channel.channelMessages,
+        channelMessages: state.message.channelMessages,
     };
 };
 
 const mapActionsToProps = {
     fetchChannels: actions.channel.fetchChannelIDs,
     selectChannel: actions.channel.selectChannel,
-    fetchChannelMessages: actions.channel.fetchMessagesChannel,
+    fetchChannelMessages: actions.message.fetchMessagesChannel,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

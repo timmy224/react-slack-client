@@ -10,7 +10,7 @@ const configureModules = services => {
     const channelModule = configureChannelModule(services); 
     const userModule = configureUserModule();
     const routeModule = configureRouteModule();
-    const messageModule = configureMessageModule();
+    const messageModule = configureMessageModule(services);
 
     const modules = {
          channel: channelModule, 

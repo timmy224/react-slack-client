@@ -2,8 +2,8 @@ import types from "./types";
 
 const initReducer = () => {
     const INITIAL_STATE = {
-        messages:[],
-        enteredInput: '',
+        channelMessages: [],
+        currentInput: "",
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -11,19 +11,27 @@ const initReducer = () => {
 
         switch (type) {
             case types.MESSAGE_RECEIVED:
-                return { 
-                        ...state,
-                         messages: [...state.messages, payload]}      
-            case types.INPUT_ENTER:
                 return {
                     ...state,
-                    enteredInput: payload,
+                    channelMessages: [...state.channelMessages, payload]
+                }
+            case types.FETCH_CHANNEL_MESSAGES:
+                // flush and return recent messages when switching channels
+                return {
+                    ...state,
+                    channelMessages: payload, 
+                }
+            case types.INPUT_UPDATED:
+                return {
+                    ...state,
+                    currentInput: payload,
                 }
             case types.CLEAR_INPUT:
                 return {
-                    
+                    ...state,
+                    currentInput: "",
                 }
-            default: 
+            default:
                 return state;
         }
     };

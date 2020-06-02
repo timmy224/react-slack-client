@@ -18,15 +18,9 @@ const initActions = function (channelService) {
         dispatch(channelSelect(channel_id))
     };
 
-    // fetch messages once channel is selected
-    const fetchChannelMessages = actionCreator(types.FETCH_CHANNEL_MESSAGES);
 
-    const fetchMessagesChannel = (channel_id) => async (dispatch) => {
-        const channelMessages = await channelService.fetchMessagesChannel(channel_id);
-        dispatch(fetchChannelMessages(channelMessages));
-    };
     
-    return { fetchChannelIDs, selectChannel, fetchMessagesChannel};
+    return { fetchChannelIDs, selectChannel };
 };
 
 export default initActions;
