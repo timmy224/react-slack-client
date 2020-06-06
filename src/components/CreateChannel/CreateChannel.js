@@ -8,19 +8,20 @@ import { actions } from "../../context";
 
 const mapStateToProps = (state)=>{
     return { 
-        username:state.user.username,
-        showTakenMsg: state.user.showTakenMsg,
+        channel_name: state.channel.channel_name,
+        show_taken_msg: state.channel.show_taken_msg,
         routePath: state.route.routePath,
         routeState: state.route.routeState,
     }
 }
 const mapActionsToProps = {
-    setUsername:actions.user.setUsername,
-    takenUsername:actions.user.takenUsername,
-    changeRoute:actions.route.changeRoute,
+    setChannelName: actions.channel.setChannelName,
+    takenChannelName: actions.channel.takenChannelName,
+    changeRoute: actions.route.changeRoute,
+    fetchChannels: actions.channel.fetchChannelIDs,
 }
 
-class EnterUsername extends React.Component {
+class CreateChannel extends React.Component {
 
     componentDidMount() {
         this.setupConnectedSubscription();
@@ -40,35 +41,39 @@ class EnterUsername extends React.Component {
     }
 
     handleSubmit = (event) => {
-        const { username, takenUsername } = this.props
-        console.log('username is:', username)
+        const { channel_name, takenChannelName, changeRoute, fetchChannels } = this.props
+        console.log('Channel Name is:', channel_name)
         event.preventDefault();
-        services.userService.checkUsername(username).then(isAvailable => {
+        services.channelService.checkChannelName(channel_name).then(isAvailable => {
+            console.log('is available:', isAvailable)
             if (isAvailable) {
-                services.storageService.set("username", username);
-                services.socketService.connect({ username: username });
+                console.log("is available True")
+                services.channelService.setChannelName(channel_name);
+                changeRoute({path:"/main"});
+                fetchChannels();
             } else {
-                takenUsername(true);
+                takenChannelName(true);
             }
         });
     }
 
     handleChange = (event) =>{
-        let username = event.target.value
-        return this.props.setUsername(username)
+        let channel_name = event.target.value
+        return this.props.setChannelName(channel_name)
 
     }
 
     render() {
-        const {  showTakenMsg } = this.props;
+        const { show_taken_msg } = this.props;
         // if (routePath)  {
         //    return <Redirect to={{ pathname: routePath, 
         //         state: routeState }} />;
         //}    
         
-        const takenMessage = showTakenMsg ? <h3>Username taken</h3> : null;
+        const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         return (
             <Fragment>
+                <h1>Create Channel Component (cloned EnterUsername Component)</h1>
                 {takenMessage}
                 <form onSubmit={this.handleSubmit}>
                     <input
@@ -85,4 +90,4 @@ class EnterUsername extends React.Component {
 
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(EnterUsername);
+export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);

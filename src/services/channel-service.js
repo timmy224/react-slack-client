@@ -18,19 +18,44 @@ const ChannelService = function() {
     }
 
     const checkChannelName = channel_name => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/check-channel-name/?check-channel-name=${channel_name}`;
-        let localUrl = `http://localhost:5000/check-channel-name/?check-channel-name=${channel_name}`;
+        let remoteUrl = `https://react-slack-server.herokuapp.com/check-channel-name/?channel_name=${channel_name}`;
+        let localUrl = `http://localhost:5000/check-channel-name/?channel_name=${channel_name}`;
+        console.log(fetch(localUrl)
+        .then(response => response.json())
+        .then(data => data.isAvailable));
 
         return fetch(localUrl)
             .then(response => response.json())
             .then(data => data.isAvailable);
     };
 
+    const setChannelName = channel_name => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/create-channel/?channel_name=${channel_name}`;
+        let localUrl = `http://localhost:5000/create-channel/?channel_name=${channel_name}`;
+
+        // post data
+        const post_data = {
+            "channel_name": channel_name,
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return fetch(localUrl, options)
+            .then(response => response.json())
+            .then(data => data.isAvailable);
+    }
     //console.log(fetchChannels())
     return Object.freeze({
         fetchChannelIDs, 
         fetchMessagesChannel,
         checkChannelName,
+        setChannelName,
     });
 };
 

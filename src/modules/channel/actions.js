@@ -5,22 +5,31 @@ import { actionCreator } from "../utils";
 
 const initActions = function (channelService) {
     const fetchChannels = actionCreator(types.FETCH_CHANNELS);
-
     const fetchChannelIDs = () => async (dispatch) => {
         const channels = await channelService.fetchChannelIDs();
         dispatch(fetchChannels(channels));
     };
 
-    // select channel
     const channelSelect = actionCreator(types.CHANNEL_SELECT);
-
     const selectChannel = (channel_id) => async (dispatch) => {
-        dispatch(channelSelect(channel_id))
+        dispatch(channelSelect(channel_id));
     };
 
-
+    const channelNameSet = actionCreator(types.CHANNEL_NAME_SET)
+	const setChannelName = (channel_name) => (dispatch)=>{
+		dispatch(channelNameSet(channel_name))
+    };
     
-    return { fetchChannelIDs, selectChannel };
+    const channelNameTaken = actionCreator(types.CHANNEL_NAME_TAKEN)
+	const takenChannelName = (isChannelNameTaken) =>(dispatch)=>{
+		dispatch(channelNameTaken(isChannelNameTaken))
+	};
+
+    return { fetchChannelIDs,
+             selectChannel, 
+             setChannelName,
+             takenChannelName, 
+           };
 };
 
 export default initActions;
