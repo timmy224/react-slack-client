@@ -14,6 +14,10 @@ class SideBar extends Component {
         this.props.fetchChannelMessages(event.target.value);
     }
 
+    componentDidMount() {
+        this.fetchChannels()
+    }
+
     render() {
         const { channels } = this.props;
         return (
