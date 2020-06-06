@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 // Depends on chatService, socketService
 import { services } from "../../context";
 import { actions } from "../../context";
-import { filter } from 'rxjs/operators';
 
 const mapStateToProps = (state) => {
-    //console.log('in chat.js:', state.user.username)
     return {
         username: state.user.username,
         routePath: state.route.routePath,
@@ -35,11 +33,8 @@ class Chat extends React.Component {
     }
 
     onEnterPressed = () => {
-        console.log("In onEnterPressed!!!!");
         let {username, channel_id} = this.props;
         let message_content = this.props.currentInput;
-        console.log("message_content:", message_content);
-        console.log(this.props);
         const message = services.chatService.prepareMessage(message_content, username, channel_id);
         services.socketService.send("send-message", message);
     }
@@ -54,10 +49,6 @@ class Chat extends React.Component {
 
     render() {
         const { channelMessages } = this.props;
-        console.log('chanMess before render return of chat: ', channelMessages)
-        // if (routePath)  {
-        //   return <Redirect to={{ pathname: routePath }} />
-        // }
         return (
             <div>
                 <button onClick={this.printProps}>Print Prop</button>

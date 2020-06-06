@@ -23,7 +23,9 @@ function ChatService(userService) {
         }
     };
 
-    const onMessageReceived = (message) => messages$.next(message);
+    const onMessageReceived = (message) => {
+        messages$.next(message);
+    }
 
     const onUserJoinedChat = (username) => joinedChat$.next(username);
 
