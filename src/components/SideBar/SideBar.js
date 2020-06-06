@@ -20,6 +20,10 @@ class SideBar extends Component {
         this.props.fetchChannelMessages(event.target.value);
     }
 
+    routeToCreateChannel = () => {
+        this.props.changeRoute({ path: "/create-channel" });
+    };
+
     componentDidMount() {
         // messages get filtered here based on selected channel ? 
         services.chatService.getMessages$()
@@ -37,8 +41,9 @@ class SideBar extends Component {
 
         return (
             <div>
-                {
-                    !channels.length ?
+                <button onClick={this.routeToCreateChannel}>Create Channel</button>
+
+                {!channels.length ?
                         <button onClick={this.fetchChannels}>Fetch channels</button>
                         : (channels.map((el) => <button
                             value={el}
@@ -66,6 +71,7 @@ const mapActionsToProps = {
     fetchChannels: actions.channel.fetchChannelIDs,
     selectChannel: actions.channel.selectChannel,
     fetchChannelMessages: actions.message.fetchMessagesChannel,
+    changeRoute:actions.route.changeRoute,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
