@@ -54,8 +54,6 @@ class Chat extends React.Component {
                 <button onClick={this.printProps}>Print Prop</button>
                 <button onClick={this.routeToChannelTest}>Route to Channel Test</button>
                 {channelMessages.map((message) => {
-                    console.log('username, time_sent, ', message.username, message.time_sent)
-                    console.log('in chat.js:', message)
                     return (<Message key={message.username + message.content}
                         time={message.time_sent} usernames={message.sender} text={message.content} />);
                 })}

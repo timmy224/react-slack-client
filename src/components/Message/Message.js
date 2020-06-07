@@ -3,8 +3,6 @@ import React from "react";
 
 
 function Message(props) {
-    console.log("messages comp: ", props)
-
     return (
         <div className="message">
             <div className="message-username">
