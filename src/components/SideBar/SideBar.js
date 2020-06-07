@@ -6,7 +6,6 @@ class SideBar extends Component {
 
     fetchChannelMessages = (event) => {
         this.props.selectChannel(event.target.value)
-        this.props.fetchChannelMessages(event.target.value);
     }
 
     render() {
@@ -35,8 +34,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = {
-    selectChannel: actions.channel.selectChannel,
-    fetchChannelMessages: actions.message.fetchMessagesChannel,
+    selectChannel: actions.sidebar.selectChannel,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
