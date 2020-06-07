@@ -4,12 +4,12 @@ import { actions } from "../../context";
 
 class SideBar extends Component {
 
-    fetchChannelMessages = (event) => {
-        this.props.selectChannel(event.target.value)
+    selectChannel = (event) => {
+        this.props.selectChannel(event.target.value);
     }
 
-    fetchPrivateMessages = (event) => {
-        console.log(event.target.value);
+    selectUser = (event) => {
+        this.props.selectUser(event.target.value);
     }
 
     render() {
@@ -18,7 +18,7 @@ class SideBar extends Component {
             <h2>Loading channels...</h2>
             : (channels.map((el) => <button
                 value={el}
-                onClick={this.fetchChannelMessages}
+                onClick={this.selectChannel}
                 key={el}>
                 Channel #{el}
             </button>));
@@ -26,7 +26,7 @@ class SideBar extends Component {
                 <h2>Loading users...</h2>
                 : (usernames.map((username) => <button 
                     value={username}
-                    onClick={this.fetchPrivateMessages}
+                    onClick={this.selectUser}
                     key={username}>
                         {username}
                     </button>))
@@ -49,6 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
+    selectUser: actions.sidebar.selectUser,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

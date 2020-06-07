@@ -2,7 +2,7 @@ import initActions from "./actions";
 import initReducer from "./reducer";
 
 const configureMessageModule = (services) => {
-    const actions = initActions(services.channelService);
+    const actions = initActions(services.messageService);
     const reducer = initReducer();
 
     return { actions, reducer };

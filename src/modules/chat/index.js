@@ -1,8 +1,10 @@
 import initActions from "./actions";
+import initReducer from "./reducer";
 
 const configureModule = () => {
     const actions = initActions();
-    return { actions };
+    const reducer = initReducer();
+    return { actions, reducer };
 };
 
 export default configureModule;

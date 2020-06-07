@@ -8,19 +8,9 @@ const ChannelService = function() {
             .then(data => JSON.parse(data.channels));
     }
 
-    const fetchMessagesChannel = (channel_id) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/messages/?channelId=${channel_id}`;
-        let localUrl = `http://localhost:5000/messages/?channelId=${channel_id}`;
-        
-        return fetch(remoteUrl)
-            .then(response => response.json())
-            .then(data => JSON.parse(data.messages));
-    }
-
     //console.log(fetchChannels())
     return Object.freeze({
         fetchChannelIDs, 
-        fetchMessagesChannel
     });
 };
 
