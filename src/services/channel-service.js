@@ -20,16 +20,13 @@ const ChannelService = function() {
     const checkChannelName = channel_name => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/check-channel-name/?channel_name=${channel_name}`;
         let localUrl = `http://localhost:5000/check-channel-name/?channel_name=${channel_name}`;
-        console.log(fetch(localUrl)
-        .then(response => response.json())
-        .then(data => data.isAvailable));
 
         return fetch(localUrl)
             .then(response => response.json())
             .then(data => data.isAvailable);
     };
 
-    const setChannelName = channel_name => {
+    const createChannel = channel_name => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/create-channel/?channel_name=${channel_name}`;
         let localUrl = `http://localhost:5000/create-channel/?channel_name=${channel_name}`;
 
@@ -55,7 +52,7 @@ const ChannelService = function() {
         fetchChannelIDs, 
         fetchMessagesChannel,
         checkChannelName,
-        setChannelName,
+        createChannel,
     });
 };
 
