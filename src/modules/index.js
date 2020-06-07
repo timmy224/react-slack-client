@@ -11,7 +11,7 @@ import { extractActions, extractReducers } from "./extract";
 
 const configureModules = services => {
     const channelModule = configureChannelModule(services); 
-    const userModule = configureUserModule();
+    const userModule = configureUserModule(services);
     const routeModule = configureRouteModule();
     const messageModule = configureMessageModule(services);
     const sidebarModule = configureSidebarModule();
