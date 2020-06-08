@@ -9,7 +9,6 @@ const initReducer = () => {
         type: "", 
         partnerUsername: "", 
         channelId: "",
-        messages: [],
         currentInput: "",
     };
 
@@ -30,23 +29,6 @@ const initReducer = () => {
                     type: "private",
                     partnerUsername: payload,
                     channelId: "", // Clear out channelId in case we were just chatting in a channel
-                };
-            case types.MESSAGE_RECEIVED:
-                return {
-                    ...state,
-                    messages: [...state.messages, payload]
-                };
-            case types.FETCH_CHANNEL_MESSAGES:
-                console.log("FETCH_CHANNEL_MESSAGES");
-                return {
-                    ...state,
-                    messages: payload, 
-                };
-            case types.FETCH_PRIVATE_MESSAGES:
-                    console.log("FETCH_CHANNEL_MESSAGES");
-                return {
-                    ...state,
-                    messages: payload,
                 };
             case types.INPUT_UPDATED:
                 return {
