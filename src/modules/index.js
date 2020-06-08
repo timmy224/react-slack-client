@@ -4,6 +4,9 @@ import configureChannelModule from "./channel";
 import configureUserModule from './user';
 import configureRouteModule from './routes'
 import configureMessageModule from './message'
+import configureSidebarModule from "./sidebar";
+import configureChatModule from "./chat";
+import configureMainModule from "./main";
 import { extractActions, extractReducers } from "./extract";
 
 const configureModules = services => {
@@ -11,12 +14,18 @@ const configureModules = services => {
     const userModule = configureUserModule();
     const routeModule = configureRouteModule();
     const messageModule = configureMessageModule(services);
+    const sidebarModule = configureSidebarModule();
+    const chatModule = configureChatModule();
+    const mainModule = configureMainModule();
 
     const modules = {
          channel: channelModule, 
          user: userModule,
          route: routeModule,
-         message: messageModule
+         message: messageModule,
+         sidebar: sidebarModule,
+         chat: chatModule,
+         main: mainModule,
     };
 
     return {

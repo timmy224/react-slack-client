@@ -2,17 +2,14 @@
 
 import types from "./types";
 import { actionCreator } from "../utils";
+import { actions } from "../../context";
 
 const initActions = function (channelService) {
     const fetchChannels = actionCreator(types.FETCH_CHANNELS);
     const fetchChannelIDs = () => async (dispatch) => {
         const channels = await channelService.fetchChannelIDs();
+        console.log("Channels fetched");
         dispatch(fetchChannels(channels));
-    };
-
-    const channelSelect = actionCreator(types.CHANNEL_SELECT);
-    const selectChannel = (channel_id) => async (dispatch) => {
-        dispatch(channelSelect(channel_id));
     };
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET)
@@ -26,7 +23,6 @@ const initActions = function (channelService) {
 	};
 
     return { fetchChannelIDs,
-             selectChannel, 
              createChannel,
              takenChannelName, 
            };
