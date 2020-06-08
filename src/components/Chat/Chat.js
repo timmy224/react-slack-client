@@ -40,6 +40,8 @@ class Chat extends React.Component {
                         const isPartnerMatch = message["sender"] === this.props.partnerUsername;
                         return isPartnerMatch;
                     }
+                } else {
+                    return false;
                 }
             }))
             .subscribe((message) => {
