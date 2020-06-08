@@ -1,36 +1,67 @@
+import types from "./types";
 import sidebarTypes from "../sidebar/types";
 
 const initReducer = () => {
     /* type can be "private" or "channel" depending on what kind of chat we have open. 
-    receiverUsername will be set to the username of the person we're chatting with.
-    channelId will be set to the id of the channel we're chatting in.  */
+partnerUsername will be set to the username of the person we're chatting with.
+channelId will be set to the id of the channel we're chatting in.  */
     const INITIAL_STATE = {
         type: "", 
-        receiverUsername: "", 
+        partnerUsername: "", 
         channelId: "",
+        channelMessages: [],
+        privateMessages: [],
+        currentInput: "",
     };
-    
+
     const reducer = (state = INITIAL_STATE, action) => {
         const { type, payload } = action;
+
         switch (type) {
             case sidebarTypes.CHANNEL_SELECT:
                 return {
                     ...state,                    
                     type: "channel",
                     channelId: payload,
-                    receiverUsername: "", // Clear out receiverUsername in case we were just private messaging
+                    partnerUsername: "", // Clear out partnerUsername in case we were just private messaging
                 };
             case sidebarTypes.USER_SELECT:
                 return {
                     ...state,                    
                     type: "private",
-                    receiverUsername: payload,
+                    partnerUsername: payload,
                     channelId: "", // Clear out channelId in case we were just chatting in a channel
                 };
-            default: 
+            case types.MESSAGE_RECEIVED:
+                return {
+                    ...state,
+                    channelMessages: [...state.channelMessages, payload]
+                };
+            case types.FETCH_CHANNEL_MESSAGES:
+                return {
+                    ...state,
+                    channelMessages: payload, 
+                };
+            case types.FETCH_PRIVATE_MESSAGES:
+                return {
+                    ...state,
+                    privateMessages: payload,
+                };
+            case types.INPUT_UPDATED:
+                return {
+                    ...state,
+                    currentInput: payload,
+                };
+            case types.CLEAR_INPUT:
+                return {
+                    ...state,
+                    currentInput: "",
+                };
+            default:
                 return state;
         }
     };
+
     return reducer;
 };
 

@@ -1,10 +1,11 @@
 import initActions from "./actions";
 import initReducer from "./reducer";
 
-const configureModule = () => {
-    const actions = initActions();
+const configureChatModule = (services) => {
+    const actions = initActions(services.messageService);
     const reducer = initReducer();
+
     return { actions, reducer };
 };
 
-export default configureModule;
+export default configureChatModule;

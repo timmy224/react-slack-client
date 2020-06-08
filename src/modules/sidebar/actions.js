@@ -12,13 +12,13 @@ const initActions = function() {
     const channelSelect = actionCreator(types.CHANNEL_SELECT);
     const selectChannel = channel_id => (dispatch) => {
         dispatch(channelSelect(channel_id));
-        dispatch(actions.message.fetchMessagesChannel(channel_id));
+        dispatch(actions.chat.fetchMessagesChannel(channel_id));
     };
 
     const userSelect = actionCreator(types.USER_SELECT);
     const selectUser = selectedUsername => (dispatch) => {
         dispatch(userSelect(selectedUsername));
-        dispatch(actions.message.fetchPrivateMessages(selectedUsername));
+        dispatch(actions.chat.fetchPrivateMessages(selectedUsername));
     };
 
     return { initSidebar, selectChannel, selectUser };

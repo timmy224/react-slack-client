@@ -11,15 +11,15 @@ const mapStateToProps = (state) => {
     return {
         username: state.user.username,
         routePath: state.route.routePath,
-        channelMessages: state.message.channelMessages,
+        channelMessages: state.chat.channelMessages,
         channel_id: state.channel.channel_id,
-        currentInput: state.message.currentInput,
+        currentInput: state.chat.currentInput,
     }
 }
 
 const mapActionsToProps = {
     changeRoute: actions.route.changeRoute,
-    messageReceived: actions.message.messageReceived
+    messageReceived: actions.chat.messageReceived
 }
 
 class Chat extends React.Component {

@@ -8,7 +8,6 @@ const ChannelService = function() {
             .then(data => JSON.parse(data.channels));
     }
 
-    //console.log(fetchChannels())
     return Object.freeze({
         fetchChannelIDs, 
     });
