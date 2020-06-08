@@ -4,8 +4,7 @@ import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 // Depends on chatService, socketService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { actions, services } from "../../context";
 
 const mapStateToProps = (state) => {
     return {
@@ -51,7 +50,7 @@ class Chat extends React.Component {
     }
 
     onEnterPressed = () => {
-        let {currentInput, chatType, channelId, partnerUsername, username } = this.props;
+        let { currentInput, chatType, channelId, partnerUsername, username } = this.props;
         const messageType = chatType;
         const messageContent = currentInput;
         const destination = chatType === "channel" ? channelId : partnerUsername;

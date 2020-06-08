@@ -4,9 +4,10 @@ import { actions } from "../../context";
 
 const initActions = function() {
     const initSidebar = () => async (dispatch) => {
-        await dispatch(actions.channel.fetchChannelIDs());
-        await dispatch(actions.user.fetchUsernames());
-        // TODO in future: figure out how to make server calls at the same time and resolve on both returning
+        await Promise.all([
+            dispatch(actions.channel.fetchChannelIDs()),
+            dispatch(actions.user.fetchUsernames())
+        ]);
     }
 
     const channelSelect = actionCreator(types.CHANNEL_SELECT);
