@@ -16,7 +16,7 @@ const initActions = function (channelService) {
     };
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET)
-	const setChannelName = (channel_name) => (dispatch)=>{
+	const createChannel = (channel_name) => (dispatch)=>{
 		dispatch(channelNameSet(channel_name))
     };
     
@@ -27,7 +27,7 @@ const initActions = function (channelService) {
 
     return { fetchChannelIDs,
              selectChannel, 
-             setChannelName,
+             createChannel,
              takenChannelName, 
            };
 };
