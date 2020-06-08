@@ -49,9 +49,11 @@ class Chat extends React.Component {
     }
 
     onEnterPressed = () => {
-        let {username, channelId} = this.props;
-        let message_content = this.props.currentInput;
-        const message = services.chatService.prepareMessage(message_content, username, channelId);
+        let {currentInput, chatType, channelId, partnerUsername, username } = this.props;
+        const messageType = chatType;
+        const messageContent = currentInput;
+        const destination = chatType === "channel" ? channelId : partnerUsername;
+        const message = services.chatService.prepareMessage(messageType, messageContent, username, destination);
         services.socketService.send("send-message", message);
     }
 
@@ -60,8 +62,6 @@ class Chat extends React.Component {
     }
 
     render() {
-        console.log("Going to log props");
-        console.log(this.props);
         const { messages } = this.props;
         return (
             <div>
