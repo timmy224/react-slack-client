@@ -4,28 +4,45 @@ import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 // Depends on chatService, socketService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { actions, services } from "../../context";
 
 const mapStateToProps = (state) => {
     return {
         username: state.user.username,
-        routePath: state.route.routePath,
-        channelMessages: state.message.channelMessages,
-        channel_id: state.channel.channel_id,
-        currentInput: state.message.currentInput,
+        chatType: state.chat.type,
+        partnerUsername: state.chat.partnerUsername,
+        channelId: state.chat.channelId,
+        messages: state.chat.messages,
+        currentInput: state.chat.currentInput,
     }
 }
 
 const mapActionsToProps = {
-    changeRoute: actions.route.changeRoute,
-    messageReceived: actions.message.messageReceived
+    messageReceived: actions.chat.messageReceived
 }
 
 class Chat extends React.Component {
     componentDidMount() {
         services.chatService.getMessages$()
-            .pipe(filter(message => message['channel_id'] == this.props.channel_id))
+            .pipe(filter(message => {
+                /* none of this logic will be necessary once we have a redux map object storing
+                all received messages (my next task)
+                */
+                const isMsgChatTypeMatch = message["type"] === this.props.chatType;
+                if (isMsgChatTypeMatch) {
+                    const isChannelMessage = message["type"] === "channel";
+                    const isPrivateMessage = message["type"] === "private";
+                    if (isChannelMessage) {
+                        const isChannelMatch = message["channel_id"] === this.props.channelId;
+                        return isChannelMatch;
+                    } else if (isPrivateMessage) {
+                        const isPartnerMatch = message["sender"] === this.props.partnerUsername;
+                        return isPartnerMatch;
+                    }
+                } else {
+                    return false;
+                }
+            }))
             .subscribe((message) => {
                 console.log("Received a message through the observable: ", message);
                 this.props.messageReceived(message)
@@ -33,27 +50,24 @@ class Chat extends React.Component {
     }
 
     onEnterPressed = () => {
-        let {username, channel_id} = this.props;
-        let message_content = this.props.currentInput;
-        const message = services.chatService.prepareMessage(message_content, username, channel_id);
+        let { currentInput, chatType, channelId, partnerUsername, username } = this.props;
+        const messageType = chatType;
+        const messageContent = currentInput;
+        const destination = chatType === "channel" ? channelId : partnerUsername;
+        const message = services.chatService.prepareMessage(messageType, messageContent, username, destination);
         services.socketService.send("send-message", message);
     }
-
-    routeToChannelTest = () => {
-        this.props.changeRoute({ path: "/channel-test" });
-    };
 
     printProps = () => {
         console.log(this.props)
     }
 
     render() {
-        const { channelMessages } = this.props;
+        const { messages } = this.props;
         return (
             <div>
                 <button onClick={this.printProps}>Print Prop</button>
-                <button onClick={this.routeToChannelTest}>Route to Channel Test</button>
-                {channelMessages.map((message) => {
+                {messages.map((message) => {
                     return (<Message key={message.username + message.content}
                         time={message.time_sent} usernames={message.sender} text={message.content} />);
                 })}

@@ -4,13 +4,13 @@ import { actions } from "../../context";
 
 const mapStateToProps = state => {
 	return {
-		currentInput: state.message.currentInput	
+		currentInput: state.chat.currentInput	
 	};
 };
 
 const mapActionsToProps = {
-	updateInput: actions.message.updateInput,
-	inputClear: actions.message.inputClear,
+	updateInput: actions.chat.updateInput,
+	inputClear: actions.chat.inputClear,
 };
 
 class InputMessage extends Component {
