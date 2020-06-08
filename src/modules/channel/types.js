@@ -2,5 +2,4 @@
 
 export default {
     FETCH_CHANNELS: 'FETCH_CHANNELS',
-    CHANNEL_SELECT: 'CHANNEL_SELECT',
 }

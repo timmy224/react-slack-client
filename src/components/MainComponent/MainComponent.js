@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "../../context";
 import Chat from "../Chat/Chat";
 import SideBar from "../SideBar/SideBar";
+import { actions } from "../../context";
 
 class MainComponent extends Component {
-  fetchMessages = () => {
-    this.props.fetchMessages();
-  };
-  fetchChannels = () => {
-    this.props.fetchChannels();
-  };
+  componentDidMount() {
+      this.props.initMain();
+  }
+
   render() {
     return (
       <div>
@@ -20,16 +18,11 @@ class MainComponent extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    channels: state.channel.list,
-    messages: state.channel.messages,
-  };
-};
+
+const mapStateToProps = (state) => ({});
 
 const mapActionsToProps = {
-  fetchChannels: actions.channel.fetchChannels,
-  fetchMessages: actions.channel.fetchMessages,
+    initMain: actions.main.initMain,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(MainComponent);
