@@ -3,14 +3,13 @@ import sidebarTypes from "../sidebar/types";
 
 const initReducer = () => {
     /* type can be "private" or "channel" depending on what kind of chat we have open. 
-partnerUsername will be set to the username of the person we're chatting with.
-channelId will be set to the id of the channel we're chatting in.  */
+    partnerUsername will be set to the username of the person we're chatting with.
+    channelId will be set to the id of the channel we're chatting in.  */
     const INITIAL_STATE = {
         type: "", 
         partnerUsername: "", 
         channelId: "",
-        channelMessages: [],
-        privateMessages: [],
+        messages: [],
         currentInput: "",
     };
 
@@ -35,17 +34,19 @@ channelId will be set to the id of the channel we're chatting in.  */
             case types.MESSAGE_RECEIVED:
                 return {
                     ...state,
-                    channelMessages: [...state.channelMessages, payload]
+                    messages: [...state.messages, payload]
                 };
             case types.FETCH_CHANNEL_MESSAGES:
+                console.log("FETCH_CHANNEL_MESSAGES");
                 return {
                     ...state,
-                    channelMessages: payload, 
+                    messages: payload, 
                 };
             case types.FETCH_PRIVATE_MESSAGES:
+                    console.log("FETCH_CHANNEL_MESSAGES");
                 return {
                     ...state,
-                    privateMessages: payload,
+                    messages: payload,
                 };
             case types.INPUT_UPDATED:
                 return {
