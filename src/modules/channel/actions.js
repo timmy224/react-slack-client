@@ -7,7 +7,7 @@ const initActions = function (channelService) {
     const fetchChannels = () => async (dispatch) => {
         const channels = await channelService.fetchChannels();
         const channelsMap = {};
-        for (var channel of channels) {
+        for (let channel of channels) {
             channelsMap[channel.channel_id] = channel;
         }
         dispatch(channelsFetch(channelsMap));

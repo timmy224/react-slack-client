@@ -3,7 +3,7 @@
 */
 const UtilityService = function() {
     const isEmpty = obj => {
-        for (var x in obj) { return false; }
+        for (let x in obj) { return false; }
         return true;
     }
 
