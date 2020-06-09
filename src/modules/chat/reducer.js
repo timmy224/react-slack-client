@@ -8,7 +8,7 @@ const initReducer = () => {
     const INITIAL_STATE = {
         type: "", 
         partnerUsername: "", 
-        channelId: null,
+        channel: null,
         currentInput: "",
     };
 
@@ -21,7 +21,7 @@ const initReducer = () => {
                 return {
                     ...state,                    
                     type: "channel",
-                    channelId: payload,
+                    channel: payload,
                     partnerUsername: "", // Clear out partnerUsername in case we were just private messaging
                 };
             case sidebarTypes.USER_SELECT:
@@ -29,7 +29,7 @@ const initReducer = () => {
                     ...state,                    
                     type: "private",
                     partnerUsername: payload,
-                    channelId: "", // Clear out channelId in case we were just chatting in a channel
+                    channel: "", // Clear out channel in case we were just chatting in a channel
                 };
             case types.INPUT_UPDATED:
                 return {

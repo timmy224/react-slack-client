@@ -4,7 +4,7 @@ import types from "./types";
 
 const initReducer = () => {
     const INITIAL_STATE = {
-        channels: [],
+        channels: {},
         channel_name: '',
         show_taken_msg: false,
     };

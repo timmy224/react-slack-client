@@ -16,10 +16,10 @@ class Chat extends React.Component {
     }
 
     onEnterPressed = () => {
-        let { currentInput, chatType, channelId, partnerUsername, username } = this.props;
+        let { currentInput, chatType, channel, partnerUsername, username } = this.props;
         const messageType = chatType;
         const messageContent = currentInput;
-        const destination = chatType === "channel" ? channelId : partnerUsername;
+        const destination = chatType === "channel" ? channel.channel_id : partnerUsername;
         const message = services.chatService.prepareMessage(messageType, messageContent, username, destination);
         services.socketService.send("send-message", message);
     }
@@ -50,13 +50,13 @@ const mapStateToProps = (state) => {
         username: state.user.username,
         chatType: state.chat.type,
         partnerUsername: state.chat.partnerUsername,
-        channelId: state.chat.channelId,
+        channel: state.chat.channel,
         currentInput: state.chat.currentInput,
     }
     const isChannelChat = mapping.chatType === "channel";
     const isPrivateChat = mapping.chatType === "private";
     if (isChannelChat) {
-        mapping.messages = state.message.channelMessages[mapping.channelId];
+        mapping.messages = state.message.channelMessages[mapping.channel.channel_id];
     } else if (isPrivateChat) {
         mapping.messages = state.message.privateMessages[mapping.partnerUsername];
     }

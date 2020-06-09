@@ -3,11 +3,8 @@ import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
 const initActions = function () {
-    const initChat = () => async (dispatch, getState) => {
-        const channelId = getState().chat.channelId;
-        if (channelId !== null) {
-            dispatch(actions.message.fetchChannelMessages(channelId));
-        }
+    const initChat = () => (dispatch, getState) => {
+        // Doesn't do anything atm
     };
 
     const inputUpdated = actionCreator(types.INPUT_UPDATED);
