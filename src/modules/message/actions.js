@@ -26,7 +26,6 @@ const initActions = function(messageService) {
 
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
     const fetchChannelMessages = channelId => async (dispatch) => {
-        console.log("Fetch channel id: ", channelId);
         const messages = await messageService.fetchChannelMessages(channelId);
         const messagesPayload = {
             channelId: channelId,
