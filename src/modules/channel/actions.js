@@ -3,10 +3,14 @@ import types from "./types";
 import { actionCreator } from "../utils";
 
 const initActions = function (channelService) {
-    const fetchChannels = actionCreator(types.FETCH_CHANNELS);
-    const fetchChannelIDs = () => async (dispatch) => {
-        const channels = await channelService.fetchChannelIDs();
-        dispatch(fetchChannels(channels));
+    const channelsFetch = actionCreator(types.FETCH_CHANNELS);
+    const fetchChannels = () => async (dispatch) => {
+        const channels = await channelService.fetchChannels();
+        const channelsMap = {};
+        for (let channel of channels) {
+            channelsMap[channel.channel_id] = channel;
+        }
+        dispatch(channelsFetch(channelsMap));
     };
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET)
@@ -19,7 +23,7 @@ const initActions = function (channelService) {
 		dispatch(channelNameTaken(isChannelNameTaken))
 	};
 
-    return { fetchChannelIDs,
+    return { fetchChannels,
              createChannel,
              takenChannelName, 
            };

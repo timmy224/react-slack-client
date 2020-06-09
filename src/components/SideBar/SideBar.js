@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "../../context";
+import { actions, services } from "../../context";
 
 class SideBar extends Component {
 
@@ -14,17 +14,18 @@ class SideBar extends Component {
 
     render() {
         const { channels, usernames } = this.props;
-        let channelsDisplay = !channels.length ?
+        let isChannelsEmpty = services.utilityService.isEmpty(channels);
+        let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
-            : (channels.map((el) => <button
-                value={el}
+            : (Object.entries(channels).map(([channel_id, channel]) => <button
+                value={channel.channel_id}
                 onClick={this.selectChannel}
-                key={el}>
-                Channel #{el}
+                key={channel.channel_id}>
+                {channel.name}
             </button>));
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
-                : (usernames.map((username) => <button 
+                : (usernames.map(username => <button 
                     value={username}
                     onClick={this.selectUser}
                     key={username}>

@@ -6,21 +6,6 @@ import { services } from "../../context";
 import { take } from "rxjs/operators";
 import { actions } from "../../context";
 
-const mapStateToProps = (state)=>{
-    return { 
-        channel_name: state.channel.channel_name,
-        show_taken_msg: state.channel.show_taken_msg,
-        routePath: state.route.routePath,
-        routeState: state.route.routeState,
-    }
-}
-const mapActionsToProps = {
-    createChannel: actions.channel.createChannel,
-    takenChannelName: actions.channel.takenChannelName,
-    changeRoute: actions.route.changeRoute,
-    fetchChannels: actions.channel.fetchChannelIDs,
-}
-
 class CreateChannel extends React.Component {
     handleSubmit = (event) => {
         const { channel_name, takenChannelName, changeRoute, fetchChannels } = this.props
@@ -28,10 +13,8 @@ class CreateChannel extends React.Component {
         event.preventDefault();
         services.channelService.checkChannelName(channel_name).then(isAvailable => {
             if (isAvailable) {
-                // TODO: remove during merge (main comp initiates channel fetch in sidebar)
                 services.channelService.createChannel(channel_name);
                 changeRoute({path:"/main"});
-                fetchChannels();
             } else {
                 takenChannelName(true);
             }
@@ -59,10 +42,20 @@ class CreateChannel extends React.Component {
             </Fragment>            
         );
     }
+}
 
-
-
-
+const mapStateToProps = (state)=>{
+    return { 
+        channel_name: state.channel.channel_name,
+        show_taken_msg: state.channel.show_taken_msg,
+        routePath: state.route.routePath,
+        routeState: state.route.routeState,
+    }
+}
+const mapActionsToProps = {
+    createChannel: actions.channel.createChannel,
+    takenChannelName: actions.channel.takenChannelName,
+    changeRoute: actions.route.changeRoute,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);

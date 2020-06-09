@@ -8,8 +8,7 @@ const initReducer = () => {
     const INITIAL_STATE = {
         type: "", 
         partnerUsername: "", 
-        channelId: "",
-        messages: [],
+        channel: null,
         currentInput: "",
     };
 
@@ -18,10 +17,11 @@ const initReducer = () => {
 
         switch (type) {
             case sidebarTypes.CHANNEL_SELECT:
+                console.log("CHANNEL_SELECT", payload);
                 return {
                     ...state,                    
                     type: "channel",
-                    channelId: payload,
+                    channel: payload,
                     partnerUsername: "", // Clear out partnerUsername in case we were just private messaging
                 };
             case sidebarTypes.USER_SELECT:
@@ -29,24 +29,7 @@ const initReducer = () => {
                     ...state,                    
                     type: "private",
                     partnerUsername: payload,
-                    channelId: "", // Clear out channelId in case we were just chatting in a channel
-                };
-            case types.MESSAGE_RECEIVED:
-                return {
-                    ...state,
-                    messages: [...state.messages, payload]
-                };
-            case types.FETCH_CHANNEL_MESSAGES:
-                console.log("FETCH_CHANNEL_MESSAGES");
-                return {
-                    ...state,
-                    messages: payload, 
-                };
-            case types.FETCH_PRIVATE_MESSAGES:
-                    console.log("FETCH_CHANNEL_MESSAGES");
-                return {
-                    ...state,
-                    messages: payload,
+                    channel: null, // Clear out channel in case we were just chatting in a channel
                 };
             case types.INPUT_UPDATED:
                 return {
