@@ -20,21 +20,30 @@ const initActions = function(messageService) {
                 partnerUsername: partnerUsername,
                 message: message
             };
-            dispath(receivedPrivateMessage(messagePayload));
+            dispatch(receivedPrivateMessage(messagePayload));
         }
     };
 
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
-    const fetchChannelMessages = channel_id => async (dispatch) => {
-        const channelMessages = await messageService.fetchChannelMessages(channel_id);
-        dispatch(fetchMessagesChannel(channelMessages));
+    const fetchChannelMessages = channelId => async (dispatch) => {
+        console.log("Fetch channel id: ", channelId);
+        const messages = await messageService.fetchChannelMessages(channelId);
+        const messagesPayload = {
+            channelId: channelId,
+            messages: messages,
+        };
+        dispatch(fetchMessagesChannel(messagesPayload));
     };
 
     const fetchMessagesPrivate = actionCreator(types.FETCH_PRIVATE_MESSAGES);
     const fetchPrivateMessages = partnerUsername => async (dispatch, getState) => {
         const ourUsername = getState().user.username;
-        const privateMessages = await messageService.fetchPrivateMessages(ourUsername, partnerUsername);
-        dispatch(fetchMessagesPrivate(privateMessages));
+        const messages = await messageService.fetchPrivateMessages(ourUsername, partnerUsername);
+        const messagesPayload = {
+            partnerUsername: partnerUsername,
+            messages: messages,
+        };
+        dispatch(fetchMessagesPrivate(messagesPayload));
     };
 
     return { messageReceived, fetchChannelMessages, fetchPrivateMessages };

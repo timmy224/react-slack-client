@@ -8,7 +8,7 @@ const initReducer = () => {
     const INITIAL_STATE = {
         type: "", 
         partnerUsername: "", 
-        channelId: "",
+        channelId: null,
         currentInput: "",
     };
 
@@ -17,6 +17,7 @@ const initReducer = () => {
 
         switch (type) {
             case sidebarTypes.CHANNEL_SELECT:
+                console.log("CHANNEL_SELECT", payload);
                 return {
                     ...state,                    
                     type: "channel",

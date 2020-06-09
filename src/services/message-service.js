@@ -1,9 +1,9 @@
 const MessageService = function() {
-    const fetchChannelMessages = (channel_id) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/messages/?channelId=${channel_id}`;
-        let localUrl = `http://localhost:5000/messages/?channelId=${channel_id}`;
+    const fetchChannelMessages = (channelId) => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/messages/?channelId=${channelId}`;
+        let localUrl = `http://localhost:5000/messages/?channelId=${channelId}`;
         
-        return fetch(remoteUrl)
+        return fetch(localUrl)
             .then(response => response.json())
             .then(data => JSON.parse(data.messages));
     };
