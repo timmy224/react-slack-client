@@ -16,7 +16,6 @@ function ChatService(userService) {
             sent_dt: new Date().toLocaleDateString("en-US", dateOptions).replace(",", ""),
             content,
         };
-        console.log("Prepared message", message);
         if (type === "channel") {
             message.channel_id = destination;
         } else if (type === "private") {
