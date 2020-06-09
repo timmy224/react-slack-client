@@ -29,7 +29,7 @@ const initReducer = () => {
                     ...state,                    
                     type: "private",
                     partnerUsername: payload,
-                    channel: "", // Clear out channel in case we were just chatting in a channel
+                    channel: null, // Clear out channel in case we were just chatting in a channel
                 };
             case types.INPUT_UPDATED:
                 return {
