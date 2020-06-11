@@ -5,11 +5,18 @@ import { actions, services } from "../../context";
 class SideBar extends Component {
 
     selectChannel = (event) => {
+        console.log('selectChannel', event.target.value)
         this.props.selectChannel(event.target.value);
     }
 
     selectUser = (event) => {
         this.props.selectUser(event.target.value);
+    }
+    handleDelete = (event) => {
+        let channel_id = event.target.value
+        services.channelService.deleteChannel(channel_id);
+        services.channelService.fetchChannels();
+
     }
 
     render() {
@@ -17,12 +24,21 @@ class SideBar extends Component {
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
-            : (Object.entries(channels).map(([channel_id, channel]) => <button
-                value={channel.channel_id}
-                onClick={this.selectChannel}
-                key={channel.channel_id}>
-                {channel.name}
-            </button>));
+            : (Object.entries(channels).map(([channel_id, channel]) => 
+                <div>
+                    <button
+                        value={channel.channel_id}
+                        onClick={this.selectChannel}
+                        key={channel.channel_id}>
+                        {channel.name}
+                    </button>
+                    <button
+                        value={channel.channel_id}
+                        onClick={this.handleDelete}
+                        >delete
+                    </button>
+                </div>
+                ));
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
                 : (usernames.map(username => <button 

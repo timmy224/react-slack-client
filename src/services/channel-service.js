@@ -38,11 +38,33 @@ const ChannelService = function() {
             .then(response => response.json())
             .then(data => data.isAvailable);
     }
+    const deleteChannel = channel_id => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel/?channel_id=${channel_id}`;
+        let localUrl = `http://localhost:5000/delete-channel/?channel_id=${channel_id}`;
+
+        //podt data
+        const post_data ={
+            "channel_id": channel_id,
+        }
+        const options = {
+            method: "DELETE",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return fetch(localUrl, options)
+            .then(response => response.json())
+            .then(data => data.channels)
+
+    }
     //console.log(fetchChannels())
     return Object.freeze({
         fetchChannels, 
         checkChannelName,
         createChannel,
+        deleteChannel
     });
 };
 
