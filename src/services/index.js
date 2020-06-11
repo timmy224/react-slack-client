@@ -14,7 +14,7 @@ const configureServices = () => {
     const storageService = StorageService();
     const userService = UserService(storageService);
     const chatService = ChatService(userService);
-    const socketService = SocketService(chatService);
+    const socketService = SocketService(chatService, channelService);
     const utilityService = UtilityService();
 
     return {

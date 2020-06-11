@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
 
-function SocketService(chatService) {
+function SocketService(chatService, channelService) {
     let socket;
     let connected$ = new Subject();
 
@@ -54,6 +54,9 @@ function SocketService(chatService) {
              Content: ${message_received.content}`
             );
             chatService.onMessageReceived(message_received);
+        })
+        socket.on("channel-deleted", () => {
+            channelService.fetchChannels();
         })
     }
 
