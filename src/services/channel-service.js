@@ -56,7 +56,7 @@ const ChannelService = function() {
 
         return fetch(localUrl, options)
             .then(response => response.json())
-            .then(data => data.channels)
+            .then(data => data.successful)
 
     }
     //console.log(fetchChannels())

@@ -58,10 +58,10 @@ function SocketService(chatService, channelService) {
         socket.on("channel-deleted", () => {
             channelService.fetchChannels();
         })
-        // socket.on("added-to-channel",() =>{
-        //     channelService.fetchChannels();
-        //     send("join-channel", channel_id)
-        // })
+        socket.on("added-to-channel",(channel_id) =>{
+            // channelService.fetchChannels();
+            send("join-channel", channel_id)
+        })
     }
 
     return Object.freeze({

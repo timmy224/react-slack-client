@@ -40,7 +40,7 @@ class App extends Component {
             services.socketService.connect({ username: username });
         }
     }
-
+    
     setupConnectedSubscription() {
         const { changeRoute } = this.props
         services.socketService.getConnected$()
