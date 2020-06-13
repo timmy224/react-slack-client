@@ -3,7 +3,7 @@ import { Subject } from "rxjs";
 import configureStore from "../store";
 import { actions } from "../context";
 
-function SocketService(chatService, channelService) {
+function SocketService(chatService) {
     let socket;
     let connected$ = new Subject();
 
