@@ -21,7 +21,7 @@ function SocketService(chatService) {
     const send = (event_name, obj) => {
         // assuming socket declared when connected
         socket.emit(event_name, obj)
-        console.log(event_name, " with ", obj, " sent.")
+        // console.log(event_name, " with ", obj, " sent.")
     };
 
     const disconnect = () => {
@@ -54,6 +54,10 @@ function SocketService(chatService) {
              Content: ${message_received.content}`
             );
             chatService.onMessageReceived(message_received);
+        })
+        socket.on("event-received", (message) =>{
+            // return console.log('wk1 challenge:', message)
+            chatService.onChallengeReceived(message)
         })
     }
 

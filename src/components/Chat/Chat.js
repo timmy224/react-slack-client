@@ -13,6 +13,10 @@ class Chat extends React.Component {
                 console.log("Received a message through the observable: ", message);
                 this.props.messageReceived(message)
             })
+        services.chatService.getChallenge$()
+            .subscribe((message)=>{
+                console.log("Received a message through MY observable: ", message);
+            })
     }
 
     onEnterPressed = () => {
@@ -23,9 +27,16 @@ class Chat extends React.Component {
         const message = services.chatService.prepareMessage(messageType, messageContent, username, destination);
         services.socketService.send("send-message", message);
     }
+    echoClick = () => {
+        services.messageService.sendTestMessage()
+    }
 
     printProps = () => {
         console.log(this.props)
+    }
+    socketClick = () => {
+        const message = 'challenge wk1'
+        services.socketService.send("my-special-event", message)
     }
 
     render() {
@@ -40,6 +51,8 @@ class Chat extends React.Component {
                 <InputMessage
                     onEnter={this.onEnterPressed}
                 />
+                <button onClick={this.echoClick}>echo</button>
+                <button onClick={this.socketClick}>socket</button>
             </div>
         );
     }

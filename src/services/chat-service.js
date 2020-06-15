@@ -3,9 +3,11 @@ import { Subject } from "rxjs";
 function ChatService(userService) {
     let messages$ = new Subject();
     let joinedChat$ = new Subject();
+    let challenge$ = new Subject();
 
     const getMessages$ = () => messages$;
     const getJoinedChat$ = () => joinedChat$;
+    const getChallenge$ = () => challenge$;
 
     // destination parameter can either be a username or channel_id
     const prepareMessage = (type, content, sender, destination) => {
@@ -34,13 +36,17 @@ function ChatService(userService) {
 
     const onUserJoinedChat = (username) => joinedChat$.next(username);
 
+    const onChallengeReceived = (message) => challenge$.next(message)
+
     return Object.freeze({
         getMessages$,
         getJoinedChat$,
+        getChallenge$,
         prepareMessage,
         onMessagesReceived,
         onMessageReceived,
         onUserJoinedChat,
+        onChallengeReceived
     });
 }
 

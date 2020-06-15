@@ -16,10 +16,18 @@ const MessageService = function() {
             .then(response => response.json())
             .then(data => JSON.parse(data.messages));
     }
+    const sendTestMessage = ()=>{
+        let localUrl = 'http://localhost:5000/echo/';
+
+        return fetch(localUrl)
+            .then(response => response.json())
+            .then(data => console.log(data));
+    }
 
     return Object.freeze({
         fetchChannelMessages,
         fetchPrivateMessages,
+        sendTestMessage
     });
 };
 
