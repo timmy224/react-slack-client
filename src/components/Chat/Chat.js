@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
+import Challenge from "../Challenge/Challenge"
 // Depends on chatService, socketService
 import { actions, services } from "../../context";
 
@@ -40,6 +41,7 @@ class Chat extends React.Component {
                 <InputMessage
                     onEnter={this.onEnterPressed}
                 />
+                <Challenge />
             </div>
         );
     }
