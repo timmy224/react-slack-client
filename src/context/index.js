@@ -2,16 +2,20 @@
 
 import actions, { registerActions } from "./actionRegistry";
 import services, { registerServices }from "./serviceRegistry";
+import dispatch, { registerDispatch }from "./dispatchRegistry";
 
 export {
     actions,
-    services
+    services,
+    dispatch
 };
 
 export default {
     actions,
     registerActions,
     services,
-    registerServices
+    registerServices,
+    dispatch,
+    registerDispatch
 };
 
