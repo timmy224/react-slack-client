@@ -1,6 +1,5 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
-import configureStore from "../store";
 import { actions, dispatch } from "../context";
 
 function SocketService(chatService) {
