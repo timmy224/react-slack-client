@@ -1,5 +1,6 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
+import { actions, dispatch } from "../context";
 
 function SocketService(chatService) {
     let socket;
@@ -55,6 +56,14 @@ function SocketService(chatService) {
             );
             chatService.onMessageReceived(message_received);
         })
+        socket.on("channel-deleted", () => {
+            dispatch(actions.channel.fetchChannels)
+        })
+        socket.on("added-to-channel",(channelId) =>{
+            dispatch(actions.channel.fetchChannels)
+            send("join-channel", channelId)
+
+        })
     }
 
     return Object.freeze({
@@ -65,6 +74,7 @@ function SocketService(chatService) {
 }
 
 export default SocketService;
+
 
 
 

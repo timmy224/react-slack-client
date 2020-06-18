@@ -23,13 +23,14 @@ const render = async (store) => {
 (async function init() {
   const services = await configureServices();
   const { actions, reducers } = await configureModules(services);
+  const store = configureStore(reducers);
 
   context.registerServices(services);
   context.registerActions(actions);
-
-  render(configureStore(reducers));
+  context.registerDispatch(store.dispatch);
+  
+  render(store);
 })();
-
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
