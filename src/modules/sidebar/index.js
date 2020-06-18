@@ -1,7 +1,7 @@
 import initActions from "./actions";
 
-const configureModule = () => {
-    const actions = initActions();
+const configureModule = (services) => {
+    const actions = initActions(services.utilityService);
     return { actions };
 };
 

@@ -28,7 +28,6 @@ class App extends Component {
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
-        console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
             changeRoute({path:'/enter-username'});
@@ -41,7 +40,7 @@ class App extends Component {
             services.socketService.connect({ username: username });
         }
     }
-
+    
     setupConnectedSubscription() {
         const { changeRoute } = this.props
         services.socketService.getConnected$()
