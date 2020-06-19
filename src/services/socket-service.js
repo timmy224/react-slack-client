@@ -57,10 +57,10 @@ function SocketService(chatService) {
             chatService.onMessageReceived(message_received);
         })
         socket.on("channel-deleted", () => {
-            dispatch(actions.channel.fetchChannels)
+            //dispatch(actions.channel.fetchChannels)
         })
-        socket.on("added-to-channel",(channelId) =>{
-            dispatch(actions.channel.fetchChannels)
+        socket.on("added-to-channel", (channelId) =>{
+            // dispatch(actions.channel.fetchChannels)
             send("join-channel", channelId)
 
         })

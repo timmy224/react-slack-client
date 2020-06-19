@@ -15,6 +15,7 @@ class SideBar extends Component {
     handleDelete = (event) => {
         let channel_id = event.target.value
         services.channelService.deleteChannel(channel_id);
+        this.props.fetchChannels();
     }
 
     render() {
@@ -65,6 +66,7 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
+    fetchChannels: actions.channel.fetchChannels
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

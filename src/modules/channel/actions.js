@@ -25,7 +25,7 @@ const initActions = function (channelService) {
 
     return { fetchChannels,
              createChannel,
-             takenChannelName, 
+             takenChannelName,
            };
 };
 
