@@ -24,15 +24,10 @@ class Chat extends React.Component {
         services.socketService.send("send-message", message);
     }
 
-    printProps = () => {
-        console.log(this.props)
-    }
-
     render() {
         const messages = this.props.messages ? this.props.messages : [];
         return (
             <div>
-                <button onClick={this.printProps}>Print Prop</button>
                 {messages.map((message) => {
                     return (<Message key={message.username + message.content}
                         time={message.time_sent} usernames={message.sender} text={message.content} />);

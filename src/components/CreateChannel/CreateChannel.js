@@ -14,6 +14,7 @@ class CreateChannel extends React.Component {
         services.channelService.checkChannelName(channel_name).then(isAvailable => {
             if (isAvailable) {
                 services.channelService.createChannel(channel_name);
+                fetchChannels();
                 changeRoute({path:"/main"});
             } else {
                 takenChannelName(true);
@@ -56,6 +57,7 @@ const mapActionsToProps = {
     createChannel: actions.channel.createChannel,
     takenChannelName: actions.channel.takenChannelName,
     changeRoute: actions.route.changeRoute,
+    fetchChannels: actions.channel.fetchChannels
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
