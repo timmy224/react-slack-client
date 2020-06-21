@@ -19,7 +19,23 @@ const initActions = function(userService) {
 		dispatch(usernamesFetch(usernames));
 	}
 
-	return { setUsername, takenUsername, fetchUsernames };
+	const updatedFormField = actionCreator(types.FORM_FIELD_UPDATED);
+	const formFieldUpdated = (field, value) => (dispatch) => {
+		dispatch(updatedFormField({field: field, value: value}));
+	};
+
+	const formReset = actionCreator(types.RESET_FORM);
+	const resetForm = () => (dispatch) => {
+		dispatch(formReset());
+	};
+
+	const submitForm = () => async (dispatch, getState) => {
+		const userInfo = getState().user.form;
+		await userService.sendUserInfo(userInfo); 
+		dispatch(resetForm());
+	};
+
+	return { setUsername, takenUsername, fetchUsernames, formFieldUpdated, resetForm, submitForm };
 }
 
 export default initActions;

@@ -5,9 +5,16 @@ const initReducer = () =>{
         username: '',
         usernames: [],
         showTakenMsg: false,
+        form: {
+            name: "",
+            username: "",
+            email: ""
+        }
     }
 
     const reducer = ( state = INITIAL_STATE, action = {})=>{
+        console.log("Action is: ");
+        console.log(action);
         const { type, payload } = action;
         switch(type){
             case types.SET_USERNAME:
@@ -24,6 +31,25 @@ const initReducer = () =>{
                 return {
                     ...state,
                     usernames: payload
+                };
+            case types.FORM_FIELD_UPDATED:
+                const { field, value } = payload;
+                return {
+                    ...state,
+                    form: {
+                        ...state.form,
+                        [field]: value
+                    }
+                };
+            case types.RESET_FORM: 
+                console.log("we make it here");
+                return {
+                    ...state,
+                    form: {
+                        name: "",
+                        username: "",
+                        email: ""
+                    }
                 };
             default:
                 return state;

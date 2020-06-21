@@ -9,6 +9,7 @@ import Chat from "../Chat/Chat";
 import EnterUsername from "../EnterUsername/EnterUsername";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import MainComponent from "../MainComponent/MainComponent";
+import UserComponent from "../UserComponent/UserComponent";
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -18,6 +19,7 @@ const Root = ({ store }) => (
       <Route path="/main" component={MainComponent}></Route>
       <Route exact path="/enter-username" component={EnterUsername}></Route>
       <Route exact path="/create-channel" component={CreateChannel}></Route>
+      <Route exact path="/user-component" component={UserComponent}></Route>
     </Router>
   </Provider>
 );
