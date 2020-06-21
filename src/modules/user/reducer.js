@@ -13,8 +13,6 @@ const initReducer = () =>{
     }
 
     const reducer = ( state = INITIAL_STATE, action = {})=>{
-        console.log("Action is: ");
-        console.log(action);
         const { type, payload } = action;
         switch(type){
             case types.SET_USERNAME:
@@ -42,7 +40,6 @@ const initReducer = () =>{
                     }
                 };
             case types.RESET_FORM: 
-                console.log("we make it here");
                 return {
                     ...state,
                     form: {
