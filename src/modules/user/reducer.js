@@ -5,6 +5,7 @@ const initReducer = () =>{
         username: '',
         usernames: [],
         showTakenMsg: false,
+        password:'',
     }
 
     const reducer = ( state = INITIAL_STATE, action = {})=>{
@@ -25,6 +26,12 @@ const initReducer = () =>{
                     ...state,
                     usernames: payload
                 };
+            case types.SET_PASSWORD:
+                return{
+                    ...state,
+                    password:payload
+
+                }
             default:
                 return state;
         }};
