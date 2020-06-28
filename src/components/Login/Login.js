@@ -8,7 +8,6 @@ const mapStateToProps = (state)=>{
     return { 
         username:state.user.username,
         routePath: state.route.routePath,
-        routeState: state.route.routeState,
         showWrongUserMsg: state.user.showWrongUserMsg,
         showWrongPwMsg: state.user.showWrongPwMsg,
         password: state.user.password,
