@@ -25,12 +25,23 @@ class Chat extends React.Component {
     }
 
     render() {
+        // TODO channelMessages prop {object} is undefined when console logging
+        //const channel = this.props.channel
         const messages = this.props.messages ? this.props.messages : [];
+        //const messages = messages_obj[channel]
+        
+        // console.log("selected channel:", channel)
+        console.log("messages display", messages)
+
         return (
             <div>
+                {/* {messages.map((message) => {
+                    return (<Message key={messages.username + messages.content}
+                        time={messages.time_sent} usernames={messages.sender} text={messages.content} />);
+                })} */}
                 {messages.map((message) => {
-                    return (<Message key={message.username + message.content}
-                        time={message.time_sent} usernames={message.sender} text={message.content} />);
+                    return (<Message key={message.sender.username + message.content}
+                        time={message.sent_dt} usernames={message.sender.username} text={message.content} />);
                 })}
                 <InputMessage
                     onEnter={this.onEnterPressed}
@@ -41,6 +52,7 @@ class Chat extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    // TODO check if this re runs 
     const mapping = {
         username: state.user.username,
         chatType: state.chat.type,
