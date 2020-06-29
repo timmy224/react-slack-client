@@ -18,6 +18,11 @@ const mapActionsToProps = {
 }
 
 class Login extends React.Component {
+    componentDidMount() {
+        services.authService.getCSRFToken().then(response => {
+            services.storageService.set("csrf-token", response.headers.get("csrf-token"));
+        });
+    }
 
     handleSubmit = (event) => {
         const { username, wrongCredentials, changeRoute, password } = this.props

@@ -6,7 +6,7 @@ function ApiService(storageService) {
     };
 
     const addCSRFToken = options =>  {
-        const csrf_token = storageService.get("csrf_token");
+        const csrf_token = storageService.get("csrf-token");
         if (csrf_token) {
             options.headers = {
                 ...options.headers,
