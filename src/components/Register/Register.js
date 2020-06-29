@@ -34,7 +34,7 @@ class Register extends React.Component {
             if (isAvailable) {
                 setUsername(username)
                 setPassword(password)
-                services.regsisterService.registerUser(username, password)
+                services.registerService.registerUser(username, password)
                 // services.storageService.set("username", username);
                 // console.log("userService being called to SET username", username)
                 // services.socketService.connect({ username: username });
@@ -53,6 +53,7 @@ class Register extends React.Component {
         let password= event.target.value
         return this.props.setPassword(password)
     }
+   
 
     render() {
         const {showTakenMsg, changeRoute} = this.props
