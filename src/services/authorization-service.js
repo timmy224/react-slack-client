@@ -8,19 +8,16 @@ const AuthorizationService = function () {
             "username": username,
             "password": password
         }
-
         const options = {
             method: "POST",
             body: JSON.stringify(post_data),
             headers: {
                 'Content-Type': 'application/json'
-            }
-        }
-
+        }}
         return fetch(localUrl, options)
-            .then(response => response.json())
-            
+            .then(response => response.json())     
     }
+    
     return Object.freeze({
         loginUser,
     });
