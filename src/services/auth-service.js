@@ -1,4 +1,4 @@
-const AuthorizationService = function () {
+const AuthService = function (apiService) {
 
     const loginUser = (username, password) => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/login/`
@@ -14,7 +14,7 @@ const AuthorizationService = function () {
             headers: {
                 'Content-Type': 'application/json'
         }}
-        return fetch(localUrl, options)
+        return apiService.go(localUrl, options)
             .then(response => response.json())     
     }
     
@@ -23,7 +23,7 @@ const AuthorizationService = function () {
     });
 };
 
-export default AuthorizationService; 
+export default AuthService; 
 
 
 
