@@ -1,13 +1,5 @@
-const LoginService = function () {
+const AuthorizationService = function () {
 
-    const checkPassword = (password)=>{
-        let remoteUrl = `https://react-slack-server.herokuapp.com/check-password/?password=${password}`;
-        let localUrl = `http://localhost:5000/check-password/?password=${password}`;
-
-        return fetch(localUrl)
-            .then(response => response.json())
-            .then(data => data.isCorrect);
-    };
     const loginUser = (username, password) => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/login/`
         let localUrl = `http://localhost:5000/login/`
@@ -27,12 +19,16 @@ const LoginService = function () {
 
         return fetch(localUrl, options)
             .then(response => response.json())
-            .then(console.log);
+            
     }
     return Object.freeze({
-        checkPassword,
-       loginUser,
+        loginUser,
     });
 };
 
-export default LoginService;
+export default AuthorizationService; 
+
+
+
+
+

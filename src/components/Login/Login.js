@@ -1,45 +1,35 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { actions, services} from "../../context";
 
 const mapStateToProps = (state)=>{
     return { 
         username:state.user.username,
         routePath: state.route.routePath,
-        showWrongUserMsg: state.user.showWrongUserMsg,
-        showWrongPwMsg: state.user.showWrongPwMsg,
+        wrongCredentialsMsg: state.user.wrongCredentialsMsg,
         password: state.user.password,
     }
 }
 const mapActionsToProps = {
     setUsername:actions.user.setUsername,
     changeRoute:actions.route.changeRoute,
-    wrongUsername:actions.user.wrongUsername,
-    wrongPassword:actions.user.wrongPassword,
+    wrongCredentials:actions.user.wrongCredentials,
     setPassword:actions.user.setPassword,
 }
 
 class Login extends React.Component {
 
     handleSubmit = (event) => {
-        const { username, wrongPassword, changeRoute, wrongUsername, password } = this.props
-        console.log('username is:', username)
+        const { username, wrongCredentials, changeRoute, password } = this.props
         event.preventDefault();
-        services.userService.checkUsername(username).then(isAvailable => {
-            if (!isAvailable) {
-               services.loginService.checkPassword(password).then(isCorrect=>{
-               		if(isCorrect){	
-               			services.loginService.loginUser(username, password);
-               			changeRoute({path:"/main"});
-               		}else{
-               			wrongPassword(true)}});
-            }else{
-            	wrongUsername(true);
-            }
-        })
-    }
+        services.authService.loginUser(username, password)
+            .then(data=>{
+                if(data.isAuthenticated){
+                    changeRoute({path:"/main"})
+                }else{
+                    wrongCredentials(true)
+                }
+            })}
 
     onUsernameChange = (event) =>{
         let username = event.target.value
@@ -53,22 +43,23 @@ class Login extends React.Component {
 
     handleClick = ()=>{
     	console.log('click')
+        //TODO Uncomment once Sleyter's code is in project
     	// this.props.changeRoute({path:"/register"});
     };
 
     render() {
-        const { showWrongUserMsg, showWrongPwMsg } = this.props;         
-        const wrongUsername = showWrongUserMsg ? <h3>Wrong Username</h3> : null;
-        const wrongPassword = showWrongPwMsg ? <h3>Wrong Password</h3> : null;
+        const { wrongCredentialsMsg } = this.props;         
+        const credentialsIncorrect = wrongCredentialsMsg ? <h3>Wrong Username or Password</h3> : null;
 	        return(
 	        	<div>
-	        		{wrongUsername}
-	        		{wrongPassword}
-	      			<legend>Sign In</legend>
-        			<input onChange={this.onUsernameChange} type="text" placeholder="username" />
-			        <input onChange={this.onPasswordChange} type="password" placeholder="password"/>
-			      	<input onClick={this.handleSubmit} type="submit" value="Sign in"/>
-			        <button onClick={this.handleClick}>Register</button>
+	        		{credentialsIncorrect}
+                    <form>
+    	      			<legend>Sign In</legend>
+            			<input onChange={this.onUsernameChange} type="text" placeholder="username" required="required" />
+    			        <input onChange={this.onPasswordChange} type="password" placeholder="password" required="required" />
+    			      	<input onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
+                    </form>
+                    <button onClick={this.handleClick}>Register</button>
 				</div>
         	)
         }

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
 import SideBar from "../SideBar/SideBar";
 import CreateChannel from "../CreateChannel/CreateChannel"
-import Login from "../Login/Login"
 import { actions } from "../../context";
 
 class MainComponent extends Component {
