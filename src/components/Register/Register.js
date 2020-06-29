@@ -34,10 +34,12 @@ class Register extends React.Component {
             if (isAvailable) {
                 setUsername(username)
                 setPassword(password)
-                services.registerService.registerUser(username, password)
+                services.registerService.registerUser(username, password);
                 // services.storageService.set("username", username);
                 // console.log("userService being called to SET username", username)
                 // services.socketService.connect({ username: username });
+                setPassword("")
+                changeRoute({path:"/login"})
             } else {
                 takenUsername(true);
             }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
 import SideBar from "../SideBar/SideBar";
-import CreateChannel from "../CreateChannel/CreateChannel"
 import { actions } from "../../context";
 
 class MainComponent extends Component {
@@ -14,7 +13,6 @@ class MainComponent extends Component {
     return (
       <div>
         <Chat />
-        <CreateChannel />
         <SideBar />
       </div>
     );

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
+import CreateChannel from "../CreateChannel/CreateChannel";
+
 
 
 class SideBar extends Component {
@@ -37,7 +39,8 @@ class SideBar extends Component {
                         >delete
                     </button>
                 </div>
-                ));
+                )
+                );
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
                 : (usernames.map(username => <button 
@@ -48,6 +51,7 @@ class SideBar extends Component {
                     </button>))
         return (
             <div>
+                <CreateChannel />
                 {channelsDisplay}
                 {usernamesDisplay}
             </div>
