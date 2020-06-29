@@ -29,11 +29,12 @@ class Login extends React.Component {
         event.preventDefault();
         services.authService.loginUser(username, password)
             .then(data=>{
-                if(data.isAuthenticated){
-                    changeRoute({path:"/main"})
-                }else{
-                    wrongCredentials(true)
-                }
+                console.log("data", data);
+                // if(data.isAuthenticated){
+                //     changeRoute({path:"/main"})
+                // }else{
+                //     wrongCredentials(true)
+                // }
             })}
 
     onUsernameChange = (event) =>{

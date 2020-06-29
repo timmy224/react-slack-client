@@ -1,6 +1,7 @@
 function ApiService(storageService) {
     const addDefaultOptions = options => {
         options = { ...options };
+        options.credentials = "include";
         addCSRFToken(options);
         return options;
     };
