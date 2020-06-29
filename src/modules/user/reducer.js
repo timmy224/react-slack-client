@@ -5,6 +5,7 @@ const initReducer = () =>{
         username: '',
         usernames: [],
         showTakenMsg: false,
+        showWrongCred:false,
         password:'',
     }
 
@@ -30,7 +31,11 @@ const initReducer = () =>{
                 return{
                     ...state,
                     password:payload
-
+                }
+            case types.WRONG_CREDENTIALS:
+                return{
+                    ...state,
+                    showWrongCred:payload
                 }
             default:
                 return state;

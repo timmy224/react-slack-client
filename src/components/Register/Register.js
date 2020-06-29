@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-// Depends on userService, storageService, socketService
+// Depends on userService, storageService, socketService, registerService
 import { services } from "../../context";
-import { take } from "rxjs/operators";
 import { actions } from "../../context";
 
 const mapStateToProps = (state)=>{
@@ -13,6 +11,7 @@ const mapStateToProps = (state)=>{
         routePath: state.route.routePath,
         routeState: state.route.routeState,
         password:state.user.password,
+        
     }
 }
 const mapActionsToProps = {
@@ -24,42 +23,25 @@ const mapActionsToProps = {
 
 class Register extends React.Component {
 
-    componentDidMount() {
-        this.setupConnectedSubscription();
-    }
     
-    setupConnectedSubscription() {
-        const { changeRoute } = this.props
-        services.socketService.getConnected$()
-        .pipe(take(1))
-        .subscribe(connected => {
-            if (connected) {
-                changeRoute({path:"/main"});
-            } else {
-                changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
-            }
-        });
-    }
-
-    handleSubmitUser = (event) => {
-        const { username, takenUsername } = this.props
+    handleSubmit = (event) => {
+        const { username, takenUsername, password, changeRoute, setPassword,setUsername } = this.props
         console.log('username is:', username)
+        console.log ("password is:" , password)
+
         event.preventDefault();
         services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
-                services.storageService.set("username", username);
-                services.socketService.connect({ username: username });
+                setUsername(username)
+                setPassword(password)
+                services.regsisterService.registerUser(username, password)
+                // services.storageService.set("username", username);
+                // console.log("userService being called to SET username", username)
+                // services.socketService.connect({ username: username });
             } else {
                 takenUsername(true);
             }
         });
-    }
-
-    handleSubmitPassword = (event) => {
-        const {password}= this.props
-        console.log ("password is:" , password)
-        event.preventDefault();
-    
     }
 
     handleChangeUser = (event) =>{
@@ -73,26 +55,47 @@ class Register extends React.Component {
     }
 
     render() {
-        const {  showTakenMsg } = this.props
-        
-        const takenMessage = showTakenMsg ? <h3>Username taken</h3> : null;
+        const {showTakenMsg, changeRoute} = this.props
+
+        const takenMessage = showTakenMsg ? <h3>Username taken, Try another</h3> : null;
         return (
             <Fragment>
+                <h1>Please Register with a Username and Password</h1>
                 {takenMessage}
-                <form onSubmit={this.handleSubmitUser}>
-                    <input
-                        onChange={this.handleChangeUser} 
-                        />
-                <form onSubmit= {this.handleSubmitPassword}>
-                    <input 
-                    onChange={this.handleChangePassword} 
-                    />
-                </form>
-                    <button type='submit'>Submit!</button>
-                </form>
+                <input
+                    onChange={this.handleChangeUser}
+                    type="text"
+                    placeholder="Username"
+                />
+                <input 
+                     onChange={this.handleChangePassword} 
+                     type="password"
+                     placeholder="Password"
+                />
+                <input
+                 onClick={this.handleSubmit}
+                  type="submit"
+                  value="register" />
+                
+                <button
+                 onClick = {()=> changeRoute({path:"/login"})}>Login Form
+                 </button>      
+            
             </Fragment>            
         );
     }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Register);
+
+
+  // <form onSubmit= {this.handleSubmitPassword}>
+                //     <input 
+                //     onChange={this.handleChangePassword} 
+                //     />
+                //     <button type='submit'>Submit!</button>
+                // </form>
+                // <button
+                //  onClick = {changeRoute({path:"/login"})}>Login Form
+                //  </button> 
+               

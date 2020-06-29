@@ -1,5 +1,6 @@
 import types from "./types";
 import { actionCreator } from "../utils";
+import { dispatch } from "../../context";
 
 const initActions = function(userService) {
 
@@ -23,7 +24,12 @@ const initActions = function(userService) {
 		dispatch(settingPassword(password))
 	}
 
-	return { setUsername, takenUsername, fetchUsernames, setPassword };
+	const credentialsWrong = actionCreator(types.WRONG_CREDENTIALS);
+	const wrongCredentials = (isCredentialWrong) => (dispatch) => {
+		dispatch(credentialsWrong(isCredentialWrong))
+	}
+
+	return { setUsername, takenUsername, fetchUsernames, setPassword, wrongCredentials };
 }
 
 export default initActions;
