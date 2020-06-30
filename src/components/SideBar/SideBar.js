@@ -13,7 +13,7 @@ class SideBar extends Component {
     handleDelete = (event) => {
         let channel_id = event.target.value
         services.channelService.deleteChannel(channel_id);
-        this.props.fetchChannels();
+        //this.props.fetchChannels();
     }
 
     render() {

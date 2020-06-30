@@ -45,24 +45,31 @@ function SocketService(chatService) {
             console.log("user_join", user_join);
             console.log(`User joined the chat: ${user_join.username}`);
             chatService.onUserJoinedChat(user_join.username);
-        })
+        });
 
         socket.on('message-received', (message_received) => {
             console.log("message-received: ", message_received);
             console.log(
                 `Sender: ${message_received.sender},
-             Time Sent: ${message_received.time_sent},
-             Content: ${message_received.content}`
+                Time Sent: ${message_received.time_sent},
+                Content: ${message_received.content}`
             );
             chatService.onMessageReceived(message_received);
-        })
+        });
+
         socket.on("channel-deleted", () => {
-            //dispatch(actions.channel.fetchChannels)
-        })
+            actions.channel.fetchChannels()
+        });
+        
+        socket.on("channel-created", () => {
+            console.log("channel-created")
+            actions.channel.fetchChannels()
+            //dispatch(fetchChannels())
+        });
+        
         socket.on("added-to-channel", (channelId) =>{
             // dispatch(actions.channel.fetchChannels)
-            send("join-channel", channelId)
-
+            socket.emit("join-channel", channelId)
         })
     }
 
