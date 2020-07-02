@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions, services } from "../../context";
+import { actions, services, store } from "../../context";
 
 
 class SideBar extends Component {
@@ -15,7 +15,6 @@ class SideBar extends Component {
     handleDelete = (event) => {
         let channel_id = event.target.value
         services.channelService.deleteChannel(channel_id);
-        this.props.fetchChannels();
     }
 
     render() {

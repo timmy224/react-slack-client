@@ -27,8 +27,7 @@ const render = async (store) => {
 
   context.registerServices(services);
   context.registerActions(actions);
-  context.registerDispatch(store.dispatch);
-  
+  context.registerStore(store);
   render(store);
 })();
 
