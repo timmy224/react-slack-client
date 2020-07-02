@@ -15,7 +15,7 @@ class CreateChannel extends React.Component {
             if (isAvailable) {
                 services.channelService.createChannel(channel_name)
                     // .then(fetchChannels())
-                    // .then(changeRoute({path:"/main"}));
+                    //.then(changeRoute({path:"/main"}));
             } else {
                 takenChannelName(true);
             }

@@ -1,6 +1,7 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
 import { actions, dispatch } from "../context";
+import store from "../store"
 
 function SocketService(chatService) {
     let socket;
@@ -58,17 +59,22 @@ function SocketService(chatService) {
         });
 
         socket.on("channel-deleted", () => {
-            actions.channel.fetchChannels()
+            console.log("channel-deleted")
+            //actions.channel.fetchChannels()
+            store.dispatch(actions.channel.fetchChannels())
         });
         
         socket.on("channel-created", () => {
             console.log("channel-created")
-            actions.channel.fetchChannels()
-            //dispatch(fetchChannels())
+            //console.log(actions)
+            store.dispatch(actions.channel.fetchChannels())
         });
         
         socket.on("added-to-channel", (channelId) =>{
             // dispatch(actions.channel.fetchChannels)
+            console.log("added-to-channel")
+            //actions.channel.fetchChannels()
+            store.dispatch(actions.channel.fetchChannels())
             socket.emit("join-channel", channelId)
         })
     }
