@@ -1,6 +1,11 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
+<<<<<<< HEAD
 import { actions, store } from "../context";
+=======
+import { actions, dispatch } from "../context";
+import store from "../store"
+>>>>>>> merge-meeting3
 
 function SocketService(chatService) {
     let socket;
@@ -22,7 +27,7 @@ function SocketService(chatService) {
     const send = (event_name, obj) => {
         // assuming socket declared when connected
         socket.emit(event_name, obj)
-        console.log(event_name, " with ", obj, " sent.")
+        console.log(event_name, "with", obj, "sent.")
     };
 
     const disconnect = () => {
@@ -45,24 +50,32 @@ function SocketService(chatService) {
             console.log("user_join", user_join);
             console.log(`User joined the chat: ${user_join.username}`);
             chatService.onUserJoinedChat(user_join.username);
-        })
+        });
 
         socket.on('message-received', (message_received) => {
             console.log("message-received: ", message_received);
             console.log(
                 `Sender: ${message_received.sender},
-             Time Sent: ${message_received.time_sent},
-             Content: ${message_received.content}`
+                Time Sent: ${message_received.time_sent},
+                Content: ${message_received.content}`
             );
             chatService.onMessageReceived(message_received);
-        })
+        });
+
         socket.on("channel-deleted", () => {
             store.dispatch(actions.channel.fetchChannels())
-        })
+        });
+
+        socket.on("channel-created", () => {
+            console.log("channel-created")
+            store.dispatch(actions.channel.fetchChannels())
+        });
+        
         socket.on("added-to-channel", (channelId) =>{
             store.dispatch(actions.channel.fetchChannels())
             send("join-channel", channelId)
         })
+ 
     }
 
     return Object.freeze({

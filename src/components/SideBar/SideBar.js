@@ -4,11 +4,9 @@ import { actions, services, store } from "../../context";
 
 
 class SideBar extends Component {
-
     selectChannel = (event) => {
         this.props.selectChannel(event.target.value);
     }
-
     selectUser = (event) => {
         this.props.selectUser(event.target.value);
     }

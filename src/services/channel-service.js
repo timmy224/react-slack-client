@@ -18,10 +18,9 @@ const ChannelService = function() {
     };
 
     const createChannel = channel_name => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/create-channel/?channel_name=${channel_name}`;
-        let localUrl = `http://localhost:5000/create-channel/?channel_name=${channel_name}`;
+        let remoteUrl = `https://react-slack-server.herokuapp.com/create-channel/`;
+        let localUrl = `http://localhost:5000/create-channel/`;
 
-        // post data
         const post_data = {
             "channel_name": channel_name,
         }
@@ -37,12 +36,12 @@ const ChannelService = function() {
         return fetch(localUrl, options)
             .then(response => response.json())
             .then(data => data.isAvailable);
-    }
-    const deleteChannel = channel_id => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel/?channel_id=${channel_id}`;
-        let localUrl = `http://localhost:5000/delete-channel/?channel_id=${channel_id}`
+    };
 
-        //delete data
+    const deleteChannel = channel_id => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel/`;
+        let localUrl = `http://localhost:5000/delete-channel/`
+
         const delete_data ={
             "channel_id": channel_id,
         }
@@ -57,8 +56,8 @@ const ChannelService = function() {
         return fetch(localUrl, options)
             .then(response => response.json())
             .then(data => data.successful)
+    };
 
-    }
     //console.log(fetchChannels())
     return Object.freeze({
         fetchChannels, 
