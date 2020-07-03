@@ -23,7 +23,7 @@ function SocketService(chatService) {
     const send = (event_name, obj) => {
         // assuming socket declared when connected
         socket.emit(event_name, obj)
-        console.log(event_name, " with ", obj, " sent.")
+        console.log(event_name, "with", obj, "sent.")
     };
 
     const disconnect = () => {
