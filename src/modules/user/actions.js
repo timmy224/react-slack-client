@@ -18,8 +18,16 @@ const initActions = function(userService) {
 		const usernames = await userService.fetchUsernames();
 		dispatch(usernamesFetch(usernames));
 	}
+	const credentialsWrong = actionCreator(types.INCORRECT_CREDENTIALS);
+	const wrongCredentials = (areCredentialsIncorrect) => (dispatch) => {
+		dispatch(credentialsWrong(areCredentialsIncorrect))
+	};
+	const settingPassword = actionCreator(types.SET_PASSWORD);
+	const setPassword = (password) => (dispatch) => {
+		dispatch(settingPassword(password))
+	};
 
-	return { setUsername, takenUsername, fetchUsernames };
+	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword };
 }
 
 export default initActions;
