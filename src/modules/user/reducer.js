@@ -30,12 +30,12 @@ const initReducer = () =>{
             case types.SET_PASSWORD:
                 return{
                     ...state,
-                    password:payload
+                    password: payload
                 }
             case types.WRONG_CREDENTIALS:
                 return{
                     ...state,
-                    showWrongCred:payload
+                    showWrongCred: payload
                 }
             default:
                 return state;

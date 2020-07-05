@@ -15,15 +15,13 @@ const mapStateToProps = (state)=>{
     }
 }
 const mapActionsToProps = {
-    setUsername:actions.user.setUsername,
-    takenUsername:actions.user.takenUsername,
-    changeRoute:actions.route.changeRoute,
-    setPassword:actions.user.setPassword
+    setUsername: actions.user.setUsername,
+    takenUsername: actions.user.takenUsername,
+    changeRoute: actions.route.changeRoute,
+    setPassword: actions.user.setPassword
 }
 
 class Register extends React.Component {
-
-    
     handleSubmit = (event) => {
         const { username, takenUsername, password, changeRoute, setPassword,setUsername } = this.props
         console.log('username is:', username)
@@ -35,9 +33,6 @@ class Register extends React.Component {
                 setUsername(username)
                 setPassword(password)
                 services.registerService.registerUser(username, password);
-                // services.storageService.set("username", username);
-                // console.log("userService being called to SET username", username)
-                // services.socketService.connect({ username: username });
                 setPassword("")
                 changeRoute({path:"/login"})
             } else {

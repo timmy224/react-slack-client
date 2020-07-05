@@ -38,7 +38,6 @@ const ChannelService = function() {
         return fetch(localUrl, options)
             .then(response => response.json())
             .then(data => data.isAvailable)
-           // .then(this.props.changeRoute({path:"/main"}));
     }
     const deleteChannel = channel_id => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel/?channel_id=${channel_id}`;
