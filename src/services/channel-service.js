@@ -1,4 +1,3 @@
-import { actions } from "../context"
 const ChannelService = function() {
     const fetchChannels = () => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channels";

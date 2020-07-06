@@ -24,10 +24,9 @@ const mapActionsToProps = {
 class Register extends React.Component {
     handleSubmit = (event) => {
         const { username, takenUsername, password, changeRoute, setPassword,setUsername } = this.props
-        console.log('username is:', username)
-        console.log ("password is:" , password)
 
         event.preventDefault();
+        // Add the below logic to server side.
         services.userService.checkUsername(username).then(isAvailable => {
             if (isAvailable) {
                 setUsername(username)
@@ -50,15 +49,12 @@ class Register extends React.Component {
         let password= event.target.value
         return this.props.setPassword(password)
     }
-   
-
     render() {
         const {showTakenMsg, changeRoute} = this.props
 
         const takenMessage = showTakenMsg ? <h3>Username taken, Try another</h3> : null;
         return (
             <Fragment>
-                console.log("delete this later..")
                 <h1>Please Register with a Username and Password</h1>
                 {takenMessage}
                 <input

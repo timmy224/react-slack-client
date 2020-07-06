@@ -51,7 +51,6 @@ class SideBar extends Component {
                     </button>))
         return (
             <div>
-                <CreateChannel />
                 {channelsDisplay}
                 {usernamesDisplay}
             </div>

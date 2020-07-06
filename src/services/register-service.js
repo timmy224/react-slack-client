@@ -1,8 +1,8 @@
 const RegisterService = function () {
     
     const registerUser = (username, password) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/login/`
-        let localUrl = `http://localhost:5000/login/`
+        let remoteUrl = `https://react-slack-server.herokuapp.com/register`
+        let localUrl = `http://localhost:5000/register`
 
         const post_data = {
             "username": username,

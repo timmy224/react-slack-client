@@ -5,8 +5,8 @@ const initReducer = () =>{
         username: '',
         usernames: [],
         showTakenMsg: false,
-        showWrongCred:false,
-        password:'',
+        showWrongCred: false,
+        password: '',
     }
 
     const reducer = ( state = INITIAL_STATE, action = {})=>{

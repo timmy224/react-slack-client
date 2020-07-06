@@ -1,6 +1,6 @@
 import types from "./types";
 import { actionCreator } from "../utils";
-import { dispatch } from "../../context";
+
 
 const initActions = function(userService) {
 
