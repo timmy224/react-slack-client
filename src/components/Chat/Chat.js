@@ -10,8 +10,7 @@ class Chat extends React.Component {
     componentDidMount() {
         services.chatService.getMessages$()
             .subscribe((message) => {
-                console.log("Received a message through the observable: ", message);
-                this.props.messageReceived(message)
+                services.chatService.onMessageReceived(message)
             })
     }
 
