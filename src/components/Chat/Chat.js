@@ -7,12 +7,6 @@ import Message from "../Message/Message";
 import { actions, services } from "../../context";
 
 class Chat extends React.Component {
-    componentDidMount() {
-        services.chatService.getMessages$()
-            .subscribe((message) => {
-                services.chatService.onMessageReceived(message)
-            })
-    }
 
     onEnterPressed = () => {
         let { currentInput, chatType, channel, partnerUsername, username } = this.props;
