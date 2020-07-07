@@ -1,10 +1,9 @@
 import { Subject } from "rxjs";
+import { actions, store } from "../context";
 
 function ChatService(userService) {
-    let messages$ = new Subject();
     let joinedChat$ = new Subject();
 
-    const getMessages$ = () => messages$;
     const getJoinedChat$ = () => joinedChat$;
 
     // destination parameter can either be a username or channel_id
@@ -30,12 +29,11 @@ function ChatService(userService) {
         }
     };
 
-    const onMessageReceived = (message) => messages$.next(message);
+    const onMessageReceived = (message) => store.dispatch(actions.message.messageReceived(message))
 
     const onUserJoinedChat = (username) => joinedChat$.next(username);
 
     return Object.freeze({
-        getMessages$,
         getJoinedChat$,
         prepareMessage,
         onMessagesReceived,
