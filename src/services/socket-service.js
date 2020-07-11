@@ -1,11 +1,6 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
-<<<<<<< HEAD
 import { actions, store } from "../context";
-=======
-import { actions, dispatch } from "../context";
-import store from "../store"
->>>>>>> merge-meeting3
 
 function SocketService(chatService) {
     let socket;
