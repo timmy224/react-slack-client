@@ -70,6 +70,15 @@ function SocketService(chatService) {
             store.dispatch(actions.channel.fetchChannels())
             send("join-channel", channelId)
         })
+
+        // CHALLENGE 3
+        socket.on("ping-test", () => {
+            socket.emit("pong-test")
+        })
+
+        socket.on("ping-pong-success", () => {
+            console.log("ping-pong-success")
+        })
  
     }
 
