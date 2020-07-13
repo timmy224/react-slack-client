@@ -48,7 +48,7 @@ class Register extends React.Component {
         const takenMessage = showTakenMsg ? <h3>Username taken, Try another</h3> : null;
         return (
             <Fragment>
-                <h1>Please Register with a Username and Password</h1>
+                <h1>Please LOGIN</h1>
                 {takenMessage}
                 <input
                     onChange={this.handleChangeUser}
