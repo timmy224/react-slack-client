@@ -32,21 +32,17 @@ class Register extends Component {
         wrongCredentials(false)
         takenUsername(false)
         services.registerService.registerUser(username, password).then(ERROR => {
-            console.log ("username being sent is:", username, "password being sent is ", password)
-            if (ERROR =="Missing username in route"){
-                console.log ("Missing username")
-                return wrongCredentials(true);
-            }
-            else if (ERROR =="Missing password in route"){
-                console.log ("Missing password")
-                return wrongCredentials(true) ;               
-            }
-            else if (ERROR == "username is taken"){ 
-                console.log("username taken buddy")
-                return takenUsername(true);
-               } 
+            
+            if (ERROR =="Missing username in route")
+            {return wrongCredentials(true)}
+
+            else if (ERROR =="Missing password in route")
+            {return wrongCredentials(true)}
+
+            else if (ERROR == "Username is taken")
+            {return takenUsername(true)}
+
             else{
-                console.log("this passed all tests now setting to login page")
                 setPassword("")
                 changeRoute({path:"/login"})
             }
