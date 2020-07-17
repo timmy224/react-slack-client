@@ -39,8 +39,7 @@ class SideBar extends Component {
                         >delete
                     </button>
                 </div>
-                )
-                );
+                ));
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
                 : (usernames.map(username => <button 

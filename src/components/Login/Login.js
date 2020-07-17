@@ -75,15 +75,3 @@ class Register extends React.Component {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Register);
-
-
-  // <form onSubmit= {this.handleSubmitPassword}>
-                //     <input 
-                //     onChange={this.handleChangePassword} 
-                //     />
-                //     <button type='submit'>Submit!</button>
-                // </form>
-                // <button
-                //  onClick = {changeRoute({path:"/login"})}>Login Form
-                //  </button> 
-               

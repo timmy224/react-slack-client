@@ -19,7 +19,7 @@ const RegisterService = function () {
 
         return fetch(localUrl, options)
             .then(response => response.json())
-            .then(data => data.isAvailable);
+            .then(data => data.ERROR)
     }
     return Object.freeze({
         registerUser
