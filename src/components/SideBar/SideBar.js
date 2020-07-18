@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
-import CreateChannel from "../CreateChannel/CreateChannel";
-
-
 
 class SideBar extends Component {
 
