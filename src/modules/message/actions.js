@@ -26,12 +26,17 @@ const initActions = function(messageService) {
 
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
     const fetchChannelMessages = channelId => async (dispatch) => {
-        const messages = await messageService.fetchChannelMessages(channelId);
+        const messages_obj = await messageService.fetchChannelMessages(channelId);
+
+        console.log("received API message obj", messages_obj.messages)
+
         const messagesPayload = {
             channelId: channelId,
-            messages: messages,
+            messages: messages_obj.messages,
         };
-        dispatch(fetchMessagesChannel(messagesPayload));
+
+        console.log("message payload", messagesPayload);
+        dispatch(fetchMessagesChannel(messagesPayload));   
     };
 
     const fetchMessagesPrivate = actionCreator(types.FETCH_PRIVATE_MESSAGES);

@@ -5,10 +5,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "../../index.css";
 import App from "../App/App";
 import AlertUser from "../AlertUser/AlertUser";
-
 import CreateChannel from "../CreateChannel/CreateChannel";
 import MainComponent from "../MainComponent/MainComponent";
 import Register from "../Register/Register";
+import Login from "../Login/Login";
 
 
 const Root = ({ store }) => (
@@ -19,6 +19,7 @@ const Root = ({ store }) => (
       <Route path="/main" component={MainComponent}></Route>
       <Route exact path="/create-channel" component={CreateChannel}></Route>
       <Route exact path= "/register" component={Register}></Route>
+      <Route exact path="/login" component={Login}></Route>
     </Router>
   </Provider>
 );
