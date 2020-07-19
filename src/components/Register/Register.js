@@ -11,7 +11,7 @@ const mapStateToProps = (state)=>{
         routePath: state.route.routePath,
         routeState: state.route.routeState,
         password:state.user.password,
-        showWrongCred: state.user.showWrongCred
+        showMissingCred: state.user.showMissingCred
     }
 }
 const mapActionsToProps = {
@@ -19,17 +19,17 @@ const mapActionsToProps = {
     takenUsername: actions.user.takenUsername,
     changeRoute: actions.route.changeRoute,
     setPassword: actions.user.setPassword,
-    wrongCredentials: actions.user.wrongCredentials,
+    missingCredentials: actions.user.missingCredentials,
 }
 
 class Register extends Component {
     handleSubmit = (event) => {
-        const { username, takenUsername, password, changeRoute, setPassword,setUsername, wrongCredentials, showWrongCred } = this.props
+        const { username, takenUsername, password, changeRoute, setPassword,setUsername, missingCredentials, showmMissingCred } = this.props
 
         event.preventDefault();
         setUsername(username)
         setPassword(password)
-        wrongCredentials(false)
+        missingCredentials(false)
         takenUsername(false)
         services.registerService.registerUser(username, password).then(data => {
             if (data.successful == "True"){
@@ -38,11 +38,11 @@ class Register extends Component {
             }
 
            else if (data.ERROR =="Missing username in route"){
-               return wrongCredentials(true)
+               return missingCredentials(true)
             }
 
            else if (data.ERROR =="Missing password in route"){
-               return wrongCredentials(true)
+               return missingCredentials(true)
             }
 
            else if (data.ERROR == "Username is taken"){
@@ -61,15 +61,15 @@ class Register extends Component {
         return this.props.setPassword(password)
     }
     render() {
-        const {showTakenMsg, changeRoute, showWrongCred} = this.props
+        const {showTakenMsg, changeRoute, showMissingCred} = this.props
 
         const takenMessage = showTakenMsg ? <h3>Username taken, Try another</h3> : null;
-        const wrongCred = showWrongCred ?  <h3>Either password or username are missing.</h3> : null;
+        const missingCred = showMissingCred ?  <h3>Either password or username are missing.</h3> : null;
         return (
             <Fragment>
                 <h1>Please Register with a Username and Password</h1>
                 {takenMessage}
-                {wrongCred}
+                {missingCred}
                 <input
                     onChange={this.handleChangeUser}
                     type="text"
