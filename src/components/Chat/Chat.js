@@ -34,7 +34,6 @@ class Chat extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    // TODO check if this re runs 
     const mapping = {
         username: state.user.username,
         chatType: state.chat.type,

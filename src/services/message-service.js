@@ -14,8 +14,7 @@ const MessageService = function() {
 
         return fetch(localUrl)
             .then(response => response.json())
-            // .then(data => JSON.parse(data.messages));
-            // test if object is returned (whether it needs parsing)
+            .then(data => JSON.parse(data.messages));
     }
 
     return Object.freeze({
