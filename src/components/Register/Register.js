@@ -32,7 +32,8 @@ class Register extends Component {
         missingCredentials(false)
         takenUsername(false)
         services.registerService.registerUser(username, password).then(data => {
-            if (data.successful == "True"){
+            if (data.successful) {
+                services.storageService.set("username", username);
                 setPassword("")
                 changeRoute({path:"/login"})
             }
@@ -67,7 +68,7 @@ class Register extends Component {
         const missingCred = showMissingCred ?  <h3>Either password or username are missing.</h3> : null;
         return (
             <Fragment>
-                <h1>Please Register with a Username and Password</h1>
+                <h1>Register</h1>
                 {takenMessage}
                 {missingCred}
                 <input

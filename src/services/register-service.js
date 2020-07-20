@@ -1,4 +1,4 @@
-const RegisterService = function () {
+const RegisterService = function(apiService) {
     
     const registerUser = (username, password) => {
         let remoteUrl = `https://react-slack-server.herokuapp.com/register`
@@ -17,7 +17,7 @@ const RegisterService = function () {
             }
         }
 
-        return fetch(localUrl, options)
+        return apiService.go(localUrl, options)
             .then(response => response.json())
     }
     return Object.freeze({

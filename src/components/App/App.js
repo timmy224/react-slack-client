@@ -27,13 +27,11 @@ class App extends Component {
         let username = services.storageService.get("username");
         let isNewUser =  username === null;
         if (isNewUser) {
-            changeRoute({path:'/register'});
+            changeRoute({path:'/login'});
         }
         else {
             this.setupConnectedSubscription();
-            // user exists
             setUsername(username);
-            //console.log(username)
             services.socketService.connect({ username: username });
         }
     }
@@ -47,21 +45,10 @@ class App extends Component {
                 console.log("Successful connection!");
                 changeRoute({path:"/main"});
             } else {
-                // changeRoute("/alert-user", { alert: "Web socket connection error " });
-                changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
+                changeRoute({path:"/alert-user", routeState:{alert: "Web socket connection error "}});
             }
         });  
     }
-
-    // render() {
-    //     const { routePath, routeState } = this.props;
-    //     if (!routePath) {
-    //         return <h1>Loading....</h1>
-    //     } else {
-    //       changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
-    //     }
-    //   };
-
 
   render() {
     const { routePath, routeState } = this.props;
