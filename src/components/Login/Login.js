@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services} from "../../context";
 
@@ -17,7 +17,7 @@ const mapActionsToProps = {
     setPassword:actions.user.setPassword,
 }
 
-class Login extends React.Component {
+class Login extends Component {
 
     handleSubmit = (event) => {
         const { username, wrongCredentials, changeRoute, password } = this.props
