@@ -5,11 +5,12 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "../../index.css";
 import App from "../App/App";
 import AlertUser from "../AlertUser/AlertUser";
-import Chat from "../Chat/Chat";
 import EnterUsername from "../EnterUsername/EnterUsername";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import MainComponent from "../MainComponent/MainComponent";
 import Login from "../Login/Login";
+import CookieDemo from "../Demos/CookieDemo/CookieDemo";
+
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -20,6 +21,7 @@ const Root = ({ store }) => (
       <Route exact path="/enter-username" component={EnterUsername}></Route>
       <Route exact path="/create-channel" component={CreateChannel}></Route>
       <Route exact path="/login" component={Login}></Route>
+      <Route exact path="/cookie-demo" component={CookieDemo}></Route>
     </Router>
   </Provider>
 );

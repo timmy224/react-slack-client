@@ -9,6 +9,7 @@ import SocketService from "./socket-service";
 import UtilityService from "./utility-service";
 import AuthService from "./auth-service"
 import ApiService from "./api-service";
+import DemoService from "./demo-service";
 
 const configureServices = () => {    
     const storageService = StorageService();
@@ -20,6 +21,7 @@ const configureServices = () => {
     const chatService = ChatService(userService);
     const socketService = SocketService(chatService);
     const utilityService = UtilityService();
+    const demoService = DemoService();
 
 
     return {
@@ -32,6 +34,7 @@ const configureServices = () => {
         chatService,
         socketService,
         utilityService,
+        demoService,
     };
 };
 
