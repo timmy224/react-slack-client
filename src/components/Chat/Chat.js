@@ -7,13 +7,6 @@ import Message from "../Message/Message";
 import { actions, services } from "../../context";
 
 class Chat extends React.Component {
-    componentDidMount() {
-        services.chatService.getMessages$()
-            .subscribe((message) => {
-                console.log("Received a message through the observable: ", message);
-                this.props.messageReceived(message)
-            })
-    }
 
     onEnterPressed = () => {
         let { currentInput, chatType, channel, partnerUsername, username } = this.props;
@@ -25,12 +18,12 @@ class Chat extends React.Component {
     }
 
     render() {
-        const messages = this.props.messages ? this.props.messages : [];
+        let messages = this.props.messages ? this.props.messages : [];
         return (
             <div>
                 {messages.map((message) => {
-                    return (<Message key={message.username + message.content}
-                        time={message.time_sent} usernames={message.sender} text={message.content} />);
+                    return (<Message key={message.sender + message.content}
+                        sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
                 })}
                 <InputMessage
                     onEnter={this.onEnterPressed}

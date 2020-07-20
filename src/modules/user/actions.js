@@ -1,6 +1,7 @@
 import types from "./types";
 import { actionCreator } from "../utils";
 
+
 const initActions = function(userService) {
 
 	const settingUsername = actionCreator(types.SET_USERNAME);
@@ -18,16 +19,24 @@ const initActions = function(userService) {
 		const usernames = await userService.fetchUsernames();
 		dispatch(usernamesFetch(usernames));
 	}
+
+	const settingPassword = actionCreator(types.SET_PASSWORD);
+	const setPassword = (password) => (dispatch) => {
+		dispatch(settingPassword(password))
+	}
+
+	const credentialsMissing = actionCreator(types.MISSING_CREDENTIALS);
+	const missingCredentials = (isCredentialMissing) => (dispatch) => {
+		dispatch(credentialsMissing(isCredentialMissing))
+	}
+  
 	const credentialsWrong = actionCreator(types.INCORRECT_CREDENTIALS);
 	const wrongCredentials = (areCredentialsIncorrect) => (dispatch) => {
 		dispatch(credentialsWrong(areCredentialsIncorrect))
 	};
-	const settingPassword = actionCreator(types.SET_PASSWORD);
-	const setPassword = (password) => (dispatch) => {
-		dispatch(settingPassword(password))
-	};
 
-	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword };
+	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword, missingCredentials };
+
 }
 
 export default initActions;

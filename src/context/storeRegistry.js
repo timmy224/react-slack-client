@@ -4,6 +4,6 @@ import createRegistry from "mag-service-registry";
 
 const registry = createRegistry();
 
-export const registerDispatch = registry.register;
+export const registerStore = registry.register;
 
 export default registry.exposeRegistered();

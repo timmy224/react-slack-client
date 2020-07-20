@@ -21,16 +21,13 @@ const mapActionsToProps = {
 }
 
 class App extends Component {
-    changeRoute = () => {
-        this.props.changeRoute();
-    }
-
+   
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
         let isNewUser =  username === null;
         if (isNewUser) {
-            changeRoute({path:'/enter-username'});
+            changeRoute({path:'/register'});
         }
         else {
             this.setupConnectedSubscription();
