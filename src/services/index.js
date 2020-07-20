@@ -7,7 +7,9 @@ import UserService from "./user-service";
 import ChatService from "./chat-service";
 import SocketService from "./socket-service";
 import UtilityService from "./utility-service";
+import RegisterService from "./register-service";
 import AuthorizationService from "./authorization-service"
+
 
 const configureServices = () => {    
     const channelService = ChannelService();
@@ -17,8 +19,9 @@ const configureServices = () => {
     const chatService = ChatService(userService);
     const socketService = SocketService(chatService);
     const utilityService = UtilityService();
+    const registerService = RegisterService();
     const authService = AuthorizationService();
-
+  
     return {
         channelService, 
         messageService,
@@ -27,6 +30,7 @@ const configureServices = () => {
         chatService,
         socketService,
         utilityService,
+        registerService,
         authService
     };
 };

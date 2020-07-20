@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
 
-
 class SideBar extends Component {
     selectChannel = (event) => {
         this.props.selectChannel(event.target.value);
