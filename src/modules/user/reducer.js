@@ -5,6 +5,8 @@ const initReducer = () =>{
         username: '',
         usernames: [],
         showTakenMsg: false,
+        wrongCredentialsMsg: false,
+        password: '',
     }
 
     const reducer = ( state = INITIAL_STATE, action = {})=>{
@@ -24,6 +26,16 @@ const initReducer = () =>{
                 return {
                     ...state,
                     usernames: payload
+                };
+            case types.INCORRECT_CREDENTIALS:
+                return {
+                    ...state, 
+                    wrongCredentialsMsg: payload
+                };
+            case types.SET_PASSWORD:
+                return {
+                    ...state, 
+                    password: payload
                 };
             default:
                 return state;
