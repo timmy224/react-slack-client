@@ -10,23 +10,29 @@ const mapStateToProps = (state)=>{
         password: state.user.password,
     }
 }
+
 const mapActionsToProps = {
     setUsername: actions.user.setUsername,
     changeRoute: actions.route.changeRoute,
     wrongCredentials: actions.user.wrongCredentials,
     setPassword: actions.user.setPassword,
 }
-
+    
 class Login extends Component {
+    componentDidMount() {
+        services.authService.getCSRFToken().then(response => {
+            services.storageService.set("csrf-token", response.headers.get("csrf-token"));
+        });
+    }
 
     handleSubmit = (event) => {
         const { username, wrongCredentials, changeRoute, password } = this.props
         event.preventDefault();
         services.authService.loginUser(username, password)
-            .then(data=>{
-                if(data.isAuthenticated){
+            .then(data => {
+                if (data.isAuthenticated) {
                     changeRoute({path:"/main"})
-                }else{
+                } else{
                     wrongCredentials(true)
                 }
             })}

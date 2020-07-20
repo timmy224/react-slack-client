@@ -9,7 +9,7 @@ import CreateChannel from "../CreateChannel/CreateChannel";
 import MainComponent from "../MainComponent/MainComponent";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-
+import CookieDemo from "../Demos/CookieDemo/CookieDemo";
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -20,6 +20,7 @@ const Root = ({ store }) => (
       <Route exact path="/create-channel" component={CreateChannel}></Route>
       <Route exact path= "/register" component={Register}></Route>
       <Route exact path="/login" component={Login}></Route>
+      <Route exact path="/cookie-demo" component={CookieDemo}></Route>
     </Router>
   </Provider>
 );

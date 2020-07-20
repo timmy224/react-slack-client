@@ -4,6 +4,16 @@ import Chat from "../Chat/Chat";
 import SideBar from "../SideBar/SideBar";
 import { actions } from "../../context";
 
+const mapStateToProps = (state) => ({
+    routePath: state.route.routePath,
+    routeState: state.route.routeState,
+});
+
+const mapActionsToProps = {
+  initMain: actions.main.initMain,
+  changeRoute: actions.route.changeRoute,
+};
+
 class MainComponent extends Component {
   componentDidMount() {
       this.props.initMain();
@@ -14,15 +24,10 @@ class MainComponent extends Component {
       <div>
         <Chat />
         <SideBar />
+        <button onClick={() => this.props.changeRoute({path: "/cookie-demo"})}>Cookie demo -></button>
       </div>
     );
   }
 }
-
-const mapStateToProps = (state) => ({});
-
-const mapActionsToProps = {
-    initMain: actions.main.initMain,
-};
 
 export default connect(mapStateToProps, mapActionsToProps)(MainComponent);

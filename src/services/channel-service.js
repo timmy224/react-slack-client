@@ -1,9 +1,9 @@
-const ChannelService = function() {
+const ChannelService = function(apiService) {
     const fetchChannels = () => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channels";
         let localUrl = "http://localhost:5000/channels";
 
-        return fetch(localUrl)
+        return apiService.go(localUrl)
             .then(response => response.json())
             .then(data => data.channels);
     }
@@ -12,7 +12,7 @@ const ChannelService = function() {
         let remoteUrl = `https://react-slack-server.herokuapp.com/check-channel-name/?channel_name=${channel_name}`;
         let localUrl = `http://localhost:5000/check-channel-name/?channel_name=${channel_name}`;
 
-        return fetch(localUrl)
+        return apiService.go(localUrl)
             .then(response => response.json())
             .then(data => data.isAvailable);
     };
@@ -33,7 +33,7 @@ const ChannelService = function() {
             }
         }
 
-        return fetch(localUrl, options)
+        return apiService.go(localUrl, options)
             .then(response => response.json())
             .then(data => data.isAvailable);
     };
@@ -53,7 +53,7 @@ const ChannelService = function() {
             }
         }
 
-        return fetch(localUrl, options)
+        return apiService.go(localUrl, options)
             .then(response => response.json())
             .then(data => data.successful)
     };
