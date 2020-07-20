@@ -20,11 +20,10 @@ class SideBar extends Component {
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.entries(channels).map(([channel_id, channel]) => 
-                <div>
+                <div key={channel.channel_id}>
                     <button
                         value={channel.channel_id}
-                        onClick={this.selectChannel}
-                        key={channel.channel_id}>
+                        onClick={this.selectChannel}>
                         {channel.name}
                     </button>
                     <button

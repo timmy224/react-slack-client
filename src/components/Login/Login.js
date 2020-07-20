@@ -11,10 +11,10 @@ const mapStateToProps = (state)=>{
     }
 }
 const mapActionsToProps = {
-    setUsername:actions.user.setUsername,
-    changeRoute:actions.route.changeRoute,
-    wrongCredentials:actions.user.wrongCredentials,
-    setPassword:actions.user.setPassword,
+    setUsername: actions.user.setUsername,
+    changeRoute: actions.route.changeRoute,
+    wrongCredentials: actions.user.wrongCredentials,
+    setPassword: actions.user.setPassword,
 }
 
 class Login extends Component {
@@ -42,9 +42,7 @@ class Login extends Component {
     };
 
     handleClick = ()=>{
-    	console.log('click')
-        //TODO Uncomment once Sleyter's code is in project
-    	// this.props.changeRoute({path:"/register"});
+    	this.props.changeRoute({path:"/register"});
     };
 
     render() {
