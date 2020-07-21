@@ -9,6 +9,7 @@ import { take } from "rxjs/operators";
 const mapStateToProps = (state) => ({
     routePath: state.route.routePath,
     routeState: state.route.routeState,
+    username: state.user.username,
 });
 
 const mapActionsToProps = {
@@ -20,8 +21,7 @@ const mapActionsToProps = {
 class MainComponent extends Component {
   componentDidMount() {
     this.setupConnectedSubscription();
-    const username = services.storageService.get("username");
-    services.socketService.connect({ username: username });
+    services.socketService.connect({ username: this.props.username });
     this.props.initMain();
   }
 

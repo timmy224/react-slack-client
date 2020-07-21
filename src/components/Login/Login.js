@@ -31,6 +31,7 @@ class Login extends Component {
         services.authService.loginUser(username, password)
             .then(data => {
                 if (data.isAuthenticated) {
+                    services.storageService.set("username", username);
                     changeRoute({path:"/main"})
                 } else{
                     wrongCredentials(true)
