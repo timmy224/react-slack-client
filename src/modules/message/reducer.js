@@ -50,6 +50,29 @@ const initReducer = () => {
                     }
                 };
             }
+            case types.INIT_CHANNEL_MESSAGES: {
+                const { channelIds } = payload;
+                const messages = {};
+                for (const channelId of channelIds) {
+                    messages[channelId] = [];
+                }
+                console.log(messages);
+                return {
+                    ...state,
+                    channelMessages: messages
+                }
+            }
+            case types.INIT_PRIVATE_MESSAGES: {
+                const { usernames } = payload;
+                const messages = {};
+                for (const username of usernames) {
+                    messages[username] = [];
+                }
+                return {
+                    ...state,
+                    privateMessages: messages
+                }
+            }
             default: 
                 return state;
         }
