@@ -56,7 +56,6 @@ const initReducer = () => {
                 for (const channelId of channelIds) {
                     messages[channelId] = [];
                 }
-                console.log(messages);
                 return {
                     ...state,
                     channelMessages: messages
