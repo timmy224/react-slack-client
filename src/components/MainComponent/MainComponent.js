@@ -21,7 +21,8 @@ const mapActionsToProps = {
 class MainComponent extends Component {
   componentDidMount() {
     this.setupConnectedSubscription();
-    services.socketService.connect({ username: this.props.username });
+    const username = this.props.username ? this.props.username : services.storageService.get("username");
+    services.socketService.connect({ username: username});
     this.props.initMain();
   }
 

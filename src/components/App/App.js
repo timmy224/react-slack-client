@@ -20,7 +20,6 @@ const mapActionsToProps = {
 }
 
 class App extends Component {
-   
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
@@ -34,8 +33,6 @@ class App extends Component {
         }
     }
     
-
-
   render() {
     const { routePath, routeState } = this.props;
     if (!routePath) {

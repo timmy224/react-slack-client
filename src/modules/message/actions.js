@@ -24,18 +24,23 @@ const initActions = function(messageService) {
         }
     };
 
+    const initMessagesChannel = actionCreator(types.INIT_CHANNEL_MESSAGES);
+    const initChannelMessages = channelIds => (dispatch) => {
+        dispatch(initMessagesChannel({channelIds: channelIds}))
+    };
+
+    const initMessagesPrivate = actionCreator(types.INIT_PRIVATE_MESSAGES);
+    const initPrivateMessages = usernames => (dispatch) => {
+        dispatch(initMessagesPrivate({usernames: usernames}));
+    };
+
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
     const fetchChannelMessages = channelId => async (dispatch) => {
         const messages = await messageService.fetchChannelMessages(channelId);
-
-        console.log("received API message obj", messages)
-
         const messagesPayload = {
             channelId: channelId,
             messages: messages,
         };
-
-        console.log("message payload", messagesPayload);
         dispatch(fetchMessagesChannel(messagesPayload));   
     };
 
@@ -50,7 +55,13 @@ const initActions = function(messageService) {
         dispatch(fetchMessagesPrivate(messagesPayload));
     };
 
-    return { messageReceived, fetchChannelMessages, fetchPrivateMessages };
+    return { 
+        messageReceived, 
+        initChannelMessages, 
+        initPrivateMessages, 
+        fetchChannelMessages, 
+        fetchPrivateMessages,
+    };
 }
 
 export default initActions;

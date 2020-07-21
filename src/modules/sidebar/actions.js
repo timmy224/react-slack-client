@@ -24,18 +24,15 @@ const initActions = function(utilityService) {
         dispatch(channelSelect(channel));
         const isMessagesExist = getState().message.channelMessages[channelId].length > 0;
         if (!isMessagesExist) {
-            console.log("Need to grab messages");
             dispatch(actions.message.fetchChannelMessages(channelId));
-        } else {
-            console.log("Treated as existing");
-        }
+        } 
     };
 
     const userSelect = actionCreator(types.USER_SELECT);
     const selectUser = selectedUsername => (dispatch, getState) => {
         dispatch(userSelect(selectedUsername));
-        const existingMessages = getState().message.privateMessages[selectedUsername];
-        if (!existingMessages) {
+        const isMessagesExist = getState().message.privateMessages[selectedUsername].length > 0;
+        if (!isMessagesExist) {
             dispatch(actions.message.fetchPrivateMessages(selectedUsername));
         }
     };
