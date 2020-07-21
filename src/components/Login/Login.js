@@ -31,6 +31,7 @@ class Login extends Component {
         services.authService.loginUser(username, password)
             .then(data => {
                 if (data.isAuthenticated) {
+                    services.storageService.set("username", username);
                     changeRoute({path:"/main"})
                 } else{
                     wrongCredentials(true)
@@ -58,7 +59,7 @@ class Login extends Component {
 	        	<div>
 	        		{credentialsIncorrect}
                     <form>
-    	      			<legend>Sign In</legend>
+    	      			<h1>Login</h1>
             			<input onChange={this.onUsernameChange} type="text" placeholder="username" required="required" />
     			        <input onChange={this.onPasswordChange} type="password" placeholder="password" required="required" />
     			      	<input onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>

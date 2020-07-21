@@ -16,7 +16,7 @@ const configureServices = () => {
     const storageService = StorageService();
     const apiService = ApiService(storageService);
     const authService = AuthService(apiService);
-    const registerService = RegisterService();
+    const registerService = RegisterService(apiService);
     const channelService = ChannelService(apiService);
     const messageService = MessageService(apiService);
     const userService = UserService(apiService);

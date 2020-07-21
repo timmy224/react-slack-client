@@ -22,9 +22,12 @@ const initActions = function(utilityService) {
         const channels = getState().channel.channels;
         const channel = channels[channelId];
         dispatch(channelSelect(channel));
-        const existingMessages = getState().message.channelMessages[channelId];
-        if (!existingMessages) {
+        const isMessagesExist = getState().message.channelMessages[channelId].length > 0;
+        if (!isMessagesExist) {
+            console.log("Need to grab messages");
             dispatch(actions.message.fetchChannelMessages(channelId));
+        } else {
+            console.log("Treated as existing");
         }
     };
 
