@@ -50,12 +50,12 @@ const ChannelService = function(apiService) {
             .then(data => data.successful);
     };
 
-    const deleteChannel = channel_id => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel/`;
-        let localUrl = `http://localhost:5000/delete-channel/`
+    const deleteChannel = channelId => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel`;
+        let localUrl = `http://localhost:5000/delete-channel`
 
         const delete_data ={
-            "channel_id": channel_id,
+            "channel_id": channelId,
         }
         const options = {
             method: "DELETE",

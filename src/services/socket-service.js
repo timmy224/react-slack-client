@@ -65,12 +65,11 @@ function SocketService(chatService) {
             chatService.onMessageReceived(message_received);
         });
 
-        socket.on("channel-deleted", () => {
-            store.dispatch(actions.channel.fetchChannels())
+        socket.on("channel-deleted", (channelId) => {
+            store.dispatch(actions.channel.channelDeleted(channelId));
         });
 
         socket.on("channel-created", () => {
-            console.log("channel-created")
             store.dispatch(actions.channel.fetchChannels())
         });
         
