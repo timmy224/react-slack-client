@@ -24,7 +24,6 @@ const initActions = function (channelService, utilityService) {
         dispatch(channelNameTaken(isChannelNameTaken))
     };
 
-    const deletedChannel = actionCreator(types.CHANNEL_DELETED);
     const channelDeleted = (channelId) => async (dispatch, getState) => {
         // Check for special case of currently selected channel being deleted
         const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.channel_id === parseInt(channelId);
