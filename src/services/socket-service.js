@@ -70,13 +70,14 @@ function SocketService(chatService) {
         });
 
         socket.on("channel-created", () => {
-            store.dispatch(actions.channel.fetchChannels())
+            store.dispatch(actions.channel.fetchChannels());
         });
         
-        socket.on("added-to-channel", (channelId) => {
-            console.log("added-to-channel", channelId)
-            store.dispatch(actions.channel.fetchChannels())
-            send("join-channel", channelId)
+        socket.on("added-to-channel", async (channelId) => {
+            console.log("added-to-channel", channelId);
+            await store.dispatch(actions.channel.fetchChannels());
+            store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
+            send("join-channel", channelId);
         })
  
     }

@@ -11,8 +11,8 @@ const initActions = function (utilityService) {
         }
         const usernames = getState().user.usernames;
         // Initialize channel messages and private messages map
-        dispatch(actions.message.initChannelMessages(channelIds));
-        dispatch(actions.message.initPrivateMessages(usernames));
+        dispatch(actions.message.initChannelMessagesMap(channelIds));
+        dispatch(actions.message.initPrivateMessagesMap(usernames));
         // Select default channel
         const channelsExist = channels && !utilityService.isEmpty(channels);
         if (channelsExist) {
