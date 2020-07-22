@@ -24,14 +24,19 @@ const initActions = function(messageService) {
         }
     };
 
-    const initMessagesChannel = actionCreator(types.INIT_CHANNEL_MESSAGES);
-    const initChannelMessages = channelIds => (dispatch) => {
-        dispatch(initMessagesChannel({channelIds: channelIds}))
+    const initMessagesChannelMap = actionCreator(types.INIT_CHANNEL_MESSAGES_MAP);
+    const initChannelMessagesMap = channelIds => (dispatch) => {
+        dispatch(initMessagesChannelMap({channelIds: channelIds}))
     };
 
-    const initMessagesPrivate = actionCreator(types.INIT_PRIVATE_MESSAGES);
-    const initPrivateMessages = usernames => (dispatch) => {
-        dispatch(initMessagesPrivate({usernames: usernames}));
+    const initMessagesPrivateMap = actionCreator(types.INIT_PRIVATE_MESSAGES_MAP);
+    const initPrivateMessagesMap = usernames => (dispatch) => {
+        dispatch(initMessagesPrivateMap({usernames: usernames}));
+    };
+
+    const initMessagesChannel = actionCreator(types.INIT_CHANNEL_MESSAGES);
+    const initChannelMessages = channelId => (dispatch) => {
+        dispatch(initMessagesChannel({channelId: channelId}));
     };
 
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
@@ -57,8 +62,9 @@ const initActions = function(messageService) {
 
     return { 
         messageReceived, 
-        initChannelMessages, 
-        initPrivateMessages, 
+        initChannelMessagesMap, 
+        initPrivateMessagesMap, 
+        initChannelMessages,
         fetchChannelMessages, 
         fetchPrivateMessages,
     };

@@ -1,10 +1,23 @@
 import React, { Fragment } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
-import { take } from "rxjs/operators";
 import { actions } from "../../context";
+
+const mapStateToProps = (state)=>{
+    return { 
+        channel_name: state.channel.channel_name,
+        show_taken_msg: state.channel.show_taken_msg,
+        routePath: state.route.routePath,
+        routeState: state.route.routeState,
+    }
+}
+const mapActionsToProps = {
+    createChannel: actions.channel.createChannel,
+    takenChannelName: actions.channel.takenChannelName,
+    changeRoute: actions.route.changeRoute,
+    fetchChannels: actions.channel.fetchChannels
+}
 
 class CreateChannel extends React.Component {
     handleSubmit = (event) => {
@@ -13,10 +26,9 @@ class CreateChannel extends React.Component {
         event.preventDefault();
         services.channelService.checkChannelName(channel_name).then(isAvailable => {
             if (isAvailable) {
-                services.channelService.createChannel(channel_name)
-                    // .then(fetchChannels())
-                    //.then(changeRoute({path:"/main"}));
-
+                services.channelService.createChannel(channel_name).then(success => {
+                    changeRoute({path:"/main"})
+                });
             } else {
                 takenChannelName(true);
             }
@@ -33,7 +45,7 @@ class CreateChannel extends React.Component {
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         return (
             <Fragment>
-                <h1>Create Channel Component (cloned EnterUsername Component)</h1>
+                <h1>Create Channel</h1>
                 {takenMessage}
                 <form onSubmit={this.handleSubmit}>
                     <input
@@ -44,21 +56,6 @@ class CreateChannel extends React.Component {
             </Fragment>            
         );
     }
-}
-
-const mapStateToProps = (state)=>{
-    return { 
-        channel_name: state.channel.channel_name,
-        show_taken_msg: state.channel.show_taken_msg,
-        routePath: state.route.routePath,
-        routeState: state.route.routeState,
-    }
-}
-const mapActionsToProps = {
-    createChannel: actions.channel.createChannel,
-    takenChannelName: actions.channel.takenChannelName,
-    changeRoute: actions.route.changeRoute,
-    fetchChannels: actions.channel.fetchChannels
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);

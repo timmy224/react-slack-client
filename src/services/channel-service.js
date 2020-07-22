@@ -8,21 +8,12 @@ const ChannelService = function(apiService) {
             .then(data => data.channels);
     }
 
-    const checkChannelName = channel_name => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/check-channel-name/?channel_name=${channel_name}`;
-        let localUrl = `http://localhost:5000/check-channel-name/?channel_name=${channel_name}`;
-
-        return apiService.go(localUrl)
-            .then(response => response.json())
-            .then(data => data.isAvailable);
-    };
-
-    const createChannel = channel_name => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/create-channel/`;
-        let localUrl = `http://localhost:5000/create-channel/`;
+    const checkChannelName = channelName => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/check-channel-name";
+        let localUrl = "http://localhost:5000/check-channel-name";
 
         const post_data = {
-            "channel_name": channel_name,
+            "channel_name": channelName
         }
 
         const options = {
@@ -38,12 +29,33 @@ const ChannelService = function(apiService) {
             .then(data => data.isAvailable);
     };
 
-    const deleteChannel = channel_id => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel/`;
-        let localUrl = `http://localhost:5000/delete-channel/`
+    const createChannel = channelName => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/create-channel";
+        let localUrl = "http://localhost:5000/create-channel";
+
+        const post_data = {
+            "channel_name": channelName,
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
+            .then(response => response.json())
+            .then(data => data.successful);
+    };
+
+    const deleteChannel = channelId => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel`;
+        let localUrl = `http://localhost:5000/delete-channel`
 
         const delete_data ={
-            "channel_id": channel_id,
+            "channel_id": channelId,
         }
         const options = {
             method: "DELETE",

@@ -3,34 +3,49 @@ import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
-const initActions = function (channelService) {
+const initActions = function (channelService, utilityService) {
     const channelsFetch = actionCreator(types.FETCH_CHANNELS);
     const fetchChannels = () => async (dispatch) => {
         const channels = await channelService.fetchChannels();
         const channelsMap = {};
-        const channelIds = [];
         for (let channel of channels) {
             channelsMap[channel.channel_id] = channel;
-            channelIds.push(channel.channel_id);
-        }      
+        }
         dispatch(channelsFetch(channelsMap));
-        dispatch(actions.message.initChannelMessages(channelIds));
     };
 
-    const channelNameSet = actionCreator(types.CHANNEL_NAME_SET)
-	const createChannel = (channel_name) => (dispatch)=>{
-		dispatch(channelNameSet(channel_name))
+    const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
+    const createChannel = (channel_name) => (dispatch) => {
+        dispatch(channelNameSet(channel_name))
     };
-    
-    const channelNameTaken = actionCreator(types.CHANNEL_NAME_TAKEN)
-	const takenChannelName = (isChannelNameTaken) =>(dispatch)=>{
-		dispatch(channelNameTaken(isChannelNameTaken))
-	};
 
-    return { fetchChannels,
-             createChannel,
-             takenChannelName,
-           };
+    const channelNameTaken = actionCreator(types.CHANNEL_NAME_TAKEN);
+    const takenChannelName = (isChannelNameTaken) => (dispatch) => {
+        dispatch(channelNameTaken(isChannelNameTaken))
+    };
+
+    const channelDeleted = (channelId) => async (dispatch, getState) => {
+        // Check for special case of currently selected channel being deleted
+        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.channel_id === parseInt(channelId);
+        // Refresh channel list in sidebar
+        await dispatch(fetchChannels());
+        if (isCurrentChannelDeleted) {
+            // If currently selected channel was deleted, choose first channel (default)
+            const channels = getState().channel.channels;
+            const channelsExist = channels && !utilityService.isEmpty(channels);
+            if (channelsExist) {
+                const defaultChannel = utilityService.getFirstProp(channels);
+                dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
+            }
+        }
+    };
+
+    return {
+        fetchChannels,
+        createChannel,
+        takenChannelName,
+        channelDeleted,
+    };
 };
 
 export default initActions;

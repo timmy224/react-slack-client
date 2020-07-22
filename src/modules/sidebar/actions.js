@@ -3,18 +3,11 @@ import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
 const initActions = function(utilityService) {
-    const initSidebar = () => async (dispatch, getState) => {
+    const initSidebar = () => async (dispatch) => {
         await Promise.all([
             dispatch(actions.channel.fetchChannels()),
             dispatch(actions.user.fetchUsernames())
         ]);
-        // Select default channel
-        const channels = getState().channel.channels;
-        const channelsExist = channels && !utilityService.isEmpty(channels);
-        if (channelsExist) {
-            const defaultChannel = utilityService.getFirstProp(channels);
-            dispatch(selectChannel(defaultChannel.channel_id));
-        }
     }
 
     const channelSelect = actionCreator(types.CHANNEL_SELECT);

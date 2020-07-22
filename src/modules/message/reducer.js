@@ -50,7 +50,7 @@ const initReducer = () => {
                     }
                 };
             }
-            case types.INIT_CHANNEL_MESSAGES: {
+            case types.INIT_CHANNEL_MESSAGES_MAP: {
                 const { channelIds } = payload;
                 const messages = {};
                 for (const channelId of channelIds) {
@@ -61,7 +61,7 @@ const initReducer = () => {
                     channelMessages: messages
                 }
             }
-            case types.INIT_PRIVATE_MESSAGES: {
+            case types.INIT_PRIVATE_MESSAGES_MAP: {
                 const { usernames } = payload;
                 const messages = {};
                 for (const username of usernames) {
@@ -70,6 +70,16 @@ const initReducer = () => {
                 return {
                     ...state,
                     privateMessages: messages
+                }
+            }
+            case types.INIT_CHANNEL_MESSAGES: {
+                const { channelId } = payload;
+                return {
+                    ...state,
+                    channelMessages: {
+                        ...state.channelMessages,
+                        [channelId]: []
+                    }
                 }
             }
             default: 

@@ -1,7 +1,5 @@
 import types from "./types";
 import { actionCreator } from "../utils";
-import { actions } from "../../context";
-
 
 const initActions = function(userService) {
 
@@ -19,7 +17,6 @@ const initActions = function(userService) {
 	const fetchUsernames = () => async (dispatch) => {
 		const usernames = await userService.fetchUsernames();
 		dispatch(usernamesFetch(usernames));
-		dispatch(actions.message.initPrivateMessages(usernames));
 	}
 
 	const settingPassword = actionCreator(types.SET_PASSWORD);
