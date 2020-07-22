@@ -18,12 +18,12 @@ const initActions = function (channelService) {
     };
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET)
-	const createChannel = (channel_name) => (dispatch)=>{
+	const createChannel = (channel_name) => (dispatch) =>{
 		dispatch(channelNameSet(channel_name))
     };
     
     const channelNameTaken = actionCreator(types.CHANNEL_NAME_TAKEN)
-	const takenChannelName = (isChannelNameTaken) =>(dispatch)=>{
+	const takenChannelName = (isChannelNameTaken) => (dispatch) =>{
 		dispatch(channelNameTaken(isChannelNameTaken))
 	};
 

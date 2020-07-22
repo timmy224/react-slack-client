@@ -20,9 +20,11 @@ const mapActionsToProps = {
 
 class MainComponent extends Component {
   componentDidMount() {
-    this.setupConnectedSubscription();
-    const username = this.props.username ? this.props.username : services.storageService.get("username");
-    services.socketService.connect({ username: username});
+    if (!services.socketService.getConnected()) {
+        this.setupConnectedSubscription();
+        const username = this.props.username ? this.props.username : services.storageService.get("username");
+        services.socketService.connect({ username: username});
+    }    
     this.props.initMain();
   }
 
@@ -42,6 +44,7 @@ class MainComponent extends Component {
       <div>
         <Chat />
         <SideBar />
+        <button onClick={() => this.props.changeRoute({path: "/create-channel"})}>Create channel -></button>
         <button onClick={() => this.props.changeRoute({path: "/cookie-demo"})}>Cookie demo -></button>
       </div>
     );
