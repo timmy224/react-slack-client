@@ -1,3 +1,4 @@
+import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 
@@ -41,7 +42,10 @@ const initActions = function(messageService) {
 
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
     const fetchChannelMessages = channelId => async (dispatch) => {
-        const messages = await messageService.fetchChannelMessages(channelId);
+        const [err, messages] = await to(messageService.fetchChannelMessages(channelId));
+        if (err) {
+            throw new Error("Could not fetch channel messages");
+        }
         const messagesPayload = {
             channelId: channelId,
             messages: messages,
@@ -52,7 +56,10 @@ const initActions = function(messageService) {
     const fetchMessagesPrivate = actionCreator(types.FETCH_PRIVATE_MESSAGES);
     const fetchPrivateMessages = partnerUsername => async (dispatch, getState) => {
         const ourUsername = getState().user.username;
-        const messages = await messageService.fetchPrivateMessages(ourUsername, partnerUsername);
+        const [err, messages] = await to(messageService.fetchPrivateMessages(ourUsername, partnerUsername));
+        if (err) {
+            throw new Error("Could not fetch private messages");
+        }
         const messagesPayload = {
             partnerUsername: partnerUsername,
             messages: messages,

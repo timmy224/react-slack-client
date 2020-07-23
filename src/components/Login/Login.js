@@ -20,9 +20,11 @@ const mapActionsToProps = {
     
 class Login extends Component {
     componentDidMount() {
-        services.authService.getCSRFToken().then(response => {
-            services.storageService.set("csrf-token", response.headers.get("csrf-token"));
-        });
+        services.authService.getCSRFToken()
+            .then(response => {
+                services.storageService.set("csrf-token", response.headers.get("csrf-token"));
+            })
+            .catch(err => console.log(err));
     }
 
     handleSubmit = (event) => {
@@ -37,7 +39,9 @@ class Login extends Component {
                 } else{
                     wrongCredentials(true)
                 }
-            })}
+            })
+            .catch(err => console.log(err));
+        }
 
     onUsernameChange = (event) =>{
         let username = event.target.value
