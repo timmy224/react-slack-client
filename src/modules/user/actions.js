@@ -33,9 +33,19 @@ const initActions = function(userService) {
 	const credentialsWrong = actionCreator(types.INCORRECT_CREDENTIALS);
 	const wrongCredentials = (areCredentialsIncorrect) => (dispatch) => {
 		dispatch(credentialsWrong(areCredentialsIncorrect))
+	}
+	
+	const settingEmail = actionCreator(types.SET_EMAIL);
+	const setEmail = (email) => (dispatch) => {
+		dispatch(settingEmail(email))
+	}
+	
+	const settingName = actionCreator(types.SET_NAME);
+	const setName = (name) => (dispatch) => {
+		dispatch(settingName(name))
 	};
 
-	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword, missingCredentials };
+	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword, missingCredentials, setEmail, setName };
 
 }
 

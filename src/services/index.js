@@ -9,6 +9,7 @@ import SocketService from "./socket-service";
 import UtilityService from "./utility-service";
 import RegisterService from "./register-service";
 import AuthorizationService from "./authorization-service"
+import ChallengeService from "./challenge-service"
 
 
 const configureServices = () => {    
@@ -21,6 +22,7 @@ const configureServices = () => {
     const utilityService = UtilityService();
     const registerService = RegisterService();
     const authService = AuthorizationService();
+    const challengeService = ChallengeService(); 
   
     return {
         channelService, 
@@ -31,7 +33,8 @@ const configureServices = () => {
         socketService,
         utilityService,
         registerService,
-        authService
+        authService,
+        challengeService,
     };
 };
 

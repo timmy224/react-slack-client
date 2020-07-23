@@ -9,6 +9,7 @@ import CreateChannel from "../CreateChannel/CreateChannel";
 import MainComponent from "../MainComponent/MainComponent";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
+import Challenge from "../Challenge/Challenge";
 
 
 const Root = ({ store }) => (
@@ -20,6 +21,7 @@ const Root = ({ store }) => (
       <Route exact path="/create-channel" component={CreateChannel}></Route>
       <Route exact path= "/register" component={Register}></Route>
       <Route exact path="/login" component={Login}></Route>
+      <Route exact path="/challenge" component={Challenge}></Route>
     </Router>
   </Provider>
 );

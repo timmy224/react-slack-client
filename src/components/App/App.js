@@ -27,7 +27,7 @@ class App extends Component {
         let username = services.storageService.get("username");
         let isNewUser =  username === null;
         if (isNewUser) {
-            changeRoute({path:'/register'});
+            changeRoute({path:'/challenge'});
         }
         else {
             this.setupConnectedSubscription();

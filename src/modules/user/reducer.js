@@ -8,6 +8,8 @@ const initReducer = () =>{
         showMissingCred: false,
         wrongCredentialsMsg: false,
         password: '',
+        email: '',
+        name:'',
     }
 
     const reducer = ( state = INITIAL_STATE, action = {})=>{
@@ -43,6 +45,16 @@ const initReducer = () =>{
                     ...state, 
                     wrongCredentialsMsg: payload
                 };
+            case types.SET_NAME:
+                return {
+                    ...state, 
+                    name:payload
+                }; 
+            case types.SET_EMAIL:
+                return {
+                        ...state, 
+                        email:payload
+                    }; 
            
             default:
                 return state;
