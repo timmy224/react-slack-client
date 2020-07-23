@@ -1,7 +1,8 @@
 import types from "./types";
 import { actionCreator } from "../utils";
+import { actions } from "../../context";
 
-const initActions = function(userService) {
+const initActions = function(userService, socketService, storageService) {
 
 	const settingUsername = actionCreator(types.SET_USERNAME);
 	const setUsername = (username) => (dispatch) => {
@@ -34,8 +35,26 @@ const initActions = function(userService) {
 		dispatch(credentialsWrong(areCredentialsIncorrect))
 	};
 
-	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword, missingCredentials };
+	const logoutActionCreator = actionCreator(types.LOGOUT);
+	const logout = () => async (dispatch, getState) => {
+		const username = getState().user.username;
+		await userService.logout(username);
+		socketService.disconnect()
+		storageService.removeItem("username");
+		storageService.removeItem("csrf-token");
+		dispatch(logoutActionCreator({}))
+		dispatch(actions.route.changeRoute({path:'/login'}));
+	};
 
+	return { 
+		setUsername,
+		takenUsername,
+		fetchUsernames,
+		wrongCredentials,
+		setPassword,
+		missingCredentials,
+		logout,
+	};
 }
 
 export default initActions;
