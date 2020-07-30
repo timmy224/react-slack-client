@@ -1,7 +1,7 @@
 const ChannelService = function(apiService) {
     const fetchChannels = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/channels";
-        let localUrl = "http://localhost:5000/channels";
+        let remoteUrl = "https://react-slack-server.herokuapp.com/channel";
+        let localUrl = "http://localhost:5000/channel";
 
         return apiService.go(localUrl)
             .then(response => response.json())
@@ -30,8 +30,8 @@ const ChannelService = function(apiService) {
     };
 
     const createChannel = channelName => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/create-channel";
-        let localUrl = "http://localhost:5000/create-channel";
+        let remoteUrl = "https://react-slack-server.herokuapp.com/channel";
+        let localUrl = "http://localhost:5000/channel";
 
         const post_data = {
             "channel_name": channelName,
@@ -51,8 +51,8 @@ const ChannelService = function(apiService) {
     };
 
     const deleteChannel = channelId => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel`;
-        let localUrl = `http://localhost:5000/delete-channel`
+        let remoteUrl = `https://react-slack-server.herokuapp.com/channel`;
+        let localUrl = "http://localhost:5000/channel"
 
         const delete_data ={
             "channel_id": channelId,
@@ -70,7 +70,6 @@ const ChannelService = function(apiService) {
             .then(data => data.successful)
     };
 
-    //console.log(fetchChannels())
     return Object.freeze({
         fetchChannels, 
         checkChannelName,
