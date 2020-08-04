@@ -29,13 +29,11 @@ function SocketService(chatService) {
         console.log(event_name, "with", obj, "sent.")
     };
 
-    // right now this is unused but will be on logout button pressed
     const disconnect = () => {
         // assuming socket declared when connected
         socket.emit("disconnect")
         socket.disconnect()
         isConnected = false;
-        return "Socket disconnect sent"
     };
 
     const setUpEventListeners = () => {
@@ -87,6 +85,7 @@ function SocketService(chatService) {
         getConnected$,
         connect,
         send,
+        disconnect,
     });
 }
 

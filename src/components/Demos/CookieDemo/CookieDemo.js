@@ -12,11 +12,15 @@ const mapActionsToProps = {
 
 class CookieDemo extends Component {
     getCookie() {
-        services.demoService.getCookie().then(resp => console.log("Response received!"));
+        services.demoService.getCookie()
+            .then(resp => console.log("Response received!"))
+            .catch(err => console.log(err));
     }
 
     sendCookie() {
-        services.demoService.sendCookie().then(resp => console.log("Response received!"));
+        services.demoService.sendCookie()
+            .then(resp => console.log("Response received!"))
+            .catch(err => console.log(err));
     }
     render() {
         return (

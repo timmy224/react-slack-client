@@ -1,4 +1,5 @@
 // Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
+import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
@@ -6,7 +7,10 @@ import { actions } from "../../context";
 const initActions = function (channelService, utilityService) {
     const channelsFetch = actionCreator(types.FETCH_CHANNELS);
     const fetchChannels = () => async (dispatch) => {
-        const channels = await channelService.fetchChannels();
+        const [err, channels] = await to(channelService.fetchChannels());
+        if (err) {
+            throw new Error("Could not fetch channels");
+        }
         const channelsMap = {};
         for (let channel of channels) {
             channelsMap[channel.channel_id] = channel;

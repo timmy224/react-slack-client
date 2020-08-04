@@ -31,25 +31,27 @@ class Register extends Component {
         setPassword(password)
         missingCredentials(false)
         takenUsername(false)
-        services.registerService.registerUser(username, password).then(data => {
-            if (data.successful) {
-                services.storageService.set("username", username);
-                setPassword("")
-                changeRoute({path:"/login"})
-            }
+        services.registerService.registerUser(username, password)
+            .then(data => {
+                if (data.successful) {
+                    services.storageService.set("username", username);
+                    setPassword("")
+                    changeRoute({path:"/login"})
+                }
 
-           else if (data.ERROR =="Missing username in route"){
-               return missingCredentials(true)
-            }
+                else if (data.ERROR =="Missing username in route"){
+                    return missingCredentials(true)
+                }
 
-           else if (data.ERROR =="Missing password in route"){
-               return missingCredentials(true)
-            }
+                else if (data.ERROR =="Missing password in route"){
+                    return missingCredentials(true)
+                }
 
-           else if (data.ERROR == "Username is taken"){
-               return takenUsername(true)
-            }  
-        });
+                else if (data.ERROR == "Username is taken"){
+                    return takenUsername(true)
+                }  
+            })
+            .catch(err => console.log(err));
     }
 
     handleChangeUser = (event) => {

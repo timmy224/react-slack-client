@@ -1,7 +1,9 @@
+import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
+import { actions } from "../../context";
 
-const initActions = function(userService) {
+const initActions = function(userService, socketService, storageService) {
 
 	const settingUsername = actionCreator(types.SET_USERNAME);
 	const setUsername = (username) => (dispatch) => {
@@ -15,7 +17,10 @@ const initActions = function(userService) {
 
 	const usernamesFetch = actionCreator(types.FETCH_USERNAMES);
 	const fetchUsernames = () => async (dispatch) => {
-		const usernames = await userService.fetchUsernames();
+		const [err, usernames] = await to(userService.fetchUsernames());
+		if (err) {
+			throw new Error("Could not fetch usernames");
+		}
 		dispatch(usernamesFetch(usernames));
 	}
 
@@ -34,8 +39,31 @@ const initActions = function(userService) {
 		dispatch(credentialsWrong(areCredentialsIncorrect))
 	};
 
-	return { setUsername, takenUsername, fetchUsernames, wrongCredentials, setPassword, missingCredentials };
+	const logoutActionCreator = actionCreator(types.LOGOUT);
+	const logout = (withServerCall = true) => async (dispatch, getState) => {
+		const username = getState().user.username;
+		if (withServerCall) {
+			const [err, success] = await to(userService.logout(username));
+			if (err) {
+				throw new Error("Could not log out");
+			}
+		}
+		socketService.disconnect()
+		storageService.removeItem("username");
+		storageService.removeItem("csrf-token");
+		dispatch(logoutActionCreator({}))
+		dispatch(actions.route.changeRoute({path:'/login'}));
+	};
 
+	return { 
+		setUsername,
+		takenUsername,
+		fetchUsernames,
+		wrongCredentials,
+		setPassword,
+		missingCredentials,
+		logout,
+	};
 }
 
 export default initActions;
