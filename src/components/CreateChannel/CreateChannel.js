@@ -16,23 +16,25 @@ const mapActionsToProps = {
     createChannel: actions.channel.createChannel,
     takenChannelName: actions.channel.takenChannelName,
     changeRoute: actions.route.changeRoute,
-    fetchChannels: actions.channel.fetchChannels
 }
 
 class CreateChannel extends React.Component {
     handleSubmit = (event) => {
-        const { channel_name, takenChannelName, changeRoute, fetchChannels } = this.props
-        console.log('Channel Name is:', channel_name)
+        const { channel_name, takenChannelName, changeRoute } = this.props
         event.preventDefault();
-        services.channelService.checkChannelName(channel_name).then(isAvailable => {
-            if (isAvailable) {
-                services.channelService.createChannel(channel_name).then(success => {
-                    changeRoute({path:"/main"})
-                });
-            } else {
-                takenChannelName(true);
-            }
-        });
+        services.channelService.checkChannelName(channel_name)
+            .then(isAvailable => {
+                if (isAvailable) {
+                    services.channelService.createChannel(channel_name)
+                        .then(success => {
+                            changeRoute({path:"/main"})
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    takenChannelName(true);
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     handleChange = (event) =>{
