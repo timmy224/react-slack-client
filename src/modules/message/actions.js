@@ -1,3 +1,4 @@
+import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 
@@ -24,20 +25,41 @@ const initActions = function(messageService) {
         }
     };
 
+    const initMessagesChannelMap = actionCreator(types.INIT_CHANNEL_MESSAGES_MAP);
+    const initChannelMessagesMap = channelIds => (dispatch) => {
+        dispatch(initMessagesChannelMap({channelIds: channelIds}))
+    };
+
+    const initMessagesPrivateMap = actionCreator(types.INIT_PRIVATE_MESSAGES_MAP);
+    const initPrivateMessagesMap = usernames => (dispatch) => {
+        dispatch(initMessagesPrivateMap({usernames: usernames}));
+    };
+
+    const initMessagesChannel = actionCreator(types.INIT_CHANNEL_MESSAGES);
+    const initChannelMessages = channelId => (dispatch) => {
+        dispatch(initMessagesChannel({channelId: channelId}));
+    };
+
     const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
     const fetchChannelMessages = channelId => async (dispatch) => {
-        const messages = await messageService.fetchChannelMessages(channelId);
+        const [err, messages] = await to(messageService.fetchChannelMessages(channelId));
+        if (err) {
+            throw new Error("Could not fetch channel messages");
+        }
         const messagesPayload = {
             channelId: channelId,
             messages: messages,
         };
-        dispatch(fetchMessagesChannel(messagesPayload));
+        dispatch(fetchMessagesChannel(messagesPayload));   
     };
 
     const fetchMessagesPrivate = actionCreator(types.FETCH_PRIVATE_MESSAGES);
     const fetchPrivateMessages = partnerUsername => async (dispatch, getState) => {
         const ourUsername = getState().user.username;
-        const messages = await messageService.fetchPrivateMessages(ourUsername, partnerUsername);
+        const [err, messages] = await to(messageService.fetchPrivateMessages(ourUsername, partnerUsername));
+        if (err) {
+            throw new Error("Could not fetch private messages");
+        }
         const messagesPayload = {
             partnerUsername: partnerUsername,
             messages: messages,
@@ -45,7 +67,14 @@ const initActions = function(messageService) {
         dispatch(fetchMessagesPrivate(messagesPayload));
     };
 
-    return { messageReceived, fetchChannelMessages, fetchPrivateMessages };
+    return { 
+        messageReceived, 
+        initChannelMessagesMap, 
+        initPrivateMessagesMap, 
+        initChannelMessages,
+        fetchChannelMessages, 
+        fetchPrivateMessages,
+    };
 }
 
 export default initActions;

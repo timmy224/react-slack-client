@@ -14,7 +14,7 @@ const configureModules = services => {
     const messageModule = configureMessageModule(services);
     const channelModule = configureChannelModule(services); 
     const sidebarModule = configureSidebarModule(services);
-    const chatModule = configureChatModule();
+    const chatModule = configureChatModule(services);
     const mainModule = configureMainModule();
 
     const modules = {

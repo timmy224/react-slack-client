@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions, services } from "../../context";
-
+import { actions, services, store } from "../../context";
 
 class SideBar extends Component {
-
     selectChannel = (event) => {
         this.props.selectChannel(event.target.value);
     }
-
     selectUser = (event) => {
         this.props.selectUser(event.target.value);
     }
     handleDelete = (event) => {
         let channel_id = event.target.value
-        services.channelService.deleteChannel(channel_id);
+        services.channelService.deleteChannel(channel_id).catch(err => console.log(err));
     }
 
     render() {
@@ -23,11 +20,10 @@ class SideBar extends Component {
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.entries(channels).map(([channel_id, channel]) => 
-                <div>
+                <div key={channel.channel_id}>
                     <button
                         value={channel.channel_id}
-                        onClick={this.selectChannel}
-                        key={channel.channel_id}>
+                        onClick={this.selectChannel}>
                         {channel.name}
                     </button>
                     <button
