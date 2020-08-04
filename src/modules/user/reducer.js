@@ -43,7 +43,11 @@ const initReducer = () =>{
                     ...state, 
                     wrongCredentialsMsg: payload
                 };
-           
+            case types.LOGOUT:
+                return {
+                    ...state,
+                    username: ""
+                };
             default:
                 return state;
         }};
