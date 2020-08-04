@@ -3,26 +3,56 @@ import types from "./types";
 const initReducer = () =>{
     const INITIAL_STATE = {
         username: '',
+        usernames: [],
         showTakenMsg: false,
+        showMissingCred: false,
+        wrongCredentialsMsg: false,
+        password: '',
     }
 
-    const setUsername = ( state = INITIAL_STATE, action = {})=>{
+    const reducer = ( state = INITIAL_STATE, action = {})=>{
         const { type, payload } = action;
         switch(type){
             case types.SET_USERNAME:
                 return {
                     ...state, 
-                    username:payload};
- 
+                    username:payload
+                }; 
             case types.TAKEN_USERNAME:
                 return {
                     ...state, 
-                    showTakenMsg: payload};
+                    showTakenMsg: payload
+                };
+            case types.FETCH_USERNAMES:
+                return {
+                    ...state,
+                    usernames: payload
+                };
+            case types.SET_PASSWORD:
+                return{
+                    ...state,
+                    password: payload
+                }
+            case types.MISSING_CREDENTIALS:
+                return{
+                    ...state,
+                    showMissingCred: payload
+                }
+            case types.INCORRECT_CREDENTIALS:
+                return {
+                    ...state, 
+                    wrongCredentialsMsg: payload
+                };
+            case types.LOGOUT:
+                return {
+                    ...state,
+                    username: ""
+                };
             default:
-            return state;
+                return state;
         }};
 
-        return  setUsername;
+        return  reducer;
 };
 export default initReducer
 

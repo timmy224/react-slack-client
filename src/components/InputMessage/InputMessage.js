@@ -4,13 +4,13 @@ import { actions } from "../../context";
 
 const mapStateToProps = state => {
 	return {
-		currentInput: state.message.currentInput	
+		currentInput: state.chat.currentInput	
 	};
 };
 
 const mapActionsToProps = {
-	updateInput: actions.message.updateInput,
-	inputClear: actions.message.inputClear,
+	updateInput: actions.chat.updateInput,
+	inputClear: actions.chat.inputClear,
 };
 
 class InputMessage extends Component {
@@ -32,7 +32,7 @@ class InputMessage extends Component {
 	render(){
 		return(
 			<textarea
-				placeholder='Write a comment'
+				placeholder='Enter a message'
 				className= "bg-light-gray dib br3 pa2 ma3 w-90 h4"
 				style={{resize:'none'}}
 				value={this.props.currentInput}

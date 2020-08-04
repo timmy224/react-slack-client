@@ -1,26 +1,81 @@
-const ChannelService = function() {
-    const fetchChannelIDs = () => {
+const ChannelService = function(apiService) {
+    const fetchChannels = () => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channels";
         let localUrl = "http://localhost:5000/channels";
 
-        return fetch(remoteUrl)
+        return apiService.go(localUrl)
             .then(response => response.json())
-            .then(data => JSON.parse(data.channels));
+            .then(data => data.channels);
     }
 
-    const fetchMessagesChannel = (channel_id) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/messages/?channelId=${channel_id}`;
-        let localUrl = `http://localhost:5000/messages/?channelId=${channel_id}`;
-        
-        return fetch(remoteUrl)
+    const checkChannelName = channelName => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/check-channel-name";
+        let localUrl = "http://localhost:5000/check-channel-name";
+
+        const post_data = {
+            "channel_name": channelName
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
             .then(response => response.json())
-            .then(data => JSON.parse(data.messages));
-    }
+            .then(data => data.isAvailable);
+    };
+
+    const createChannel = channelName => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/create-channel";
+        let localUrl = "http://localhost:5000/create-channel";
+
+        const post_data = {
+            "channel_name": channelName,
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
+            .then(response => response.json())
+            .then(data => data.successful);
+    };
+
+    const deleteChannel = channelId => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/delete-channel`;
+        let localUrl = `http://localhost:5000/delete-channel`
+
+        const delete_data ={
+            "channel_id": channelId,
+        }
+        const options = {
+            method: "DELETE",
+            body: JSON.stringify(delete_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
+            .then(response => response.json())
+            .then(data => data.successful)
+    };
 
     //console.log(fetchChannels())
     return Object.freeze({
-        fetchChannelIDs, 
-        fetchMessagesChannel
+        fetchChannels, 
+        checkChannelName,
+        createChannel,
+        deleteChannel
     });
 };
 

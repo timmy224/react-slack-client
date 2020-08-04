@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import "./App.css";
 // Depends on storageService, userService, socketService
 import { services } from "../../context";
-import { take } from "rxjs/operators";
 import { actions } from "../../context";
 
 const mapStateToProps = (state) => {
@@ -21,52 +20,19 @@ const mapActionsToProps = {
 }
 
 class App extends Component {
-    changeRoute = () => {
-        this.props.changeRoute();
-    }
-
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
-        console.log("Username is: ", username);
         let isNewUser =  username === null;
         if (isNewUser) {
-            changeRoute({path:'/enter-username'});
+          changeRoute({path:'/login'});
         }
         else {
-            this.setupConnectedSubscription();
-            // user exists
-            setUsername(username);
-            //console.log(username)
-            services.socketService.connect({ username: username });
+          setUsername(username);
+          changeRoute({path:'/main'});
         }
     }
-
-    setupConnectedSubscription() {
-        const { changeRoute } = this.props
-        services.socketService.getConnected$()
-        .pipe(take(1)) // TODO learn what this does
-        .subscribe(connected => {
-            if (connected) {                    
-                console.log("Successful connection!");
-                changeRoute({path:"/main"});
-            } else {
-                // changeRoute("/alert-user", { alert: "Web socket connection error " });
-                changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
-            }
-        });  
-    }
-
-    // render() {
-    //     const { routePath, routeState } = this.props;
-    //     if (!routePath) {
-    //         return <h1>Loading....</h1>
-    //     } else {
-    //       changeRoute({path:"/alert-user",routeState:{alert: "Web socket connection error "}});
-    //     }
-    //   };
-
-
+    
   render() {
     const { routePath, routeState } = this.props;
     if (!routePath) {
