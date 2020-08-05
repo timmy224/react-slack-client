@@ -71,7 +71,14 @@ function SocketService(chatService) {
             store.dispatch(actions.channel.fetchChannels())
             send("join-channel", channelId)
         })
- 
+
+        //ping for challenge 3
+        socket.on("pingy-test", ()=> {
+            socket.emit("pongy-test")
+        })
+        socket.on('pingy-pongy success', ()=>{
+            console.log("pingy-pongy success")
+        })
     }
 
     return Object.freeze({
