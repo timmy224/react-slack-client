@@ -9,7 +9,7 @@ const ChannelService = function(apiService) {
     }
 
     const checkChannelName = channelName => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/check-channel-name";
+        let remoteUrl = "https://react-slack-server.herokuapp.com/channel/name-available";
         let localUrl = "http://localhost:5000/check-channel-name";
 
         const post_data = {
