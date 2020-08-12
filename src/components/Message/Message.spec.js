@@ -2,11 +2,11 @@ import React from "react";
 import { shallow } from "enzyme";
 import Message from "./Message";
 
-import { checkProps } from "../../../testing-utils";
+import { checkProps, findByTestAttr } from "../../../testing-utils";
 
 const setUp = (props={}) => {
-    const component = shallow(<Message {...props} />);
-    return component;
+    const componentWrapper = shallow(<Message {...props} />);
+    return componentWrapper;
 }
 
 describe("Message Component", () => {
@@ -19,6 +19,22 @@ describe("Message Component", () => {
             };
             const propsErr = checkProps(Message, expectedProps);
             expect(propsErr).toBeUndefined();
+        });
+    });
+    describe("With props", () => {
+        let wrapper;
+        beforeEach(() => {
+            const props = {
+                sender: "bitboy",
+                time: "05/02/2020 12:15 PM",
+                text: "Hey how are you"
+            };
+            wrapper = setUp(props);
+        });
+
+        it("Should render without errors", () => {
+            const mainDiv = findByTestAttr(wrapper, "MessageComponent");
+            expect(mainDiv.length).toBe(1);
         });
     });
 });
