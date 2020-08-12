@@ -35,7 +35,7 @@ class Chat extends React.Component {
                 <button onClick={this.printProps}>Print Prop</button>
                 {messages.map((message) => {
                     return (<Message key={message.username + message.content}
-                        time={message.time_sent} usernames={message.sender} text={message.content} />);
+                        time={message.time_sent} sender={message.sender} text={message.content} />);
                 })}
                 <InputMessage
                     onEnter={this.onEnterPressed}
