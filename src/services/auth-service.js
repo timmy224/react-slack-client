@@ -1,15 +1,15 @@
 const AuthService = function (apiService) {
 
     const getCSRFToken = () => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/login`
-        let localUrl = `http://localhost:5000/login`
+        let remoteUrl = `https://react-slack-server.herokuapp.com/auth/csrf`
+        let localUrl = `http://localhost:5000/auth/csrf`
 
         return apiService.go(localUrl);
     }
 
     const loginUser = (username, password) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/login`
-        let localUrl = `http://localhost:5000/login`
+        let remoteUrl = `https://react-slack-server.herokuapp.com/auth/login`
+        let localUrl = `http://localhost:5000/auth/login`
 
         const post_data = {
             "username": username,
