@@ -21,10 +21,12 @@ class Chat extends React.Component {
         let messages = this.props.messages ? this.props.messages : [];
         return (
             <div>
-                {messages.map((message) => {
-                    return (<Message key={message.sender + message.content}
-                        sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
-                })}
+                <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
+                        {messages.map((message) => {
+                            return (<Message key={message.sender + message.content}
+                                sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
+                        })}
+                </div>
                 <InputMessage
                     onEnter={this.onEnterPressed}
                 />
