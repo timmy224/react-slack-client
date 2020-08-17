@@ -1,7 +1,7 @@
 const MessageService = function(apiService) {
     const fetchChannelMessages = channelId => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/message/channel/?channel_id=${channelId}`;
-        let localUrl = `http://localhost:5000/message/channel/?channel_id=${channelId}`;
+        let remoteUrl = `https://react-slack-server.herokuapp.com/message/channel?channel_id=${channelId}`;
+        let localUrl = `http://localhost:5000/message/channel?channel_id=${channelId}`;
         
         return apiService.go(localUrl)
             .then(response => response.json())
