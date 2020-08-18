@@ -28,7 +28,7 @@ class CreateChannel extends React.Component {
                  changeRoute({path:"/main"})
         }
             else if(data.ERROR == "Channel name is taken"){
-                return takenChannelName
+                takenChannelName(true)
             }
     })
          
