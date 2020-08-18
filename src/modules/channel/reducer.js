@@ -7,6 +7,7 @@ const initReducer = () => {
         channels: {},
         channel_name: '',
         show_taken_msg: false,
+        showModal: false
     };
 
   const reducer = (state = INITIAL_STATE, action) => {
@@ -27,6 +28,11 @@ const initReducer = () => {
                 return {
                     ...state,
                     channel_name: payload,
+                }
+            case types.SHOW_MODAL:
+                return{
+                    ...state,
+                    showModal: payload,
                 }
             default: 
                 return state;

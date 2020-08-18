@@ -44,11 +44,17 @@ const initActions = function (channelService, utilityService) {
         }
     };
 
+    const modalShow = actionCreator(types.SHOW_MODAL);
+    const showModal = (isModalOpen) => (dispatch) => {
+        dispatch(modalShow(isModalOpen))
+    };
+
     return {
         fetchChannels,
         createChannel,
         takenChannelName,
         channelDeleted,
+        showModal
     };
 };
 

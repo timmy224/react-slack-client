@@ -10,7 +10,7 @@ const ChannelService = function(apiService) {
 
     const checkChannelName = channelName => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channel/name-available";
-        let localUrl = "http://localhost:5000/check-channel-name";
+        let localUrl = "http://localhost:5000/channel/name-available";
 
         const post_data = {
             "channel_name": channelName
@@ -29,12 +29,13 @@ const ChannelService = function(apiService) {
             .then(data => data.isAvailable);
     };
 
-    const createChannel = channelName => {
+    const createChannel = (channelName, username) => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channel";
         let localUrl = "http://localhost:5000/channel";
 
         const post_data = {
             "channel_name": channelName,
+            "channel_admin":username
         }
 
         const options = {
