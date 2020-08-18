@@ -32,7 +32,6 @@ class Login extends Component {
         event.preventDefault();
         services.authService.loginUser(username, password)
             .then(data => {
-                console.log("sent data to login")
                 if (data.isAuthenticated) {
                     this.props.setPassword("");
                     services.storageService.set("username", username);

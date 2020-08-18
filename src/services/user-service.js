@@ -8,7 +8,7 @@ const UserService = function (apiService) {
             .then(data => JSON.parse(data.usernames));
     };
 
-    const  logout = (username) => {
+    const logout = (username) => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/logout";
         let localUrl = "http://localhost:5000/logout";
 
