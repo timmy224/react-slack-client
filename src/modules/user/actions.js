@@ -48,6 +48,7 @@ const initActions = function(userService, socketService, storageService) {
 				throw new Error("Could not log out");
 			}
 		}
+		console.log("calling to disconnect")
 		socketService.disconnect()
 		storageService.removeItem("username");
 		storageService.removeItem("csrf-token");

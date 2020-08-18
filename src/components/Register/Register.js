@@ -40,14 +40,17 @@ class Register extends Component {
                 }
 
                 else if (data.ERROR =="Missing username in route"){
+                    console.log("mising username")
                     return missingCredentials(true)
                 }
 
                 else if (data.ERROR =="Missing password in route"){
+                    console.log("mising password")
                     return missingCredentials(true)
                 }
 
                 else if (data.ERROR == "Username is taken"){
+                    console.log("username taken")
                     return takenUsername(true)
                 }  
             })
