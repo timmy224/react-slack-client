@@ -30,7 +30,7 @@ const mapActionsToProps = {
 
 class CreateChannel extends React.Component {
     handleSubmit = (event) => {
-        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
+        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate} = this.props
         event.preventDefault();
         const name = channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
@@ -49,10 +49,12 @@ class CreateChannel extends React.Component {
                 }
             )
             .catch(err => console.log(err));
+        createPrivate(false)
     }
     handleUserChange = (event) =>{
         let users=event.target.value
-        return this.props.setPrivateUsers(users.trim().split(/[\s,]+/))
+        let usersList = users.trim().split(/[\s,]+/)
+        return this.props.setPrivateUsers(usersList)
     }
 
     handleChannelName = (event) =>{
@@ -61,8 +63,9 @@ class CreateChannel extends React.Component {
     }
 
     render() {
-        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate } = this.props;
+        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
+        const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
                 <Form
                 onSubmit={this.handleSubmit}
@@ -96,6 +99,8 @@ class CreateChannel extends React.Component {
                         placeholder="#new channel name"
                         onChange={this.handleChannelName}/>
                       </Form.Group>
+                      <br />
+                      {userButton}
                       <br />
                       <Form.Group controlId="channelName">
                         <Form.Label>Users</Form.Label>
