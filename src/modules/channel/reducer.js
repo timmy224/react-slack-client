@@ -7,7 +7,9 @@ const initReducer = () => {
         channels: {},
         channel_name: '',
         show_taken_msg: false,
-        showModal: false
+        showModal: false,
+        isPrivate: false,
+        privateChannelUsers: []
     };
 
   const reducer = (state = INITIAL_STATE, action) => {
@@ -33,6 +35,16 @@ const initReducer = () => {
                 return{
                     ...state,
                     showModal: payload,
+                }
+            case types.CREATE_PRIVATE:
+                return{
+                    ...state,
+                    isPrivate: payload,
+                }
+            case types.PRIVATE_CHANNEL_USERS:
+                return{
+                    ...state,
+                    privateChannelUsers: payload,
                 }
             default: 
                 return state;

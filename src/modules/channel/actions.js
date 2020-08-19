@@ -49,12 +49,24 @@ const initActions = function (channelService, utilityService) {
         dispatch(modalShow(isModalOpen))
     };
 
+    const privateChannel = actionCreator(types.CREATE_PRIVATE);
+    const createPrivate = (isChannelPrivate) => (dispatch) => {
+        dispatch(privateChannel(isChannelPrivate))
+    };
+
+    const usersPrivate = actionCreator(types.PRIVATE_CHANNEL_USERS);
+    const privateChannelUsers = (privateUsers) => (dispatch) => {
+        dispatch(usersPrivate(privateUsers))
+    };
+
     return {
         fetchChannels,
         createChannel,
         takenChannelName,
         channelDeleted,
-        showModal
+        showModal,
+        createPrivate,
+        privateChannelUsers
     };
 };
 

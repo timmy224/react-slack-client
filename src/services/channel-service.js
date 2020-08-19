@@ -29,13 +29,12 @@ const ChannelService = function(apiService) {
             .then(data => data.isAvailable);
     };
 
-    const createChannel = (channelName, username) => {
+    const createChannel = (channelInfo) => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/channel";
         let localUrl = "http://localhost:5000/channel";
 
         const post_data = {
-            "channel_name": channelName,
-            "channel_admin":username
+            "channel_info": channelInfo,
         }
 
         const options = {
