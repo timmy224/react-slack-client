@@ -24,12 +24,12 @@ class CreateChannel extends React.Component {
         event.preventDefault();
         services.channelService.createChannel(channel_name)
         .then(data => {
-            if (data.successful){
-            changeRoute({path:"/main"})
+            if (data.successful) {
+                changeRoute({path:"/main"})
             }
-                 else if (data.ERROR == "Channel name is taken"){
-                    takenChannelName(true);
-                }
+            else if (data.ERROR == "Channel name is taken") {
+                takenChannelName(true);
+            }
             })
             .catch(err => console.log(err));
     }
