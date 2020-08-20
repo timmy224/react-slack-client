@@ -22,17 +22,14 @@ class CreateChannel extends React.Component {
     handleSubmit = (event) => {
         const { channel_name, takenChannelName, changeRoute } = this.props
         event.preventDefault();
-        services.channelService.checkChannelName(channel_name)
-            .then(isAvailable => {
-                if (isAvailable) {
-                    services.channelService.createChannel(channel_name)
-                        .then(success => {
-                            changeRoute({path:"/main"})
-                        })
-                        .catch(err => console.log(err));
-                } else {
-                    takenChannelName(true);
-                }
+        services.channelService.createChannel(channel_name)
+        .then(data => {
+            if (data.successful) {
+                changeRoute({path:"/main"})
+            }
+            else if (data.ERROR == "Channel name is taken") {
+                takenChannelName(true);
+            }
             })
             .catch(err => console.log(err));
     }
