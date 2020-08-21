@@ -117,8 +117,6 @@ class CreateChannel extends React.Component {
                 </Form>
         return (
             <div>
-                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
-                
                 <Modal show={showModal} onHide={()=>handleShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Channel Creation</Modal.Title>

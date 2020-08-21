@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
+import Button from 'react-bootstrap/Button';
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -15,7 +16,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames } = this.props;
+        const { channels, usernames, handleShow } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
@@ -53,6 +54,9 @@ class SideBar extends Component {
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {channelsDisplay}
                 </div>
+                <br />
+                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
+                <br />
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
@@ -73,6 +77,7 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
+    handleShow: actions.channel.showModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
