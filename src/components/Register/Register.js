@@ -38,15 +38,12 @@ class Register extends Component {
                     setPassword("")
                     changeRoute({path:"/login"})
                 }
-
                 else if (data.ERROR =="Missing username in route"){
                     return missingCredentials(true)
                 }
-
                 else if (data.ERROR =="Missing password in route"){
                     return missingCredentials(true)
                 }
-
                 else if (data.ERROR == "Username is taken"){
                     return takenUsername(true)
                 }  
@@ -57,7 +54,6 @@ class Register extends Component {
     handleChangeUser = (event) => {
         let username = event.target.value
         return this.props.setUsername(username)
-
     }
     handleChangePassword = (event) => {
         let password = event.target.value

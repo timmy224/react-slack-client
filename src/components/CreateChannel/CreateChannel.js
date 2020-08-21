@@ -39,16 +39,11 @@ class CreateChannel extends React.Component {
             members,
             isPrivate
         }
-        services.channelService.checkChannelName(name)
-            .then(isAvailable => {
-                if (isAvailable) {
-                    services.channelService.createChannel(channelInfo) 
-                    }else{
-                        takenChannelName(true);    
-                    }
-                }
-            )
-            .catch(err => console.log(err));
+        services.channelService.createChannel(channelInfo)
+        .then(data => {
+            if (data.ERROR == "Channel name is taken") {
+                takenChannelName(true);
+            }})
         createPrivate(false)
     }
     handleUserChange = (event) =>{
@@ -63,7 +58,7 @@ class CreateChannel extends React.Component {
     }
 
     render() {
-        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
+        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers} = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?

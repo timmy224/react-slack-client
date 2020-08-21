@@ -55,8 +55,7 @@ const initActions = function(messageService) {
 
     const fetchMessagesPrivate = actionCreator(types.FETCH_PRIVATE_MESSAGES);
     const fetchPrivateMessages = partnerUsername => async (dispatch, getState) => {
-        const ourUsername = getState().user.username;
-        const [err, messages] = await to(messageService.fetchPrivateMessages(ourUsername, partnerUsername));
+        const [err, messages] = await to(messageService.fetchPrivateMessages(partnerUsername));
         if (err) {
             throw new Error("Could not fetch private messages");
         }
