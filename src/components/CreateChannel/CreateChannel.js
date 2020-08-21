@@ -30,7 +30,7 @@ const mapActionsToProps = {
 
 class CreateChannel extends React.Component {
     handleSubmit = (event) => {
-        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate} = this.props
+        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleShow, setPrivateUsers} = this.props
         event.preventDefault();
         const name = channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
@@ -40,25 +40,33 @@ class CreateChannel extends React.Component {
             isPrivate
         }
         services.channelService.createChannel(channelInfo)
-        .then(data => {
-            if (data.ERROR == "Channel name is taken") {
-                takenChannelName(true);
-            }})
-        createPrivate(false)
-    }
+        .then(response => {
+            if(response.successful){
+            handleShow(false);
+            console.log('response.channel_admin:', response.channel_admin);
+            alert(`users_not_found: ${response.users_not_found}`);
+            }   
+        takenChannelName(true);
+    })}
+
     handleUserChange = (event) =>{
-        let users=event.target.value
-        let usersList = users.trim().split(/[\s,]+/)
-        return this.props.setPrivateUsers(usersList)
+        let users=event.target.value;
+        return this.props.setPrivateUsers(users.trim().split(/[\s,]+/))
     }
 
     handleChannelName = (event) =>{
         let channel_name = event.target.value
         return this.props.createChannel(channel_name)
     }
+    handleHide = () =>{
+        const { handleShow, setPrivateUsers, createPrivate } = this.props
+        handleShow(false);
+        setPrivateUsers([]);
+        createPrivate(false);
+    }
 
     render() {
-        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers} = this.props;
+        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
@@ -72,15 +80,6 @@ class CreateChannel extends React.Component {
                         placeholder="#new channel name" 
                         onChange={this.handleChannelName}/>
                       </Form.Group>
-                      <br />
-                    <Button 
-                    className="mt-2"
-                    type='submit' 
-                    variant="primary" 
-                    onClick={()=>handleShow(false)} 
-                    onSubmit={this.handleSubmit}
-                    >create
-                    </Button>
                 </Form>
             :
                 <Form
@@ -105,25 +104,24 @@ class CreateChannel extends React.Component {
                         placeholder="#enter users seperated by a space" 
                         onChange={this.handleUserChange}/>
                       </Form.Group>
-                      <br />
-                    <Button 
-                    className="mt-2"
-                    type='submit' 
-                    variant="primary" 
-                    onClick={()=>handleShow(false)}
-                    onSubmit={this.handleSubmit}
-                    >create
-                    </Button>
                 </Form>
         return (
             <div>
-                <Modal show={showModal} onHide={()=>handleShow(false)}>
+                <Modal show={showModal} onHide={this.handleHide}>
                 <Modal.Header closeButton>
                     <Modal.Title>Channel Creation</Modal.Title>
                     {takenMessage}
                 </Modal.Header>
                 {formDisplay}
                 <Modal.Footer>
+                    <Button 
+                    style={{marginRight:'auto'}}
+                    className="mt-2"
+                    type='submit' 
+                    variant="primary" 
+                    onClick={this.handleSubmit}
+                    >create
+                    </Button>
                     <Form.Check 
                         type="switch"
                         id="switchEnabled"

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
 import SideBar from "../SideBar/SideBar";
-import CreateChannel from "../CreateChannel/CreateChannel";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
 
@@ -53,7 +52,6 @@ class MainComponent extends Component {
                         <button 
                         type="button" class="btn btn-secondary m-1"
                         onClick={() => this.props.changeRoute({ path: "/cookie-demo" })}>Cookie demo -></button>
-                        <CreateChannel />
                     </div>
                 </div>
                 <div class="col-9">
