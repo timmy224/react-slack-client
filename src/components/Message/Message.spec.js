@@ -1,5 +1,5 @@
 import each from "jest-each";
-import tests from "./test-cases";
+import tests from "./tests";
 
 // const setUp = (props={}) => {
 //     const componentWrapper = shallow(<Message {...props} />);
