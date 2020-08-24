@@ -1,40 +1,29 @@
-import React from "react";
-import { shallow } from "enzyme";
-import Message from "./Message";
+import each from "jest-each";
+import tests from "./test-cases";
 
-import { checkProps, findByTestAttr } from "../../../testing-utils";
-
-const setUp = (props={}) => {
-    const componentWrapper = shallow(<Message {...props} />);
-    return componentWrapper;
-}
+// const setUp = (props={}) => {
+//     const componentWrapper = shallow(<Message {...props} />);
+//     return componentWrapper;
+// }
 
 describe("Message Component", () => {
-    describe("Checking PropTypes", () => {
-        it("Should not throw a warning", () => {
-            const expectedProps = {
-                sender: "bitboy",
-                time: "05/02/2020 12:15 PM",
-                text: "Hey how are you"
-            };
-            const propsErr = checkProps(Message, expectedProps);
-            expect(propsErr).toBeUndefined();
-        });
+    describe(tests.checkPropTypes.testDesc, () => {
+        each(tests.checkPropTypes.cases).it(tests.checkPropTypes.caseDesc, tests.checkPropTypes.func);
     });
-    describe("With props", () => {
-        let wrapper;
-        beforeEach(() => {
-            const props = {
-                sender: "bitboy",
-                time: "05/02/2020 12:15 PM",
-                text: "Hey how are you"
-            };
-            wrapper = setUp(props);
-        });
+    
+    describe(tests.checkRender.testDesc, () => {
+        each(tests.checkRender.cases).it(tests.checkRender.caseDesc, tests.checkRender.func);
+    });
 
-        it("Should render without errors", () => {
-            const mainDiv = findByTestAttr(wrapper, "MessageComponent");
-            expect(mainDiv.length).toBe(1);
-        });
-    });
+    // describe("With props", () => {
+    //     let wrapper;
+    //     beforeEach(() => {
+    //         const props = {
+    //             sender: "bitboy",
+    //             time: "05/02/2020 12:15 PM",
+    //             text: "Hey how are you"
+    //         };
+    //         wrapper = setUp(props);
+    //     });
+    // });
 });
