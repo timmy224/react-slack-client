@@ -42,27 +42,30 @@ class CreateChannel extends React.Component {
         services.channelService.createChannel(channelInfo)
         .then(response => {
             if(response.successful){
-            handleShow(false);
-            console.log('response.channel_admin:', response.channel_admin);
-            alert(`users_not_found: ${response.users_not_found}`);
-            }   
+                handleShow(false);
+                alert(`users_not_found: ${response.users_not_found}`);
+                }   
         takenChannelName(true);
     })}
 
-    handleUserChange = (event) =>{
+    resetModal = () => {
+        const { setPrivateUsers, createPrivate } = this.props
+        setPrivateUsers([]);
+        createPrivate(false);
+    }
+    handleUserChange = (event) => {
         let users=event.target.value;
         return this.props.setPrivateUsers(users.trim().split(/[\s,]+/))
     }
 
-    handleChannelName = (event) =>{
+    handleChannelName = (event) => {
         let channel_name = event.target.value
         return this.props.createChannel(channel_name)
     }
-    handleHide = () =>{
-        const { handleShow, setPrivateUsers, createPrivate } = this.props
+    handleHide = () => {
+        const { handleShow } = this.props
         handleShow(false);
-        setPrivateUsers([]);
-        createPrivate(false);
+        this.resetModal();
     }
 
     render() {
