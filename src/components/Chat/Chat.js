@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
+import ChannelChatHeader from "../ChatHeader/ChannelChatHeader"
+import PrivateChatHeader from "../ChatHeader/PrivateChatHeader"
 // Depends on chatService, socketService
 import { actions, services } from "../../context";
 
@@ -19,6 +21,7 @@ class Chat extends React.Component {
 
     render() {
         let messages = this.props.messages ? this.props.messages : [];
+        let chatHeader = this.props.chatType === "channel" ? <ChannelChatHeader /> : <PrivateChatHeader />
         return (
             <div>
                 <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
