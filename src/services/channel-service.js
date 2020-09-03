@@ -48,10 +48,20 @@ const ChannelService = function(apiService) {
             .then(data => data.successful)
     };
 
+    const fetchNumberOfUsers = channelId => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/channel/users";
+        let localUrl = "http://localhost:5000/channel/users";
+
+        return apiService.go(localUrl)
+            .then(response => response.json())
+            .then(data => data.totalUsers);
+    }
+
     return Object.freeze({
         fetchChannels, 
         createChannel,
-        deleteChannel
+        deleteChannel,
+        fetchNumberOfUsers
     });
 };
 

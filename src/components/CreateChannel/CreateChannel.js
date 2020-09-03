@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from "react-redux";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
@@ -28,7 +28,7 @@ const mapActionsToProps = {
     setPrivateUsers: actions.channel.privateChannelUsers
 }
 
-class CreateChannel extends React.Component {
+class CreateChannel extends Component {
     handleSubmit = (event) => {
         const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleShow, setPrivateUsers} = this.props
         event.preventDefault();

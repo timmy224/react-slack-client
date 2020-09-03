@@ -1,14 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
-import ChannelChatHeader from "../ChatHeader/ChannelChatHeader"
-import PrivateChatHeader from "../ChatHeader/PrivateChatHeader"
+import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
+import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
 // Depends on chatService, socketService
 import { actions, services } from "../../context";
 
-class Chat extends React.Component {
+class Chat extends Component {
 
     onEnterPressed = () => {
         let { currentInput, chatType, channel, partnerUsername, username } = this.props;
@@ -19,11 +19,13 @@ class Chat extends React.Component {
         services.socketService.send("send-message", message);
     }
 
+
     render() {
         let messages = this.props.messages ? this.props.messages : [];
-        let chatHeader = this.props.chatType === "channel" ? <ChannelChatHeader /> : <PrivateChatHeader />
+        // let chatHeader = this.props.chatType === "channel" ? <ChannelChatHeader /> : <PrivateChatHeader />
         return (
             <div>
+            {/*<ChannelChatHeader numberOfUsers={this.props.numberOfChannelUsers}/>*/}
                 <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
                         {messages.map((message) => {
                             return (<Message key={message.sender + message.content}
@@ -45,6 +47,7 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
+        numberOfChannelUsers: state.channel.numberOfChannelUsers
     }
     const isChannelChat = mapping.chatType === "channel";
     const isPrivateChat = mapping.chatType === "private";

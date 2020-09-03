@@ -1,13 +1,21 @@
-// We will want to have two separate components, channel chat header and private chat header because the 
-// visual styling is different and the functionality is different. 
+import React from "react";
 
-// Use props.chatType in Chat.js to determine which chat header to show 
+function ChannelChatHeader(props){
+	const handleClick = () =>{
+		// TODO
+		// Handle Show Channel Sidebar
+	}
+	return(
+		<div className = "container text-center mt-3 rounded" style={{border:'2px solid gray'}}>
+			<p>This is a Channel Chat Header</p>
+			<button 
+			type="button" 
+            class="btn btn-light m-1">
+            {/*onClick={this.handleClick}>*/}
+            `Total # of users: ${this.props.numberOfUsers}`
+            </button>
+		</div>
+	);
+}
 
-// The channel chat header should have a button that shows the number of people in the channel ("4 members"). 
-// When clicked it will open the channel sidebar
-
-//  You're going to want to make the service api call to find out how many members are in this channel from 
-// chat component (do not make the service call from the channel header component - keep it purely presentational). 
-
-// Keep the api call in chat component, pass the result (number of members) into channel chat header 
-// component to display the returned info
+export default ChannelChatHeader;
