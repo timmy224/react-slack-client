@@ -22,10 +22,12 @@ class Chat extends Component {
 
     render() {
         let messages = this.props.messages ? this.props.messages : [];
-        // let chatHeader = this.props.chatType === "channel" ? <ChannelChatHeader /> : <PrivateChatHeader />
+        let chatHeader = this.props.chatType === "channel" 
+                                                ? <ChannelChatHeader numberOfUsers={this.props.numberOfChannelUsers}/> 
+                                                : <PrivateChatHeader />
         return (
             <div>
-            {/*<ChannelChatHeader numberOfUsers={this.props.numberOfChannelUsers}/>*/}
+                {chatHeader}
                 <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
                         {messages.map((message) => {
                             return (<Message key={message.sender + message.content}

@@ -12,7 +12,7 @@ function ChannelChatHeader(props){
 			type="button" 
             class="btn btn-light m-1">
             {/*onClick={this.handleClick}>*/}
-            `Total # of users: ${this.props.numberOfUsers}`
+            {`${props.numberOfUsers} members`}
             </button>
 		</div>
 	);
