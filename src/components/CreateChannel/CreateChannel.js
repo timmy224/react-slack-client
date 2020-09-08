@@ -41,11 +41,12 @@ class CreateChannel extends Component {
         }
         services.channelService.createChannel(channelInfo)
         .then(response => {
-            response.successful 
-            ? this.handleHide()
-            : response.users_not_found
-            ? alert(`users_not_found: ${response.users_not_found}`)
-            : takenChannelName(true)
+            if(response.successful){
+                this.handleHide()
+            }else if(response.users_not_found){
+                alert(`users_not_found: ${response.users_not_found}`)
+            }
+            takenChannelName(true)
     })}
 
     resetModal = () => {
