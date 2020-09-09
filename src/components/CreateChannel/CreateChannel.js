@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from "react-redux";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
@@ -28,7 +28,7 @@ const mapActionsToProps = {
     setPrivateUsers: actions.channel.privateChannelUsers
 }
 
-class CreateChannel extends React.Component {
+class CreateChannel extends Component {
     handleSubmit = (event) => {
         const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleShow, setPrivateUsers} = this.props
         event.preventDefault();
@@ -42,19 +42,21 @@ class CreateChannel extends React.Component {
         services.channelService.createChannel(channelInfo)
         .then(response => {
             if(response.successful){
-                handleShow(false);
-                alert(`users_not_found: ${response.users_not_found}`);
-                }   
-        takenChannelName(true);
+                this.handleHide()
+            }else if(response.users_not_found){
+                alert(`users_not_found: ${response.users_not_found}`)
+            }
+            takenChannelName(true)
     })}
 
     resetModal = () => {
-        const { setPrivateUsers, createPrivate } = this.props
+        const { setPrivateUsers, createPrivate, takenChannelName } = this.props
         setPrivateUsers([]);
         createPrivate(false);
+        takenChannelName(false);
     }
     handleUserChange = (event) => {
-        let users=event.target.value;
+        let users = event.target.value;
         return this.props.setPrivateUsers(users.trim().split(/[\s,]+/))
     }
 
