@@ -40,14 +40,25 @@ class MainComponent extends Component {
   }
 
   render() {
-        return (
-        <div>
-            <Chat />
-            <SideBar />
-            <button onClick={() => this.props.logout()}>Logout</button>
-            <button onClick={() => this.props.changeRoute({ path: "/create-channel" })}>Create channel -></button>
-            <button onClick={() => this.props.changeRoute({ path: "/cookie-demo" })}>Cookie demo -></button>
-        </div>
+    return (
+      <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <SideBar />
+                    <div className = "container text-center mt-3">
+                        <button 
+                        type="button" class="btn btn-secondary m-1"
+                        onClick={() => this.props.logout()}>Logout</button>
+                        <button 
+                        type="button" class="btn btn-secondary m-1"
+                        onClick={() => this.props.changeRoute({ path: "/cookie-demo" })}>Cookie demo -></button>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <Chat />
+                </div>
+            </div>
+      </div>
     );
   }
 }
