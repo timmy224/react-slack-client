@@ -6,6 +6,7 @@ import configureMessageModule from "./message";
 import configureChannelModule from "./channel";
 import configureSidebarModule from "./sidebar";
 import configureChatModule from "./chat";
+import configureWorkspaceModule from "./workspace";
 import configureMainModule from "./main";
 import { extractActions, extractReducers } from "./extract";
 
@@ -17,6 +18,7 @@ const configureModules = services => {
     const channelModule = configureChannelModule(services); 
     const sidebarModule = configureSidebarModule(services);
     const chatModule = configureChatModule(services);
+    const workspaceModule = configureWorkspaceModule(services);
     const mainModule = configureMainModule();
 
     const modules = {
@@ -27,6 +29,7 @@ const configureModules = services => {
         channel: channelModule,
         sidebar: sidebarModule,
         chat: chatModule,
+        workspace: workspaceModule,
         main: mainModule,
     };
 

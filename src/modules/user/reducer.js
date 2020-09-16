@@ -8,7 +8,7 @@ const initReducer = () => {
         showMissingCred: false,
         wrongCredentialsMsg: false,
         password: '',
-    }
+    };
 
     const reducer = (state=INITIAL_STATE, action={}) => {
         const { type, payload } = action;
