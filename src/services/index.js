@@ -4,6 +4,7 @@ import ChannelService from "./channel-service";
 import MessageService from "./message-service";
 import StorageService from "./storage-service";
 import UserService from "./user-service";
+import PermissionService from "./permission-service";
 import ChatService from "./chat-service";
 import SocketService from "./socket-service";
 import UtilityService from "./utility-service";
@@ -19,6 +20,7 @@ const configureServices = () => {
     const registerService = RegisterService(apiService);
     const channelService = ChannelService(apiService);
     const messageService = MessageService(apiService);
+    const permissionService = PermissionService(apiService);
     const userService = UserService(apiService);
     const chatService = ChatService(userService);
     const socketService = SocketService(chatService);
@@ -32,6 +34,7 @@ const configureServices = () => {
         registerService,
         channelService, 
         messageService,
+        permissionService,
         userService,
         chatService,
         socketService,

@@ -23,7 +23,7 @@ class App extends Component {
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
-        let isNewUser =  username === null;
+        let isNewUser = username === null;
         if (isNewUser) {
           changeRoute({path:'/login'});
         }

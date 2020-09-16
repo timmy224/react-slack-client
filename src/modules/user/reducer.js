@@ -1,6 +1,6 @@
 import types from "./types";
 
-const initReducer = () =>{
+const initReducer = () => {
     const INITIAL_STATE = {
         username: '',
         usernames: [],
@@ -10,13 +10,13 @@ const initReducer = () =>{
         password: '',
     }
 
-    const reducer = ( state = INITIAL_STATE, action = {})=>{
+    const reducer = (state=INITIAL_STATE, action={}) => {
         const { type, payload } = action;
-        switch(type){
+        switch (type) {
             case types.SET_USERNAME:
                 return {
                     ...state, 
-                    username:payload
+                    username: payload
                 }; 
             case types.TAKEN_USERNAME:
                 return {
@@ -29,12 +29,12 @@ const initReducer = () =>{
                     usernames: payload
                 };
             case types.SET_PASSWORD:
-                return{
+                return {
                     ...state,
                     password: payload
                 }
             case types.MISSING_CREDENTIALS:
-                return{
+                return {
                     ...state,
                     showMissingCred: payload
                 }
@@ -43,6 +43,11 @@ const initReducer = () =>{
                     ...state, 
                     wrongCredentialsMsg: payload
                 };
+            case types.LOGIN:
+                return {
+                    ...state,
+                    password: ""
+                };
             case types.LOGOUT:
                 return {
                     ...state,
@@ -50,9 +55,10 @@ const initReducer = () =>{
                 };
             default:
                 return state;
-        }};
-
-        return  reducer;
+        }
+    };
+    return reducer;
 };
-export default initReducer
+
+export default initReducer;
 
