@@ -47,12 +47,22 @@ const initActions = function(userService, socketService, storageService, authSer
 		}
 		if (data.isAuthenticated) {
 			storageService.set("username", username);
-			await dispatch(actions.permission.fetchPermissions());
-			dispatch(loginActionCreator())
+			dispatch(loginActionCreator());
+			await dispatch(fetchLoginBundle());
 			dispatch(actions.route.changeRoute({path: "/main"}));
 		} else {
 			dispatch(actions.user.wrongCredentials(true));
 		}
+	};
+
+	const loginBundleFetch = actionCreator(types.FETCH_LOGIN_BUNDLE);
+	const fetchLoginBundle = () => async (dispatch) => {
+		await Promise.all([
+			dispatch(actions.channel.fetchChannels()),
+			dispatch(actions.user.fetchUsernames())
+		]);
+		await dispatch(actions.permission.fetchPermissions());
+		dispatch(loginBundleFetch());
 	};
 
 	const logoutActionCreator = actionCreator(types.LOGOUT);
@@ -79,6 +89,7 @@ const initActions = function(userService, socketService, storageService, authSer
 		setPassword,
 		missingCredentials,
 		login,
+		fetchLoginBundle,
 		logout,
 	};
 }

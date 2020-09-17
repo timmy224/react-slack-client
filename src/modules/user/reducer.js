@@ -7,6 +7,7 @@ const initReducer = () => {
         showTakenMsg: false,
         showMissingCred: false,
         wrongCredentialsMsg: false,
+        isLoginBundleFetched: false,
         password: '',
     };
 
@@ -47,6 +48,11 @@ const initReducer = () => {
                 return {
                     ...state,
                     password: ""
+                };
+            case types.FETCH_LOGIN_BUNDLE:
+                return {
+                    ...state,
+                    isLoginBundleFetched: true
                 };
             case types.LOGOUT:
                 return {

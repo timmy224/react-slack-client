@@ -13,8 +13,22 @@ const initActions = function(permissionService) {
         dispatch(permissionsFetch(data));
     };
 
+    const getPermissions = () => (dispatch, getState) => {
+        const permissions = [];
+        const orgId = getState().workspace.org;
+        const orgMemberPerms = getState().permission.orgMemberPerms[orgId]
+        permissions.push(...orgMemberPerms);
+        if (getState().chat.channel) {
+            const channelId = getState().chat.channel.channel_id;
+            const channelMemberPerms = getState().permission.channelMemberPerms[orgId][channelId]
+            permissions.push(...channelMemberPerms);
+        }
+        return permissions;
+    };
+
     return {
         fetchPermissions,
+        getPermissions,
     };
 }
 

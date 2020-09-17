@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
+import Can from "../Can/Can";
 // Depends on chatService, socketService
 import { actions, services } from "../../context";
 
@@ -21,6 +22,12 @@ class Chat extends React.Component {
         let messages = this.props.messages ? this.props.messages : [];
         return (
             <div>
+                <Can
+                    resource="channel-member"
+                    action="add"
+                    yes={() => <p>User can add channel members</p>}
+                    no={() => <p>User can add channel members</p>}
+                />
                 {messages.map((message) => {
                     return (<Message key={message.sender + message.content}
                         sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);

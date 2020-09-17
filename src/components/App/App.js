@@ -15,8 +15,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = {
-    setUsername:actions.user.setUsername,
-    changeRoute:actions.route.changeRoute,
+    setUsername: actions.user.setUsername,
+    changeRoute: actions.route.changeRoute,
 }
 
 class App extends Component {
