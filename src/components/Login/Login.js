@@ -29,20 +29,9 @@ class Login extends Component {
     }
 
     handleSubmit = (event) => {
-        const { username, wrongCredentials, changeRoute, password } = this.props
+        const { username, password } = this.props
         event.preventDefault();
         this.props.login(username, password);
-        // services.authService.loginUser(username, password)
-        //     .then(data => {
-        //         if (data.isAuthenticated) {
-        //             this.props.setPassword("");
-        //             services.storageService.set("username", username);
-        //             changeRoute({path:"/main"})
-        //         } else{
-        //             wrongCredentials(true)
-        //         }
-        //     })
-        //     .catch(err => console.log(err));
     }
 
     onUsernameChange = (event) =>{

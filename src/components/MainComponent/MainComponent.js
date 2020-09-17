@@ -21,7 +21,7 @@ const mapActionsToProps = {
 
 
 class MainComponent extends Component {
-    async componentDidMount() {
+    componentDidMount() {
         if (!services.socketService.getConnected()) {
             this.setupConnectedSubscription();
             const username = this.props.username ? this.props.username : services.storageService.get("username");
