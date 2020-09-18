@@ -59,9 +59,9 @@ const initActions = function(userService, socketService, storageService, authSer
 	const fetchLoginBundle = () => async (dispatch) => {
 		await Promise.all([
 			dispatch(actions.channel.fetchChannels()),
-			dispatch(actions.user.fetchUsernames())
+			dispatch(actions.user.fetchUsernames()),
+			dispatch(actions.permission.fetchPermissions())
 		]);
-		await dispatch(actions.permission.fetchPermissions());
 		dispatch(loginBundleFetch());
 	};
 

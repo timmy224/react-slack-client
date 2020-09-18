@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
 import SideBar from "../SideBar/SideBar";
-import Can from "../Can/Can";
+import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
 
@@ -49,7 +49,7 @@ class MainComponent extends Component {
                     <div>
                         <Chat />
                         <SideBar />
-                        <Can
+                        <CanView
                             resource="org-member"
                             action="invite"
                             yes={() => <p>User can invite org members</p>}

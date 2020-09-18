@@ -10,16 +10,16 @@ const check = (permissions, resource, action) => {
     return false;
 }
 
-const Can = props => {
+const CanView = props => {
     const dispatch = useDispatch(); 
     const permissions = dispatch(actions.permission.getPermissions());
     return check(permissions, props.resource, props.action) ? props.yes() : props.no();
 }
 
-Can.defaultProps = {
+CanView.defaultProps = {
     yes: () => null,
     no: () => null
 };
 
-export default Can;
+export default CanView;
 
