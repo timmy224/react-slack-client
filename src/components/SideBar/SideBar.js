@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
+import Button from 'react-bootstrap/Button';
+import CreateChannel from "../CreateChannel/CreateChannel";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -15,18 +17,22 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames } = this.props;
+        const { channels, usernames, handleShow } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.entries(channels).map(([channel_id, channel]) => 
                 <div key={channel.channel_id}>
                     <button
+                        type="button" 
+                        class="btn btn-dark m-1"
                         value={channel.channel_id}
                         onClick={this.selectChannel}>
                         {channel.name}
                     </button>
                     <button
+                        type="button" 
+                        class="btn btn-danger m-1"
                         value={channel.channel_id}
                         onClick={this.handleDelete}
                         >delete
@@ -35,7 +41,10 @@ class SideBar extends Component {
                 ));
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
-                : (usernames.map(username => <button 
+                : (usernames.map(username => 
+                    <button 
+                    type="button" 
+                    class="btn btn-light m-1"
                     value={username}
                     onClick={this.selectUser}
                     key={username}>
@@ -43,9 +52,17 @@ class SideBar extends Component {
                     </button>))
         return (
             <div>
-                {channelsDisplay}
-                {usernamesDisplay}
+                <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                    {channelsDisplay}
+                </div>
+                <br />
+                <CreateChannel />
+                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
+                <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                    {usernamesDisplay}
+                </div>
             </div>
+            
         )
     
     };
@@ -61,6 +78,7 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
+    handleShow: actions.channel.showModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

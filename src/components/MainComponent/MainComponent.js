@@ -46,17 +46,30 @@ class MainComponent extends Component {
         return (
             <div>
                 {isInitialized ?
-                    <div>
-                        <Chat />
-                        <SideBar />
-                        <CanView
-                            resource="org-member"
-                            action="invite"
-                            yes={() => <p>User can invite org members</p>}
-                            no={() => <p>User cannot invite org members</p>}
-                        />
-                        <button onClick={() => this.props.logout()}>Logout</button>
-                        <button onClick={() => this.props.changeRoute({ path: "/create-channel" })}>Create channel -></button>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <CanView
+                                    resource="org-member"
+                                    action="invite"
+                                    yes={() => <p>User can invite org members</p>}
+                                    no={() => <p>User cannot invite org members</p>}
+                                />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <SideBar />
+                                <div className="container text-center mt-3">
+                                    <button
+                                        type="button" class="btn btn-secondary m-1"
+                                        onClick={() => this.props.logout()}>Logout</button>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <Chat />
+                            </div>
+                        </div>
                     </div>
                     : null}
             </div>

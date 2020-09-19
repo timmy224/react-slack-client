@@ -8,6 +8,7 @@ const initActions = function() {
         const channels = getState().channel.channels;
         const channel = channels[channelId];
         dispatch(channelSelect(channel));
+        dispatch(actions.channel.fetchNumberOfUsers(channelId))
         const isMessagesExist = getState().message.channelMessages[channelId].length > 0;
         if (!isMessagesExist) {
             dispatch(actions.message.fetchChannelMessages(channelId));
