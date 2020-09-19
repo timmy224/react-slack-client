@@ -15,15 +15,15 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = {
-    setUsername:actions.user.setUsername,
-    changeRoute:actions.route.changeRoute,
+    setUsername: actions.user.setUsername,
+    changeRoute: actions.route.changeRoute,
 }
 
 class App extends Component {
     componentDidMount() {
         const { changeRoute, setUsername } = this.props;
         let username = services.storageService.get("username");
-        let isNewUser =  username === null;
+        let isNewUser = username === null;
         if (isNewUser) {
           changeRoute({path:'/login'});
         }
