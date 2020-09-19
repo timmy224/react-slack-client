@@ -21,7 +21,9 @@ const initActions = function(permissionService) {
         if (getState().chat.channel) {
             const channelId = getState().chat.channel.channel_id;
             const channelMemberPerms = getState().permission.channelMemberPerms[orgId][channelId]
-            permissions.push(...channelMemberPerms);
+            if (channelMemberPerms) {
+                permissions.push(...channelMemberPerms);
+            }            
         }
         return permissions;
     };

@@ -32,7 +32,7 @@ class Chat extends Component {
                     resource="channel-member"
                     action="add"
                     yes={() => <p>User can add channel members</p>}
-                    no={() => <p>User can add channel members</p>}
+                    no={() => <p>User cannot add channel members</p>}
                 />
                 {chatHeader}
                 <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
