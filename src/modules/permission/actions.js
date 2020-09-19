@@ -21,11 +21,14 @@ const initActions = function(permissionService) {
             permissions.push(...orgMemberPerms);
         }
         if (getState().chat.channel) {
-            const channelId = getState().chat.channel.channel_id;
-            const channelMemberPerms = getState().permission.channelMemberPerms[orgId][channelId]
-            if (channelMemberPerms) {
-                permissions.push(...channelMemberPerms);
-            }            
+            const allChanMemberPermsForOrg = getState().permission.channelMemberPerms[orgId]
+            if (allChanMemberPermsForOrg) {
+                const channelId = getState().chat.channel.channel_id;
+                const channelMemberPerms = allChanMemberPermsForOrg[channelId];
+                if (channelMemberPerms) {
+                    permissions.push(...channelMemberPerms);
+                }   
+            }   
         }
         return permissions;
     };
