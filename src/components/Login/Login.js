@@ -16,6 +16,7 @@ const mapActionsToProps = {
     changeRoute: actions.route.changeRoute,
     wrongCredentials: actions.user.wrongCredentials,
     setPassword: actions.user.setPassword,
+    login: actions.user.login,
 }
     
 class Login extends Component {
@@ -28,20 +29,10 @@ class Login extends Component {
     }
 
     handleSubmit = (event) => {
-        const { username, wrongCredentials, changeRoute, password } = this.props
+        const { username, password } = this.props
         event.preventDefault();
-        services.authService.loginUser(username, password)
-            .then(data => {
-                if (data.isAuthenticated) {
-                    this.props.setPassword("");
-                    services.storageService.set("username", username);
-                    changeRoute({path:"/main"})
-                } else{
-                    wrongCredentials(true)
-                }
-            })
-            .catch(err => console.log(err));
-        }
+        this.props.login(username, password);
+    }
 
     onUsernameChange = (event) =>{
         let username = event.target.value

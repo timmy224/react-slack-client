@@ -58,14 +58,13 @@ const initActions = function (channelService, utilityService) {
     const privateChannelUsers = (privateUsers) => (dispatch) => {
         dispatch(usersPrivate(privateUsers))
     };
-    const numberOfUsersFetch = actionCreator(types.FETCH_TOTAL_USERS);
-    const fetchNumberOfUsers = channelId => async (dispatch) => {
-        const [err, totalUsers] = await to(channelService.fetchNumberOfUsers(channelId));
+    const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
+    const fetchNumMembers = channelId => async (dispatch) => {
+        const [err, numMembers] = await to(channelService.fetchNumberOfMembers(channelId));
         if (err) {
-            throw new Error("Could not fetch total users");
+            throw new Error("Could not fetch num channel members");
         }
-        const number = totalUsers
-        dispatch(numberOfUsersFetch(number));
+        dispatch(numberOfMembersFetch(numMembers));
     };
 
     return {
@@ -76,7 +75,7 @@ const initActions = function (channelService, utilityService) {
         showModal,
         createPrivate,
         privateChannelUsers,
-        fetchNumberOfUsers
+        fetchNumMembers
     };
 };
 

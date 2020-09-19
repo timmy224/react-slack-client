@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { filter } from 'rxjs/operators';
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
+import CanView from "../CanView/CanView";
 import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
 // Depends on chatService, socketService
@@ -23,10 +24,16 @@ class Chat extends Component {
     render() {
         let messages = this.props.messages ? this.props.messages : [];
         let chatHeader = this.props.chatType === "channel" 
-                                                ? <ChannelChatHeader numberOfUsers={this.props.numberOfChannelUsers}/> 
+                                                ? <ChannelChatHeader numberOfUsers={this.props.numChannelMembers}/> 
                                                 : <PrivateChatHeader />
         return (
             <div>
+                <CanView
+                    resource="channel-member"
+                    action="add"
+                    yes={() => <p>User can add channel members</p>}
+                    no={() => <p>User cannot add channel members</p>}
+                />
                 {chatHeader}
                 <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
                         {messages.map((message) => {
@@ -49,7 +56,7 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
-        numberOfChannelUsers: state.channel.numberOfChannelUsers
+        numChannelMembers: state.channel.numChannelMembers
     }
     const isChannelChat = mapping.chatType === "channel";
     const isPrivateChat = mapping.chatType === "private";
