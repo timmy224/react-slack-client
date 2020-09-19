@@ -57,7 +57,6 @@ class MainComponent extends Component {
                         />
                         <button onClick={() => this.props.logout()}>Logout</button>
                         <button onClick={() => this.props.changeRoute({ path: "/create-channel" })}>Create channel -></button>
-                        <button onClick={() => this.props.changeRoute({ path: "/cookie-demo" })}>Cookie demo -></button>
                     </div>
                     : null}
             </div>
