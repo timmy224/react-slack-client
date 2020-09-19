@@ -17,7 +17,9 @@ const initActions = function(permissionService) {
         const permissions = [];
         const orgId = getState().workspace.org;
         const orgMemberPerms = getState().permission.orgMemberPerms[orgId]
-        permissions.push(...orgMemberPerms);
+        if (orgMemberPerms) {
+            permissions.push(...orgMemberPerms);
+        }
         if (getState().chat.channel) {
             const channelId = getState().chat.channel.channel_id;
             const channelMemberPerms = getState().permission.channelMemberPerms[orgId][channelId]
