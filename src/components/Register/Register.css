@@ -1,0 +1,116 @@
+body {
+    font-family: Slack-Lato,appleLogo,sans-serif;
+    height: 100%;
+    font-size: 15px;
+    line-height: 1.46668;
+    font-weight: initial;
+    color: #1d1c1d;
+    font-variant-ligatures: common-ligatures;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: block;
+}
+h1{
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+input{
+    
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(195, 195, 195));
+    border-image: initial;
+}
+
+.logo{
+    height: 34px;
+    display: block;
+    margin:auto;
+    margin-bottom: 32px;
+    cursor: pointer;
+    box-sizing: inherit;
+}
+.register{
+    font-family: Slack-Larsseit,Helvetica Neue,Helvetica,Segoe UI,Tahoma,Arial,sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 46px;
+    max-width: 700px;
+    text-align: center;
+    letter-spacing: -.75px;
+    margin: auto;
+    margin-bottom: 10px;
+    padding:0;
+}
+
+.create{
+    font-size: 18px;
+    line-height: 27px;
+    color: #454245;
+    max-width: 700px;
+    text-align: center;
+    margin:auto;
+    margin-bottom: 32px;
+}
+
+.loginInput{
+    padding: 11px 12px 13px;
+    height: 44px;
+    font-size: 18px;
+    line-height: 1.33333333;
+    display:block;
+    margin:auto;
+    margin-bottom: 10px; 
+}
+
+.signInReg{
+    color: #fff;
+    background-color: #4a154b;
+    border: none;
+    margin-bottom: 20px;
+    width: 30%;
+    font-size: 18px;
+    font-weight: 900;
+    height: 44px;
+    min-width: 96px;
+    padding: 0 16px 3px;
+    transition: all 80ms linear;
+    --saf-0: rgba(var(--sk_primary_foreground,29,28,29),0.3);
+    background-clip: padding-box;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    align-items: center;
+    position: relative;
+    display: block;
+    margin:auto;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+}
