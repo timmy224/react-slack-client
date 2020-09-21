@@ -4,8 +4,6 @@
 }
 
 .sidebar-section-heading {
-    /* text-align: center; */
-    /* height: 36px; */
     padding: 9px 20px;
     display: flex;
 }
@@ -40,4 +38,18 @@
     border: none;
     padding: 0;
     outline: none !important;
+}
+
+.sidebar-channel {
+    padding: 3px 0px 3px 35px;
+    font-size: 19px;
+    color: #99a59e;
+    font-weight: 800;
+}
+
+.channel-delete {
+    float: right;
+    margin-right: 13px;
+    margin-top: 2px;
+    opacity: 0.7;
 }

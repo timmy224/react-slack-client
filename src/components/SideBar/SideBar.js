@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -27,18 +27,17 @@ class SideBar extends Component {
             : (Object.entries(channels).map(([channel_id, channel]) => 
                 <div key={channel.channel_id}>
                     <button
-                        type="button" 
-                        class="btn btn-dark m-1"
+                        class="sidebar-channel unstyled-button"
                         value={channel.channel_id}
                         onClick={this.selectChannel}>
-                        {channel.name}
+                        {"# " + channel.name}
                     </button>
                     <button
                         type="button" 
-                        class="btn btn-danger m-1"
+                        class="channel-delete unstyled-button"
                         value={channel.channel_id}
-                        onClick={this.handleDelete}
-                        >delete
+                        onClick={this.handleDelete}>
+                        <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
                     </button>
                 </div>
                 ));
@@ -67,7 +66,7 @@ class SideBar extends Component {
                     </div>                               
                 </div>
                 <CreateChannel />
-                <div className="container text-center">
+                <div className="container">
                     {channelsDisplay}
                 </div>
                 <div className="sidebar-section-heading">
