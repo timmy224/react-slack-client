@@ -20,12 +20,13 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, handleShow } = this.props;
+        const { channels, usernames, handleShow, selectedChannel, selectedPartner } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
+        const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.entries(channels).map(([channel_id, channel]) => 
-                <div key={channel.channel_id}>
+                <div key={channel.channel_id} class={selectedChannel && selectedChannel.channel_id == channel.channel_id ? sidebarItemHighlightClass : ""}>
                     <button
                         class="sidebar-channel unstyled-button"
                         value={channel.channel_id}
@@ -44,18 +45,23 @@ class SideBar extends Component {
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
                 : (usernames.map(username => 
-                    <button 
-                    type="button" 
-                    class="btn btn-light m-1"
-                    value={username}
-                    onClick={this.selectUser}
-                    key={username}>
-                        {username}
-                    </button>))
+                    <div key={username} class={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : ""}>
+                        <button
+                            type="button"
+                            class="sidebar-user unstyled-button"
+                            value={username}
+                            onClick={this.selectUser}>
+                            {username}
+                        </button>
+                    </div>
+                ))
         return (
             <div className="sidebar">
+                <div className="org-name">
+                    <p>CodeLearning</p>
+                </div>
                 <div className="sidebar-section-heading">
-                    <span class="sidebbar-section-heading-expand">
+                    <span class="sidebar-section-heading-expand">
                         <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                     </span>                    
                     <button class="sidebar-section-heading-label unstyled-button">Channels</button>
@@ -70,7 +76,7 @@ class SideBar extends Component {
                     {channelsDisplay}
                 </div>
                 <div className="sidebar-section-heading">
-                    <span class="sidebbar-section-heading-expand">
+                    <span class="sidebar-section-heading-expand">
                         <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                     </span>                    
                     <button class="sidebar-section-heading-label unstyled-button">Direct messages</button>
@@ -80,7 +86,7 @@ class SideBar extends Component {
                         </button>
                     </div>                               
                 </div>
-                <div className="container text-center" style={{border:'2px solid black'}}>
+                <div className="container">
                     {usernamesDisplay}
                 </div>
             </div>
@@ -94,6 +100,8 @@ const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
         usernames: state.user.usernames,
+        selectedChannel: state.chat.channel,
+        selectedPartner: state.chat.partnerUsername
     };
 };
 
