@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
 import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
+import "./Sidebar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -51,14 +54,34 @@ class SideBar extends Component {
                         {username}
                     </button>))
         return (
-            <div>
-                <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+            <div className="sidebar">
+                <div className="sidebar-section-heading">
+                    <span class="sidebbar-section-heading-expand">
+                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                    </span>                    
+                    <button class="sidebar-section-heading-label unstyled-button">Channels</button>
+                    <div class="sidebar-section-heading-right">
+                        <button class="unstyled-button" onClick={()=>handleShow(true)}>
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                        </button>
+                    </div>                               
+                </div>
+                <CreateChannel />
+                <div className="container text-center">
                     {channelsDisplay}
                 </div>
-                <br />
-                <CreateChannel />
-                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
-                <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                <div className="sidebar-section-heading">
+                    <span class="sidebbar-section-heading-expand">
+                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                    </span>                    
+                    <button class="sidebar-section-heading-label unstyled-button">Direct messages</button>
+                    <div class="sidebar-section-heading-right">
+                        <button class="unstyled-button">
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                        </button>
+                    </div>                               
+                </div>
+                <div className="container text-center" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
             </div>

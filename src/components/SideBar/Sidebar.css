@@ -1,0 +1,43 @@
+.sidebar {
+    background-color: #011F26;
+    height: 100vh;
+}
+
+.sidebar-section-heading {
+    /* text-align: center; */
+    /* height: 36px; */
+    padding: 9px 20px;
+    display: flex;
+}
+
+.sidebbar-section-heading-expand {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-section-heading-label {
+    color: #99a59e;
+    font-size: 20px;
+    font-weight: 800;
+    flex: 1 1 0;
+    display: block;
+    text-align: left;
+    padding-right: 25px;
+}
+
+.sidebar-section-heading-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-left: 8px;
+    padding: 0 8px;
+}
+
+.unstyled-button {
+    background: none;
+    border: none;
+    padding: 0;
+    outline: none !important;
+}
