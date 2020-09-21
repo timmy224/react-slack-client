@@ -73,13 +73,13 @@ class Register extends Component {
                 {takenMessage}
                 {missingCred}
                 <input
-                    className="loginInput"
+                    className="login-input"
                     onChange={this.handleChangeUser}
                     type="text"
                     placeholder="Username"
                 />
                 <input 
-                    className="loginInput"
+                    className="login-input"
                      onChange={this.handleChangePassword} 
                      type="password"
                      placeholder="Password"
