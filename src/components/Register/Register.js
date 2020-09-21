@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 // Depends on userService, storageService, socketService, registerService
 import { services } from "../../context";
 import { actions } from "../../context";
-import "./Register.css"
 
 const mapStateToProps = (state)=>{
     return { 
@@ -67,31 +66,25 @@ class Register extends Component {
         const missingCred = showMissingCred ?  <h3>Either password or username are missing.</h3> : null;
         return (
             <Fragment>
-                <img className="logo" src="https://a.slack-edge.com/bv1-8/slack_logo-ebd02d1.svg"></img>
-                <h1 className="register">Register for a new account</h1>
-                <h6 className="create">Create an account with the username and password you will use to sign in.</h6>
+                <h1>Register</h1>
                 {takenMessage}
                 {missingCred}
                 <input
-                    className="loginInput"
                     onChange={this.handleChangeUser}
                     type="text"
                     placeholder="Username"
                 />
                 <input 
-                    className="loginInput"
                      onChange={this.handleChangePassword} 
                      type="password"
                      placeholder="Password"
                 />
                 <input
-                className="signInReg"
                  onClick={this.handleSubmit}
                   type="submit"
-                  value="Register" />
+                  value="register" />
                 
                 <button
-                className="signInReg"
                  onClick = {()=> changeRoute({path:"/login"})}>Login Form
                  </button>      
             
