@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services} from "../../context";
-import "./Login.css";
 
 const mapStateToProps = (state)=>{
     return { 
@@ -55,15 +54,13 @@ class Login extends Component {
 	        return(
 	        	<div>
 	        		{credentialsIncorrect}
-                    <img className="logo" src="https://a.slack-edge.com/bv1-8/slack_logo-ebd02d1.svg"></img>
                     <form>
-    	      			<h1 className= "login">Sign in to slack</h1>
-                        <h6 className="continue">Continue with the username and password you use to sign in.</h6>
-            			<input className ="loginInput" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
-    			        <input className="loginInput" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
-    			      	<input className= "signInReg"onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
+    	      			<h1>Login</h1>
+            			<input onChange={this.onUsernameChange} type="text" placeholder="username" required="required" />
+    			        <input onChange={this.onPasswordChange} type="password" placeholder="password" required="required" />
+    			      	<input onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
                     </form>
-                    <button className ="signInReg"onClick={this.handleClick}>Register</button>
+                    <button onClick={this.handleClick}>Register</button>
 				</div>
         	)
         }
