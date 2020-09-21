@@ -85,13 +85,13 @@ class Register extends Component {
                      placeholder="Password"
                 />
                 <input
-                className="signInReg"
+                className="sign-in-reg"
                  onClick={this.handleSubmit}
                   type="submit"
                   value="Register" />
                 
                 <button
-                className="signInReg"
+                className="sign-in-reg"
                  onClick = {()=> changeRoute({path:"/login"})}>Login Form
                  </button>      
             

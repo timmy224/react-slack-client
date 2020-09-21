@@ -74,7 +74,7 @@ input{
     margin-bottom: 32px;
 }
 
-.loginInput{
+.login-input{
     padding: 11px 12px 13px;
     height: 44px;
     font-size: 18px;
@@ -84,7 +84,7 @@ input{
     margin-bottom: 10px; 
 }
 
-.signInReg{
+.sign-in-reg{
     color: #fff;
     background-color: #4a154b;
     border: none;
