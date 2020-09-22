@@ -35,7 +35,7 @@ class Chat extends Component {
                     no={() => <p>User cannot add channel members</p>}
                 />
                 {chatHeader}
-                <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
+                <div>
                         {messages.map((message) => {
                             return (<Message key={message.sender + message.content}
                                 sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);

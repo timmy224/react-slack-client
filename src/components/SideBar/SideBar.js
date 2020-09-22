@@ -11,10 +11,11 @@ class SideBar extends Component {
     selectChannel = (event) => {
         this.props.selectChannel(event.target.value);
     }
+    
     selectUser = (event) => {
         this.props.selectUser(event.target.value);
     }
-    
+
     deleteChannel = channelId => {
         services.channelService.deleteChannel(channelId).catch(err => console.log(err));
     }

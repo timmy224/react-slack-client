@@ -1,0 +1,49 @@
+.message {
+    background-color: #1A1D21;
+    color: rgb(240, 240, 240);
+    display: flex;
+    padding: 8px 20px;
+}
+
+.message:hover {
+    background-color: rgb(80, 84, 90);
+}
+
+.message-left {
+    flex-shrink: 0;
+    margin-right: 8px;
+    display: flex;
+}
+
+.message-left .avatar {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    height: 48px;
+    width: 48px;
+    background-color: rgb(125, 200, 207);
+    color: white;
+    border-radius: 4px;
+}
+
+.message-right {
+    flex: 1 1 0;
+    padding-left: 10px;
+}
+
+.message-right .message-sender {
+    font-size: 17px;
+    font-weight: 900;
+    display: inline-flex;
+}
+
+.message-right .message-timestamp {
+    color: rgb(187, 187, 187);
+    font-size: 16px;
+    margin-left: 15px;
+    display: inline-flex;
+}
+
+.message-right .message-content {
+    font-size: 17px;
+}
