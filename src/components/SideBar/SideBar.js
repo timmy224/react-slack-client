@@ -14,9 +14,9 @@ class SideBar extends Component {
     selectUser = (event) => {
         this.props.selectUser(event.target.value);
     }
-    handleDelete = (event) => {
-        let channel_id = event.target.value
-        services.channelService.deleteChannel(channel_id).catch(err => console.log(err));
+    
+    deleteChannel = channelId => {
+        services.channelService.deleteChannel(channelId).catch(err => console.log(err));
     }
 
     render() {
@@ -37,7 +37,7 @@ class SideBar extends Component {
                         type="button" 
                         class="channel-delete unstyled-button"
                         value={channel.channel_id}
-                        onClick={this.handleDelete}>
+                        onClick={() => this.deleteChannel(channel.channel_id)}>
                         <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
                     </button>
                 </div>
