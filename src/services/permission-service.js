@@ -1,9 +1,9 @@
+import { config } from "../Config";
+
 const PermissionService = function(apiService) {
     const fetchPermissions = (username) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/permission/?username=${username}`;
-        let localUrl = `http://localhost:5000/permission/?username=${username}`;
-
-        return apiService.go(localUrl)
+        const url = `${config.API_URL}/permission/?username=${username}`;
+        return apiService.go(url)
             .then(response => response.json())
     };
 

@@ -1,6 +1,7 @@
 import io from "socket.io-client";
 import { Subject } from "rxjs";
 import { actions, store } from "../context";
+import { config } from "../Config";
 
 
 function SocketService(chatService) {
@@ -13,12 +14,11 @@ function SocketService(chatService) {
     const getConnected$ = () => connected$;
 
     const connect = dataObject => {
-        let localUrl = "http://localhost:5000";
-        let remoteUrl = "https://react-slack-server.herokuapp.com";
+        const url = config.API_URL;
         let value = dataObject.username
         let query_val = `username=${value}`
         let queryObj = { query: query_val }
-        socket = io(localUrl, queryObj)
+        socket = io(url, queryObj)
         setUpEventListeners();
         return socket
     };

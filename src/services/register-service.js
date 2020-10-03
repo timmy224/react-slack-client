@@ -1,14 +1,12 @@
-const RegisterService = function(apiService) {
-    
-    const registerUser = (username, password) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/register`
-        let localUrl = `http://localhost:5000/register`
+import { config } from "../Config";
 
+const RegisterService = function(apiService) {
+    const registerUser = (username, password) => {
+        const url = `${config.API_URL}/register`;
         const post_data = {
             "username": username,
             "password": password
         }
-
         const options = {
             method: "POST",
             body: JSON.stringify(post_data),
@@ -16,8 +14,7 @@ const RegisterService = function(apiService) {
                 'Content-Type': 'application/json'
             }
         }
-
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
     }
     return Object.freeze({
