@@ -76,6 +76,7 @@ class CreateChannel extends Component {
         const formDisplay = !isPrivate ?
                 <form
                 onSubmit={this.handleSubmit}
+                className="custom-form"
                 >
                       <div className="form-group channel-name-label">
                         <label className="dark-font">Name</label>
@@ -89,9 +90,9 @@ class CreateChannel extends Component {
             :
                 <form
                 onSubmit={this.handleSubmit}
-                className="p-3">
+                className="custom-form">
                       <div className="form-group channel-name-label">
-                        <label>Private Channel Name</label>
+                        <label className="dark-font">Private Channel Name</label>
                         <input 
                         className = "form-control" 
                         name="channelName"
@@ -99,37 +100,39 @@ class CreateChannel extends Component {
                         placeholder="#new channel name"
                         onChange={this.handleChannelName}/>
                       </div>
-                      <br />
                       {userButton}
-                      <br />
                       <div className="form-group" controlId="channelName">
-                        <label>Users</label>
+                        <label className="dark-font">Users</label>
                         <input 
                         className = "form-control"
                         name="users"
                         type="text" 
-                        placeholder="#enter users seperated by a space" 
+                        placeholder="#enter users separated by a space" 
                         onChange={this.handleUserChange}/>
                       </div>
                 </form>
         return (
             <div id="create-channel-container">
-                <Modal className="modal" show={showModal} onHide={this.handleHide}>
-                <Modal.Header className="modal-header" closeButton>
-                    <Modal.Title>Create a channel</Modal.Title>
+                <Modal className="custom-modal" show={showModal} onHide={this.handleHide}>
+                <Modal.Header className="modal-header " closeButton>
+                    <Modal.Title className="dark-font">
+                        <h1>Create a channel</h1>
+                    </Modal.Title>
                     {takenMessage}
                 </Modal.Header>
                 <div className="create-channel-description grey-font">
-                    Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.
+                    <p>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
                 </div>
                 {formDisplay}
                 <div id="private-section">
-                    <h4>Make Private</h4>
+                    <h4 className="dark-font">Make Private</h4>
                     <div id="private-label">
-                        <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                        <p className="grey-font">When a channel is set to private, it can only be viewed or joined by invitation.</p>
                         <div className="custom-control custom-switch">
                             <input type="checkbox" className="custom-control-input" id="customSwitch1"/>
-                            <label className="custom-control-label" for="customSwitch1" onClick={()=>createPrivate(!isPrivate)}>Make private</label>
+                            <label className="custom-control-label grey-font" for="customSwitch1" onClick={()=>createPrivate(!isPrivate)}>
+                                <p>Make private</p>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -137,7 +140,7 @@ class CreateChannel extends Component {
                     <button
                     id="create-button"
                     type="button"
-                    className="mt-2 btn btn-primary"
+                    className="mt-2 btn btn-primary dark-font"
                     type='submit' 
                     onClick={this.handleSubmit}
                     >Create
