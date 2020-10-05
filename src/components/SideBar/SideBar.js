@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
-import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
+
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -57,7 +57,7 @@ class SideBar extends Component {
                 </div>
                 <br />
                 <CreateChannel />
-                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
+                <button type="button" className="btn btn-primary" onClick={()=>handleShow(true)}>Create a channel</button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
