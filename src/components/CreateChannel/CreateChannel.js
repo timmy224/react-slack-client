@@ -79,7 +79,7 @@ class CreateChannel extends Component {
                 className="custom-form"
                 >
                       <div className="form-group channel-name-label">
-                        <label className="dark-font">Name</label>
+                        <label>Name</label>
                         <input 
                         className = "form-control" 
                         type="text" 
@@ -92,7 +92,7 @@ class CreateChannel extends Component {
                 onSubmit={this.handleSubmit}
                 className="custom-form">
                       <div className="form-group channel-name-label">
-                        <label className="dark-font">Private Channel Name</label>
+                        <label>Private Channel Name</label>
                         <input 
                         className = "form-control" 
                         name="channelName"
@@ -102,7 +102,7 @@ class CreateChannel extends Component {
                       </div>
                       {userButton}
                       <div className="form-group" controlId="channelName">
-                        <label className="dark-font">Users</label>
+                        <label>Users</label>
                         <input 
                         className = "form-control"
                         name="users"
@@ -115,22 +115,22 @@ class CreateChannel extends Component {
             <div id="create-channel-container">
                 <Modal className="custom-modal" show={showModal} onHide={this.handleHide}>
                 <Modal.Header className="modal-header " closeButton>
-                    <Modal.Title className="dark-font">
+                    <Modal.Title>
                         <h1>Create a channel</h1>
                     </Modal.Title>
                     {takenMessage}
                 </Modal.Header>
-                <div className="create-channel-description grey-font">
+                <div className="create-channel-description">
                     <p>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
                 </div>
                 {formDisplay}
                 <div id="private-section">
-                    <h4 className="dark-font">Make Private</h4>
+                    <h4>Make Private</h4>
                     <div id="private-label">
-                        <p className="grey-font">When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                        <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
                         <div className="custom-control custom-switch">
                             <input type="checkbox" className="custom-control-input" id="customSwitch1"/>
-                            <label className="custom-control-label grey-font" for="customSwitch1" onClick={()=>createPrivate(!isPrivate)}>
+                            <label className="custom-control-label " for="customSwitch1" onClick={()=>createPrivate(!isPrivate)}>
                                 <p>Make private</p>
                             </label>
                         </div>
@@ -140,7 +140,7 @@ class CreateChannel extends Component {
                     <button
                     id="create-button"
                     type="button"
-                    className="mt-2 btn btn-primary dark-font"
+                    className="mt-2 btn btn-primary custom-button"
                     type='submit' 
                     onClick={this.handleSubmit}
                     >Create

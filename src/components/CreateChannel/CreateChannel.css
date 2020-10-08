@@ -3,8 +3,9 @@
 	font-family: Slack-lato, appleLogo, sans-serif;
 }
 .custom-form{
-	color: rgb(204,199,192);
 	font-family: Slack-lato, appleLogo, sans-serif;
+	background-color: rgb(26,29,33);
+	color: rgb(209,210,211);
 }
 .modal-header{
 	display: flex;
@@ -13,6 +14,7 @@
 	width: 100%;
 	font-weight: 900;
 	border: 0;
+	background-color: rgb(26,29,33)
 }
 form{
 	display: block;
@@ -29,6 +31,7 @@ form{
 #private-section{
 	display: block;
 	padding: 0px 28px;
+	background-color: rgb(26,29,33)
 }
 #private-label{
 	display: flex;
@@ -44,22 +47,12 @@ form{
 	min-height: 70px;
 	padding: 0px 28px;
 	width: 100%;
+	background-color: rgb(26,29,33)
 }
 .footer{
 	border: 0;
-	padding: 0;
-	margin: 10px;
-}
-.dark-font{
-	color: rgb(29,28,29);
-}
-.grey-font{
-	color: rgb(97,96,97);
-}
-#create-button{
-    background: rgb(195 191 195);
-    color: rgb(29,28,29);
-    border-color: rgb(195 191 195);
+	padding: 10px;
+	background-color: rgb(26,29,33)
 }
 button:focus {
 	outline:none;
@@ -68,20 +61,17 @@ h1{
 	font-size: 28px;
 	font-weight: 900;
 	line-height: 34px;
-	/*font-family: Slack-lato, appleLogo, sans-serif;*/
 }
 h4{
 	font-size: 15px;
 	font-weight: 700px;
 	margin-bottom: 0;
-	/*font-family: Slack-lato, appleLogo, sans-serif;*/
 }
 p{
 	font-size: 15px;
 	font-weight: 400px;
 	margin-bottom: 0;
 	line-height: 22px;
-	/*font-family: Slack-lato, appleLogo, sans-serif;*/
 }
 label{
 	font-weight: 500;
@@ -108,11 +98,25 @@ input{
 	padding-left: 36px;
 	padding-right: 46px;
 }
-
-
-/*.private-channel{
-	display: flex;
-	justify-content: space-between;
-	align-items: start;
-}*/
+.custom-button{
+	font-size: .75rem;
+	padding: 4px 8px;
+	background-color: rgb(29,28,28);
+	color: rgb(209,210,211);
+	font-weight: 500;
+	border-color: rgb(209,210,211);
+	border-radius: 5px;
+	border-width: 2px;
+}
+.custom-button:hover{
+	background-color: #ebeff3;
+	border-color: rgb(209,210,211);
+	color:rgb(29,28,28);
+}
+button.close{
+	color: rgb(204,199,192);
+}
+button.close:hover{
+	color: #ebeff3
+}
 
