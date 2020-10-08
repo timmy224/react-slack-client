@@ -1,16 +1,16 @@
+import { config } from "../Config";
+
 function DemoService() {
     // COOKIES DEMO // 
     const getCookie = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/get-cookie";
-        let localUrl = "http://localhost:5000/get-cookie";
-        return fetch(localUrl, {credentials: "include"})
+        const url = `${config.API_URL}/get-cookie`;
+        return fetch(url, {credentials: "include"})
             .then(response => response.json());
     };
 
     const sendCookie = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/send-cookie";
-        let localUrl = "http://localhost:5000/send-cookie";
-        return fetch(localUrl, {credentials: "include"})
+        const url = `${config.API_URL}/send-cookie`;
+        return fetch(url, {credentials: "include"})
             .then(response => response.json());
     }
     return Object.freeze({

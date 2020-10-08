@@ -46,19 +46,9 @@ class MainComponent extends Component {
         return (
             <div>
                 {isInitialized ?
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <CanView
-                                    resource="org-member"
-                                    action="invite"
-                                    yes={() => <p>User can invite org members</p>}
-                                    no={() => <p>User cannot invite org members</p>}
-                                />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-3">
+                    <div class="container-fluid px-0">                        
+                        <div class="row no-gutters">
+                            <div class="col-2">
                                 <SideBar />
                                 <div className="container text-center mt-3">
                                     <button
@@ -68,6 +58,16 @@ class MainComponent extends Component {
                             </div>
                             <div class="col-9">
                                 <Chat />
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <CanView
+                                    resource="org-member"
+                                    action="invite"
+                                    yes={() => <p>User can invite org members</p>}
+                                    no={() => <p>User cannot invite org members</p>}
+                                />
                             </div>
                         </div>
                     </div>
