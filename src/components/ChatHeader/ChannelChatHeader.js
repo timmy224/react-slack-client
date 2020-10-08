@@ -11,7 +11,7 @@ function ChannelChatHeader(props){
 			<h1>{`# ${props.channelName}`}</h1>
 			<button 
 			type="button" 
-            class="btn btn-light ">
+            className="btn btn-light custom-button">
             {/*onClick={this.handleClick}>*/}
             {`${props.numberOfUsers} members`}
             </button>
