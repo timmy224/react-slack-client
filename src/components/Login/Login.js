@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services} from "../../context";
+import "./Login.css";
 
 const mapStateToProps = (state)=>{
     return { 
@@ -54,13 +55,15 @@ class Login extends Component {
 	        return(
 	        	<div>
 	        		{credentialsIncorrect}
+                    <img className="logo" src="https://www.sblack.online/img/icon.png"></img>
                     <form>
-    	      			<h1>Login</h1>
-            			<input onChange={this.onUsernameChange} type="text" placeholder="username" required="required" />
-    			        <input onChange={this.onPasswordChange} type="password" placeholder="password" required="required" />
-    			      	<input onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
+    	      			<h1 className= "login">Sign in</h1>
+                        <h6 className="continue">Continue with the username and password you use to sign in.</h6>
+            			<input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
+    			        <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
+    			      	<input className= "sign-in-reg"onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
                     </form>
-                    <button onClick={this.handleClick}>Register</button>
+                    <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
 				</div>
         	)
         }

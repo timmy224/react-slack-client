@@ -1,18 +1,16 @@
+import { config } from "../Config";
+
 const MessageService = function(apiService) {
     const fetchChannelMessages = channelId => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/message/channel/?channel_id=${channelId}`;
-        let localUrl = `http://localhost:5000/message/channel/?channel_id=${channelId}`;
-        
-        return apiService.go(localUrl)
+        const url = `${config.API_URL}/message/channel/?channel_id=${channelId}`;
+        return apiService.go(url)
             .then(response => response.json())
             .then(data => JSON.parse(data.messages)); 
     };
 
     const fetchPrivateMessages = (partnerUsername) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/message/private/?username2=${partnerUsername}`;
-        let localUrl = `http://localhost:5000/message/private/?username2=${partnerUsername}`;
-
-        return apiService.go(localUrl)
+        const url = `${config.API_URL}/message/private/?username2=${partnerUsername}`;
+        return apiService.go(url)
             .then(response => response.json())
             .then(data => JSON.parse(data.messages));
     }
