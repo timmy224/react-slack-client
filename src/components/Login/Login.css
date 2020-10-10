@@ -1,5 +1,5 @@
 body {
-    font-family: Slack-Lato,appleLogo,sans-serif;
+    font-family: sans-serif;
     height: 100%;
     font-size: 15px;
     line-height: 1.46668;
@@ -52,7 +52,7 @@ input{
     box-sizing: inherit;
 }
 .login {
-    font-family: Slack-Larsseit,Helvetica Neue,Helvetica,Segoe UI,Tahoma,Arial,sans-serif;
+    font-family: Helvetica, Tahoma,Arial,sans-serif;
     font-weight: 700;
     font-size: 48px;
     line-height: 46px;
