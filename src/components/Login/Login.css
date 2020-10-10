@@ -10,7 +10,8 @@ body {
     -webkit-font-smoothing: antialiased;
     display: block;
 }
-h1{
+
+h1 {
     display: block;
     font-size: 2em;
     margin-block-start: 0.67em;
@@ -19,7 +20,8 @@ h1{
     margin-inline-end: 0px;
     font-weight: bold;
 }
-input{
+
+input {
     -webkit-writing-mode: horizontal-tb !important;
     text-rendering: auto;
     color: -internal-light-dark(black, white);
@@ -43,7 +45,7 @@ input{
     border-image: initial;
 }
 
-.logo{
+.logo {
     height: 34px;
     display: block;
     margin:auto;
@@ -51,6 +53,7 @@ input{
     cursor: pointer;
     box-sizing: inherit;
 }
+
 .login {
     font-family: Helvetica, Tahoma,Arial,sans-serif;
     font-weight: 700;
@@ -64,7 +67,7 @@ input{
     padding:0;
 }
 
-.continue{
+.continue {
     font-size: 18px;
     line-height: 27px;
     color: #454245;
@@ -74,7 +77,7 @@ input{
     margin-bottom: 32px;
 }
 
-.login-input{
+.login-input {
     padding: 11px 12px 13px;
     height: 44px;
     font-size: 18px;
@@ -84,7 +87,7 @@ input{
     margin-bottom: 10px; 
 }
 
-.sign-in-reg{
+.sign-in-reg {
     color: #fff;
     background-color: #4a154b;
     border: none;
