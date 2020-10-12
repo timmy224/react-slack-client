@@ -1,13 +1,15 @@
-.custom-modal{
+.custom-modal {
 	color: rgb(204,199,192);
 	font-family: Slack-lato, appleLogo, sans-serif;
 }
-.custom-form{
+
+.custom-form {
 	font-family: Slack-lato, appleLogo, sans-serif;
 	background-color: rgb(26,29,33);
 	color: rgb(209,210,211);
 }
-.modal-header{
+
+.modal-header {
 	display: flex;
 	align-items: center;
 	padding: 20px 28px 0px;
@@ -16,31 +18,37 @@
 	border: 0;
 	background-color: rgb(26,29,33)
 }
-form{
+
+form {
 	display: block;
 	align-items: center;
 	min-height: 70px;
 	padding: 10px 28px;
 	width: 100%;
 }
-.channel-name-label{
+
+.channel-name-label {
 	display: flex;
 	flex-direction: column;
 	width: 100%
 }
-#private-section{
+
+#private-section {
 	display: block;
 	padding: 0px 28px;
 	background-color: rgb(26,29,33)
 }
-#private-label{
+
+#private-label {
 	display: flex;
 	justify-content: space-between;
 }
-#create-button{
+
+#create-button {
 	margin: 0 20px 10px auto;
 }
-.create-channel-description{
+
+.create-channel-description {
 	box-sizing: inherit;
 	align-items: center;
 	display: flex;
@@ -49,34 +57,41 @@ form{
 	width: 100%;
 	background-color: rgb(26,29,33)
 }
-.footer{
+
+.footer {
 	border: 0;
 	padding: 10px;
 	background-color: rgb(26,29,33)
 }
+
 button:focus {
 	outline:none;
 }
-h1{
+
+h1 {
 	font-size: 28px;
 	font-weight: 900;
 	line-height: 34px;
 }
-h4{
+
+h4 { 
 	font-size: 15px;
 	font-weight: 700px;
 	margin-bottom: 0;
 }
-p{
+
+p {
 	font-size: 15px;
 	font-weight: 400px;
 	margin-bottom: 0;
 	line-height: 22px;
 }
-label{
+
+label {
 	font-weight: 500;
 }
-input{
+
+input {
 	margin: 0 0 20px;
 	color: rgb(29,28,29);
 	background-color: rgb(255,255,255);
@@ -98,7 +113,8 @@ input{
 	padding-left: 36px;
 	padding-right: 46px;
 }
-.custom-button{
+
+.custom-button {
 	font-size: .75rem;
 	padding: 4px 8px;
 	background-color: rgb(29,28,28);
@@ -108,15 +124,18 @@ input{
 	border-radius: 5px;
 	border-width: 2px;
 }
-.custom-button:hover{
+
+.custom-button:hover {
 	background-color: #ebeff3;
 	border-color: rgb(209,210,211);
 	color:rgb(29,28,28);
 }
-button.close{
+
+button.close {
 	color: rgb(204,199,192);
 }
-button.close:hover{
+
+button.close:hover {
 	color: #ebeff3
 }
 
