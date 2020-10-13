@@ -1,10 +1,10 @@
 .custom-modal {
 	color: rgb(204,199,192);
-	font-family: Slack-lato, appleLogo, sans-serif;
+	font-family: sans-serif;
 }
 
 .custom-form {
-	font-family: Slack-lato, appleLogo, sans-serif;
+	font-family: sans-serif;
 	background-color: rgb(26,29,33);
 	color: rgb(209,210,211);
 }
