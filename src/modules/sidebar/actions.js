@@ -9,7 +9,6 @@ const initActions = function() {
         const channel = channels[channelId];
         dispatch(channelSelect(channel));
         dispatch(actions.channel.fetchNumMembers(channelId))
-        //Makes channel name persist in redux state
         dispatch(actions.channel.createChannel(channel.name))
         const isMessagesExist = getState().message.channelMessages[channelId].length > 0;
         if (!isMessagesExist) {

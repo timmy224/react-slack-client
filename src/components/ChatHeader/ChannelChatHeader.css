@@ -1,8 +1,8 @@
-.chat-header{
+.chat-header {
 	font-size: 15px;
 	line-height: 1.46668;
 	font-weight: 400;
-	font-family: Slack-Lato,appleLogo,sans-serif;
+	font-family: sans-serif;
 	box-sizing: inherit;
 	height: 64px;
 	display: flex;
@@ -14,17 +14,20 @@
 	padding-left: 20px;
 	background-color: rgb(26,29,33)
 }
-p{
+
+p {
 	margin-bottom: 0;
 	color: rgb(29,28,29);
 }
-h1{
+
+h1 {
 	font-size: 15px;
 	font-weight: 900;
 	line-height: 22px;
 	color: rgb(209,210,211)
 }
-.custom-button{
+
+.custom-button {
 	font-size: .75rem;
 	padding: 4px 8px;
 	background-color: rgb(29,28,28);
