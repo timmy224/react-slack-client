@@ -1,4 +1,5 @@
 import React from "react";
+import "./ChannelChatHeader.css"
 
 function ChannelChatHeader(props){
 	const handleClick = () =>{
@@ -6,11 +7,11 @@ function ChannelChatHeader(props){
 		// Handle Show Channel Sidebar
 	}
 	return(
-		<div className = "container text-center mt-3 rounded" style={{border:'2px solid gray'}}>
-			<p>This is a Channel Chat Header</p>
+		<div className = "chat-header" >
+			<h1>{`# ${props.channelName}`}</h1>
 			<button 
 			type="button" 
-            class="btn btn-light m-1">
+            className="btn btn-light custom-button">
             {/*onClick={this.handleClick}>*/}
             {`${props.numberOfUsers} members`}
             </button>
