@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
 import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
+import InviteModal from "../InviteModal/InviteModal"
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -17,7 +18,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, handleShow } = this.props;
+        const { channels, usernames, handleInviteShow, handleCreateShow } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
@@ -56,8 +57,10 @@ class SideBar extends Component {
                     {channelsDisplay}
                 </div>
                 <br />
+                <InviteModal />
+                <button onClick={()=>handleInviteShow(true)}>InviteModal</button>
                 <CreateChannel />
-                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
+                <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
@@ -78,7 +81,8 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
-    handleShow: actions.channel.showModal,
+    handleCreateShow: actions.channel.showCreateModal,
+    handleInviteShow: actions.invitation.showInviteModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

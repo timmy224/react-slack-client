@@ -7,7 +7,7 @@ const initReducer = () => {
         channels: {},
         channel_name: '',
         show_taken_msg: false,
-        showModal: false,
+        showCreateModal: false,
         isPrivate: false,
         privateChannelUsers: [],
         numChannelMembers: 0
@@ -32,10 +32,10 @@ const initReducer = () => {
                     ...state,
                     channel_name: payload,
                 }
-            case types.SHOW_MODAL:
+            case types.SHOW_CREATE_MODAL:
                 return{
                     ...state,
-                    showModal: payload,
+                    showCreateModal: payload,
                 }
             case types.CREATE_PRIVATE:
                 return{

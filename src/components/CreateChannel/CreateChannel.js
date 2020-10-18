@@ -13,7 +13,7 @@ const mapStateToProps = (state)=>{
         show_taken_msg: state.channel.show_taken_msg,
         routePath: state.route.routePath,
         routeState: state.route.routeState,
-        showModal: state.channel.showModal,
+        showCreateModal: state.channel.showCreateModal,
         username: state.user.username,
         isPrivate: state.channel.isPrivate,
         privateChannelUsers: state.channel.privateChannelUsers
@@ -23,14 +23,14 @@ const mapActionsToProps = {
     createChannel: actions.channel.createChannel,
     takenChannelName: actions.channel.takenChannelName,
     changeRoute: actions.route.changeRoute,
-    handleShow: actions.channel.showModal,
+    handleCreateShow: actions.channel.showCreateModal,
     createPrivate: actions.channel.createPrivate,
     setPrivateUsers: actions.channel.privateChannelUsers
 }
 
 class CreateChannel extends Component {
     handleSubmit = (event) => {
-        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleShow, setPrivateUsers} = this.props
+        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleCreateShow, setPrivateUsers} = this.props
         event.preventDefault();
         const name = channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
@@ -65,13 +65,13 @@ class CreateChannel extends Component {
         return this.props.createChannel(channel_name)
     }
     handleHide = () => {
-        const { handleShow } = this.props
-        handleShow(false);
+        const { handleCreateShow } = this.props
+        handleCreateShow(false);
         this.resetModal();
     }
 
     render() {
-        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
+        const { show_taken_msg, handleCreateShow, showCreateModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
@@ -112,7 +112,7 @@ class CreateChannel extends Component {
                 </Form>
         return (
             <div>
-                <Modal show={showModal} onHide={this.handleHide}>
+                <Modal show={showCreateModal} onHide={this.handleHide}>
                 <Modal.Header closeButton>
                     <Modal.Title>Channel Creation</Modal.Title>
                     {takenMessage}

@@ -44,9 +44,9 @@ const initActions = function (channelService, utilityService) {
         }
     };
 
-    const modalShow = actionCreator(types.SHOW_MODAL);
-    const showModal = (show) => (dispatch) => {
-        dispatch(modalShow(show))
+    const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
+    const showCreateModal = (show) => (dispatch) => {
+        dispatch(modalCreateShow(show))
     };
 
     const privateChannel = actionCreator(types.CREATE_PRIVATE);
@@ -72,7 +72,7 @@ const initActions = function (channelService, utilityService) {
         createChannel,
         takenChannelName,
         channelDeleted,
-        showModal,
+        showCreateModal,
         createPrivate,
         privateChannelUsers,
         fetchNumMembers
