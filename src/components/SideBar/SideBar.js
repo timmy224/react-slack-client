@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
-import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -72,8 +72,7 @@ class SideBar extends Component {
                         </button>
                     </div>                               
                 </div>
-                <CreateChannel />
-                <div className="container">
+                <CreateChannel />                <div className="container">
                     {channelsDisplay}
                 </div>
                 <div className="sidebar-section-heading">
@@ -83,7 +82,7 @@ class SideBar extends Component {
                     <button class="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     <div class="sidebar-section-heading-right">
                         <button class="unstyled-button">
-                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={()=>handleShow(true)}/>
                         </button>
                     </div>                               
                 </div>
