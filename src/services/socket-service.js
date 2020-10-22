@@ -77,6 +77,10 @@ function SocketService(chatService) {
             store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
             send("join-channel", channelId);
         })
+        socket.on("invited-to-org", () => {
+            store.dispatch(actions.invitation.fetchInvitations());
+            send("received-org-invite");
+        })
  
     }
 
