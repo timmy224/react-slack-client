@@ -3,6 +3,7 @@ import types from "./types";
 const initReducer = () => {
     const INITIAL_STATE = {
         showInviteModal: false,
+        showInvitationsModal: false,
         invitations:{},
     };
 
@@ -14,6 +15,11 @@ const initReducer = () => {
                 return{
                     ...state,
                     showInviteModal: payload,
+                }
+            case types.SHOW_INVITATIONS_MODAL:
+                return{
+                    ...state,
+                    showInvitationsModal: payload,
                 }
             case types.FETCH_INVITATIONS:
                 return {

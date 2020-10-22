@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
 import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
+import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
 
 class SideBar extends Component {
@@ -18,12 +19,12 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, handleInviteShow, handleCreateShow, invitations} = this.props;
+        const { channels, usernames, handleInviteShow, handleCreateShow, invitations, handleInvitationsShow} = this.props;
         let isInvitationsEmpty = services.utilityService.isEmpty(invitations);
         let invitationsBtn = isInvitationsEmpty ? null 
             :   <div>
-                    <InviteModal />
-                    <button onClick={()=>handleInviteShow(true)}>InviteModal</button> 
+                    <InvitationsModal />
+                    <button onClick={()=>handleInvitationsShow(true)}>Invitations Pending</button> 
                 </div>
 
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
@@ -65,6 +66,8 @@ class SideBar extends Component {
                 </div>
                 <br />
                 {invitationsBtn}
+                <InviteModal />
+                <button onClick={()=>handleInviteShow(true)} type="button">Invite People</button>
                 <CreateChannel />
                 <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
@@ -90,6 +93,7 @@ const mapActionsToProps = {
     selectUser: actions.sidebar.selectUser,
     handleCreateShow: actions.channel.showCreateModal,
     handleInviteShow: actions.invitation.showInviteModal,
+    handleInvitationsShow: actions.invitation.showInvitationsModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

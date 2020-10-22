@@ -10,13 +10,12 @@ const initActions = function (invitationService) {
         if (err) {
             throw new Error("Could not fetch invitations");
         }
-        // console.log('INVITATIONS:', invitations)
         if(invitations.length > 0){
             const invitationsMap = {};
             for (let invitation of invitations) {
                 invitationsMap[invitation.orgName] = invitation;
             }
-            dispatch(actions.invitation.showInviteModal(true));
+            dispatch(actions.invitation.showInvitationsModal(true));
             dispatch(invitationsFetch(invitationsMap));
         }
         
@@ -27,9 +26,15 @@ const initActions = function (invitationService) {
         dispatch(modalInviteShow(show))
     };
 
+    const modalInvitationsShow = actionCreator(types.SHOW_INVITATIONS_MODAL);
+    const showInvitationsModal = (show) => (dispatch) => {
+        dispatch(modalInvitationsShow(show))
+    };
+
     return {
     	fetchInvitations,
         showInviteModal,
+        showInvitationsModal,
     };
 };
 
