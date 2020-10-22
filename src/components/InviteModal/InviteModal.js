@@ -8,32 +8,46 @@ import Modal from 'react-bootstrap/Modal';
 const mapStateToProps = (state)=>{
     return { 
         showInviteModal: state.invitation.showInviteModal,
+        username: state.user.username,
+        invitedUserEmail :state.invitation.invitedUserEmail,
     }
 }
 const mapActionsToProps = {
     handleInviteShow: actions.invitation.showInviteModal,
+    setInvitedUserEmail: actions.invitation.setInvitedUserEmail,
 }
 
 class InviteModal extends Component {
-    handleSubmit = () => {
-
+    handleSubmit = (event) => {
+        const { username, invitedUserEmail, } = this.props
+        event.preventDefault();
+        const orgName = 'react_slack';
+        const invitationInfo = {
+            username,
+            orgName,
+            invitedUserEmail,
+        }
+        services.invitationService.createInvite(invitationInfo)
+        .then(response => {
+            if(response.successful){
+                this.handleHide()
+            }
+    })
     }
 
     resetModal = () => {
-
+        this.props.setInvitedUserEmail('')
     }
 
-    handleUserChange = () => {
-
-    }
-
-    handleChannelName = () => {
-
+    handleInputChange = (event) => {
+        let invitedUserEmail = event.target.value;
+        return this.props.setInvitedUserEmail(invitedUserEmail)
     }
 
     handleHide = () => {
     	const { handleInviteShow } = this.props
         handleInviteShow(false);
+        this.resetModal();
     }
 
     render() {
@@ -45,14 +59,11 @@ class InviteModal extends Component {
                     <Modal.Title>Invite users to your org</Modal.Title>
                 </Modal.Header>
                 <form>
+                    <label for='email'>Enter Email adress</label>
+                    <input name="email" type="email" placeholder="joeschmoe@gmail.com" 
+                        onChange={this.handleInputChange}/>
+                    <button type='submit' onClick={this.handleSubmit}>Submit</button>
                 </form>
-                <Modal.Footer>
-                    <button 
-                    type='submit' 
-                    onClick={this.handleSubmit}
-                    >Submit
-                    </button>
-                </Modal.Footer>
                 </Modal>
             </div>         
         );

@@ -31,10 +31,16 @@ const initActions = function (invitationService) {
         dispatch(modalInvitationsShow(show))
     };
 
+    const invitedUserEmailSet = actionCreator(types.SET_INVITED_USER_EMAIL);
+    const setInvitedUserEmail = (email) => (dispatch) => {
+        dispatch(invitedUserEmailSet(email))
+    };
+
     return {
     	fetchInvitations,
         showInviteModal,
         showInvitationsModal,
+        setInvitedUserEmail,
     };
 };
 

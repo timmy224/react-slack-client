@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form'
 
 const mapStateToProps = (state)=>{
     return { 
-        channel_name: state.channel.channel_name,
+        create_channel_name: state.channel.create_channel_name,
         show_taken_msg: state.channel.show_taken_msg,
         routePath: state.route.routePath,
         routeState: state.route.routeState,
@@ -30,9 +30,9 @@ const mapActionsToProps = {
 
 class CreateChannel extends Component {
     handleSubmit = (event) => {
-        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleCreateShow, setPrivateUsers} = this.props
+        const { create_channel_name, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
         event.preventDefault();
-        const name = channel_name;
+        const name = create_channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
         const channelInfo ={
             name,
@@ -50,10 +50,11 @@ class CreateChannel extends Component {
     })}
 
     resetModal = () => {
-        const { setPrivateUsers, createPrivate, takenChannelName } = this.props
+        const { setPrivateUsers, createPrivate, takenChannelName, createChannel } = this.props
         setPrivateUsers([]);
         createPrivate(false);
         takenChannelName(false);
+        createChannel('');
     }
     handleUserChange = (event) => {
         let users = event.target.value;
