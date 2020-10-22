@@ -1,8 +1,8 @@
 import initActions from "./actions";
 import initReducer from "./reducer";
 
-const configureInvitationModule = () => {
-    const actions = initActions();
+const configureInvitationModule = (services) => {
+    const actions = initActions(services.invitationService);
     const reducer = initReducer();
 
     return { actions, reducer };

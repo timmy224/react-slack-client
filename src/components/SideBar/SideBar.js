@@ -18,7 +18,14 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, handleInviteShow, handleCreateShow } = this.props;
+        const { channels, usernames, handleInviteShow, handleCreateShow, invitations} = this.props;
+        let isInvitationsEmpty = services.utilityService.isEmpty(invitations);
+        let invitationsBtn = isInvitationsEmpty ? null 
+            :   <div>
+                    <InviteModal />
+                    <button onClick={()=>handleInviteShow(true)}>InviteModal</button> 
+                </div>
+
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
@@ -57,8 +64,7 @@ class SideBar extends Component {
                     {channelsDisplay}
                 </div>
                 <br />
-                <InviteModal />
-                <button onClick={()=>handleInviteShow(true)}>InviteModal</button>
+                {invitationsBtn}
                 <CreateChannel />
                 <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
@@ -75,6 +81,7 @@ const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
         usernames: state.user.usernames,
+        invitations: state.invitation.invitations,
     };
 };
 

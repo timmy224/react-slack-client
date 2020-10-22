@@ -21,7 +21,7 @@ const configureModules = services => {
     const chatModule = configureChatModule(services);
     const workspaceModule = configureWorkspaceModule(services);
     const mainModule = configureMainModule();
-    const invitationModule = configureInvitationModule();
+    const invitationModule = configureInvitationModule(services);
 
     const modules = {
         route: routeModule,

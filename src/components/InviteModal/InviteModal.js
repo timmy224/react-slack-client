@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 const mapStateToProps = (state)=>{
     return { 
         showInviteModal: state.invitation.showInviteModal,
+        invitations: state.invitation.invitations,
     }
 }
 const mapActionsToProps = {
@@ -29,8 +30,38 @@ class InviteModal extends Component {
         handleInviteShow(false);
     }
 
+    handleAccept = () => {
+        //TODO
+    }
+
+    handleDecline = () => {
+        //TODO
+    }
+
     render() {
-        const { showInviteModal} = this.props;
+        const { showInviteModal, invitations} = this.props;
+        let isInvitationsEmpty = services.utilityService.isEmpty(invitations);
+        let invitationsDisplay = isInvitationsEmpty ?
+            <h2>Loading invitations...</h2>
+            : (Object.entries(invitations).map(([orgName, invitation]) => 
+                <div 
+                key={invitation.orgName}
+                style={{display: 'flex', justifyContent: 'space-evenly',padding: '10px'}}>
+                    <p>{invitation.orgName}</p>
+                    <button
+                        type="button" 
+                        value={invitation.orgName}
+                        onClick={this.handleAccept}
+                        >Accept
+                    </button>
+                    <button
+                        type="button" 
+                        value={invitation.orgName}
+                        onClick={this.handleDecline}
+                        >Decline
+                    </button>
+                </div>
+                ));
         return (
             <div>
                 <Modal show={showInviteModal} onHide={this.handleHide}>
@@ -38,6 +69,7 @@ class InviteModal extends Component {
                     <Modal.Title>Invitations Pending</Modal.Title>
                 </Modal.Header>
                 <form>
+                {invitationsDisplay}
                 </form>
                 <Modal.Footer>
                     <button type="submit">Submit</button>
@@ -49,3 +81,4 @@ class InviteModal extends Component {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(InviteModal);
+
