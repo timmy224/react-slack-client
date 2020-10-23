@@ -10,7 +10,8 @@ const initReducer = () => {
         showModal: false,
         isPrivate: false,
         privateChannelUsers: [],
-        numChannelMembers: 0
+        numChannelMembers: 0,
+        showChannelSideBar: false
     };
 
   const reducer = (state = INITIAL_STATE, action) => {
@@ -51,6 +52,11 @@ const initReducer = () => {
                 return{
                     ...state,
                     numChannelMembers: payload
+                }
+            case types.SHOW_CHANNEL_SIDE_BAR:
+                return{
+                    ...state,
+                    showChannelSideBar: payload
                 }
             default: 
                 return state;

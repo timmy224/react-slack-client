@@ -49,6 +49,11 @@ const initActions = function (channelService, utilityService) {
         dispatch(modalShow(show))
     };
 
+    const channelSideBarShow= actionCreator(types.SHOW_CHANNEL_SIDE_BAR);
+    const toggleChannelSideBar = (show) => (dispatch) => {
+        dispatch(channelSideBarShow(show))
+    };
+
     const privateChannel = actionCreator(types.CREATE_PRIVATE);
     const createPrivate = (isChannelPrivate) => (dispatch) => {
         dispatch(privateChannel(isChannelPrivate))
@@ -75,7 +80,8 @@ const initActions = function (channelService, utilityService) {
         showModal,
         createPrivate,
         privateChannelUsers,
-        fetchNumMembers
+        fetchNumMembers,
+        toggleChannelSideBar
     };
 };
 

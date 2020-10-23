@@ -5,12 +5,14 @@ import SideBar from "../SideBar/SideBar";
 import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
+import ChannelSideBar from "../ChannelSideBar/ChannelSideBar";
 
 const mapStateToProps = (state) => ({
     routePath: state.route.routePath,
     routeState: state.route.routeState,
     username: state.user.username,
     isInitialized: state.main.isInitialized,
+    showChannelSideBar: state.channel.showChannelSideBar,
 });
 
 const mapActionsToProps = {
@@ -42,7 +44,7 @@ class MainComponent extends Component {
     }
 
     render() {
-        const { isInitialized } = this.props
+        const { isInitialized, showChannelSideBar } = this.props
         return (
             <div>
                 {isInitialized ?
@@ -59,6 +61,10 @@ class MainComponent extends Component {
                             <div class="col-9">
                                 <Chat />
                             </div>
+                            {showChannelSideBar ?
+                            <ChannelSideBar />
+                            : null
+    }
                         </div>
                         <div class="row no-gutters">
                             <div class="col-12">
