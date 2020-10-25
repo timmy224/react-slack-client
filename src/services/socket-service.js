@@ -76,7 +76,11 @@ function SocketService(chatService) {
             await store.dispatch(actions.channel.fetchChannels());
             store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
             send("join-channel", channelId);
-        })
+        });
+
+        socket.on("permissions-updated", () => {
+            store.dispatch(actions.permission.fetchPermissions());
+        });
  
     }
 
