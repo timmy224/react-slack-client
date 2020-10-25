@@ -37,7 +37,8 @@ class CreateChannel extends Component {
         const channelInfo ={
             name,
             members,
-            isPrivate
+            isPrivate,
+            orgName: "Source Coders", // this is hardcoded for now but will have to come from redux soon (currently selected org)
         }
         services.channelService.createChannel(channelInfo)
         .then(response => {

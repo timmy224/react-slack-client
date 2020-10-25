@@ -76,11 +76,16 @@ function SocketService(chatService) {
             await store.dispatch(actions.channel.fetchChannels());
             store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
             send("join-channel", channelId);
-        })
+        });
+
         socket.on("invited-to-org", () => {
             store.dispatch(actions.invitation.fetchInvitations());
             send("received-org-invite");
-        })
+        });
+
+        socket.on("permissions-updated", () => {
+            store.dispatch(actions.permission.fetchPermissions());
+        });
  
     }
 
