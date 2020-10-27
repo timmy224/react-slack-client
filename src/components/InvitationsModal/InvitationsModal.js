@@ -22,12 +22,12 @@ class InvitationsModal extends Component {
     }
 
     handleResponse = (isAccepted) => {
-        event.preventDefault();
-        const invitateInfo = {
+        const { invitations} = this.props;
+        const responseInfo = {
             orgName: "Source Coders",// this is hardcoded for now but will have to come from redux soon (currently selected org)
             isAccepted,
         }
-        services.invitationService.responseToInvite(responseInfo)
+        services.invitationService.respondToInvite(responseInfo)
         .then(response => {
             if(response.successful){
                 this.handleHide();
@@ -41,22 +41,23 @@ class InvitationsModal extends Component {
         let invitationsDisplay = isInvitationsEmpty ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
+                    const {org_name, inviter} = invitation
                     return(
                         <div
-                            key={invitation.org_name}
+                            key={org_name + inviter}
                             style={{display: 'flex', justifyContent: 'space-evenly',padding: '10px'}}>
                             <div class='content'>
-                                <p>Organization Name : {invitation.org_name}</p>
-                                <p>User : {invitation.inviter}</p>
+                                <p>Organization Name : {org_name}</p>
+                                <p>User : {inviter}</p>
                             </div>
                             <button
-                                type="button" 
-                                onClick={this.handleResponse(true)}
+                                type='submit'
+                                onClick={()=>this.handleResponse(true)}
                                 >Accept
                             </button>
                             <button
-                                type="button" 
-                                onClick={this.handleResponse(false)}
+                                type='submit' 
+                                onClick={()=>this.handleResponse(false)}
                                 >Decline
                             </button>
                         </div>

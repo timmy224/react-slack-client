@@ -83,6 +83,10 @@ function SocketService(chatService) {
             send("received-org-invite");
         });
 
+        socket.on("responded-to-invite", () => {
+            store.dispatch(actions.invitation.fetchInvitations());
+        });
+
         socket.on("permissions-updated", () => {
             store.dispatch(actions.permission.fetchPermissions());
         });

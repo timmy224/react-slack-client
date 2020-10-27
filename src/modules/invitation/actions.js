@@ -6,6 +6,7 @@ import { actions } from "../../context";
 const initActions = function (invitationService) {
 	const invitationsFetch = actionCreator(types.FETCH_INVITATIONS);
     const fetchInvitations = () => async (dispatch) => {
+        console.log('TRIGGERED')
         const [err, invitations] = await to(invitationService.fetchInvitations());
         if (err) {
             throw new Error("Could not fetch invitations");
