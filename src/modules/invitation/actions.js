@@ -33,11 +33,17 @@ const initActions = function (invitationService) {
         dispatch(invitedUserEmailSet(email))
     };
 
+    const invitationsUpdate = actionCreator(types.UPDATE_INVITATIONS);
+    const updateInvitations = (invites) => (dispatch) => {
+        dispatch(invitationsUpdate(invites))
+    };
+
     return {
     	fetchInvitations,
         showInviteModal,
         showInvitationsModal,
         setInvitedUserEmail,
+        updateInvitations,
     };
 };
 

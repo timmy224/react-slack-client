@@ -32,6 +32,11 @@ const initReducer = () => {
                     ...state,
                     invitedUserEmail: payload,
                 };
+            case types.UPDATE_INVITATIONS:
+                return {
+                    ...state,
+                    pendingInvitations: payload,
+                };
             default: 
                 return state;
         }

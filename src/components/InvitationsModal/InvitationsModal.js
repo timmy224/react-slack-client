@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from "react-redux";
 import { services } from "../../context";
-import { actions } from "../../context";
+import { actions, store } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state)=>{
@@ -12,6 +12,7 @@ const mapStateToProps = (state)=>{
 }
 const mapActionsToProps = {
     handleInvitationsShow: actions.invitation.showInvitationsModal,
+    updateInvitations: actions.invitation.updateInvitations,
 }
 
 class InvitationsModal extends Component {
@@ -21,10 +22,13 @@ class InvitationsModal extends Component {
         handleInvitationsShow(false);
     }
 
-    handleResponse = (isAccepted) => {
-        const { invitations} = this.props;
+    handleResponse = (orgName, isAccepted) => {
+        const { invitations, updateInvitations} = this.props;
+        const inviteIndex = invitations.findIndex(invitation=> invitation.org_name === orgName);
+        const updatedInvitations = [...invitations.slice(0,inviteIndex),...invitations.slice(inviteIndex+1)];
+        updateInvitations(updatedInvitations);
         const responseInfo = {
-            orgName: "Source Coders",// this is hardcoded for now but will have to come from redux soon (currently selected org)
+            orgName,
             isAccepted,
         }
         services.invitationService.respondToInvite(responseInfo)
@@ -52,12 +56,12 @@ class InvitationsModal extends Component {
                             </div>
                             <button
                                 type='submit'
-                                onClick={()=>this.handleResponse(true)}
+                                onClick={()=>this.handleResponse(org_name, true)}
                                 >Accept
                             </button>
                             <button
                                 type='submit' 
-                                onClick={()=>this.handleResponse(false)}
+                                onClick={()=>this.handleResponse(org_name, false)}
                                 >Decline
                             </button>
                         </div>
