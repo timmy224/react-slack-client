@@ -4,7 +4,7 @@ const initReducer = () => {
     const INITIAL_STATE = {
         showInviteModal: false,
         showInvitationsModal: false,
-        invitations:{},
+        pendingInvitations:[],
         invitedUserEmail:'',
     };
 
@@ -25,7 +25,7 @@ const initReducer = () => {
             case types.FETCH_INVITATIONS:
                 return {
                     ...state,
-                    invitations: payload,
+                    pendingInvitations: payload,
                 };
             case types.SET_INVITED_USER_EMAIL:
                 return {

@@ -19,18 +19,19 @@ const mapActionsToProps = {
 
 class InviteModal extends Component {
     handleSubmit = (event) => {
-        const { username, invitedUserEmail, } = this.props
+        const { invitedUserEmail, } = this.props
         event.preventDefault();
-        const orgName = 'react_slack';
-        const invitationInfo = {
-            username,
-            orgName,
-            invitedUserEmail,
+        const invitateInfo = {
+            orgName: "Source Coders",// this is hardcoded for now but will have to come from redux soon (currently selected org)
+            email: invitedUserEmail,
+            action: "STORE",
         }
-        services.invitationService.createInvite(invitationInfo)
+        services.invitationService.createInvite(invitateInfo)
         .then(response => {
             if(response.successful){
-                this.handleHide()
+                this.handleHide();
+            }else if(response.ERROR){
+                alert('User already has an active invite to this org');
             }
     })
     }

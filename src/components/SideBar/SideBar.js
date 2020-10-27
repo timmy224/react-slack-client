@@ -84,7 +84,7 @@ const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
         usernames: state.user.usernames,
-        invitations: state.invitation.invitations,
+        invitations: state.invitation.pendingInvitations,
     };
 };
 
