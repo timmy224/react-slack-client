@@ -9,18 +9,18 @@ import Form from 'react-bootstrap/Form'
 
 const mapStateToProps = (state) => {
     return {
-        // createOrgName: state.org.createOrgName,
-        // showTakenNameMsg: state.org.showTakenNameMsg,
-        // showCreateOrgModal: state.org.showCreateOrgModal,
-        // username: state.user.username,
-        // newOrgUser: state.org.newOrgUsers
+        createOrgName: state.org.createOrgName,
+        showTakenNameMsg: state.org.showTakenNameMsg,
+        showCreateOrgModal: state.org.showCreateOrgModal,
+        username: state.user.username,
+        newOrgUser: state.org.newOrgUsers
     }
 }
 const mapActionsToProps = {
-    // setCreateOrgName: actions.org.setCreateOrgName,
-    // takenOrgName: actions.org.takenOrgName,
-    // createOrgModalShow: actions.org.showCreateOrgModal,
-    // setNewOrgUsers: actions.org.setNewOrgUsers,
+    setCreateOrgName: actions.org.setCreateOrgName,
+    takenOrgName: actions.org.takenOrgName,
+    createOrgModalShow: actions.org.showCreateOrgModal,
+    setNewOrgUsers: actions.org.setNewOrgUsers,
 
 }
 
@@ -90,4 +90,5 @@ class CreateChannel extends Component {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
+
 

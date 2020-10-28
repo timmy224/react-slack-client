@@ -19,13 +19,13 @@ const InvitationService = function (apiService) {
             .then(response => response.json())
             .then(data => JSON.parse(data.org_invites));
     }
-    const createOrg = (orgInfo) => {
+    const createOrg = (org_info) => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/org/create";
         let localUrl = "http://localhost:5000/org/create";
 
         const options = {
             method: "POST",
-            body: JSON.stringify(orgInfo),
+            body: JSON.stringify(org_info),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -33,6 +33,23 @@ const InvitationService = function (apiService) {
 
         return apiService.go(localUrl, options)
             .then(response => response.json())
+    };
+
+    const deleteOrg = org_id => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/org/delete`;
+        let localUrl = "http://localhost:5000/org/delete"
+        
+        const options = {
+            method: "DELETE",
+            body: JSON.stringify(org_id),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
+            .then(response => response.json())
+            .then(data => data.successful)
     };
 
     return Object.freeze({
