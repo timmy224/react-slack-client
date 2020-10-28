@@ -1,8 +1,6 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { services, actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state)=>{
@@ -46,13 +44,12 @@ class InviteModal extends Component {
     }
 
     handleHide = () => {
-    	const { handleInviteShow } = this.props
-        handleInviteShow(false);
+    	this.props.handleInviteShow(false);
         this.resetModal();
     }
 
     render() {
-        const { handleInviteShow, showInviteModal } = this.props;
+        const { showInviteModal } = this.props;
         return (
             <div>
                 <Modal show={showInviteModal} onHide={this.handleHide}>

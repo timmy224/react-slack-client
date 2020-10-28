@@ -1,0 +1,44 @@
+const InvitationService = function (apiService) {
+    const fetchOrgs = () => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/org/fetch";
+        let localUrl = "http://localhost:5000/org/fetch"
+
+        const post_data = {
+            action: "GET"
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
+            .then(response => response.json())
+            .then(data => JSON.parse(data.org_invites));
+    }
+    const createOrg = (orgInfo) => {
+        let remoteUrl = "https://react-slack-server.herokuapp.com/org/create";
+        let localUrl = "http://localhost:5000/org/create";
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(orgInfo),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(localUrl, options)
+            .then(response => response.json())
+    };
+
+    return Object.freeze({
+        createOrg,
+        fetchOrgs,
+    });
+};
+
+export default InvitationService;

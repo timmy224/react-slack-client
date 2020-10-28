@@ -11,8 +11,6 @@ const mapStateToProps = (state)=>{
     return { 
         create_channel_name: state.channel.create_channel_name,
         show_taken_msg: state.channel.show_taken_msg,
-        routePath: state.route.routePath,
-        routeState: state.route.routeState,
         showCreateModal: state.channel.showCreateModal,
         username: state.user.username,
         isPrivate: state.channel.isPrivate,
@@ -22,7 +20,6 @@ const mapStateToProps = (state)=>{
 const mapActionsToProps = {
     createChannel: actions.channel.createChannel,
     takenChannelName: actions.channel.takenChannelName,
-    changeRoute: actions.route.changeRoute,
     handleCreateShow: actions.channel.showCreateModal,
     createPrivate: actions.channel.createPrivate,
     setPrivateUsers: actions.channel.privateChannelUsers
