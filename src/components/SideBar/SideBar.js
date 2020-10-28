@@ -25,14 +25,14 @@ class SideBar extends Component {
                 <div key={channel.channel_id}>
                     <button
                         type="button" 
-                        class="btn btn-dark m-1"
+                        className="btn btn-dark m-1"
                         value={channel.channel_id}
                         onClick={this.selectChannel}>
                         {channel.name}
                     </button>
                     <button
                         type="button" 
-                        class="btn btn-danger m-1"
+                        className="btn btn-danger m-1"
                         value={channel.channel_id}
                         onClick={this.handleDelete}
                         >delete
@@ -44,7 +44,7 @@ class SideBar extends Component {
                 : (usernames.map(username => 
                     <button 
                     type="button" 
-                    class="btn btn-light m-1"
+                    className="btn btn-light m-1"
                     value={username}
                     onClick={this.selectUser}
                     key={username}>

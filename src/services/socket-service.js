@@ -81,7 +81,14 @@ function SocketService(chatService) {
         socket.on("permissions-updated", () => {
             store.dispatch(actions.permission.fetchPermissions());
         });
- 
+
+        socket.on("invited-to-org", (orgName) => {
+            console.log("invited-to-org", orgName);
+        });
+
+        socket.on("added-to-org", (orgName) => {
+           console.log("added-to-org", orgName) ;
+        });
     }
 
     return Object.freeze({
