@@ -34,7 +34,9 @@ class InvitationsModal extends Component {
         services.invitationService.respondToInvite(responseInfo)
         .then(response => {
             if(response.successful){
-                this.handleHide();
+                if(!invitations){
+                    this.handleHide();
+                }
             }
     })
     }
