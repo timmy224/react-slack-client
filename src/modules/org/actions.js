@@ -38,7 +38,20 @@ const initActions = function (orgService, utilityService) {
         dispatch(newOrgUserSet(newOrgUsers))
     };
 
-    const orgSelect = actionCreator(types.ORG_SELECT);
+    return {
+        fetchOrgs,
+        showCreateOrgModal,
+        setCreateOrgName,
+        takenOrgName,
+        setNewOrgUsers,
+    };
+};
+
+export default initActions;
+
+
+/* 
+ const orgSelect = actionCreator(types.ORG_SELECT);
     const selectOrg = orgId => (dispatch, getState) => {
         const orgs = getState().org.orgs;
         const org = orgs[orgId];
@@ -59,21 +72,8 @@ const initActions = function (orgService, utilityService) {
         }
     };
 
-    return {
-        fetchOrgs,
-        showCreateOrgModal,
-        setCreateOrgName,
-        takenOrgName,
-        setNewOrgUsers,
-        selectOrg,
-        orgDeleted,
-    };
-};
-
-export default initActions;
-
-//deleteOrg
-/* main.initMain 
+//CHANNELS FLOW
+main.initMain 
         => user.fetchLoginBundle 
                 => channel.fetchChannels => channelService.fetchChannels => state.channels
                 => user.fetchUsernames => userService.fetchUsernames => state.usernames
