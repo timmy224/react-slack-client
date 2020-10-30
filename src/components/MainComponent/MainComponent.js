@@ -46,9 +46,9 @@ class MainComponent extends Component {
         return (
             <div>
                 {isInitialized ?
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
                                 <CanView
                                     resource="org-member"
                                     action="invite"
@@ -57,16 +57,16 @@ class MainComponent extends Component {
                                 />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
+                        <div className="row">
+                            <div className="col-3">
                                 <SideBar />
                                 <div className="container text-center mt-3">
                                     <button
-                                        type="button" class="btn btn-secondary m-1"
+                                        type="button" className="btn btn-secondary m-1"
                                         onClick={() => this.props.logout()}>Logout</button>
                                 </div>
                             </div>
-                            <div class="col-9">
+                            <div className="col-9">
                                 <Chat />
                             </div>
                         </div>

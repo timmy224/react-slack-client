@@ -19,12 +19,12 @@ class InviteModal extends Component {
     handleSubmit = (event) => {
         const { invitedUserEmail, } = this.props
         event.preventDefault();
-        const invitateInfo = {
+        const inviteInfo = {
             orgName: "Source Coders",// this is hardcoded for now but will have to come from redux soon (currently selected org)
             email: invitedUserEmail,
             action: "STORE",
         }
-        services.invitationService.createInvite(invitateInfo)
+        services.invitationService.sendInvite(inviteInfo)
         .then(response => {
             if(response.successful){
                 this.handleHide();

@@ -32,11 +32,11 @@ const initReducer = () => {
                     ...state,
                     invitedUserEmail: payload,
                 };
-            case types.UPDATE_INVITATIONS:
-                return {
+            case types.REMOVE_INVITATION:
+                return{
                     ...state,
-                    pendingInvitations: payload,
-                };
+                    pendingInvitations: state.pendingInvitations.filter(invitation => invitation !== payload)
+                }
             default: 
                 return state;
         }
