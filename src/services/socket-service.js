@@ -66,10 +66,6 @@ function SocketService(chatService) {
       store.dispatch(actions.channel.channelDeleted(channelId));
     });
 
-    socket.on("channel-created", () => {
-      store.dispatch(actions.channel.fetchChannels());
-    });
-
     socket.on("added-to-channel", async channelId => {
       console.log("added-to-channel", channelId);
       await store.dispatch(actions.channel.fetchChannels());
@@ -78,6 +74,7 @@ function SocketService(chatService) {
     });
 
     socket.on("permissions-updated", () => {
+      console.log("permissions-updated");
       store.dispatch(actions.permission.fetchPermissions());
     });
 
