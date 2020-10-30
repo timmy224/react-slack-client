@@ -1,11 +1,9 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
 import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form'
 
 const mapStateToProps = (state) => {
     return {
@@ -13,13 +11,13 @@ const mapStateToProps = (state) => {
         showTakenNameMsg: state.org.showTakenNameMsg,
         showCreateOrgModal: state.org.showCreateOrgModal,
         username: state.user.username,
-        newOrgUser: state.org.newOrgUsers
+        newOrgUsers: state.org.newOrgUsers,
     }
 }
 const mapActionsToProps = {
     setCreateOrgName: actions.org.setCreateOrgName,
     takenOrgName: actions.org.takenOrgName,
-    createOrgModalShow: actions.org.showCreateOrgModal,
+    handleShowCreateOrgModal: actions.org.showCreateOrgModal,
     setNewOrgUsers: actions.org.setNewOrgUsers,
 
 }
@@ -58,8 +56,8 @@ class CreateChannel extends Component {
     }
 
     handleHide = () => {
-        const { handleCreateOrgShow } = this.props
-        createOrgModalShow(false);
+        const { handleShowCreateOrgModal } = this.props
+        handleShowCreateOrgModal(false);
         this.resetModal();
     }
     handleUserChange = (event) => {
@@ -68,6 +66,7 @@ class CreateChannel extends Component {
     }
 
     render() {
+        const { newOrgUsers, showCreateOrgModal } = this.props
         const userButton = newOrgUsers.map(user => <button type="button" value={user} key={user}>{user}</button>)
         return (
             <div>
@@ -77,9 +76,10 @@ class CreateChannel extends Component {
                     </Modal.Header>
                     <form
                     onSubmit={this.handleSubmit}>
-                        <label for='newOrgName'>Enter Org Name</label>
+                        <label htmlFor='newOrgName'>Enter Org Name</label>
                         <input name="newOrgName" type="text" placeholder="react_slack" onChange={this.handleOrgName} />
-                        <label for="users">Users</label>
+                        {userButton}
+                        <label htmlFor="users">Users</label>
                         <input name="users" type="text" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} />
                         <button type='submit' onClick={this.handleSubmit}>Submit</button>
                     </form>

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions, services, store } from "../../context";
+import { actions, services } from "../../context";
 import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
+import CreateOrg from "../CreateOrg/CreateOrg"
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -19,11 +20,11 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, handleInviteShow, handleCreateShow, invitations, handleInvitationsShow} = this.props;
+        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
-                    <button onClick={()=>handleInvitationsShow(true)}>Invitations Pending</button> 
+                <button onClick={() => showPendingInvitationsModal(true)}>Invitations Pending</button> 
                 </div>
 
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
@@ -66,9 +67,11 @@ class SideBar extends Component {
                 <br />
                 {invitationsBtn}
                 <InviteModal />
-                <button onClick={()=>handleInviteShow(true)} type="button">Invite People</button>
+                <button onClick={() => showSendInviteModal(true)} type="button">Invite People</button>
                 <CreateChannel />
-                <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
+                <Button variant="primary" onClick={() => showCreateChannelModal(true)}>Create Channel</Button>
+                <CreateOrg />
+                <Button variant="primary" onClick={() => showCreateOrgModal(true)}>Create ORG</Button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
@@ -90,9 +93,10 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
-    handleCreateShow: actions.channel.showCreateModal,
-    handleInviteShow: actions.invitation.showInviteModal,
-    handleInvitationsShow: actions.invitation.showInvitationsModal,
+    showCreateChannelModal: actions.channel.showCreateModal,
+    showSendInviteModal: actions.invitation.showInviteModal,
+    showPendingInvitationsModal: actions.invitation.showInvitationsModal,
+    showCreateOrgModal: actions.org.showCreateOrgModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
 // Depends on userService, storageService, socketService
 import { services } from "../../context";
@@ -20,7 +20,7 @@ const mapStateToProps = (state)=>{
 const mapActionsToProps = {
     setCreateChannelName: actions.channel.setCreateChannelName,
     takenChannelName: actions.channel.takenChannelName,
-    handleCreateShow: actions.channel.showCreateModal,
+    handleShowCreateModal: actions.channel.showCreateModal,
     createPrivate: actions.channel.createPrivate,
     setPrivateUsers: actions.channel.privateChannelUsers
 }
@@ -64,13 +64,13 @@ class CreateChannel extends Component {
         return this.props.setCreateChannelName(channel_name)
     }
     handleHide = () => {
-        const { handleCreateShow } = this.props
-        handleCreateShow(false);
+        const { handleShowCreateModal } = this.props
+        handleShowCreateModal(false);
         this.resetModal();
     }
 
     render() {
-        const { show_taken_msg, handleCreateShow, showCreateModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
+        const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
