@@ -52,15 +52,14 @@ class InviteModal extends Component {
         const { showInviteModal } = this.props;
         return (
             <div>
-                <Modal show={showInviteModal} onHide={this.handleHide}>
+                <Modal show={showInviteModal} onHide={this.handleHide} className="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Invite users to your org</Modal.Title>
                 </Modal.Header>
-                <form>
+                <form className="custom-form">
                     <label for='email'>Enter Email adress</label>
-                    <input name="email" type="email" placeholder="joeschmoe@gmail.com" 
-                        onChange={this.handleInputChange}/>
-                    <button type='submit' onClick={this.handleSubmit}>Submit</button>
+                    <input name="email" type="email" placeholder="joeschmoe@gmail.com" onChange={this.handleInputChange} className="form-control"/>
+                        <button type='submit' onClick={this.handleSubmit} className="mt-2 btn btn-primary custom-button">Submit</button >
                 </form>
                 </Modal>
             </div>         
