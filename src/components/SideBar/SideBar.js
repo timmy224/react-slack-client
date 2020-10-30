@@ -20,8 +20,7 @@ class SideBar extends Component {
 
     render() {
         const { channels, usernames, handleInviteShow, handleCreateShow, invitations, handleInvitationsShow} = this.props;
-        let isInvitationsEmpty = services.utilityService.isEmpty(invitations);
-        let invitationsBtn = isInvitationsEmpty ? null 
+        let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
                     <button onClick={()=>handleInvitationsShow(true)}>Invitations Pending</button> 

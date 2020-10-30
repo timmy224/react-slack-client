@@ -20,7 +20,7 @@ const mapStateToProps = (state)=>{
     }
 }
 const mapActionsToProps = {
-    createChannel: actions.channel.createChannel,
+    setCreateChannelName: actions.channel.setCreateChannelName,
     takenChannelName: actions.channel.takenChannelName,
     changeRoute: actions.route.changeRoute,
     handleCreateShow: actions.channel.showCreateModal,
@@ -51,11 +51,11 @@ class CreateChannel extends Component {
     })}
 
     resetModal = () => {
-        const { setPrivateUsers, createPrivate, takenChannelName, createChannel } = this.props
+        const { setPrivateUsers, createPrivate, takenChannelName, setCreateChannelName } = this.props
         setPrivateUsers([]);
         createPrivate(false);
         takenChannelName(false);
-        createChannel('');
+        setCreateChannelName('');
     }
     handleUserChange = (event) => {
         let users = event.target.value;
@@ -64,7 +64,7 @@ class CreateChannel extends Component {
 
     handleChannelName = (event) => {
         let channel_name = event.target.value
-        return this.props.createChannel(channel_name)
+        return this.props.setCreateChannelName(channel_name)
     }
     handleHide = () => {
         const { handleCreateShow } = this.props

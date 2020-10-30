@@ -19,7 +19,7 @@ const InvitationService = function(apiService) {
             .then(response => response.json())
             .then(data => JSON.parse(data.org_invites));
     }
-    const createInvite = (inviteInfo) => {
+    const sendInvite = (inviteInfo) => {
         let remoteUrl = "https://react-slack-server.herokuapp.com/org/invite";
         let localUrl = "http://localhost:5000/org/invite";
 
@@ -52,7 +52,7 @@ const InvitationService = function(apiService) {
 
     return Object.freeze({
         fetchInvitations,
-        createInvite,
+        sendInvite,
         respondToInvite,
     });
 };

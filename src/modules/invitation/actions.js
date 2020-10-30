@@ -6,7 +6,6 @@ import { actions } from "../../context";
 const initActions = function (invitationService) {
 	const invitationsFetch = actionCreator(types.FETCH_INVITATIONS);
     const fetchInvitations = () => async (dispatch) => {
-        console.log('TRIGGERED')
         const [err, invitations] = await to(invitationService.fetchInvitations());
         if (err) {
             throw new Error("Could not fetch invitations");
@@ -33,17 +32,17 @@ const initActions = function (invitationService) {
         dispatch(invitedUserEmailSet(email))
     };
 
-    const invitationsUpdate = actionCreator(types.UPDATE_INVITATIONS);
-    const updateInvitations = (invites) => (dispatch) => {
-        dispatch(invitationsUpdate(invites))
-    };
+    const invitationRemove = actionCreator(types.REMOVE_INVITATION);
+    const removeInvitation = (invitationToBeRemoved) => (dispatch) => {
+        dispatch(invitationRemove(invitationToBeRemoved))
+    };  
 
     return {
     	fetchInvitations,
         showInviteModal,
         showInvitationsModal,
         setInvitedUserEmail,
-        updateInvitations,
+        removeInvitation,
     };
 };
 

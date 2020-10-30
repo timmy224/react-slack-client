@@ -19,7 +19,7 @@ const initActions = function (channelService, utilityService) {
     };
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
-    const createChannel = (channel_name) => (dispatch) => {
+    const setCreateChannelName = (channel_name) => (dispatch) => {
         dispatch(channelNameSet(channel_name))
     };
 
@@ -69,7 +69,7 @@ const initActions = function (channelService, utilityService) {
 
     return {
         fetchChannels,
-        createChannel,
+        setCreateChannelName,
         takenChannelName,
         channelDeleted,
         showCreateModal,

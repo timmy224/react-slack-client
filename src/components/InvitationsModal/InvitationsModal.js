@@ -12,7 +12,7 @@ const mapStateToProps = (state)=>{
 }
 const mapActionsToProps = {
     handleInvitationsShow: actions.invitation.showInvitationsModal,
-    updateInvitations: actions.invitation.updateInvitations,
+    removeInvitation: actions.invitation.removeInvitation,
 }
 
 class InvitationsModal extends Component {
@@ -22,11 +22,9 @@ class InvitationsModal extends Component {
         handleInvitationsShow(false);
     }
 
-    handleResponse = (orgName, isAccepted) => {
-        const { invitations, updateInvitations} = this.props;
-        const inviteIndex = invitations.findIndex(invitation=> invitation.org_name === orgName);
-        const updatedInvitations = [...invitations.slice(0,inviteIndex),...invitations.slice(inviteIndex+1)];
-        updateInvitations(updatedInvitations);
+    handleResponse = (invitation, isAccepted) => {
+        const { invitations, removeInvitation } = this.props;
+        const orgName = invitation.org_name;
         const responseInfo = {
             orgName,
             isAccepted,
@@ -34,7 +32,8 @@ class InvitationsModal extends Component {
         services.invitationService.respondToInvite(responseInfo)
         .then(response => {
             if(response.successful){
-                if(!invitations){
+                removeInvitation(invitation)
+                if(!invitations.length){
                     this.handleHide();
                 }
             }
@@ -43,8 +42,7 @@ class InvitationsModal extends Component {
 
     render() {
         const { showInvitationsModal, invitations} = this.props;
-        let isInvitationsEmpty = services.utilityService.isEmpty(invitations);
-        let invitationsDisplay = isInvitationsEmpty ?
+        let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
                     const {org_name, inviter} = invitation
@@ -58,12 +56,12 @@ class InvitationsModal extends Component {
                             </div>
                             <button
                                 type='submit'
-                                onClick={()=>this.handleResponse(org_name, true)}
+                                onClick={()=>this.handleResponse(invitation, true)}
                                 >Accept
                             </button>
                             <button
                                 type='submit' 
-                                onClick={()=>this.handleResponse(org_name, false)}
+                                onClick={()=>this.handleResponse(invitation, false)}
                                 >Decline
                             </button>
                         </div>
