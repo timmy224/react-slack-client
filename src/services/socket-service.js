@@ -80,7 +80,7 @@ function SocketService(chatService) {
 
     socket.on("invited-to-org", orgName => {
       console.log("invited-to-org", orgName);
-      // TODO fetch org invites
+      store.dispatch(actions.permission.fetchInvitations());
     });
 
     socket.on("added-to-org", orgName => {
