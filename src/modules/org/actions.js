@@ -1,9 +1,8 @@
 import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
-import { actions } from "../../context";
 
-const initActions = function (orgService, utilityService) {
+const initActions = function (orgService) {
     const orgsFetch = actionCreator(types.FETCH_ORGS);
     const fetchOrgs = () => async (dispatch) => {
         const [err, orgs] = await to(orgService.fetchOrgs());
