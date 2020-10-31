@@ -20,8 +20,8 @@ const InvitationService = function (apiService) {
             .then(data=>data.orgs)
     }
     const createOrg = (org_info) => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/org/create";
-        let localUrl = "http://localhost:5000/org/create";
+        let remoteUrl = "https://react-slack-server.herokuapp.com/orgs";
+        let localUrl = "http://localhost:5000/orgs";
 
         const options = {
             method: "POST",
@@ -36,8 +36,8 @@ const InvitationService = function (apiService) {
     };
 
     const deleteOrg = org_id => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/org/delete`;
-        let localUrl = "http://localhost:5000/org/delete"
+        let remoteUrl = `https://react-slack-server.herokuapp.com/orgs`;
+        let localUrl = "http://localhost:5000/orgs"
         
         const options = {
             method: "DELETE",
@@ -55,6 +55,7 @@ const InvitationService = function (apiService) {
     return Object.freeze({
         createOrg,
         fetchOrgs,
+        deleteOrg,
     });
 };
 

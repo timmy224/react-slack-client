@@ -22,16 +22,14 @@ const mapActionsToProps = {
 
 }
 
-class CreateChannel extends Component {
+class CreateOrg extends Component {
     handleSubmit = (event) => {
         const { createOrgName, takenOrgName, username, newOrgUsers } = this.props
         event.preventDefault();
-        const name = createOrgName;
-        const members = [...newOrgUsers, username] 
         const orgInfo = {
-            name,
-            members,
-            orgName: "Source Coders", // this is hardcoded for now but will have to come from redux soon (currently selected org)
+            org_name : createOrgName,
+            invited_members: newOrgUsers,
+            action: "STORE",
         }
         services.orgService.createOrg(orgInfo)
             .then(response => {
@@ -52,7 +50,7 @@ class CreateChannel extends Component {
 
     handleOrgName = (event) => {
         let newOrgName = event.target.value;
-        return this.props.setInvitedUserEmail(newOrgName)
+        return this.props.setCreateOrgName(newOrgName)
     }
 
     handleHide = () => {
@@ -90,6 +88,6 @@ class CreateChannel extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
+export default connect(mapStateToProps, mapActionsToProps)(CreateOrg);
 
 
