@@ -19,7 +19,8 @@ class SideBar extends Component {
         services.channelService.deleteChannel(channel_id).catch(err => console.log(err));
     }
     handleOrgDelete = () => {
-        let org_id = 16
+        //TODO
+        let org_id = 26 //hard-coded for testing purposes, will be updated once redux stores org info
         services.orgService.deleteOrg({org_id}).catch(err => console.log(err));
     }
 
