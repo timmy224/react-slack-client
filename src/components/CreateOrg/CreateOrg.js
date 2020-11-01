@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { services, actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state) => {
@@ -28,7 +26,7 @@ class CreateOrg extends Component {
         event.preventDefault();
         const orgInfo = {
             org_name : createOrgName,
-            invited_members: newOrgUsers,
+            invited_emails: newOrgUsers,
             action: "STORE",
         }
         services.orgService.createOrg(orgInfo)
