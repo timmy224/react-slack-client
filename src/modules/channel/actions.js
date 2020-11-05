@@ -44,11 +44,38 @@ const initActions = function (channelService, utilityService) {
         }
     };
 
+    const modalShow = actionCreator(types.SHOW_MODAL);
+    const showModal = (show) => (dispatch) => {
+        dispatch(modalShow(show))
+    };
+
+    const privateChannel = actionCreator(types.CREATE_PRIVATE);
+    const createPrivate = (isChannelPrivate) => (dispatch) => {
+        dispatch(privateChannel(isChannelPrivate))
+    };
+
+    const usersPrivate = actionCreator(types.PRIVATE_CHANNEL_USERS);
+    const privateChannelUsers = (privateUsers) => (dispatch) => {
+        dispatch(usersPrivate(privateUsers))
+    };
+    const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
+    const fetchNumMembers = channelId => async (dispatch) => {
+        const [err, numMembers] = await to(channelService.fetchNumberOfMembers(channelId));
+        if (err) {
+            throw new Error("Could not fetch num channel members");
+        }
+        dispatch(numberOfMembersFetch(numMembers));
+    };
+
     return {
         fetchChannels,
         createChannel,
         takenChannelName,
         channelDeleted,
+        showModal,
+        createPrivate,
+        privateChannelUsers,
+        fetchNumMembers
     };
 };
 

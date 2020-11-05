@@ -31,14 +31,16 @@ class InputMessage extends Component {
 
 	render(){
 		return(
-			<textarea
-				placeholder='Enter a message'
-				className= "bg-light-gray dib br3 pa2 ma3 w-90 h4"
-				style={{resize:'none'}}
-				value={this.props.currentInput}
-				onChange={this.handleChange}
-				onKeyPress={this.handleKeyPressed}
-			/>
+			<div className="container text-center mt-3 rounded">
+				<textarea
+					placeholder='Enter a message'
+					className= "form-control form-control-lg"
+					style={{resize:'none'}}
+					value={this.props.currentInput}
+					onChange={this.handleChange}
+					onKeyPress={this.handleKeyPressed}
+				/>
+			</div>
 			)
 	}
 }

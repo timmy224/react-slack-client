@@ -1,9 +1,15 @@
+import types from "./types";
 import { actions } from "../../context";
+import { actionCreator } from "../utils";
 
 const initActions = function() {
-    const initMain = () => async (dispatch) => {
-        await dispatch(actions.sidebar.initSidebar());
-        dispatch(actions.chat.initChat());
+    const initializedActionCreator = actionCreator(types.INITIALIZED);
+    const initMain = () => async (dispatch, getState) => {
+        if (!getState().user.isLoginBundleFetched) {
+            await dispatch(actions.user.fetchLoginBundle())
+        }
+        await dispatch(actions.chat.initChat());        
+        dispatch(initializedActionCreator());
     };
 
     return { initMain };

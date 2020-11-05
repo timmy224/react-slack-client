@@ -8,9 +8,9 @@ const MessageService = function(apiService) {
             .then(data => JSON.parse(data.messages)); 
     };
 
-    const fetchPrivateMessages = (ourUsername, partnerUsername) => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/message/private/?username1=${ourUsername}&username2=${partnerUsername}`;
-        let localUrl = `http://localhost:5000/message/private/?username1=${ourUsername}&username2=${partnerUsername}`;
+    const fetchPrivateMessages = (partnerUsername) => {
+        let remoteUrl = `https://react-slack-server.herokuapp.com/message/private/?username2=${partnerUsername}`;
+        let localUrl = `http://localhost:5000/message/private/?username2=${partnerUsername}`;
 
         return apiService.go(localUrl)
             .then(response => response.json())
