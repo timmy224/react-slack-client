@@ -8,6 +8,7 @@ import configureSidebarModule from "./sidebar";
 import configureChatModule from "./chat";
 import configureWorkspaceModule from "./workspace";
 import configureMainModule from "./main";
+import configureInvitationModule from "./invitation";
 import { extractActions, extractReducers } from "./extract";
 
 const configureModules = services => {
@@ -20,6 +21,7 @@ const configureModules = services => {
     const chatModule = configureChatModule(services);
     const workspaceModule = configureWorkspaceModule(services);
     const mainModule = configureMainModule();
+    const invitationModule = configureInvitationModule(services);
 
     const modules = {
         route: routeModule,
@@ -31,6 +33,7 @@ const configureModules = services => {
         chat: chatModule,
         workspace: workspaceModule,
         main: mainModule,
+        invitation : invitationModule,
     };
 
     return {

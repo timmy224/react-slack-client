@@ -13,7 +13,7 @@ const ChannelService = function(apiService) {
         let localUrl = "http://localhost:5000/channel";
 
         const post_data = {
-            "channel_info": channelInfo,
+            channelInfo,
         }
 
         const options = {

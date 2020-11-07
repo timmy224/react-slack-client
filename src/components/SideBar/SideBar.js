@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { actions, services, store } from "../../context";
 import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
+import InvitationsModal from "../InvitationsModal/InvitationsModal"
+import InviteModal from "../InviteModal/InviteModal"
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -17,7 +19,13 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, handleShow } = this.props;
+        const { channels, usernames, handleInviteShow, handleCreateShow, invitations, handleInvitationsShow} = this.props;
+        let invitationsBtn = !invitations.length ? null 
+            :   <div>
+                    <InvitationsModal />
+                    <button onClick={()=>handleInvitationsShow(true)}>Invitations Pending</button> 
+                </div>
+
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
@@ -56,8 +64,11 @@ class SideBar extends Component {
                     {channelsDisplay}
                 </div>
                 <br />
+                {invitationsBtn}
+                <InviteModal />
+                <button onClick={()=>handleInviteShow(true)} type="button">Invite People</button>
                 <CreateChannel />
-                <Button variant="primary" onClick={()=>handleShow(true)}>Create Channel</Button>
+                <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
@@ -72,13 +83,16 @@ const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
         usernames: state.user.usernames,
+        invitations: state.invitation.pendingInvitations,
     };
 };
 
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
-    handleShow: actions.channel.showModal,
+    handleCreateShow: actions.channel.showCreateModal,
+    handleInviteShow: actions.invitation.showInviteModal,
+    handleInvitationsShow: actions.invitation.showInvitationsModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
