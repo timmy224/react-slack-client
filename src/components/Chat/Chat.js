@@ -11,7 +11,6 @@ import { actions, services } from "../../context";
 import "./Chat.css";
 
 class Chat extends Component {
-
     onEnterPressed = () => {
         let { currentInput, chatType, channel, partnerUsername, username } = this.props;
         const messageType = chatType;

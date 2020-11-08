@@ -6,6 +6,7 @@
 
 textarea[type=text]:focus{
     background-color: #1A1D21;
+
 }
 
 .input-inner {

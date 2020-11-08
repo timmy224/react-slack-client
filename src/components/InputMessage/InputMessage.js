@@ -2,7 +2,8 @@ import React, { Component, useState } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../context";
 import "./inputMessage.css"
-//import Picker from 'react-emojipicker';
+import { Editor } from '@tinymce/tinymce-react'
+import {apiKey} from '../../sensitive'
 
 const mapStateToProps = state => {
 	return {
@@ -16,9 +17,9 @@ const mapActionsToProps = {
 };
 
 class InputMessage extends Component {
-	logEmoji (emoji) {
-		console.log(emoji)
-		}
+	handleEditorChange = (content, editor) => {
+		this.props.updateInput(content);
+	}
 
 	handleChange = (event) => {
 		this.props.updateInput(event.target.value);
@@ -46,7 +47,28 @@ class InputMessage extends Component {
 					onChange={this.handleChange}
 					onKeyPress={this.handleKeyPressed}
 					type="text"
+					rows="2"
 				/>
+				{/* <Editor
+					apiKey={apiKey}
+					init={{
+						content_css: 'tinymce.css',
+						value: this.props.currentInput,
+						height: 100,
+						menubar: false,
+						statusbar: false,
+						plugins: [
+							'advlist autolink lists link image charmap print preview anchor',
+							'searchreplace visualblocks code fullscreen',
+							'insertdatetime media table paste code help wordcount emoticons',
+						],
+						toolbar:
+							'bold italic strikethrough code link \
+							numlist bullist blockquote emoticons',
+						toolbar_location: "bottom",
+					}}
+					onEditorChange={this.handleEditorChange}
+				/> */}
 			</div>
 			)
 	}

@@ -49,7 +49,7 @@ class MainComponent extends Component {
                 {isInitialized ?
                     <div class="container-fluid px-0">                        
                         <div class="row no-gutters slack-bg-color">
-                            <div class="col-2">
+                            <div class="col-2 sidebar-format">
                                 <SideBar />
                                 <div className="container text-center mt-3">
                                     <button
