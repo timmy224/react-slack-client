@@ -5,6 +5,7 @@ import SideBar from "../SideBar/SideBar";
 import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
+import "./MainComponent.css";
 
 const mapStateToProps = (state) => ({
     routePath: state.route.routePath,
@@ -47,7 +48,7 @@ class MainComponent extends Component {
             <div>
                 {isInitialized ?
                     <div class="container-fluid px-0">                        
-                        <div class="row no-gutters">
+                        <div class="row no-gutters slack-bg-color">
                             <div class="col-2">
                                 <SideBar />
                                 <div className="container text-center mt-3">
@@ -56,7 +57,7 @@ class MainComponent extends Component {
                                         onClick={() => this.props.logout()}>Logout</button>
                                 </div>
                             </div>
-                            <div class="col-9">
+                            <div class="col-10 timmy-chat">
                                 <Chat />
                             </div>
                         </div>

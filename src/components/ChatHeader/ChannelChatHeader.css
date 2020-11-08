@@ -17,7 +17,8 @@
 
 p {
 	margin-bottom: 0;
-	color: rgb(29,28,29);
+	/* color: rgb(29,28,29); */
+	color: white;
 }
 
 h1 {

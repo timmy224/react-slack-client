@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../context";
+import "./inputMessage.css"
+//import Picker from 'react-emojipicker';
 
 const mapStateToProps = state => {
 	return {
@@ -14,6 +16,10 @@ const mapActionsToProps = {
 };
 
 class InputMessage extends Component {
+	logEmoji (emoji) {
+		console.log(emoji)
+		}
+
 	handleChange = (event) => {
 		this.props.updateInput(event.target.value);
     }
@@ -31,14 +37,15 @@ class InputMessage extends Component {
 
 	render(){
 		return(
-			<div className="container text-center mt-3 rounded">
-				<textarea
+			<div className="input-outer">
+				<textarea 
 					placeholder='Enter a message'
-					className= "form-control form-control-lg"
+					className= "form-control form-control-lg input-inner"
 					style={{resize:'none'}}
 					value={this.props.currentInput}
 					onChange={this.handleChange}
 					onKeyPress={this.handleKeyPressed}
+					type="text"
 				/>
 			</div>
 			)
