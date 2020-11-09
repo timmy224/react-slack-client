@@ -4,6 +4,10 @@ const initReducer = () => {
     const INITIAL_STATE = {
         channelMessages: {},
         privateMessages: {},
+        // { channelId_num: true }
+        // { channelId_num: [message ids] }
+        channelMessagesAlert: {}, 
+        privateMessagesAlert: {},
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -50,6 +54,81 @@ const initReducer = () => {
                     }
                 };
             }
+            case types.INIT_CHANNEL_MESSAGES_MAP: {
+                const { channelIds } = payload;
+                const messages = {};
+                for (const channelId of channelIds) {
+                    messages[channelId] = [];
+                }
+                return {
+                    ...state,
+                    channelMessages: messages
+                }
+            }
+            case types.INIT_PRIVATE_MESSAGES_MAP: {
+                const { usernames } = payload;
+                const messages = {};
+                for (const username of usernames) {
+                    messages[username] = [];
+                }
+                return {
+                    ...state,
+                    privateMessages: messages
+                }
+            }
+            case types.INIT_CHANNEL_MESSAGES: {
+                const { channelId } = payload;
+                return {
+                    ...state,
+                    channelMessages: {
+                        ...state.channelMessages,
+                        [channelId]: []
+                    }
+                }
+            }
+            case types.UNREAD_CHANNEL_MESSAGE: {
+                const { channelId } = payload;
+                return {
+                    ...state,
+                    channelMessagesAlert: {
+                        ...state.channelMessagesAlert,
+                        [channelId]: true
+                    }
+                }
+            }
+            case types.UNREAD_PRIVATE_MESSAGE: {
+                const { partnerUsername } = payload;
+                return {
+                    ...state,
+                    privateMessagesAlert: {
+                        ...state.privateMessagesAlert,
+                        [partnerUsername]: true
+                    }
+                }
+            }
+            // TODO add read channel messages case
+            case types.READ_CHANNEL_MESSAGES: {
+                const { channelId } = payload;
+                return {
+                    ...state, 
+                    channelMessagesAlert: {
+                        ...state.channelMessagesAlert,
+                        [channelId]: false
+                    }
+                }
+            }
+            // TODO add read private messages case
+            case types.READ_PRIVATE_MESSAGES: {
+                const { partnerUsername } = payload;
+                return {
+                    ...state, 
+                    privateMessagesAlert: {
+                        ...state.privateMessagesAlert,
+                        [partnerUsername]: false
+                    }
+                }
+            }
+            
             default: 
                 return state;
         }
