@@ -2,11 +2,8 @@ import React, { Component, useState } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../context";
 import "./inputMessage.css"
-<<<<<<< Updated upstream
 import { Editor } from '@tinymce/tinymce-react'
 import {apiKey} from '../../sensitive'
-=======
->>>>>>> Stashed changes
 
 const mapStateToProps = state => {
 	return {
@@ -41,17 +38,10 @@ class InputMessage extends Component {
 
 	render(){
 		return(
-<<<<<<< Updated upstream
 			<div className="input-outer">
 				<textarea 
 					placeholder='Enter a message'
 					className= "form-control form-control-lg input-inner"
-=======
-			<div className="container text-center mt-3 rounded input-outer-timmy">
-				<textarea 
-					placeholder='Enter a message'
-					className= "form-control form-control-lg input-inner-timmy"
->>>>>>> Stashed changes
 					style={{resize:'none'}}
 					value={this.props.currentInput}
 					onChange={this.handleChange}
