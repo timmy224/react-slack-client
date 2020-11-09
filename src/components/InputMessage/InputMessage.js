@@ -17,9 +17,9 @@ const mapActionsToProps = {
 };
 
 class InputMessage extends Component {
-	handleEditorChange = (content, editor) => {
-		this.props.updateInput(content);
-	}
+	// handleEditorChange = (content, editor) => {
+	// 	this.props.updateInput(content);
+	// }
 
 	handleChange = (event) => {
 		this.props.updateInput(event.target.value);
