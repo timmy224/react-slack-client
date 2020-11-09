@@ -18,11 +18,6 @@ class SideBar extends Component {
         let channel_id = event.target.value
         services.channelService.deleteChannel(channel_id).catch(err => console.log(err));
     }
-    handleOrgDelete = () => {
-        //TODO
-        let org_id = 26 //hard-coded for testing purposes, will be updated once redux stores org info
-        services.orgService.deleteOrg({org_id}).catch(err => console.log(err));
-    }
 
     render() {
         const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
@@ -80,7 +75,6 @@ class SideBar extends Component {
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
-                <button type='submit' onClick={this.handleOrgDelete} className="mt-2 btn btn-primary custom-button">Delete</button>
             </div>
             
         )

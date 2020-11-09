@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService
 import { services } from "../../context";
 import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
