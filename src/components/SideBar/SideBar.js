@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { actions, services } from "../../context";
 import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
+import "./Sidebar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
 import CreateOrg from "../CreateOrg/CreateOrg"
@@ -11,16 +14,17 @@ class SideBar extends Component {
     selectChannel = (event) => {
         this.props.selectChannel(event.target.value);
     }
+
     selectUser = (event) => {
         this.props.selectUser(event.target.value);
     }
-    handleDelete = (event) => {
-        let channel_id = event.target.value
-        services.channelService.deleteChannel(channel_id).catch(err => console.log(err));
+
+    deleteChannel = channelId => {
+        services.channelService.deleteChannel(channelId).catch(err => console.log(err));
     }
 
     render() {
-        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
+        const { channels, usernames, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -28,42 +32,71 @@ class SideBar extends Component {
                 </div>
 
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
+        const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.entries(channels).map(([channel_id, channel]) => 
-                <div key={channel.channel_id}>
+                <div key={channel.channel_id} className={selectedChannel && selectedChannel.channel_id == channel.channel_id ? sidebarItemHighlightClass : "sidebar-item"}>
                     <button
+                        className="sidebar-channel unstyled-button"
                         type="button" 
-                        className="btn btn-dark m-1"
                         value={channel.channel_id}
                         onClick={this.selectChannel}>
-                        {channel.name}
+                        {"# " + channel.name}
                     </button>
                     <button
                         type="button" 
-                        className="btn btn-danger m-1"
+                        className="channel-delete unstyled-button"
                         value={channel.channel_id}
-                        onClick={this.handleDelete}
-                        >delete
+                        onClick={() => this.deleteChannel(channel.channel_id)}>
+                        <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
                     </button>
                 </div>
                 ));
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
                 : (usernames.map(username => 
-                    <button 
-                    type="button" 
-                    className="btn btn-light m-1"
-                    value={username}
-                    onClick={this.selectUser}
-                    key={username}>
-                        {username}
-                    </button>))
+                    <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
+                        <button
+                            type="button"
+                            className="sidebar-user unstyled-button"
+                            value={username}
+                            onClick={this.selectUser}>
+                            {username}
+                        </button>
+                    </div>
+                ))
         return (
-            <div>
-                <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+            <div className="sidebar">
+                <div className="org-name">
+                    <p>CodeLearning</p>
+                </div>
+                <div className="sidebar-section-heading">
+                    <span className="sidebar-section-heading-expand">
+                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                    </span>                    
+                    <button className="sidebar-section-heading-label unstyled-button">Channels</button>
+                    <div className="sidebar-section-heading-right">
+                        <button className="unstyled-button" onClick={()=>showCreateChannelModal(true)}>
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                        </button>
+                    </div>                               
+                </div>
+                <CreateChannel />                <div className="container">
                     {channelsDisplay}
                 </div>
+                <div className="sidebar-section-heading">
+                    <span className="sidebar-section-heading-expand">
+                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                    </span>                    
+                    <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
+                    <div className="sidebar-section-heading-right">
+                        <button className="unstyled-button">
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={()=>showCreateChannelModal(true)}/>
+                        </button>
+                    </div>                               
+                </div>
+                <div className="container">
                 <br />
                 {invitationsBtn}
                 <InviteModal />
@@ -75,10 +108,9 @@ class SideBar extends Component {
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                     {usernamesDisplay}
                 </div>
+                </div>
             </div>
-            
-        )
-    
+        );    
     };
 }
 
@@ -86,6 +118,8 @@ const mapStateToProps = (state) => {
     return {
         channels: state.channel.channels,
         usernames: state.user.usernames,
+        selectedChannel: state.chat.channel,
+        selectedPartner: state.chat.partnerUsername,
         invitations: state.invitation.pendingInvitations,
     };
 };

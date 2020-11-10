@@ -57,7 +57,7 @@ class InviteModal extends Component {
                     <Modal.Title>Invite users to your org</Modal.Title>
                 </Modal.Header>
                 <form className="custom-form">
-                    <label for='email'>Enter Email adress</label>
+                    <label htmlFor='email'>Enter Email adress</label>
                     <input name="email" type="email" placeholder="joeschmoe@gmail.com" onChange={this.handleInputChange} className="form-control"/>
                         <button type='submit' onClick={this.handleSubmit} className="mt-2 btn btn-primary custom-button">Submit</button >
                 </form>

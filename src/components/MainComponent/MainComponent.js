@@ -46,9 +46,9 @@ class MainComponent extends Component {
         return (
             <div>
                 {isInitialized ?
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-12">
+                    <div className="container-fluid px-0">                        
+                        <div className="row no-gutters">
+                            <div className="col-2">
                                 <CanView
                                     resource="org-member"
                                     action="invite"
@@ -68,6 +68,16 @@ class MainComponent extends Component {
                             </div>
                             <div className="col-9">
                                 <Chat />
+                            </div>
+                        </div>
+                        <div className="row no-gutters">
+                            <div className="col-12">
+                                <CanView
+                                    resource="org-member"
+                                    action="invite"
+                                    yes={() => <p>User can invite org members</p>}
+                                    no={() => <p>User cannot invite org members</p>}
+                                />
                             </div>
                         </div>
                     </div>

@@ -49,7 +49,7 @@ class InvitationsModal extends Component {
                         <div
                             key={org_name + inviter}
                             style={{display: 'flex', justifyContent: 'space-evenly',padding: '10px'}}>
-                            <div class='content'>
+                            <div className='content'>
                                 <p>Organization Name : {org_name}</p>
                                 <p>User : {inviter}</p>
                             </div>

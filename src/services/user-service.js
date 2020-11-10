@@ -1,21 +1,18 @@
-const UserService = function (apiService) {
+import { config } from "../Config";
 
+const UserService = function (apiService) {
     const fetchUsernames = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/user/usernames";
-        let localUrl = "http://localhost:5000/user/usernames";
-        return apiService.go(localUrl)
+        const url = `${config.API_URL}/user/usernames`;
+        return apiService.go(url)
             .then(response => response.json())
             .then(data => JSON.parse(data.usernames));
     };
 
     const logout = (username) => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/logout";
-        let localUrl = "http://localhost:5000/logout";
-
+        const url = `${config.API_URL}/logout`;
         const postData = {
             "username": username
         };
-
         const options = {
             method: "POST",
             body: JSON.stringify(postData),
@@ -23,7 +20,7 @@ const UserService = function (apiService) {
                 'Content-Type': 'application/json'
             }
         }
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => data.successful);
     }

@@ -21,10 +21,11 @@ class Chat extends Component {
 
 
     render() {
+        let { numChannelMembers, channelName, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];
-        let chatHeader = this.props.chatType === "channel" 
-                                                ? <ChannelChatHeader numberOfUsers={this.props.numChannelMembers}/> 
-                                                : <PrivateChatHeader />
+        let chatHeader = this.props.chatType === "channel"
+            ? <ChannelChatHeader numberOfUsers={numChannelMembers} channelName={channelName} />
+            : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
             <div>
                 <CanView
@@ -34,11 +35,11 @@ class Chat extends Component {
                     no={() => <p>User cannot add channel members</p>}
                 />
                 {chatHeader}
-                <div className = "container text-center mt-3 rounded" style={{border:'2px solid black'}}>
-                        {messages.map((message) => {
-                            return (<Message key={message.sender + message.content}
-                                sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
-                        })}
+                <div>
+                    {messages.map((message) => {
+                        return (<Message key={message.sender + message.content}
+                            sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
+                    })}
                 </div>
                 <InputMessage
                     onEnter={this.onEnterPressed}
@@ -55,12 +56,13 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
-        numChannelMembers: state.channel.numChannelMembers
+        numChannelMembers: state.channel.numChannelMembers,        
     }
     const isChannelChat = mapping.chatType === "channel";
     const isPrivateChat = mapping.chatType === "private";
     if (isChannelChat) {
         mapping.messages = state.message.channelMessages[mapping.channel.channel_id];
+        mapping.channelName = state.chat.channel.name;
     } else if (isPrivateChat) {
         mapping.messages = state.message.privateMessages[mapping.partnerUsername];
     }
