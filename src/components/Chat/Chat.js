@@ -22,11 +22,11 @@ class Chat extends Component {
 
 
     render() {
-        let { numChannelMembers, channelName } = this.props
+        let { numChannelMembers, channelName, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];
         let chatHeader = this.props.chatType === "channel"
             ? <ChannelChatHeader numberOfUsers={numChannelMembers} channelName={channelName} />
-            : <PrivateChatHeader />
+            : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
             <div>
                 <CanView
@@ -57,13 +57,13 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
-        numChannelMembers: state.channel.numChannelMembers,
-        channelName: state.chat.channel.name,
+        numChannelMembers: state.channel.numChannelMembers,        
     }
     const isChannelChat = mapping.chatType === "channel";
     const isPrivateChat = mapping.chatType === "private";
     if (isChannelChat) {
         mapping.messages = state.message.channelMessages[mapping.channel.channel_id];
+        mapping.channelName = state.chat.channel.name;
     } else if (isPrivateChat) {
         mapping.messages = state.message.privateMessages[mapping.partnerUsername];
     }
