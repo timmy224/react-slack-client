@@ -3,7 +3,6 @@ import { Subject } from "rxjs";
 import { actions, store } from "../context";
 import { config } from "../Config";
 
-
 function SocketService(chatService) {
     let socket;
     let isConnected = false;
@@ -59,39 +58,44 @@ function SocketService(chatService) {
                 `Sender: ${message_received.sender},
                 Time Sent: ${message_received.time_sent},
                 Content: ${message_received.content}`
-            );
-            chatService.onMessageReceived(message_received);
-        });
-
-        socket.on("channel-deleted", (channelId) => {
-            store.dispatch(actions.channel.channelDeleted(channelId));
-        });
-
-        socket.on("channel-created", () => {
-            store.dispatch(actions.channel.fetchChannels());
-        });
-        
-        socket.on("added-to-channel", async (channelId) => {
-            console.log("added-to-channel", channelId);
-            await store.dispatch(actions.channel.fetchChannels());
-            store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
-            send("join-channel", channelId);
-        })
- 
-    }
-
-    return Object.freeze({
-        getConnected,
-        getConnected$,
-        connect,
-        send,
-        disconnect,
+      );
+      chatService.onMessageReceived(message_received);
     });
+
+    socket.on("channel-deleted", channelId => {
+      store.dispatch(actions.channel.channelDeleted(channelId));
+    });
+
+    socket.on("added-to-channel", async channelId => {
+      console.log("added-to-channel", channelId);
+      await store.dispatch(actions.channel.fetchChannels());
+      store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
+      send("join-channel", channelId);
+    });
+
+    socket.on("permissions-updated", () => {
+      console.log("permissions-updated");
+      store.dispatch(actions.permission.fetchPermissions());
+    });
+
+    socket.on("invited-to-org", orgName => {
+      console.log("invited-to-org", orgName);
+      store.dispatch(actions.invitation.fetchInvitations());
+    });
+
+    socket.on("added-to-org", orgName => {
+      console.log("added-to-org", orgName);
+      // TODO fetch orgs
+    });
+  };
+
+  return Object.freeze({
+    getConnected,
+    getConnected$,
+    connect,
+    send,
+    disconnect
+  });
 }
 
 export default SocketService;
-
-
-
-
-

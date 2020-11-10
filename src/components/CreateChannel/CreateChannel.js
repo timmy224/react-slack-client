@@ -8,35 +8,36 @@ import "./CreateChannel.css"
 
 const mapStateToProps = (state)=>{
     return { 
-        channel_name: state.channel.channel_name,
+        create_channel_name: state.channel.create_channel_name,
         show_taken_msg: state.channel.show_taken_msg,
         routePath: state.route.routePath,
         routeState: state.route.routeState,
-        showModal: state.channel.showModal,
+        showCreateModal: state.channel.showCreateModal,
         username: state.user.username,
         isPrivate: state.channel.isPrivate,
         privateChannelUsers: state.channel.privateChannelUsers
     }
 }
 const mapActionsToProps = {
-    createChannel: actions.channel.createChannel,
+    setCreateChannelName: actions.channel.setCreateChannelName,
     takenChannelName: actions.channel.takenChannelName,
     changeRoute: actions.route.changeRoute,
-    handleShow: actions.channel.showModal,
+    handleCreateShow: actions.channel.showCreateModal,
     createPrivate: actions.channel.createPrivate,
     setPrivateUsers: actions.channel.privateChannelUsers
 }
 
 class CreateChannel extends Component {
     handleSubmit = (event) => {
-        const { channel_name, takenChannelName, username, isPrivate, privateChannelUsers, createPrivate, handleShow, setPrivateUsers} = this.props
+        const { create_channel_name, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
         event.preventDefault();
-        const name = channel_name;
+        const name = create_channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
         const channelInfo ={
             name,
             members,
-            isPrivate
+            isPrivate,
+            orgName: "Source Coders", // this is hardcoded for now but will have to come from redux soon (currently selected org)
         }
         services.channelService.createChannel(channelInfo)
         .then(response => {
@@ -49,10 +50,11 @@ class CreateChannel extends Component {
     })}
 
     resetModal = () => {
-        const { setPrivateUsers, createPrivate, takenChannelName } = this.props
+        const { setPrivateUsers, createPrivate, takenChannelName, setCreateChannelName } = this.props
         setPrivateUsers([]);
         createPrivate(false);
         takenChannelName(false);
+        setCreateChannelName('');
     }
     handleUserChange = (event) => {
         let users = event.target.value;
@@ -61,16 +63,16 @@ class CreateChannel extends Component {
 
     handleChannelName = (event) => {
         let channel_name = event.target.value
-        return this.props.createChannel(channel_name)
+        return this.props.setCreateChannelName(channel_name)
     }
     handleHide = () => {
-        const { handleShow } = this.props
-        handleShow(false);
+        const { handleCreateShow } = this.props
+        handleCreateShow(false);
         this.resetModal();
     }
 
     render() {
-        const { show_taken_msg, handleShow, showModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
+        const { show_taken_msg, handleCreateShow, showCreateModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
@@ -112,12 +114,10 @@ class CreateChannel extends Component {
                       </div>
                 </form>
         return (
-            <div id="create-channel-container">
-                <Modal className="custom-modal" show={showModal} onHide={this.handleHide}>
-                <Modal.Header className="modal-header " closeButton>
-                    <Modal.Title>
-                        <h1>Create a channel</h1>
-                    </Modal.Title>
+            <div>
+                <Modal show={showCreateModal} onHide={this.handleHide}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Channel Creation</Modal.Title>
                     {takenMessage}
                 </Modal.Header>
                 <div className="create-channel-description">
