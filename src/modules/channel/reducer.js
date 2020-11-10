@@ -5,9 +5,9 @@ import types from "./types";
 const initReducer = () => {
     const INITIAL_STATE = {
         channels: {},
-        channel_name: '',
+        create_channel_name: '',
         show_taken_msg: false,
-        showModal: false,
+        showCreateModal: false,
         isPrivate: false,
         privateChannelUsers: [],
         numChannelMembers: 0,
@@ -31,12 +31,12 @@ const initReducer = () => {
             case types.CHANNEL_NAME_SET:
                 return {
                     ...state,
-                    channel_name: payload,
+                    create_channel_name: payload,
                 }
-            case types.SHOW_MODAL:
+            case types.SHOW_CREATE_MODAL:
                 return{
                     ...state,
-                    showModal: payload,
+                    showCreateModal: payload,
                 }
             case types.CREATE_PRIVATE:
                 return{

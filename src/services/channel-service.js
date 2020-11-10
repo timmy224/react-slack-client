@@ -8,10 +8,10 @@ const ChannelService = function(apiService) {
             .then(data => data.channels);
     }
 
-    const createChannel = (channelInfo) => {
+    const createChannel = (channel_info) => {
         const url = `${config.API_URL}/channel`;
         const post_data = {
-            "channel_info": channelInfo,
+            channel_info,
         }
 
         const options = {

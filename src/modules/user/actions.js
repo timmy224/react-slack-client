@@ -3,7 +3,7 @@ import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
-const initActions = function(userService, socketService, storageService, authService, permissionService) {
+const initActions = function(userService, socketService, storageService, authService, permissionService, invitationService) {
 
 	const settingUsername = actionCreator(types.SET_USERNAME);
 	const setUsername = (username) => (dispatch) => {
@@ -60,7 +60,8 @@ const initActions = function(userService, socketService, storageService, authSer
 		await Promise.all([
 			dispatch(actions.channel.fetchChannels()),
 			dispatch(actions.user.fetchUsernames()),
-			dispatch(actions.permission.fetchPermissions())
+			dispatch(actions.permission.fetchPermissions()),
+			dispatch(actions.invitation.fetchInvitations()),
 		]);
 		dispatch(loginBundleFetch());
 	};

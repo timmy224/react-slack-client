@@ -42,10 +42,10 @@ class Chat extends Component {
                 />
                 {chatHeader}
                 <div>
-                        {messages.map((message) => {
-                            return (<Message key={message.sender + message.content}
-                                sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
-                        })}
+                    {messages.map((message) => {
+                        return (<Message key={message.sender + message.content}
+                            sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
+                    })}
                 </div>
                 <InputMessage
                     onEnter={this.onEnterPressed}

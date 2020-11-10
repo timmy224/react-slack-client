@@ -48,17 +48,27 @@ class MainComponent extends Component {
         return (
             <div>
                 {isInitialized ?
-                    <div class="container-fluid px-0">                        
-                        <div class="row no-gutters">
-                            <div class="col-2">
+                    <div className="container-fluid px-0">                        
+                        <div className="row no-gutters">
+                            <div className="col-2">
+                                <CanView
+                                    resource="org-member"
+                                    action="invite"
+                                    yes={() => <p>User can invite org members</p>}
+                                    no={() => <p>User cannot invite org members</p>}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-3">
                                 <SideBar />
                                 <div className="container text-center mt-3">
                                     <button
-                                        type="button" class="btn btn-secondary m-1"
+                                        type="button" className="btn btn-secondary m-1"
                                         onClick={() => this.props.logout()}>Logout</button>
                                 </div>
                             </div>
-                            <div class="col-9">
+                            <div className="col-9">
                                 <Chat />
                             </div>
                             {showChannelSideBar ?
@@ -66,8 +76,8 @@ class MainComponent extends Component {
                             : null
     }
                         </div>
-                        <div class="row no-gutters">
-                            <div class="col-12">
+                        <div className="row no-gutters">
+                            <div className="col-12">
                                 <CanView
                                     resource="org-member"
                                     action="invite"

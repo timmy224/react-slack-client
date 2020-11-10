@@ -19,7 +19,7 @@ const initActions = function (channelService, utilityService) {
     };
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
-    const createChannel = (channel_name) => (dispatch) => {
+    const setCreateChannelName = (channel_name) => (dispatch) => {
         dispatch(channelNameSet(channel_name))
     };
 
@@ -44,9 +44,9 @@ const initActions = function (channelService, utilityService) {
         }
     };
 
-    const modalShow = actionCreator(types.SHOW_MODAL);
-    const showModal = (show) => (dispatch) => {
-        dispatch(modalShow(show))
+    const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
+    const showCreateModal = (show) => (dispatch) => {
+        dispatch(modalCreateShow(show))
     };
 
     const channelSideBarShow= actionCreator(types.SHOW_CHANNEL_SIDE_BAR);
@@ -74,10 +74,10 @@ const initActions = function (channelService, utilityService) {
 
     return {
         fetchChannels,
-        createChannel,
+        setCreateChannelName,
         takenChannelName,
         channelDeleted,
-        showModal,
+        showCreateModal,
         createPrivate,
         privateChannelUsers,
         fetchNumMembers,
