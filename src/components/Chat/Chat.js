@@ -22,7 +22,7 @@ class Chat extends Component {
 
 
     render() {
-        let { numChannelMembers, channelName, showChannelSideBar, toggleChannelSideBar } = this.props
+        let { numChannelMembers, channelName, showChannelSideBar, toggleChannelSideBar, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];
         let chatHeader = this.props.chatType === "channel" 
                                                 ? <ChannelChatHeader
@@ -31,7 +31,7 @@ class Chat extends Component {
                                                  showChannelSideBar={showChannelSideBar}
                                                  toggleChannelSideBar= {toggleChannelSideBar}
                                                 /> 
-                                                : <PrivateChatHeader />
+                                                : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
             <div>
                 <CanView
