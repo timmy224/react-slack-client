@@ -6,7 +6,6 @@ import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import Button from "react-bootstrap/Button";
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
 import CreateOrg from "../CreateOrg/CreateOrg"
@@ -25,7 +24,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
+        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal, selectedChannel, selectedPartner } = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -78,7 +77,7 @@ class SideBar extends Component {
                     </span>                    
                     <button className="sidebar-section-heading-label unstyled-button">Channels</button>
                     <div className="sidebar-section-heading-right">
-                        <button className="unstyled-button" onClick={()=>handleCreateShow(true)}>
+                        <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
                             <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
                         </button>
                     </div>                               
@@ -93,7 +92,7 @@ class SideBar extends Component {
                     <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     <div className="sidebar-section-heading-right">
                         <button className="unstyled-button">
-                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={()=>handleCreateShow(true)}/>
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={() => showCreateChannelModal(true)}/>
                         </button>
                     </div>                               
                 </div>
@@ -132,6 +131,7 @@ const mapActionsToProps = {
     showSendInviteModal: actions.invitation.showInviteModal,
     showPendingInvitationsModal: actions.invitation.showInvitationsModal,
     showCreateOrgModal: actions.org.showCreateOrgModal,
+    
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
