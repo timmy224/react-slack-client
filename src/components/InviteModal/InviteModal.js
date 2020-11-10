@@ -1,8 +1,6 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { services, actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state)=>{
@@ -46,24 +44,22 @@ class InviteModal extends Component {
     }
 
     handleHide = () => {
-    	const { handleInviteShow } = this.props
-        handleInviteShow(false);
+    	this.props.handleInviteShow(false);
         this.resetModal();
     }
 
     render() {
-        const { handleInviteShow, showInviteModal } = this.props;
+        const { showInviteModal } = this.props;
         return (
             <div>
-                <Modal show={showInviteModal} onHide={this.handleHide}>
+                <Modal show={showInviteModal} onHide={this.handleHide} className="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Invite users to your org</Modal.Title>
                 </Modal.Header>
-                <form>
+                <form className="custom-form">
                     <label for='email'>Enter Email adress</label>
-                    <input name="email" type="email" placeholder="joeschmoe@gmail.com" 
-                        onChange={this.handleInputChange}/>
-                    <button type='submit' onClick={this.handleSubmit}>Submit</button>
+                    <input name="email" type="email" placeholder="joeschmoe@gmail.com" onChange={this.handleInputChange} className="form-control"/>
+                        <button type='submit' onClick={this.handleSubmit} className="mt-2 btn btn-primary custom-button">Submit</button >
                 </form>
                 </Modal>
             </div>         

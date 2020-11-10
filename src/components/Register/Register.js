@@ -24,7 +24,7 @@ const mapActionsToProps = {
 
 class Register extends Component {
     handleSubmit = (event) => {
-        const { username, takenUsername, password, changeRoute, setPassword,setUsername, missingCredentials, showmMissingCred } = this.props
+        const { username, takenUsername, password, changeRoute, setPassword,setUsername, missingCredentials } = this.props
 
         event.preventDefault();
         setUsername(username)
@@ -38,13 +38,13 @@ class Register extends Component {
                     setPassword("")
                     changeRoute({path:"/login"})
                 }
-                else if (data.ERROR =="Missing username in route"){
+                else if (data.ERROR === "Missing username in route"){
                     return missingCredentials(true)
                 }
-                else if (data.ERROR =="Missing password in route"){
+                else if (data.ERROR === "Missing password in route"){
                     return missingCredentials(true)
                 }
-                else if (data.ERROR == "Username is taken"){
+                else if (data.ERROR === "Username is taken"){
                     return takenUsername(true)
                 }  
             })
