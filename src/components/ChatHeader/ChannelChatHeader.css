@@ -1,0 +1,38 @@
+.chat-header {
+	font-size: 15px;
+	line-height: 1.46668;
+	font-weight: 400;
+	font-family: sans-serif;
+	box-sizing: inherit;
+	height: 64px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 16px 0 8px;
+	border: 1px solid rgb(29,28,29);
+	border-radius: 3px;
+	padding-left: 20px;
+	background-color: rgb(26,29,33)
+}
+
+p {
+	margin-bottom: 0;
+}
+
+h1 {
+	font-size: 15px;
+	font-weight: 900;
+	line-height: 22px;
+	color: rgb(209,210,211)
+}
+
+.custom-button {
+	font-size: .75rem;
+	padding: 4px 8px;
+	background-color: rgb(29,28,28);
+	color: rgb(209,210,211);
+	font-weight: 500;
+	border-color: rgb(209,210,211);
+	border-radius: 20px;
+	border-width: 2px;
+}

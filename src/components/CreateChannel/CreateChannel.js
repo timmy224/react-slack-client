@@ -70,7 +70,7 @@ class CreateChannel extends Component {
     render() {
         const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
-        const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
+        const userButton = privateChannelUsers.map(user => <button type="button" className="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
             <form
                 onSubmit={this.handleSubmit}
@@ -127,7 +127,7 @@ class CreateChannel extends Component {
                             <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
                             <div className="custom-control custom-switch">
                                 <input type="checkbox" className="custom-control-input" id="customSwitch1" />
-                                <label className="custom-control-label " for="customSwitch1" onClick={() => createPrivate(!isPrivate)}>
+                                <label className="custom-control-label " htmlFor="customSwitch1" onClick={() => createPrivate(!isPrivate)}>
                                     <p>Make private</p>
                                 </label>
                             </div>

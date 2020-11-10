@@ -80,11 +80,16 @@ h4 {
 	margin-bottom: 0;
 }
 
+.modal-title {
+	color: rgb(255,255,255);
+}
+
 p {
 	font-size: 15px;
 	font-weight: 400px;
 	margin-bottom: 0;
 	line-height: 22px;
+	color: rgb(255,255,255);
 }
 
 label {

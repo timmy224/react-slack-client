@@ -1,17 +1,15 @@
+import { config } from "../Config";
+
 const ChannelService = function(apiService) {
     const fetchChannels = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/channel";
-        let localUrl = "http://localhost:5000/channel";
-
-        return apiService.go(localUrl)
+        const url = `${config.API_URL}/channel`
+        return apiService.go(url)
             .then(response => response.json())
             .then(data => data.channels);
     }
 
     const createChannel = (channel_info) => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/channel";
-        let localUrl = "http://localhost:5000/channel";
-
+        const url = `${config.API_URL}/channel`;
         const post_data = {
             channel_info,
         }
@@ -24,14 +22,12 @@ const ChannelService = function(apiService) {
             }
         }
 
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
     };
 
     const deleteChannel = channelId => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/channel`;
-        let localUrl = "http://localhost:5000/channel"
-
+        const url = `${config.API_URL}/channel`;
         const delete_data ={
             "channel_id": channelId,
         }
@@ -42,17 +38,14 @@ const ChannelService = function(apiService) {
                 'Content-Type': 'application/json'
             }
         }
-
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => data.successful)
     };
 
     const fetchNumberOfMembers = channelId => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/channel/members/?channel_id=${channelId}`;
-        let localUrl = `http://localhost:5000/channel/members/?channel_id=${channelId}`;
-
-        return apiService.go(localUrl)
+        const url = `${config.API_URL}/channel/members/?channel_id=${channelId}`;
+        return apiService.go(url)
             .then(response => response.json())
             .then(data => data.num_members);
     }
