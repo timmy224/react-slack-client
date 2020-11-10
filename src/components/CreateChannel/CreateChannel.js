@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { services } from "../../context";
 import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form'
+import "./CreateChannel.css"
 
 const mapStateToProps = (state)=>{
     return { 
@@ -77,41 +76,43 @@ class CreateChannel extends Component {
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" class="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
-                <Form
+                <form
                 onSubmit={this.handleSubmit}
-                className="p-3">
-                      <Form.Group controlId="channelName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control 
+                className="custom-form"
+                >
+                      <div className="form-group channel-name-label">
+                        <label>Name</label>
+                        <input 
+                        className = "form-control" 
                         type="text" 
                         placeholder="#new channel name" 
                         onChange={this.handleChannelName}/>
-                      </Form.Group>
-                </Form>
+                      </div>
+                </form>
             :
-                <Form
+                <form
                 onSubmit={this.handleSubmit}
-                className="p-3">
-                      <Form.Group controlId="channelName">
-                        <Form.Label>Private Channel Name</Form.Label>
-                        <Form.Control 
+                className="custom-form">
+                      <div className="form-group channel-name-label">
+                        <label>Private Channel Name</label>
+                        <input 
+                        className = "form-control" 
                         name="channelName"
                         type="text" 
                         placeholder="#new channel name"
                         onChange={this.handleChannelName}/>
-                      </Form.Group>
-                      <br />
+                      </div>
                       {userButton}
-                      <br />
-                      <Form.Group controlId="channelName">
-                        <Form.Label>Users</Form.Label>
-                        <Form.Control 
+                      <div className="form-group" controlId="channelName">
+                        <label>Users</label>
+                        <input 
+                        className = "form-control"
                         name="users"
                         type="text" 
-                        placeholder="#enter users seperated by a space" 
+                        placeholder="#enter users separated by a space" 
                         onChange={this.handleUserChange}/>
-                      </Form.Group>
-                </Form>
+                      </div>
+                </form>
         return (
             <div>
                 <Modal show={showCreateModal} onHide={this.handleHide}>
@@ -119,22 +120,31 @@ class CreateChannel extends Component {
                     <Modal.Title>Channel Creation</Modal.Title>
                     {takenMessage}
                 </Modal.Header>
+                <div className="create-channel-description">
+                    <p>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
+                </div>
                 {formDisplay}
-                <Modal.Footer>
-                    <Button 
-                    style={{marginRight:'auto'}}
-                    className="mt-2"
+                <div id="private-section">
+                    <h4>Make Private</h4>
+                    <div id="private-label">
+                        <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                        <div className="custom-control custom-switch">
+                            <input type="checkbox" className="custom-control-input" id="customSwitch1"/>
+                            <label className="custom-control-label " for="customSwitch1" onClick={()=>createPrivate(!isPrivate)}>
+                                <p>Make private</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <Modal.Footer className= "footer">
+                    <button
+                    id="create-button"
+                    type="button"
+                    className="mt-2 btn btn-primary custom-button"
                     type='submit' 
-                    variant="primary" 
                     onClick={this.handleSubmit}
-                    >create
-                    </Button>
-                    <Form.Check 
-                        type="switch"
-                        id="switchEnabled"
-                        label="Make private"
-                        onChange={()=>createPrivate(!isPrivate)}
-                        />
+                    >Create
+                    </button>
                 </Modal.Footer>
                 </Modal>
             </div>         
