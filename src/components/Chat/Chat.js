@@ -63,13 +63,13 @@ const mapStateToProps = (state) => {
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
         numChannelMembers: state.channel.numChannelMembers,
-        channelName: state.channel.channel_name,
         showChannelSideBar: state.channel.showChannelSideBar,
     }
     const isChannelChat = mapping.chatType === "channel";
     const isPrivateChat = mapping.chatType === "private";
     if (isChannelChat) {
         mapping.messages = state.message.channelMessages[mapping.channel.channel_id];
+        mapping.channelName = state.chat.channel.name;
     } else if (isPrivateChat) {
         mapping.messages = state.message.privateMessages[mapping.partnerUsername];
     }
