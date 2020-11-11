@@ -140,6 +140,7 @@ const mapActionsToProps = {
     showSendInviteModal: actions.invitation.showInviteModal,
     showPendingInvitationsModal: actions.invitation.showInvitationsModal,
     showCreateOrgModal: actions.org.showCreateOrgModal,
+    logout: actions.user.logout,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
