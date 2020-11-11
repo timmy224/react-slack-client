@@ -110,8 +110,6 @@ class SideBar extends Component {
                 {invitationsBtn}
                 <InviteModal />
                 <button onClick={() => showSendInviteModal(true)} type="button">Invite People</button>
-                <CreateChannel />
-                <Button variant="primary" onClick={() => showCreateChannelModal(true)}>Create Channel</Button>
                 <CreateOrg />
                 <Button variant="primary" onClick={() => showCreateOrgModal(true)}>Create ORG</Button>
                 <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
