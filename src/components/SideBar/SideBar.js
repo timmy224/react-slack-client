@@ -9,6 +9,7 @@ import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-ico
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
 import CreateOrg from "../CreateOrg/CreateOrg"
+import CanView from "../CanView/CanView";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -76,11 +77,19 @@ class SideBar extends Component {
                         <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                     </span>                    
                     <button className="sidebar-section-heading-label unstyled-button">Channels</button>
-                    <div className="sidebar-section-heading-right">
-                        <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
-                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                        </button>
-                    </div>                               
+                    <CanView
+                        resource="channel"
+                        action="create"
+                        yes={() => {
+                        return(
+                                <div className="sidebar-section-heading-right">
+                                    <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
+                                        <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                                    </button>
+                                </div>
+                        )}}
+                        no={() => null}
+                    />                         
                 </div>
                 <CreateChannel />                <div className="container">
                     {channelsDisplay}

@@ -126,8 +126,8 @@ class CreateChannel extends Component {
                         <div id="private-label">
                             <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
                             <div className="custom-control custom-switch">
-                                <input type="checkbox" className="custom-control-input" id="customSwitch1" />
-                                <label className="custom-control-label " htmlFor="customSwitch1" onClick={() => createPrivate(!isPrivate)}>
+                                <input type="checkbox" className="custom-control-input" id="privateCheckbox" />
+                                <label className="custom-control-label " htmlFor="privateCheckbox" onClick={() => createPrivate(!isPrivate)}>
                                     <p>Make private</p>
                                 </label>
                             </div>
