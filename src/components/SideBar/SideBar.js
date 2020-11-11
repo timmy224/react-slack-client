@@ -101,7 +101,7 @@ class SideBar extends Component {
                     <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     <div className="sidebar-section-heading-right">
                         <button className="unstyled-button">
-                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={() => showCreateChannelModal(true)}/>
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
                         </button>
                     </div>                               
                 </div>
