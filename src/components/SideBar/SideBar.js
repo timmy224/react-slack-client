@@ -25,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal, selectedChannel, selectedPartner } = this.props;
+        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, selectedChannel, selectedPartner } = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -68,53 +68,60 @@ class SideBar extends Component {
                     </div>
                 ))
         return (
-            <div className="sidebar">
-                <div className="org-name">
-                    <p>CodeLearning</p>
-                </div>
-                <div className="sidebar-section-heading">
-                    <span className="sidebar-section-heading-expand">
-                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
-                    </span>                    
-                    <button className="sidebar-section-heading-label unstyled-button">Channels</button>
-                    <CanView
-                        resource="channel"
-                        action="create"
-                        yes={() => {
-                        return(
-                                <div className="sidebar-section-heading-right">
-                                    <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
-                                        <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                                    </button>
-                                </div>
-                        )}}
-                        no={() => null}
-                    />                         
-                </div>
-                <CreateChannel />                <div className="container">
-                    {channelsDisplay}
-                </div>
-                <div className="sidebar-section-heading">
-                    <span className="sidebar-section-heading-expand">
-                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
-                    </span>                    
-                    <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
-                    <div className="sidebar-section-heading-right">
-                        <button className="unstyled-button">
-                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                        </button>
-                    </div>                               
-                </div>
-                <div className="container">
-                <br />
-                {invitationsBtn}
-                <InviteModal />
-                <button onClick={() => showSendInviteModal(true)} type="button">Invite People</button>
-                <CreateOrg />
-                <Button variant="primary" onClick={() => showCreateOrgModal(true)}>Create ORG</Button>
-                <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
-                    {usernamesDisplay}
-                </div>
+            <div className="sidebar-wrapper">
+                <div className="sidebar">
+                    <div className="org-name">
+                        <p>CodeLearning</p>
+                    </div>
+                    <div className="sidebar-section-heading">
+                        <span className="sidebar-section-heading-expand">
+                            <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                        </span>                    
+                        <button className="sidebar-section-heading-label unstyled-button">Channels</button>
+                        <CanView
+                            resource="channel"
+                            action="create"
+                            yes={() => {
+                                return (<div className="sidebar-section-heading-right">
+                                            <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
+                                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                                            </button>
+                                        </div>)}}
+                            no={() => null}
+                        />                              
+                    </div>
+                    <CreateChannel />                
+                    <div className="container">
+                        {channelsDisplay}
+                    </div>
+                    <div className="sidebar-section-heading">
+                        <span className="sidebar-section-heading-expand">
+                            <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                        </span>                    
+                        <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
+                        <div className="sidebar-section-heading-right">
+                            <button className="unstyled-button">
+                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                            </button>
+                        </div>                               
+                    </div>
+                    <div className="container invite-create-wrapper">
+                        <br />
+                        {invitationsBtn}
+                        <InviteModal />
+                        {/* TODO match CSS of button element with Button Component */}
+                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
+                        <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                            {usernamesDisplay}
+                        </div>
+                    </div>
+                    <div className='logout-wrapper'>
+                        <div className="container text-center mt-auto logout-btn">
+                            <button
+                                type="button" className="btn btn-secondary m-1"
+                                onClick={() => this.props.logout()}>Logout</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );    
@@ -137,8 +144,7 @@ const mapActionsToProps = {
     showCreateChannelModal: actions.channel.showCreateModal,
     showSendInviteModal: actions.invitation.showInviteModal,
     showPendingInvitationsModal: actions.invitation.showInvitationsModal,
-    showCreateOrgModal: actions.org.showCreateOrgModal,
-    
+    logout: actions.user.logout,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
