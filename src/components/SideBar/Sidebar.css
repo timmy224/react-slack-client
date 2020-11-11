@@ -88,14 +88,10 @@
 .logout-wrapper {
     display: flex;
     flex-direction: column;
-    /* height: 100%; */
     justify-content: flex-end;
 }
 
 .logout-btn {
-    /* justify-content: center;
-    display: flex;
-    align-items: flex-end; */
     position: absolute;
     bottom: 0;
     padding-bottom: 10px;
