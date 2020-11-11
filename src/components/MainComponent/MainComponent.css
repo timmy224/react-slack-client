@@ -5,10 +5,18 @@
     background-color: #1A1D21;
 }
 
-.test1 {
+.sidebar-chat-wrapper {
+    margin: 0;
     padding: 0;
 }
+.sidebar-wrapper {
+    margin: 0;
+    padding-right: 0 !important;
+}
 
-.test {
-    padding: 0;
+.chat-wrapper {
+    margin: 0;
+    /* width: 100%; */
+    padding-right: 0 !important;
+    padding-left: 0 !important;
 }

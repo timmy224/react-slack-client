@@ -29,7 +29,7 @@ class Chat extends Component {
             ? <ChannelChatHeader numberOfUsers={numChannelMembers} channelName={channelName} />
             : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
-            <div id='box-wrapper'>
+            <div className='col-12' id='box-wrapper'>
                 <div id="box-first">
                     {chatHeader}
                 </div>

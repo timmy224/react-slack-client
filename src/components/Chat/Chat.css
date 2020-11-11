@@ -6,6 +6,9 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 #box-first{
@@ -16,8 +19,13 @@ body {
     display: flex;
     height: 80vh;
     flex: 1;
+    width: 100%;
 }
 
 #box-end {
     height: 10vh;
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
 }
+

@@ -66,11 +66,11 @@ class MainComponent extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-3 test1">
+                        <div className="col-12 row sidebar-chat-wrapper">
+                            <div className="col-3 sidebar-wrapper">
                                 <SideBar />
                             </div>
-                            <div className="col-9 test">
+                            <div className="col-9 chat-wrapper">
                                 <Chat />
                             </div>
                         </div>
