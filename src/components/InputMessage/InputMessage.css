@@ -1,0 +1,12 @@
+.input-outer {
+    padding: 10px;
+    background-color: #1A1D21;
+    width: 100%;
+}
+
+textarea {
+    background-color: #1A1D21;
+}
+textarea[type=text]:focus{
+    background-color: #1A1D21;
+}

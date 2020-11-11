@@ -1,10 +1,18 @@
-.sidebar {
+.sidebar-wrapper {
     background-color: #011F26;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* padding-left: 15px; */
+    padding: 0;
+}
+
+.sidebar {
+    margin: 10px;
 }
 
 .org-name {
-    padding: 25px 0px 0px 20px;   
+    padding: 25px 0px 0px 20px; 
 }
 
 .org-name p {
@@ -32,15 +40,14 @@
     flex: 1 1 0;
     display: block;
     text-align: left;
-    padding-right: 25px;
+    /* padding-right: 25px; */
 }
 
 .sidebar-section-heading-right {
     display: flex;
     align-items: center;
     margin-left: auto;
-    margin-left: 8px;
-    padding: 0 8px;
+    /* padding: 0 8px; */
 }
 
 .unstyled-button {
@@ -51,7 +58,7 @@
 }
 
 .sidebar-channel, .sidebar-user {
-    padding: 3px 0px 3px 35px;
+    padding: 3px 0px 3px 0px;
     font-size: 19px;
     color: #c3c3c3;
     font-weight: 800;
@@ -70,4 +77,26 @@
 
 .sidebar-item-highlight {
     background-color: #424242;
+}
+
+.invite-create-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.logout-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.logout-btn {
+    /* justify-content: center;
+    display: flex;
+    align-items: flex-end; */
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 10px;
 }
