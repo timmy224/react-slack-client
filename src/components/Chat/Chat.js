@@ -33,7 +33,7 @@ class Chat extends Component {
                 <div id="box-first">
                     {chatHeader}
                 </div>
-                <div id="box-fill">
+                <div className="messages-wrapper" id="box-fill">
                     {messages.map((message) => {
                         return (<Message key={message.sender + message.content}
                             sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
