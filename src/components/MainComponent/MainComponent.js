@@ -6,6 +6,7 @@ import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
 import ChannelSideBar from "../ChannelSideBar/ChannelSideBar";
+import "./MainComponent.css"
 
 const mapStateToProps = (state) => ({
     routePath: state.route.routePath,
@@ -46,11 +47,11 @@ class MainComponent extends Component {
     render() {
         const { isInitialized, showChannelSideBar } = this.props
         return (
-            <div>
+            <div className="main">
                 {isInitialized ?
-                    <div className="container-fluid px-0">                        
+                    <div className="container-fluid px-0 background-view">                        
                         <div className="row no-gutters">
-                            <div className="col-2">
+                            <div className="col-3">
                                 <CanView
                                     resource="org-member"
                                     action="invite"
@@ -58,33 +59,26 @@ class MainComponent extends Component {
                                     no={() => <p>User cannot invite org members</p>}
                                 />
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-3">
-                                <SideBar />
-                                <div className="container text-center mt-3">
-                                    <button
-                                        type="button" className="btn btn-secondary m-1"
-                                        onClick={() => this.props.logout()}>Logout</button>
-                                </div>
+                            <div className='col-9'>
+                                <CanView
+                                    resource="channel-member"
+                                    action="add"
+                                    yes={() => <p>User can add channel members</p>}
+                                    no={() => <p>User cannot add channel members</p>}
+                                />
                             </div>
-                            <div className="col-9">
+                        </div>
+                        <div className="row sidebar-chat-wrapper">
+                            <div className="col-3 sidebar-wrapper">
+                                <SideBar />
+                            </div>
+                            <div className="col-9 chat-wrapper">
                                 <Chat />
                             </div>
                             {showChannelSideBar ?
                             <ChannelSideBar />
                             : null
     }
-                        </div>
-                        <div className="row no-gutters">
-                            <div className="col-12">
-                                <CanView
-                                    resource="org-member"
-                                    action="invite"
-                                    yes={() => <p>User can invite org members</p>}
-                                    no={() => <p>User cannot invite org members</p>}
-                                />
-                            </div>
                         </div>
                     </div>
                     : null}

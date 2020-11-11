@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../context";
+import "./InputMessage.css"
 
 const mapStateToProps = state => {
 	return {
@@ -31,7 +32,7 @@ class InputMessage extends Component {
 
 	render(){
 		return(
-			<div className="container text-center mt-3 rounded">
+			<div className="text-center mt-3 rounded input-outer">
 				<textarea
 					placeholder='Enter a message'
 					className= "form-control form-control-lg"
@@ -39,6 +40,8 @@ class InputMessage extends Component {
 					value={this.props.currentInput}
 					onChange={this.handleChange}
 					onKeyPress={this.handleKeyPressed}
+					type="text"
+					rows="1"
 				/>
 			</div>
 			)
