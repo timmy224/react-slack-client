@@ -1,0 +1,22 @@
+.main {
+    height: 100vh;
+}
+.background-view {
+    background-color: #1A1D21;
+}
+
+.sidebar-chat-wrapper {
+    margin: 0;
+    padding: 0;
+}
+.sidebar-wrapper {
+    margin: 0;
+    padding-right: 0 !important;
+}
+
+.chat-wrapper {
+    margin: 0;
+    /* width: 100%; */
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
