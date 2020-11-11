@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# tinymce test
+*sensitive.js
+
+# dump files
+*.dump.2

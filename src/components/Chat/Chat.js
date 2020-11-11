@@ -6,6 +6,7 @@ import Message from "../Message/Message";
 import CanView from "../CanView/CanView";
 import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
+import "./Chat.css"
 // Depends on chatService, socketService
 import { actions, services } from "../../context";
 
@@ -28,23 +29,21 @@ class Chat extends Component {
             ? <ChannelChatHeader numberOfUsers={numChannelMembers} channelName={channelName} />
             : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
-            <div>
-                <CanView
-                    resource="channel-member"
-                    action="add"
-                    yes={() => <p>User can add channel members</p>}
-                    no={() => <p>User cannot add channel members</p>}
-                />
-                {chatHeader}
-                <div>
+            <div className='col-12' id='box-wrapper'>
+                <div id="box-first">
+                    {chatHeader}
+                </div>
+                <div className="messages-wrapper" id="box-fill">
                     {messages.map((message) => {
                         return (<Message key={message.sender + message.content}
                             sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
                     })}
                 </div>
-                <InputMessage
-                    onEnter={this.onEnterPressed}
-                />
+                <div id="box-end">
+                    <InputMessage
+                        onEnter={this.onEnterPressed}
+                    />
+                </div>
             </div>
         );
     }
