@@ -13,6 +13,12 @@
     padding: 15px 0px 10px 0px; */
 }
 
+.loading {
+    color: #c3c3c3;
+    text-align: center;
+    padding: 0 auto;
+}
+
 .org-btns {
     padding-top: 20px;
 }

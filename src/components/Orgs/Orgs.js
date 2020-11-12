@@ -24,7 +24,7 @@ class Orgs extends Component {
         const { orgs } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
         const orgsDisplay = isOrgsEmpty ?
-            <p className="orgs-label">Loading orgs...</p>
+            <p className="loading">Loading orgs...</p>
             : (Object.entries(orgs).map(([org_id, org]) => 
                 <Org org={org} />
             ));

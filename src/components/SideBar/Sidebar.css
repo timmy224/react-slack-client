@@ -19,11 +19,11 @@
     border-bottom: 1px solid #02313C;
 }
 
-/* .org-name p {
+.loading {
     color: #c3c3c3;
-    font-size: 25px;
-    font-weight: 800;
-} */
+    text-align: center;
+    padding: 0 auto;
+}
 
 .sidebar-section-heading {
     padding: 9px 20px;

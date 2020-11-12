@@ -20,7 +20,6 @@ class Chat extends Component {
         services.socketService.send("send-message", message);
     }
 
-
     render() {
         let { numChannelMembers, channelName, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];

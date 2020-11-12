@@ -33,7 +33,7 @@ class SideBar extends Component {
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
-            <h2>Loading channels...</h2>
+            <p className="loading">Loading channels...</p>
             : (Object.entries(channels).map(([channel_id, channel]) => 
                 <div key={channel.channel_id} className={selectedChannel && selectedChannel.channel_id == channel.channel_id ? sidebarItemHighlightClass : "sidebar-item"}>
                     <button
@@ -53,7 +53,7 @@ class SideBar extends Component {
                 </div>
                 ));
         let usernamesDisplay = !usernames.length ?
-                <h2>Loading users...</h2>
+                <p className="loading">Loading users...</p>
                 : (usernames.map(username => 
                     <div 
                         key={username} 
