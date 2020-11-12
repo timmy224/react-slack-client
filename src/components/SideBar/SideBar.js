@@ -60,11 +60,13 @@ class SideBar extends Component {
                     <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
-                            className="sidebar-user unstyled-button"
+                            className= "sidebar-user unstyled-button"
+                            // className={`sidebar-user unstyled-button ${isUserLoggedIn ? "logged-in" : null}`}
                             value={username}
                             onClick={this.selectUser}>
                             {username}
                         </button>
+                        <div class="login-circle"></div>
                     </div>
                 ))
         return (
