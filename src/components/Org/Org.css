@@ -4,7 +4,8 @@
     font-weight: 500;
     height: 48px;
     width: 48px;
-    background-color: rgb(125, 200, 207);
+    background-color: rgb(112, 112, 112);
     color: white;
     border-radius: 4px;
+    margin-bottom: 15px;
 }

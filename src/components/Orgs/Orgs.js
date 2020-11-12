@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { actions, services } from "../../context";
 import { connect } from "react-redux";
 import Org from "../Org/Org";
+import "./Orgs.css";
 
 const mapStateToProps = (state) => {
     return {
@@ -28,7 +29,7 @@ class Orgs extends Component {
                 <Org org={org} />
             ));
         return (
-            <div class="orgs">
+            <div id="orgs">
                 {orgsDisplay}
             </div>
         );
