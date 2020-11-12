@@ -11,7 +11,6 @@ class Org extends Component {
     selectOrg = () => {
         const { org } = this.props;
         const orgId = org.org_id;
-        console.log("Select org called!", orgId);
         this.props.selectOrg(orgId);
     }
 

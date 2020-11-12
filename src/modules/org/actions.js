@@ -21,7 +21,6 @@ const initActions = function (orgService, utilityService) {
     const selectOrg = (orgId) => (dispatch, getState) => {
         const orgs = getState().org.orgs;
         const org = orgs[orgId];
-        console.log("Select org called!!!", org);
         // TODO: uncomment when Luis code ready 
         // const channels = org.channels;
 
