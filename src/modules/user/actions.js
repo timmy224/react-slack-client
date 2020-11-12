@@ -62,6 +62,7 @@ const initActions = function(userService, socketService, storageService, authSer
 			dispatch(actions.user.fetchUsernames()),
 			dispatch(actions.permission.fetchPermissions()),
 			dispatch(actions.invitation.fetchInvitations()),
+			dispatch(actions.org.fetchOrgs()),
 		]);
 		dispatch(loginBundleFetch());
 	};

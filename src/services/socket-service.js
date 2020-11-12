@@ -85,7 +85,7 @@ function SocketService(chatService) {
 
     socket.on("added-to-org", orgName => {
       console.log("added-to-org", orgName);
-      // TODO fetch orgs
+      store.dispatch(actions.org.fetchOrgs());
     });
   };
 

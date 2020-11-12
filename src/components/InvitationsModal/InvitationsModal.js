@@ -1,7 +1,6 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { services } from "../../context";
-import { actions, store } from "../../context";
+import { services, actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state)=>{
@@ -55,11 +54,13 @@ class InvitationsModal extends Component {
                                 <p>User : {inviter}</p>
                             </div>
                             <button
+                                className="mt-2 btn btn-primary custom-button"
                                 type='submit'
                                 onClick={()=>this.handleResponse(invitation, true)}
                                 >Accept
                             </button>
                             <button
+                                className="mt-2 btn btn-primary custom-button"
                                 type='submit' 
                                 onClick={()=>this.handleResponse(invitation, false)}
                                 >Decline
@@ -69,11 +70,11 @@ class InvitationsModal extends Component {
                 });
         return (
             <div>
-                <Modal show={showInvitationsModal} onHide={this.handleHide}>
+                <Modal show={showInvitationsModal} onHide={this.handleHide} className="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Invitations Pending</Modal.Title>
                 </Modal.Header>
-                <form>
+                <form className="custom-form">
                 {invitationsDisplay}
                 </form>
                 </Modal>

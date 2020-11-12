@@ -12,7 +12,8 @@ import AuthService from "./auth-service";
 import RegisterService from "./register-service";
 import ApiService from "./api-service";
 import DemoService from "./demo-service";
-import InvitationService from "./invitation-service"
+import InvitationService from "./invitation-service";
+import OrgService from "./org-service";
 
 const configureServices = () => {    
     const storageService = StorageService();
@@ -28,6 +29,7 @@ const configureServices = () => {
     const utilityService = UtilityService();
     const demoService = DemoService();
     const invitationService  = InvitationService(apiService);
+    const orgService = OrgService(apiService);
   
     return {
         storageService,
@@ -43,6 +45,7 @@ const configureServices = () => {
         utilityService,
         demoService,
         invitationService,
+        orgService,
     };
 };
 

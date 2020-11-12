@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions, services, store } from "../../context";
+import { actions, services } from "../../context";
+import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import Button from "react-bootstrap/Button";
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
+import CreateOrg from "../CreateOrg/CreateOrg"
+import CanView from "../CanView/CanView";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -23,11 +25,11 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, selectedChannel, selectedPartner, handleInviteShow, handleCreateShow, invitations, handleInvitationsShow} = this.props;
+        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, selectedChannel, selectedPartner } = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
-                    <button onClick={()=>handleInvitationsShow(true)}>Invitations Pending</button> 
+                <button onClick={() => showPendingInvitationsModal(true)}>Invitations Pending</button> 
                 </div>
 
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
@@ -76,11 +78,17 @@ class SideBar extends Component {
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Channels</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button" onClick={()=>handleCreateShow(true)}>
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                            </button>
-                        </div>                               
+                        <CanView
+                            resource="channel"
+                            action="create"
+                            yes={() => {
+                                return (<div className="sidebar-section-heading-right">
+                                            <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
+                                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                                            </button>
+                                        </div>)}}
+                            no={() => null}
+                        />                              
                     </div>
                     <CreateChannel />                
                     <div className="container">
@@ -93,7 +101,7 @@ class SideBar extends Component {
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                         <div className="sidebar-section-heading-right">
                             <button className="unstyled-button">
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={()=>handleCreateShow(true)}/>
+                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
                             </button>
                         </div>                               
                     </div>
@@ -102,9 +110,7 @@ class SideBar extends Component {
                         {invitationsBtn}
                         <InviteModal />
                         {/* TODO match CSS of button element with Button Component */}
-                        <button onClick={()=>handleInviteShow(true)} type="button">Invite People</button>
-                        <CreateChannel />
-                        <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
+                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
                             {usernamesDisplay}
                         </div>
@@ -135,9 +141,9 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     selectUser: actions.sidebar.selectUser,
-    handleCreateShow: actions.channel.showCreateModal,
-    handleInviteShow: actions.invitation.showInviteModal,
-    handleInvitationsShow: actions.invitation.showInvitationsModal,
+    showCreateChannelModal: actions.channel.showCreateModal,
+    showSendInviteModal: actions.invitation.showInviteModal,
+    showPendingInvitationsModal: actions.invitation.showInvitationsModal,
     logout: actions.user.logout,
 };
 

@@ -9,6 +9,7 @@ import configureChatModule from "./chat";
 import configureWorkspaceModule from "./workspace";
 import configureMainModule from "./main";
 import configureInvitationModule from "./invitation";
+import configureOrgModule from "./org";
 import { extractActions, extractReducers } from "./extract";
 
 const configureModules = services => {
@@ -22,6 +23,7 @@ const configureModules = services => {
     const workspaceModule = configureWorkspaceModule(services);
     const mainModule = configureMainModule();
     const invitationModule = configureInvitationModule(services);
+    const orgModule = configureOrgModule(services);
 
     const modules = {
         route: routeModule,
@@ -34,6 +36,7 @@ const configureModules = services => {
         workspace: workspaceModule,
         main: mainModule,
         invitation : invitationModule,
+        org: orgModule,
     };
 
     return {
