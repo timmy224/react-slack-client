@@ -66,7 +66,7 @@ class SideBar extends Component {
                     </div>
                 ))
         return (
-            <div className="sidebar-wrapper">
+            <div>
                 <div className="sidebar">
                     <div className="org-name">
                         <p>CodeLearning</p>

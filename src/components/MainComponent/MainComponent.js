@@ -68,7 +68,7 @@ class MainComponent extends Component {
                             </div>
                         </div> */}
                         <div className="row main-wrapper">
-                            <div >
+                            <div className="org-wrapper">
                                 <Orgs />
                             </div>
                             <div className="sidebar-wrapper">

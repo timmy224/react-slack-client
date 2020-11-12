@@ -13,14 +13,23 @@
     grid-template-columns: 5% 20% 75%;
 }
 
+.org-wrapper {
+    background-color: #011F26;
+    border-right: 1px solid #02313C;
+    margin: 0;
+    padding-right: 0 !important;
+}
+
 .sidebar-wrapper {
+    background-color: #011F26;
+    border-right: 1px solid #02313C;
     margin: 0;
     padding-right: 0 !important;
 }
 
 .chat-wrapper {
     margin: 0;
-    /* width: 100%; */
+    /* width: 100%; */    
     padding-right: 0 !important;
     padding-left: 0 !important;
 }
