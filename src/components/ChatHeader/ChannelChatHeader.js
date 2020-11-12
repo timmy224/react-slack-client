@@ -10,10 +10,10 @@ function ChannelChatHeader(props){
 		<div className = "chat-header" >
 			<h1>{`# ${props.channelName}`}</h1>
 			<button 
-			type="button" 
-            className="btn btn-light custom-button">
-            {/*onClick={this.handleClick}>*/}
-            {`${props.numberOfUsers} members`}
+				type="button" 
+				className="btn btn-light custom-button">
+				{/*onClick={this.handleClick}>*/}
+				{`${props.numberOfUsers} members`}
             </button>
 		</div>
 	);

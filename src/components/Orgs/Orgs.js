@@ -31,9 +31,11 @@ class Orgs extends Component {
         return (
             <div className="orgs">
                 <div className="orgs-label">
-                    <h1>Orgs</h1>
+                        <h1>Orgs</h1>
                 </div>
-                {orgsDisplay}
+                <div className="org-btns">
+                    {orgsDisplay}
+                </div>
             </div>
         );
     }
