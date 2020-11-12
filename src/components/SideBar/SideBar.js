@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
-import CreateOrg from "../CreateOrg/CreateOrg"
 
 class SideBar extends Component {
     selectChannel = (event) => {

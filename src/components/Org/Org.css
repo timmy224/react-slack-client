@@ -1,0 +1,10 @@
+.org {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    height: 48px;
+    width: 48px;
+    background-color: rgb(125, 200, 207);
+    color: white;
+    border-radius: 4px;
+}

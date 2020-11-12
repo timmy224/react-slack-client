@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
+import Orgs from "../Orgs/Orgs";
 import SideBar from "../SideBar/SideBar";
 import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
@@ -67,7 +68,10 @@ class MainComponent extends Component {
                             </div>
                         </div>
                         <div className="row sidebar-chat-wrapper">
-                            <div className="col-3 sidebar-wrapper">
+                            <div className="col-1">
+                                <Orgs />
+                            </div>
+                            <div className="col-2 sidebar-wrapper">
                                 <SideBar />
                             </div>
                             <div className="col-9 chat-wrapper">

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { actions, services } from "../../context";
 import { connect } from "react-redux";
+import Org from "../Org/Org";
 
 const mapStateToProps = (state) => {
-    orgs: state.org.orgs
+    return {
+        orgs: state.org.orgs
+    };    
 }
 
 const mapActionsToProps = {
@@ -22,11 +25,11 @@ class Orgs extends Component {
         const orgsDisplay = isOrgsEmpty ?
             <h2>Loading orgs...</h2>
             : (Object.entries(orgs).map(([org_id, org]) => 
-                <p>org.name</p>
+                <Org org={org} />
             ));
         return (
             <div class="orgs">
-                
+                {orgsDisplay}
             </div>
         );
     }
