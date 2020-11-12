@@ -1,11 +1,13 @@
-#orgs {
+.orgs {
     position: relative;
+    height: 100vh;
+    width: 100%;
 }
 
-#orgs-label {
+.orgs-label {
     color: #c3c3c3;
     text-align: center;
-    font-size: 25px;
+    /* font-size: 25px;
     font-weight: 800;
-    padding: 15px 0px 10px 0px;
+    padding: 15px 0px 10px 0px; */
 }

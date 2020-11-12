@@ -66,54 +66,52 @@ class SideBar extends Component {
                     </div>
                 ))
         return (
-            <div>
-                <div className="sidebar">
-                    <div className="org-name">
-                        <p>CodeLearning</p>
+            <div className="sidebar">
+                <div className="org-name">
+                    <h1>CodeLearning</h1>
+                </div>
+                <div className="sidebar-section-heading">
+                    <span className="sidebar-section-heading-expand">
+                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                    </span>                    
+                    <button className="sidebar-section-heading-label unstyled-button">Channels</button>
+                    <div className="sidebar-section-heading-right">
+                        <button className="unstyled-button" onClick={()=>showCreateChannelModal(true)}>
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                        </button>
+                    </div>                               
+                </div>
+                <CreateChannel />                
+                <div className="container">
+                    {channelsDisplay}
+                </div>
+                <div className="sidebar-section-heading">
+                    <span className="sidebar-section-heading-expand">
+                        <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                    </span>                    
+                    <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
+                    <div className="sidebar-section-heading-right">
+                        <button className="unstyled-button">
+                            <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                        </button>
+                    </div>                               
+                </div>
+                <div className="container invite-create-wrapper">
+                    <br />
+                    {invitationsBtn}
+                    <InviteModal />
+                    {/* TODO match CSS of button element with Button Component */}
+                    <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
+                    <CreateChannel />
+                    <Button variant="primary" onClick={()=>showCreateChannelModal(true)}>Create Channel</Button>
+                    <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                        {usernamesDisplay}
                     </div>
-                    <div className="sidebar-section-heading">
-                        <span className="sidebar-section-heading-expand">
-                            <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
-                        </span>                    
-                        <button className="sidebar-section-heading-label unstyled-button">Channels</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button" onClick={()=>showCreateChannelModal(true)}>
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                            </button>
-                        </div>                               
-                    </div>
-                    <CreateChannel />                
-                    <div className="container">
-                        {channelsDisplay}
-                    </div>
-                    <div className="sidebar-section-heading">
-                        <span className="sidebar-section-heading-expand">
-                            <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
-                        </span>                    
-                        <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button">
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                            </button>
-                        </div>                               
-                    </div>
-                    <div className="container invite-create-wrapper">
-                        <br />
-                        {invitationsBtn}
-                        <InviteModal />
-                        {/* TODO match CSS of button element with Button Component */}
-                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                        <CreateChannel />
-                        <Button variant="primary" onClick={()=>showCreateChannelModal(true)}>Create Channel</Button>
-                        <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
-                            {usernamesDisplay}
-                        </div>
-                    </div>
-                    <div className='container text-center logout-wrapper'>
-                        <button
-                            type="button" className="logout-btn btn btn-secondary m-1"
-                            onClick={() => this.props.logout()}>Logout</button>
-                    </div>
+                </div>
+                <div className='container text-center logout-wrapper'>
+                    <button
+                        type="button" className="logout-btn btn btn-secondary m-1"
+                        onClick={() => this.props.logout()}>Logout</button>
                 </div>
             </div>
         );    

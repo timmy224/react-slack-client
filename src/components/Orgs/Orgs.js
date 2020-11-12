@@ -29,8 +29,10 @@ class Orgs extends Component {
                 <Org org={org} />
             ));
         return (
-            <div id="orgs">
-                <h2 id="orgs-label">Orgs</h2>
+            <div className="orgs">
+                <div>
+                    <h1 className="orgs-label">Orgs</h1>
+                </div>
                 {orgsDisplay}
             </div>
         );

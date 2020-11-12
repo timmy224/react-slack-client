@@ -13,21 +13,21 @@ textarea[type=text]:focus{
 }
 
 textarea::-webkit-input-placeholder {
-    color: white !important;
+    color: #c3c3c3 !important;
 }
 
 textarea:-moz-placeholder { /* Firefox 18- */
-    color: white !important;
+    color: #c3c3c3 !important;
 }
 
 textarea::-moz-placeholder {  /* Firefox 19+ */
-    color: white !important;
+    color: #c3c3c3 !important;
 }
 
 textarea:-ms-input-placeholder {
-    color: white !important;
+    color: #c3c3c3 !important;
 }
 
 textarea::placeholder {
-    color: white !important;
+    color: #c3c3c3 !important;
 }
