@@ -91,11 +91,6 @@ class SideBar extends Component {
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button">
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                            </button>
-                        </div>                               
                     </div>
                     <div className="container invite-create-wrapper">
                         <br />
@@ -104,8 +99,7 @@ class SideBar extends Component {
                         {/* TODO match CSS of button element with Button Component */}
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         <CreateChannel />
-                        <Button variant="primary" onClick={()=>showCreateChannelModal(true)}>Create Channel</Button>
-                        <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                        <div className = "container text-center mt-3 p-3 rounded">
                             {usernamesDisplay}
                         </div>
                     </div>
