@@ -1,3 +1,5 @@
+import { config } from "../Config";
+
 const InvitationService = function (apiService) {
     const fetchOrgs = () => {
         const url = `${config.API_URL}/org`;
