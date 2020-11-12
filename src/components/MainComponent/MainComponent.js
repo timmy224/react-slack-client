@@ -67,7 +67,7 @@ class MainComponent extends Component {
                                 />
                             </div>
                         </div> */}
-                        <div className="row sidebar-chat-wrapper">
+                        <div className="row main-wrapper">
                             <div >
                                 <Orgs />
                             </div>
