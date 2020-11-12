@@ -15,13 +15,17 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernameTaken(isUsernameTaken))
 	};
 
-	const usernamesFetch = actionCreator(types.FETCH_USERNAMES);
 	const fetchUsernames = () => async (dispatch) => {
 		const [err, usernames] = await to(userService.fetchUsernames());
 		if (err) {
 			throw new Error("Could not fetch usernames");
 		}
-		dispatch(usernamesFetch(usernames));
+		dispatch(setUsernames(usernames));
+	}
+
+	const usernamesSet = actionCreator(types.SET_USERNAMES);
+	const setUsernames = (usernames) => async (dispatch) => {		
+		dispatch(usernamesSet(usernames));
 	}
 
 	const settingPassword = actionCreator(types.SET_PASSWORD);
@@ -59,7 +63,7 @@ const initActions = function(userService, socketService, storageService, authSer
 	const fetchLoginBundle = () => async (dispatch) => {
 		await Promise.all([
 			dispatch(actions.channel.fetchChannels()),
-			dispatch(actions.user.fetchUsernames()),
+			dispatch(actions.user.fetchUsernames()), // TODO: REMOVE THIS when Luis' code ready
 			dispatch(actions.permission.fetchPermissions()),
 			dispatch(actions.invitation.fetchInvitations()),
 			dispatch(actions.org.fetchOrgs()),

@@ -1,8 +1,9 @@
 import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
+import { actions } from "../../context";
 
-const initActions = function (orgService) {
+const initActions = function (orgService, utilityService) {
     const orgsFetch = actionCreator(types.FETCH_ORGS);
     const fetchOrgs = () => async (dispatch) => {
         const [err, orgs] = await to(orgService.fetchOrgs());
@@ -16,6 +17,25 @@ const initActions = function (orgService) {
         dispatch(orgsFetch(orgsMap));
     };
 
+    const orgSelect = actionCreator(types.SELECT_ORG);
+    const selectOrg = (orgId) => (dispatch, getState) => {
+        const orgs = getState().org.orgs;
+        const org = orgs[orgId];
+        console.log("Select org called!!!", org);
+        // TODO: uncomment when Luis code ready 
+        // const channels = org.channels;
+
+        // const channelsExist = channels && !utilityService.isEmpty(channels);
+        // if (channelsExist) {
+        //     const defaultChannel = utilityService.getFirstProp(channels);
+        //     dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
+        // }
+        // handle org members 
+        // const orgMembers = org.members;
+        // const usernames = orgMembers.map(member => member.username);
+        // dispatch(actions.user.setUsernames(usernames));
+        dispatch(orgSelect(org));
+    }
 
     const modalCreateOrgShow = actionCreator(types.SHOW_CREATE_ORG_MODAL);
     const showCreateOrgModal = (show) => (dispatch) => {
@@ -39,10 +59,11 @@ const initActions = function (orgService) {
 
     return {
         fetchOrgs,
+        selectOrg,
         showCreateOrgModal,
         setCreateOrgName,
         takenOrgName,
-        setNewOrgUsers,
+        setNewOrgUsers, 
     };
 };
 

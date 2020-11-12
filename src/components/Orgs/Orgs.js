@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { actions, services } from "../../context";
+import { services } from "../../context";
 import { connect } from "react-redux";
 import Org from "../Org/Org";
 import "./Orgs.css";
@@ -10,23 +10,14 @@ const mapStateToProps = (state) => {
     };    
 }
 
-const mapActionsToProps = {
-
-}
-
 class Orgs extends Component {
-
-    selectOrg = (event) => {
-
-    }
-
     render() {
         const { orgs } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
         const orgsDisplay = isOrgsEmpty ?
             <h2>Loading orgs...</h2>
-            : (Object.entries(orgs).map(([org_id, org]) => 
-                <Org org={org} />
+            : (Object.entries(orgs).map(([orgId, org]) => 
+                <Org org={org} key={org.name}  />
             ));
         return (
             <div id="orgs">
@@ -37,4 +28,4 @@ class Orgs extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Orgs);
+export default connect(mapStateToProps)(Orgs);
