@@ -10,6 +10,7 @@
 .sidebar {
     margin: 10px;
     position: relative;
+    height: 100vh;
 }
 
 .org-name {
@@ -87,12 +88,12 @@
 }
 
 .logout-wrapper {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     justify-content: flex-end;
-    border: 1px solid white;
+    bottom: 0;
 }
 
 .logout-btn {
