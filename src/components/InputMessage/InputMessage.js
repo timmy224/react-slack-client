@@ -32,7 +32,7 @@ class InputMessage extends Component {
 
 	render(){
 		return(
-			<div className="text-center mt-3 rounded input-outer">
+			<div className="text-center rounded input-outer">
 				<textarea
 					placeholder='Enter a message'
 					className= "form-control form-control-lg"

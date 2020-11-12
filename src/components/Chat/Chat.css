@@ -10,26 +10,28 @@ body {
 }
 
 #box-first{
-    height: 9vh; 
+    height: 8vh; 
 }
 
 #box-fill {
     display: flex;
-    height: 80vh;
+    height: 83vh;
     flex-direction: column;
     align-items: flex-end;
 }
 
 .messages-wrapper {
     display: flex;
-    
+    overflow: auto;
+    scrollbar-color: #c3c3c3 #1A1D21;
 }
 
 #box-end {
-    height: 10vh;
+    height: 8vh;
     width: 100%;
     padding-left: 8px;
     padding-right: 8px;
+    padding-top: 10px;
     display: flex;
     align-items: flex-end;
 }
