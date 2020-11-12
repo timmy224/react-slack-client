@@ -11,3 +11,23 @@ textarea {
 textarea[type=text]:focus{
     background-color: #1A1D21;
 }
+
+textarea::-webkit-input-placeholder {
+    color: white !important;
+}
+
+textarea:-moz-placeholder { /* Firefox 18- */
+    color: white !important;
+}
+
+textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: white !important;
+}
+
+textarea:-ms-input-placeholder {
+    color: white !important;
+}
+
+textarea::placeholder {
+    color: white !important;
+}
