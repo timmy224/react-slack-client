@@ -1,7 +1,6 @@
 const InvitationService = function(apiService) {
     const fetchInvitations = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/org/invite";
-        let localUrl = "http://localhost:5000/org/invite"
+        const url = `${config.API_URL}/org/invite`;
 
         const post_data = {
             action: "GET"
@@ -15,13 +14,12 @@ const InvitationService = function(apiService) {
             }
         }
 
-        return apiService.go(localUrl,options)
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => JSON.parse(data.org_invites));
     }
     const sendInvite = (inviteInfo) => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/org/invite";
-        let localUrl = "http://localhost:5000/org/invite";
+        const url = `${config.API_URL}/org/invite`;
 
         const options = {
             method: "POST",
@@ -31,12 +29,11 @@ const InvitationService = function(apiService) {
             }
         }
 
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
     };
     const respondToInvite = (responseInfo) => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/org/invite-response";
-        let localUrl = "http://localhost:5000/org/invite-response";
+        const url = `${config.API_URL}/org/invite-response`;
 
         const options = {
             method: "POST",
@@ -46,7 +43,7 @@ const InvitationService = function(apiService) {
             }
         }
 
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
     };
 
