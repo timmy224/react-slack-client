@@ -1,10 +1,20 @@
 .org {
+    /* display: inline-block; */
+    display: block;
     text-align: center;
     font-size: 30px;
     font-weight: 500;
     height: 48px;
     width: 48px;
-    background-color: rgb(125, 200, 207);
-    color: white;
+    background-color: rgb(112, 112, 112);
+    color: #ffffff;
     border-radius: 4px;
+    /* margin-bottom: 15px; */
+    margin: 0px auto 20px auto;
+}
+
+.org:hover {
+    /* cursor: default; */
+    background-color: rgb(184, 184, 184);
+    color: #000000;
 }

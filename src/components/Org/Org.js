@@ -12,7 +12,7 @@ class Org extends Component {
         const { org } = this.props;
         const firstLetter = org.name[0].toUpperCase();
         return (
-            <div class="org">{firstLetter}</div>
+            <button class="org">{firstLetter}</button>
         );
     }
 

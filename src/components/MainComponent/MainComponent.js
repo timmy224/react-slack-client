@@ -49,7 +49,7 @@ class MainComponent extends Component {
             <div className="main">
                 {isInitialized ?
                     <div className="container-fluid px-0 background-view">                        
-                        <div className="row no-gutters">
+                        {/* <div className="row no-gutters">
                             <div className="col-3">
                                 <CanView
                                     resource="org-member"
@@ -66,7 +66,7 @@ class MainComponent extends Component {
                                     no={() => <p>User cannot add channel members</p>}
                                 />
                             </div>
-                        </div>
+                        </div> */}
                         <div className="row sidebar-chat-wrapper">
                             <div >
                                 <Orgs />
