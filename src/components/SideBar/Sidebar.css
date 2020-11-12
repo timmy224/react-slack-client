@@ -9,6 +9,7 @@
 
 .sidebar {
     margin: 10px;
+    position: relative;
 }
 
 .org-name {
@@ -86,13 +87,16 @@
 }
 
 .logout-wrapper {
+    position: relative;
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: flex-end;
+    border: 1px solid white;
 }
 
 .logout-btn {
     position: absolute;
-    bottom: 0;
-    padding-bottom: 10px;
+    bottom: 0; 
+    /* padding-bottom: 10px; */
 }
