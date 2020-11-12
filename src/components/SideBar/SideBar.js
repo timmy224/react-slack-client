@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
 
@@ -55,12 +55,26 @@ class SideBar extends Component {
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
                 : (usernames.map(username => 
-                    <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
+                    <div 
+                        key={username} 
+                        className={
+                            selectedPartner && selectedPartner == username 
+                            ? sidebarItemHighlightClass : "sidebar-item"
+                        }
+                    >
+                        <button
+                            type="button" 
+                            className="user-icon unstyled-button"
+                            value={username}
+                            onClick={this.selectUser}>
+                            <FontAwesomeIcon icon={faUser} transform="grow-3" color="#c3c3c3" />
+                        </button>
                         <button
                             type="button"
                             className="sidebar-user unstyled-button"
                             value={username}
-                            onClick={this.selectUser}>
+                            onClick={this.selectUser}
+                        >
                             {username}
                         </button>
                     </div>
@@ -96,16 +110,17 @@ class SideBar extends Component {
                         </button>
                     </div>                               
                 </div>
-                <div className="container invite-create-wrapper">
-                    <br />
-                    {invitationsBtn}
-                    <InviteModal />
-                    {/* TODO match CSS of button element with Button Component */}
-                    <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                    <CreateChannel />
-                    <Button variant="primary" onClick={()=>showCreateChannelModal(true)}>Create Channel</Button>
-                    <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
-                        {usernamesDisplay}
+                <div className="container">
+                    <div className="invite-create-wrapper">
+                        <div className = "p-1">
+                            {usernamesDisplay}
+                        </div>
+                        {invitationsBtn}
+                        <InviteModal />
+                        {/* TODO match CSS of button element with Button Component */}
+                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
+                        <CreateChannel />
+                        <Button variant="primary" onClick={()=>showCreateChannelModal(true)}>Create Channel</Button>
                     </div>
                 </div>
                 <div className='container text-center logout-wrapper'>
