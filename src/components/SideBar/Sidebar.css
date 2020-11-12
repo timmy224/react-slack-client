@@ -8,9 +8,9 @@
 }
 
 .sidebar {
-    margin: 10px;
     position: relative;
     height: 100vh;
+    width: 100%;
 }
 
 .org-name {
@@ -94,10 +94,14 @@
     flex-direction: column;
     justify-content: flex-end;
     bottom: 0;
+    width: 100%;
+    align-items: center;
 }
 
 .logout-btn {
-    position: absolute;
-    bottom: 0; 
+    position: relative;
+    bottom: 0;
+    width: 50%;
+    bottom: 10px;
     /* padding-bottom: 10px; */
 }

@@ -109,12 +109,10 @@ class SideBar extends Component {
                             {usernamesDisplay}
                         </div>
                     </div>
-                    <div className='text-center logout-wrapper'>
-                        <div className="container text-center logout-btn">
-                            <button
-                                type="button" className="btn btn-secondary m-1"
-                                onClick={() => this.props.logout()}>Logout</button>
-                        </div>
+                    <div className='container text-center logout-wrapper'>
+                        <button
+                            type="button" className="logout-btn btn btn-secondary m-1"
+                            onClick={() => this.props.logout()}>Logout</button>
                     </div>
                 </div>
             </div>
