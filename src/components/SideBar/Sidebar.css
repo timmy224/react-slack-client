@@ -15,6 +15,8 @@
 .org-name {
     color: #c3c3c3;
     text-align: center;
+    padding: 0 auto;
+    border-bottom: 1px solid #02313C;
 }
 
 /* .org-name p {
