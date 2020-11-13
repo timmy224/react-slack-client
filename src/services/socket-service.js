@@ -87,6 +87,13 @@ function SocketService(chatService) {
       console.log("added-to-org", orgName);
       store.dispatch(actions.org.fetchOrgs());
     });
+
+      socket.on("org-member-offline", username => {
+        console.log(`${username} is offline`);
+        //TODO once org is intergrated
+        // store.dispatch(actions.org.updateUsers());
+      });
+
   };
 
   return Object.freeze({

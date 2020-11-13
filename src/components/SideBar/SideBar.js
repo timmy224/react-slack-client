@@ -61,7 +61,7 @@ class SideBar extends Component {
                         <button
                             type="button"
                             className= "sidebar-user unstyled-button"
-                            // className={`sidebar-user unstyled-button ${isUserLoggedIn ? "logged-in" : null}`}
+                            // className={`sidebar-user unstyled-button ${user.logged_in ? "logged-in" : null}`}
                             value={username}
                             onClick={this.selectUser}>
                             {username}
