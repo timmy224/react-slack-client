@@ -15,7 +15,7 @@ body {
 
 #box-fill {
     display: flex;
-    height: 82vh;
+    height: 84vh;
     flex-direction: column;
     align-items: flex-end;
 }
@@ -27,11 +27,10 @@ body {
 }
 
 #box-end {
-    height: 7vh;
+    height: 6vh;
     width: 100%;
     padding-left: 8px;
     padding-right: 8px;
-    padding-top: 10px;
     display: flex;
     align-items: flex-end;
 }
