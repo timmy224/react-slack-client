@@ -7,6 +7,7 @@ import configureServices from "./services";
 import configureModules from "./modules";
 import configureStore from "./store";
 import context from "./context";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const loadRoot = async () => {
   const rootModule = await import("./components/Root/Root");
