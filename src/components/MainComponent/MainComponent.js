@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
+import Orgs from "../Orgs/Orgs";
 import SideBar from "../SideBar/SideBar";
 import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
@@ -48,7 +49,7 @@ class MainComponent extends Component {
             <div className="main">
                 {isInitialized ?
                     <div className="container-fluid px-0 background-view">                        
-                        <div className="row no-gutters">
+                        {/* <div className="row no-gutters">
                             <div className="col-3">
                                 <CanView
                                     resource="org-member"
@@ -65,12 +66,15 @@ class MainComponent extends Component {
                                     no={() => <p>User cannot add channel members</p>}
                                 />
                             </div>
-                        </div>
-                        <div className="row sidebar-chat-wrapper">
-                            <div className="col-3 sidebar-wrapper">
+                        </div> */}
+                        <div className="row main-wrapper">
+                            <div >
+                                <Orgs />
+                            </div>
+                            <div className="sidebar-wrapper">
                                 <SideBar />
                             </div>
-                            <div className="col-9 chat-wrapper">
+                            <div className="chat-wrapper">
                                 <Chat />
                             </div>
                         </div>

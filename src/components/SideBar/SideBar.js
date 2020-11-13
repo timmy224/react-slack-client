@@ -25,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, selectedChannel, selectedPartner } = this.props;
+        const { channels, usernames, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -101,11 +101,6 @@ class SideBar extends Component {
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button">
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                            </button>
-                        </div>                               
                     </div>
                     <div className="container invite-create-wrapper">
                         <br />
@@ -113,12 +108,13 @@ class SideBar extends Component {
                         <InviteModal />
                         {/* TODO match CSS of button element with Button Component */}
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                        <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
+                        <CreateChannel />
+                        <div className = "container text-center mt-3 p-3 rounded">
                             {usernamesDisplay}
                         </div>
                     </div>
-                    <div className='logout-wrapper'>
-                        <div className="container text-center mt-auto logout-btn">
+                    <div className='text-center logout-wrapper'>
+                        <div className="container text-center logout-btn">
                             <button
                                 type="button" className="btn btn-secondary m-1"
                                 onClick={() => this.props.logout()}>Logout</button>
@@ -146,6 +142,7 @@ const mapActionsToProps = {
     showCreateChannelModal: actions.channel.showCreateModal,
     showSendInviteModal: actions.invitation.showInviteModal,
     showPendingInvitationsModal: actions.invitation.showInvitationsModal,
+    showCreateOrgModal: actions.org.showCreateOrgModal,
     logout: actions.user.logout,
 };
 
