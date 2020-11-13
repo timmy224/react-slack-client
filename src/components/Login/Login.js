@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services} from "../../context";
 import "./Login.css";
+import { Container, Row, Col } from 'react-bootstrap'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -53,18 +54,44 @@ class Login extends Component {
         const { wrongCredentialsMsg } = this.props;         
         const credentialsIncorrect = wrongCredentialsMsg ? <h3>Wrong Username or Password</h3> : null;
 	        return(
-	        	<div>
-	        		{credentialsIncorrect}
-                    <img className="logo" src="https://www.sblack.online/img/icon.png"></img>
-                    <form>
-    	      			<h1 className= "login">Sign in</h1>
-                        <h6 className="continue">Continue with the username and password you use to sign in.</h6>
-            			<input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
-    			        <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
-    			      	<input className= "sign-in-reg"onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
-                    </form>
-                    <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
-				</div>
+	        	<div className="main">
+                    <Container>
+                        <Row className="justify-content-md-center">
+                            <Col md lg="6" className="logo-col green-color">
+                                <img className="logo" src="https://www.sblack.online/img/icon.png"></img>
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <Col md lg="6" className="form-col green-color">
+                                <form className="form-wrapper">
+                                    <h2 className= "login">Sign in to Kcals</h2>
+                                    <h6 className="continue">Continue with the username and password you use to sign in.</h6>
+                                    <input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
+                                    <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
+                                </form>
+                                {credentialsIncorrect}
+                            </Col> 
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <Col md lg="6" className="btn-col green-color">
+                                <button className="sign-in-reg" onClick={this.handleSubmit} type="submit" value="Sign in" required="required">Sign In</button>
+                                <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
+                            </Col>
+                        </Row>
+                        
+                        {/* <div className="ui-wrapper">
+                            <img className="logo" src="https://www.sblack.online/img/icon.png"></img>
+                            <form className="form-wrapper">
+                                <h1 className= "login">Sign in</h1>
+                                <h6 className="continue">Continue with the username and password you use to sign in.</h6>
+                                <input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
+                                <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
+                                <input className="sign-in-reg" onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
+                            </form>
+                            <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
+                        </div> */}
+                    </Container>
+                </div>
         	)
         }
 }
