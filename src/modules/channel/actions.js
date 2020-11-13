@@ -71,6 +71,14 @@ const initActions = function (channelService, utilityService) {
         }
         dispatch(numberOfMembersFetch(numMembers));
     };
+    const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);
+    const fetchMemberNames = channelName => async(dispatch) =>{
+        const[err, nameMembers] = await to (channelService.fetchMemberNames(channelName));
+        if(err){
+            throw new Error("Could not fetch names of channel members")
+        }
+        dispatch(nameOfMembersFetch(nameMembers))
+    }
 
     return {
         fetchChannels,
@@ -81,8 +89,10 @@ const initActions = function (channelService, utilityService) {
         createPrivate,
         privateChannelUsers,
         fetchNumMembers,
-        toggleChannelSideBar
+        toggleChannelSideBar,
+        fetchMemberNames
     };
 };
+//  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display 
 
 export default initActions;

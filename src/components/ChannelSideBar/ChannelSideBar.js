@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import CanView from "../CanView/CanView";
 import { actions, services, store } from "../../context";
 // fetch if this is a channel or a org
 //fetch channel members and channel member permisions and add to state
@@ -7,12 +8,13 @@ import { actions, services, store } from "../../context";
 
 const mapStateToProps = (state)=>{
     return { 
-        
-       
+        channelMemberNames: state.channel.channelMemberNames,
+        channelName :state.chat.channel.name
     }
 }
 
 const mapActionsToProps = {
+    fetchMemberNames: actions.channel.fetchMemberNames,
 
 }
 // TODO
@@ -50,11 +52,25 @@ You can add them to the channel by querying for the channel and adding the corre
 
 
 class ChannelSideBar extends Component{
+    componentDidMount(){
+    this.props.fetchMemberNames(this.props.channelName)
+    }
     render(){
+    let {fetchMemberNames, channelMemberNames} = this.props
+    
+    console.log ('CHANNELMEMBERNAMES: ', channelMemberNames)
+    let listOfMembers = channelMemberNames.map(channelMembers => <p>{channelMembers.username}</p>)
+    
         return(
             <div>
-                
-                <h1>I exist</h1>
+                <h3>Channel Members</h3>
+                <CanView
+                                    
+                                    resource="channel-member"
+                                    action="add"
+                                    yes={() => <p>{listOfMembers}</p>}
+                                    no={() => <p>User cannot add channel members</p>}
+                                />
             </div>
         )
 

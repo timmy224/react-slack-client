@@ -50,11 +50,30 @@ const ChannelService = function(apiService) {
             .then(data => data.num_members);
     }
 
+    const fetchMemberNames = channelName =>{
+        const url = `${config.API_URL}/channel/users/`;
+        const post_data = {
+            action: "GET",
+            channel_name: channelName
+        }
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        
+    }
+    return apiService.go(url, options)
+            .then(response => response.json())
+            .then(data => JSON.parse(data.channel_members));
+    }
     return Object.freeze({
         fetchChannels, 
         createChannel,
         deleteChannel,
-        fetchNumberOfMembers
+        fetchNumberOfMembers,
+        fetchMemberNames
     });
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import "./ChannelChatHeader.css"
 
 function ChannelChatHeader(props){
-	let {showChannelSideBar, toggleChannelSideBar} = props;
+	let {showChannelSideBar, toggleChannelSideBar, fetchMemberNames, channelName} = props;
 	let toggleButton = true;
 
 	const handleClick = (event) =>{
@@ -13,7 +13,7 @@ function ChannelChatHeader(props){
 	}
 	return(
 		<div className = "chat-header" >
-			<h1>{`# ${props.channelName}`}</h1>
+			<h1>{`# ${channelName}`}</h1>
 			<button 
 			type="button" 
             className="btn btn-light custom-button"
