@@ -91,6 +91,7 @@ const initActions = function(userService, socketService, storageService, authSer
 		setUsername,
 		takenUsername,
 		fetchUsernames,
+		setUsernames,
 		wrongCredentials,
 		setPassword,
 		missingCredentials,

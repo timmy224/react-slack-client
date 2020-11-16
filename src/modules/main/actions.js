@@ -11,7 +11,7 @@ const initActions = function(utilityService) {
             const orgsExist = orgs && !utilityService.isEmpty(orgs);
             if (orgsExist) {
                 const defaultOrg = utilityService.getFirstProp(orgs);
-                dispatch(actions.org.selectOrg(defaultOrg.org_id));
+                dispatch(actions.org.selectOrg(defaultOrg.name));
             }
         }
         await dispatch(actions.chat.initChat());        

@@ -12,27 +12,28 @@ const initActions = function (orgService, utilityService) {
         }
         const orgsMap = {};
         for (let org of orgs) {
-            orgsMap[org.org_id] = org;
+            orgsMap[org.name] = org;
         }
         dispatch(orgsFetch(orgsMap));
     };
 
     const orgSelect = actionCreator(types.SELECT_ORG);
-    const selectOrg = (orgId) => (dispatch, getState) => {
+    const selectOrg = (name) => (dispatch, getState) => {
         const orgs = getState().org.orgs;
-        const org = orgs[orgId];
-        // TODO: uncomment when Luis code ready 
-        // const channels = org.channels;
-
-        // const channelsExist = channels && !utilityService.isEmpty(channels);
-        // if (channelsExist) {
-        //     const defaultChannel = utilityService.getFirstProp(channels);
-        //     dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
-        // }
-        // handle org members 
-        // const orgMembers = org.members;
-        // const usernames = orgMembers.map(member => member.username);
-        // dispatch(actions.user.setUsernames(usernames));
+        const org = orgs[name];
+        // set channels
+        const channels = org.channels;
+        dispatch(actions.channel.setChannels(channels))
+        // select default channel
+        const channelsExist = channels && !utilityService.isEmpty(channels);
+        if (channelsExist) {
+            const defaultChannel = utilityService.getFirstProp(channels);
+            dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
+        }
+        // set members 
+        const orgMembers = org.members;
+        const usernames = orgMembers.map(member => member.username);
+        dispatch(actions.user.setUsernames(usernames));
         dispatch(orgSelect(org));
     }
 

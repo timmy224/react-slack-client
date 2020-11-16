@@ -10,15 +10,18 @@ const mapActionsToProps = {
 class Org extends Component {
     selectOrg = () => {
         const { org } = this.props;
-        const orgId = org.org_id;
-        this.props.selectOrg(orgId);
+        const orgName = org.name;
+        this.props.selectOrg(orgName);
     }
 
     render() {
-        const { org } = this.props;
+        const { org, className, onClickHandler} = this.props;
         const firstLetter = org.name[0].toUpperCase();
+        const classes =  className ? `org ${className}` : "org";
         return (
-            <button className="org" onClick={() => this.selectOrg()}>{firstLetter}</button>
+            <div className={classes}>
+                <button onClick={() => onClickHandler(org.name)}>{firstLetter}</button>
+            </div>
         );
     }
 }

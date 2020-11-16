@@ -5,18 +5,22 @@ import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
 const initActions = function (channelService, utilityService) {
-    const channelsFetch = actionCreator(types.FETCH_CHANNELS);
     const fetchChannels = () => async (dispatch) => {
         const [err, channels] = await to(channelService.fetchChannels());
         if (err) {
             throw new Error("Could not fetch channels");
-        }
+        }        
+        dispatch(setChannels(channels));
+    };
+
+    const channelsSet = actionCreator(types.SET_CHANNELS);
+    const setChannels = (channels) => (dispatch) => {
         const channelsMap = {};
         for (let channel of channels) {
             channelsMap[channel.channel_id] = channel;
         }
-        dispatch(channelsFetch(channelsMap));
-    };
+        dispatch(channelsSet(channelsMap));
+    }
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
     const setCreateChannelName = (channel_name) => (dispatch) => {
@@ -69,6 +73,7 @@ const initActions = function (channelService, utilityService) {
 
     return {
         fetchChannels,
+        setChannels,
         setCreateChannelName,
         takenChannelName,
         channelDeleted,
