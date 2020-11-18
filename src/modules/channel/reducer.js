@@ -17,7 +17,7 @@ const initReducer = () => {
     const { type, payload } = action;
 
         switch (type) {
-            case types.FETCH_CHANNELS:
+            case types.SET_CHANNELS:
                 return {
                     ...state,
                     channels: payload,

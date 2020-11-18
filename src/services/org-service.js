@@ -1,6 +1,6 @@
 import { config } from "../Config";
 
-const InvitationService = function (apiService) {
+const OrgService = function (apiService) {
     const fetchOrgs = () => {
         const url = `${config.API_URL}/org`;
 
@@ -18,8 +18,9 @@ const InvitationService = function (apiService) {
 
         return apiService.go(url, options)
             .then(response => response.json())
-            .then(data=>data.orgs)
+            .then(data => JSON.parse(data.orgs));
     }
+    
     const createOrg = (org_info) => {
         const url = `${config.API_URL}/org`;
 
@@ -58,4 +59,4 @@ const InvitationService = function (apiService) {
     });
 };
 
-export default InvitationService;
+export default OrgService;

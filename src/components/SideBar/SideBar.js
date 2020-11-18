@@ -25,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { channels, usernames, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
+        const { org, channels, usernames, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -73,7 +73,7 @@ class SideBar extends Component {
             <div className="sidebar-wrapper">
                 <div className="sidebar">
                     <div className="org-name">
-                        <p>CodeLearning</p>
+                        <p>{org.name}</p>
                     </div>
                     <div className="sidebar-section-heading">
                         <span className="sidebar-section-heading-expand">
@@ -128,6 +128,7 @@ class SideBar extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        org: state.org.org,
         channels: state.channel.channels,
         usernames: state.user.usernames,
         selectedChannel: state.chat.channel,
