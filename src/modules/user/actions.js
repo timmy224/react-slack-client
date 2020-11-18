@@ -15,14 +15,6 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernameTaken(isUsernameTaken))
 	};
 
-	const fetchUsernames = () => async (dispatch) => {
-		const [err, usernames] = await to(userService.fetchUsernames());
-		if (err) {
-			throw new Error("Could not fetch usernames");
-		}
-		dispatch(setUsernames(usernames));
-	}
-
 	const usernamesSet = actionCreator(types.SET_USERNAMES);
 	const setUsernames = (usernames) => async (dispatch) => {		
 		dispatch(usernamesSet(usernames));
@@ -62,8 +54,6 @@ const initActions = function(userService, socketService, storageService, authSer
 	const loginBundleFetch = actionCreator(types.FETCH_LOGIN_BUNDLE);
 	const fetchLoginBundle = () => async (dispatch) => {
 		await Promise.all([
-			dispatch(actions.channel.fetchChannels()),
-			dispatch(actions.user.fetchUsernames()), // TODO: REMOVE THIS when Luis' code ready
 			dispatch(actions.permission.fetchPermissions()),
 			dispatch(actions.invitation.fetchInvitations()),
 			dispatch(actions.org.fetchOrgs()),
@@ -90,7 +80,6 @@ const initActions = function(userService, socketService, storageService, authSer
 	return { 
 		setUsername,
 		takenUsername,
-		fetchUsernames,
 		setUsernames,
 		wrongCredentials,
 		setPassword,

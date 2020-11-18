@@ -1,13 +1,6 @@
 import { config } from "../Config";
 
 const ChannelService = function(apiService) {
-    const fetchChannels = () => {
-        const url = `${config.API_URL}/channel`
-        return apiService.go(url)
-            .then(response => response.json())
-            .then(data => data.channels);
-    }
-
     const createChannel = (channel_info) => {
         const url = `${config.API_URL}/channel`;
         const post_data = {
@@ -51,7 +44,6 @@ const ChannelService = function(apiService) {
     }
 
     return Object.freeze({
-        fetchChannels, 
         createChannel,
         deleteChannel,
         fetchNumberOfMembers
