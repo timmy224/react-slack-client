@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import CanView from "../CanView/CanView";
 import { actions, services, store } from "../../context";
-// fetch if this is a channel or a org
-//fetch channel members and channel member permisions and add to state
-//fetch org members and org permissions and add to state
 
 const mapStateToProps = (state)=>{
     return { 
         channelMemberNames: state.channel.channelMemberNames,
-        channelName :state.chat.channel.name
+        channelName :state.chat.channel.name,
+        addMember: state.channel.addMember,
+        removeMember: state.channel.removeMember
     }
 }
 
 const mapActionsToProps = {
     fetchMemberNames: actions.channel.fetchMemberNames,
-
+    addChannelMember: actions.channel.addChannelMember,
+    removeChannelMember: actions.channel.removeChannelMember,
+    updateAddMember: actions.channel.updateAddMember,
 }
 // TODO
 // Make a conditional that depending on if the state is a channel or org
@@ -53,14 +54,37 @@ You can add them to the channel by querying for the channel and adding the corre
 
 class ChannelSideBar extends Component{
     componentDidMount(){
-    this.props.fetchMemberNames(this.props.channelName)
+        const {fetchMemberNames, channelName} = this.props
+    fetchMemberNames(channelName)
     }
+
+    handleAddMemberSubmit = (event) => {
+      const {addChannelMember, addMember, channelName} = this.props
+      event.preventDefault();
+      addChannelMember(channelName, addMember)
+    }
+
+    handleMemberAdd = (event) =>{
+        let {addMember, updateAddMember} = this.props
+        updateAddMember(event.target.value)
+    }
+
     render(){
-    let {fetchMemberNames, channelMemberNames} = this.props
-    
-    console.log ('CHANNELMEMBERNAMES: ', channelMemberNames)
-    let listOfMembers = channelMemberNames.map(channelMembers => <p>{channelMembers.username}</p>)
-    
+    let {fetchMemberNames, channelMemberNames, channelName, channelMember, removeChannelMember} = this.props
+    let listOfMembers = channelMemberNames.map(channelMember => <p>{channelMember.username}</p>)
+    let listOfMembersAdmin = channelMemberNames.map(channelMember => {
+        return(<div>
+            <button
+                        text="remove"
+                        type="button" 
+                        value={channelMember}
+                        onClick={() => removeChannelMember(channelName,channelMember.username)}>
+                        
+            </button> 
+            <p>{channelMember.username}</p>
+            </div>
+            )
+    })    
         return(
             <div>
                 <h3>Channel Members</h3>
@@ -68,8 +92,24 @@ class ChannelSideBar extends Component{
                                     
                                     resource="channel-member"
                                     action="add"
-                                    yes={() => <p>{listOfMembers}</p>}
-                                    no={() => <p>User cannot add channel members</p>}
+                                    yes={() => <p>{listOfMembersAdmin}</p>}
+                                    no={() => <p>{listOfMembers}</p>}
+                                />
+                                <CanView
+                                    
+                                    resource="channel-member"
+                                    action="add"
+                                    yes={() =>
+                                        <form
+                                        onSubmit = {this.handleAddMemberSubmit}
+                                        >
+                                        <label>Add Member</label>
+                                        <input
+                                        type="text"
+                                        placeholder="Adding member"
+                                        onChange={this.handleMemberAdd} />
+                                        </form>}
+                                    no={() => <p></p>}
                                 />
             </div>
         )

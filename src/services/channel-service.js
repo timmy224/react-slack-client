@@ -68,12 +68,54 @@ const ChannelService = function(apiService) {
             .then(response => response.json())
             .then(data => JSON.parse(data.channel_members));
     }
+
+    const addChannelMember = (channelName, addMember) => {
+        const url = `${config.API_URL}/channel/users/`;
+        const post_data = {
+            action: "STORE",
+            channel_name: channelName,
+            new_member_username: addMember
+        }
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        
+    }
+    return apiService.go(url, options)
+            .then(response => response.json())
+            .then(data => data.successful)
+    }
+
+    const removeChannelMember = (channelName, removeMember) => {
+        const url = `${config.API_URL}/channel/users/`;
+        const post_data = {
+            channel_name: channelName,
+            removed_username: removeMember
+        }
+        const options = {
+            method: "DELETE",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        
+    }
+    return apiService.go(url, options)
+            .then(response => response.json())
+            .then(data => data.successful)
+    }
+
     return Object.freeze({
         fetchChannels, 
         createChannel,
         deleteChannel,
         fetchNumberOfMembers,
-        fetchMemberNames
+        fetchMemberNames,
+        addChannelMember,
+        removeChannelMember
     });
 };
 

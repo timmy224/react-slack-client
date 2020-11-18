@@ -3,6 +3,8 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
+import { dispatch } from "rxjs/internal/observable/pairs";
+import { asyncScheduler } from "rxjs";
 
 const initActions = function (channelService, utilityService) {
     const channelsFetch = actionCreator(types.FETCH_CHANNELS);
@@ -79,6 +81,27 @@ const initActions = function (channelService, utilityService) {
         }
         dispatch(nameOfMembersFetch(nameMembers))
     }
+    const channelMemberAdd = actionCreator(types.ADD_CHANNEL_MEMBER);
+    const addChannelMember = (channelName, addMember) => async(dispatch) => {
+        const[err, memberAdded] = await to (channelService.addChannelMember(channelName, addMember));
+        if (err){
+            throw new Error("Could not add member to channel")
+        }
+        dispatch(channelMemberAdd(memberAdded))
+    }
+    const channelMemberRemove = actionCreator(types.REMOVE_CHANNEL_MEMBER);
+    const removeChannelMember = (channelName, removeMember) => async(dispatch) =>{
+        const [err, memberRemoved] = await to (channelService.removeChannelMember(channelName, removeMember));
+        if (err){
+            throw new Error("Could not remove member from channel")
+        }
+        dispatch(channelMemberRemove(memberRemoved))
+    }
+    const addMemberUpdate = actionCreator(types.UPDATE_ADD_MEMBER);
+    const updateAddMember = (addMember) => (dispatch) => {
+        dispatch(addMemberUpdate(addMember))
+    };
+  ;
 
     return {
         fetchChannels,
@@ -90,7 +113,10 @@ const initActions = function (channelService, utilityService) {
         privateChannelUsers,
         fetchNumMembers,
         toggleChannelSideBar,
-        fetchMemberNames
+        fetchMemberNames,
+        addChannelMember,
+        removeChannelMember,
+        updateAddMember,
     };
 };
 //  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display 
