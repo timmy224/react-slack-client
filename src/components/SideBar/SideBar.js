@@ -56,17 +56,17 @@ class SideBar extends Component {
                 ));
         let usernamesDisplay = !usernames.length ?
                 <h2>Loading users...</h2>
-                : (usernames.map(username => 
-                    <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
+                : (usernames.map(user => 
+                    <div key={user.username+user.loggedIn} className={selectedPartner && selectedPartner == user.username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
-                            className= "sidebar-user unstyled-button"
-                            // className={`sidebar-user unstyled-button ${user.logged_in ? "logged-in" : null}`}
-                            value={username}
+                            // className= "sidebar-user unstyled-button"
+                            className={"sidebar-user unstyled-button"}
+                            value={user.username}
                             onClick={this.selectUser}>
-                            {username}
+                            {user.username}
                         </button>
-                        <div class="login-circle"></div>
+                        <div className={`login-circle ${user.loggedIn ? "logged-in" : null}`}></div>
                     </div>
                 ))
         return (

@@ -28,6 +28,13 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernamesSet(usernames));
 	}
 
+	const updateUsers = (username) => async (dispatch, getState) =>{
+		const users = getState().user.usernames;
+		const user = users[username]
+		user.loggedIn = true;
+		dispatch(usernamesSet(users))
+	}
+
 	const settingPassword = actionCreator(types.SET_PASSWORD);
 	const setPassword = (password) => (dispatch) => {
 		dispatch(settingPassword(password))
@@ -92,6 +99,7 @@ const initActions = function(userService, socketService, storageService, authSer
 		takenUsername,
 		fetchUsernames,
 		setUsernames,
+		updateUsers,
 		wrongCredentials,
 		setPassword,
 		missingCredentials,

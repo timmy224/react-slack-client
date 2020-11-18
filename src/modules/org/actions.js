@@ -32,7 +32,10 @@ const initActions = function (orgService, utilityService) {
         }
         // set members 
         const orgMembers = org.members;
-        const usernames = orgMembers.map(member => member.username);
+        const usernames = orgMembers.map(member =>({
+             username : member.username,
+             loggedIn: member.logged_in,
+        }));
         dispatch(actions.user.setUsernames(usernames));
         dispatch(orgSelect(org));
     }

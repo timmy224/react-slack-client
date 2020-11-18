@@ -50,6 +50,7 @@ function SocketService(chatService) {
             console.log("user_join", user_join);
             console.log(`User joined the chat: ${user_join.username}`);
             chatService.onUserJoinedChat(user_join.username);
+            store.dispatch(actions.user.updateUsers(user_join.username));
         });
 
         socket.on('message-received', (message_received) => {
