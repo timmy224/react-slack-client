@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { actions } from "../../context";
-import "./InputMessage.css"
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {actions} from "../../context";
+import "./InputMessage.css";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
-		currentInput: state.chat.currentInput	
+		currentInput: state.chat.currentInput,
 	};
 };
 
@@ -17,9 +17,9 @@ const mapActionsToProps = {
 class InputMessage extends Component {
 	handleChange = (event) => {
 		this.props.updateInput(event.target.value);
-    }
+	};
 
-	handleKeyPressed = event => {
+	handleKeyPressed = (event) => {
 		if (event.key === "Enter") {
 			const validMessage = this.props.currentInput;
 
@@ -28,15 +28,15 @@ class InputMessage extends Component {
 				this.props.inputClear();
 			}
 		}
-	}	
+	};
 
-	render(){
-		return(
+	render() {
+		return (
 			<div className="text-center mt-3 rounded input-outer">
 				<textarea
-					placeholder='Enter a message'
-					className= "form-control form-control-lg"
-					style={{resize:'none'}}
+					placeholder="Enter a message"
+					className="form-control form-control-lg"
+					style={{resize: "none"}}
 					value={this.props.currentInput}
 					onChange={this.handleChange}
 					onKeyPress={this.handleKeyPressed}
@@ -44,9 +44,8 @@ class InputMessage extends Component {
 					rows="1"
 				/>
 			</div>
-			)
+		);
 	}
 }
-
 
 export default connect(mapStateToProps, mapActionsToProps)(InputMessage);
