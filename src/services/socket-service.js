@@ -46,11 +46,10 @@ function SocketService(chatService) {
             connected$.next(false);
         });
 
-        socket.on('user-joined-chat', (user_join) => {
-            console.log("user_join", user_join);
-            console.log(`User joined the chat: ${user_join.username}`);
-            chatService.onUserJoinedChat(user_join.username);
-            store.dispatch(actions.user.updateUsers(user_join.username));
+        socket.on('user-joined-chat', ({username}) => {
+            console.log(`User joined the chat: ${username}`);
+            chatService.onUserJoinedChat(username);
+            store.dispatch(actions.user.updateUsers(username));
         });
 
         socket.on('message-received', (message_received) => {
