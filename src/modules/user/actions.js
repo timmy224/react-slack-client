@@ -2,7 +2,6 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
-import { faUserShield } from "@fortawesome/free-solid-svg-icons";
 
 const initActions = function(userService, socketService, storageService, authService, permissionService, invitationService) {
 
