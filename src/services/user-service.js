@@ -1,13 +1,6 @@
 import { config } from "../Config";
 
 const UserService = function (apiService) {
-    const fetchUsernames = () => {
-        const url = `${config.API_URL}/user/usernames`;
-        return apiService.go(url)
-            .then(response => response.json())
-            .then(data => JSON.parse(data.usernames));
-    };
-
     const logout = (username) => {
         const url = `${config.API_URL}/logout`;
         const postData = {
@@ -26,7 +19,6 @@ const UserService = function (apiService) {
     }
 
     return Object.freeze({
-       fetchUsernames,
        logout,
     });
 };

@@ -5,10 +5,14 @@
     background-color: #1A1D21;
 }
 
-.sidebar-chat-wrapper {
+.main-wrapper {
     margin: 0;
     padding: 0;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 5% 20% 75%;
 }
+
 .sidebar-wrapper {
     margin: 0;
     padding-right: 0 !important;
@@ -20,3 +24,4 @@
     padding-right: 0 !important;
     padding-left: 0 !important;
 }
+

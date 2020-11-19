@@ -24,7 +24,7 @@ const initReducer = () => {
                     ...state, 
                     showTakenMsg: payload
                 };
-            case types.FETCH_USERNAMES:
+            case types.SET_USERNAMES:
                 return {
                     ...state,
                     usernames: payload

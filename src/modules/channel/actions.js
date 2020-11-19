@@ -5,18 +5,14 @@ import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
 const initActions = function (channelService, utilityService) {
-    const channelsFetch = actionCreator(types.FETCH_CHANNELS);
-    const fetchChannels = () => async (dispatch) => {
-        const [err, channels] = await to(channelService.fetchChannels());
-        if (err) {
-            throw new Error("Could not fetch channels");
-        }
+    const channelsSet = actionCreator(types.SET_CHANNELS);
+    const setChannels = (channels) => (dispatch) => {
         const channelsMap = {};
         for (let channel of channels) {
             channelsMap[channel.channel_id] = channel;
         }
-        dispatch(channelsFetch(channelsMap));
-    };
+        dispatch(channelsSet(channelsMap));
+    }
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
     const setCreateChannelName = (channel_name) => (dispatch) => {
@@ -32,7 +28,7 @@ const initActions = function (channelService, utilityService) {
         // Check for special case of currently selected channel being deleted
         const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.channel_id === parseInt(channelId);
         // Refresh channel list in sidebar
-        await dispatch(fetchChannels());
+        // TODO: remove channel from redux
         if (isCurrentChannelDeleted) {
             // If currently selected channel was deleted, choose first channel (default)
             const channels = getState().channel.channels;
@@ -68,7 +64,7 @@ const initActions = function (channelService, utilityService) {
     };
 
     return {
-        fetchChannels,
+        setChannels,
         setCreateChannelName,
         takenChannelName,
         channelDeleted,

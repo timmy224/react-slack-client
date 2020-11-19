@@ -21,7 +21,7 @@ const configureModules = services => {
     const sidebarModule = configureSidebarModule(services);
     const chatModule = configureChatModule(services);
     const workspaceModule = configureWorkspaceModule(services);
-    const mainModule = configureMainModule();
+    const mainModule = configureMainModule(services);
     const invitationModule = configureInvitationModule(services);
     const orgModule = configureOrgModule(services);
 

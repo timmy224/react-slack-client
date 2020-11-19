@@ -1,7 +1,8 @@
-const InvitationService = function (apiService) {
+import { config } from "../Config";
+
+const OrgService = function (apiService) {
     const fetchOrgs = () => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/org";
-        let localUrl = "http://localhost:5000/org"
+        const url = `${config.API_URL}/org`;
 
         const post_data = {
             action: "GET"
@@ -15,13 +16,13 @@ const InvitationService = function (apiService) {
             }
         }
 
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
-            .then(data=>data.orgs)
+            .then(data => JSON.parse(data.orgs));
     }
+    
     const createOrg = (org_info) => {
-        let remoteUrl = "https://react-slack-server.herokuapp.com/org";
-        let localUrl = "http://localhost:5000/org";
+        const url = `${config.API_URL}/org`;
 
         const options = {
             method: "POST",
@@ -31,13 +32,12 @@ const InvitationService = function (apiService) {
             }
         }
 
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
     };
 
     const deleteOrg = org_id => {
-        let remoteUrl = `https://react-slack-server.herokuapp.com/org`;
-        let localUrl = "http://localhost:5000/org"
+        const url = `${config.API_URL}/org`;
         
         const options = {
             method: "DELETE",
@@ -47,7 +47,7 @@ const InvitationService = function (apiService) {
             }
         }
 
-        return apiService.go(localUrl, options)
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => data.successful)
     };
@@ -59,4 +59,4 @@ const InvitationService = function (apiService) {
     });
 };
 
-export default InvitationService;
+export default OrgService;

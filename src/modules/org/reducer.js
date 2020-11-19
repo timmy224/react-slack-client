@@ -3,6 +3,7 @@ import types from "./types";
 const initReducer = () => {
     const INITIAL_STATE = {
         orgs: {},
+        org: null,
         showCreateOrgModal: false,
         createOrgName: '',
         showTakenMsg: false,
@@ -17,6 +18,11 @@ const initReducer = () => {
                 return {
                     ...state,
                     orgs: payload,
+                };
+            case types.SELECT_ORG:
+                return {
+                    ...state,
+                    org: payload
                 };
             case types.SHOW_CREATE_ORG_MODAL:
                 return {

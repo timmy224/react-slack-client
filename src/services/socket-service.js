@@ -68,7 +68,7 @@ function SocketService(chatService) {
 
     socket.on("added-to-channel", async channelId => {
       console.log("added-to-channel", channelId);
-      await store.dispatch(actions.channel.fetchChannels());
+      // TODO: add channel to redux here once it's being sent by server side 
       store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
       send("join-channel", channelId);
     });
