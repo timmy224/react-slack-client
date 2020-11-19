@@ -3,7 +3,7 @@ import types from "./types";
 const initReducer = () => {
     const INITIAL_STATE = {
         username: '',
-        usernames: [],
+        users: {},
         showTakenMsg: false,
         showMissingCred: false,
         wrongCredentialsMsg: false,
@@ -24,10 +24,15 @@ const initReducer = () => {
                     ...state, 
                     showTakenMsg: payload
                 };
-            case types.SET_USERNAMES:
+            case types.SET_USERS:
                 return {
                     ...state,
-                    usernames: payload
+                    users: payload
+                };
+            case types.UPDATE_USERS:
+                return {
+                    ...state,
+                    users: payload
                 };
             case types.SET_PASSWORD:
                 return {

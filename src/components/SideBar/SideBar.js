@@ -25,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { org, channels, usernames, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
+        const { org, channels, users, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -54,19 +54,19 @@ class SideBar extends Component {
                     </button>
                 </div>
                 ));
-        let usernamesDisplay = !usernames.length ?
+        let isUsersEmpty = services.utilityService.isEmpty(users);
+        let usernamesDisplay = isUsersEmpty ?
                 <h2>Loading users...</h2>
-                : (usernames.map(user => 
-                    <div key={user.username+user.loggedIn} className={selectedPartner && selectedPartner == user.username ? sidebarItemHighlightClass : "sidebar-item"}>
+                : (Object.entries(users).map(([username, user]) =>  
+                    <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
-                            // className= "sidebar-user unstyled-button"
-                            className={"sidebar-user unstyled-button"}
-                            value={user.username}
+                            className= "sidebar-user unstyled-button"
+                            value={username}
                             onClick={this.selectUser}>
-                            {user.username}
+                            {username}
                         </button>
-                        <div className={`login-circle ${user.loggedIn ? "logged-in" : null}`}></div>
+                        <div className={`login-circle ${user.logged_in ? "logged-in" : null}`}></div>
                     </div>
                 ))
         return (
@@ -130,7 +130,7 @@ const mapStateToProps = (state) => {
     return {
         org: state.org.org,
         channels: state.channel.channels,
-        usernames: state.user.usernames,
+        users: state.user.users,
         selectedChannel: state.chat.channel,
         selectedPartner: state.chat.partnerUsername,
         invitations: state.invitation.pendingInvitations,

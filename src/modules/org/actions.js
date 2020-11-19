@@ -31,12 +31,8 @@ const initActions = function (orgService, utilityService) {
             dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
         }
         // set members 
-        const orgMembers = org.members;
-        const usernames = orgMembers.map(member =>({
-             username : member.username,
-             loggedIn: member.logged_in,
-        }));
-        dispatch(actions.user.setUsernames(usernames));
+        const users = org.members;
+        dispatch(actions.user.setUsers(users));
         dispatch(orgSelect(org));
     }
 

@@ -15,16 +15,21 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernameTaken(isUsernameTaken))
 	};
 
-	const usernamesSet = actionCreator(types.SET_USERNAMES);
-	const setUsernames = (usernames) => async (dispatch) => {		
-		dispatch(usernamesSet(usernames));
-	}
+	const usersSet = actionCreator(types.SET_USERS);
+    const setUsers = (users) => (dispatch) => {
+        const usersMap = {};
+        for (let user of users) {
+            usersMap[user.username] = user;
+        }
+        dispatch(usersSet(usersMap));
+    }
 
 	const updateUsers = (username) => async (dispatch, getState) =>{
-		const users = getState().user.usernames;
+		console.log('USERNAME', username)
+		const users = getState().user.users;
 		const user = users[username]
-		user.loggedIn = true;
-		dispatch(usernamesSet(users))
+		user.logged_in = true;
+		dispatch(updateUsers(users))
 	}
 
 	const settingPassword = actionCreator(types.SET_PASSWORD);
@@ -87,7 +92,7 @@ const initActions = function(userService, socketService, storageService, authSer
 	return { 
 		setUsername,
 		takenUsername,
-		setUsernames,
+		setUsers,
 		updateUsers,
 		wrongCredentials,
 		setPassword,

@@ -8,7 +8,6 @@ import { actions } from "../../context";
 
 const mapStateToProps = (state) => {
   return {
-    username: state.user.username,
     routePath: state.route.routePath,
     routeState: state.route.routeState,
   };

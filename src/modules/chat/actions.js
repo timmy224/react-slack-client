@@ -5,11 +5,10 @@ import { actions } from "../../context";
 const initActions = function (utilityService) {
     const initChat = () => (dispatch, getState) => {
         const channels = getState().channel.channels;
-        const channelIds = []
-        for (let channelId in channels) {
-            channelIds.push(channelId);
-        }
-        const usernames = getState().user.usernames;
+        const channelIds = Object.keys(channels);
+
+        const usernames = Object.keys(getState().user.users);
+        
         // Initialize channel messages and private messages map
         dispatch(actions.message.initChannelMessagesMap(channelIds));
         dispatch(actions.message.initPrivateMessagesMap(usernames));

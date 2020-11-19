@@ -91,8 +91,7 @@ function SocketService(chatService) {
 
       socket.on("org-member-offline", username => {
         console.log(`${username} is offline`);
-        //TODO once org is integrated
-        // store.dispatch(actions.org.updateUsers());
+        store.dispatch(actions.org.updateUsers(username));
       });
 
   };
