@@ -11,11 +11,11 @@ const initActions = function () {
 		dispatch(channelSelect(channel));
 		dispatch(actions.channel.fetchNumMembers(channel.name));
 		dispatch(actions.channel.setCreateChannelName(channel.name));
-		const isMessagesExist =
-			getState().message.channelMessages[channelId].length > 0;
-		if (!isMessagesExist) {
-			dispatch(actions.message.fetchChannelMessages(channelId));
-		}
+		// const isMessagesExist =
+		// 	getState().message.channelMessages[channelId].length > 0;
+		// if (!isMessagesExist) {
+		dispatch(actions.message.fetchChannelMessages(channelId));
+		// }
 	};
 
 	const userSelect = actionCreator(types.USER_SELECT);

@@ -66,14 +66,14 @@ function SocketService(chatService) {
 			store.dispatch(actions.channel.channelDeleted(channelId));
 		});
 
-		// socket.on("added-to-channel", async (channelId) => {
-		// 	console.log("added-to-channel", channelId);
-		// 	await store.dispatch(actions.channel.fetchChannels());
-		// 	store.dispatch(
-		// 		actions.message.initChannelMessages(parseInt(channelId))
-		// 	);
-		// 	send("join-channel", channelId);
-		// });
+		socket.on("added-to-channel", async (channelId) => {
+			console.log("added-to-channel", channelId);
+			await store.dispatch(actions.channel.fetchChannels());
+			store.dispatch(
+				actions.message.initChannelMessages(parseInt(channelId))
+			);
+			send("join-channel", channelId);
+		});
 
 		socket.on("permissions-updated", () => {
 			console.log("permissions-updated");
@@ -92,15 +92,10 @@ function SocketService(chatService) {
 		socket.on("channel-member-removed", (data) => {
 			let channelName = data.channel_name;
 			let removedUsername = data.removed_username;
-			console.log(
-				"channel member ",
-				removedUsername,
-				" removed from channelName ",
-				channelName
-			);
-			store.dispatch(actions.channel.fetchChannels());
+			let channelId = data.channel_id;
 			store.dispatch(actions.channel.fetchNumMembers(channelName));
 			store.dispatch(actions.channel.fetchMemberNames(channelName));
+			send("leave-channel", data);
 		});
 
 		socket.on("added-to-channel", (channelName) => {
