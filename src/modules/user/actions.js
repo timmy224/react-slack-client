@@ -2,6 +2,7 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
+import { faUserShield } from "@fortawesome/free-solid-svg-icons";
 
 const initActions = function(userService, socketService, storageService, authService, permissionService, invitationService) {
 
@@ -24,12 +25,17 @@ const initActions = function(userService, socketService, storageService, authSer
         dispatch(usersSet(usersMap));
     }
 
-	const updateUsers = (username) => async (dispatch, getState) =>{
-		console.log('USERNAME', username)
+	const usersUpdate = actionCreator(types.UPDATE_USERS)
+	const updateUsers = (usernameToBeUpdated) => (dispatch, getState) => {
 		const users = getState().user.users;
-		const user = users[username]
-		user.logged_in = true;
-		dispatch(updateUsers(users))
+		const updatedUsers = {}
+		for(let username in users){
+			if(username === usernameToBeUpdated){
+				users[username].logged_in = !users[username].logged_in
+			}
+			updatedUsers[username] = users[username]
+		}
+		dispatch(usersUpdate(updatedUsers))
 	}
 
 	const settingPassword = actionCreator(types.SET_PASSWORD);
