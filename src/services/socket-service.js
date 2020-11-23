@@ -49,7 +49,7 @@ function SocketService(chatService) {
         socket.on('user-joined-chat', ({username}) => {
             console.log(`User joined the chat: ${username}`);
             chatService.onUserJoinedChat(username);
-            store.dispatch(actions.user.updateUsers(username));
+            store.dispatch(actions.user.updateLoggedInStatus(username, true));
         });
 
         socket.on('message-received', (message_received) => {
@@ -90,7 +90,7 @@ function SocketService(chatService) {
 
       socket.on("org-member-offline", username => {
         console.log(`${username} is offline`);
-        store.dispatch(actions.user.updateUsers(username));
+        store.dispatch(actions.user.updateLoggedInStatus(username, false));
       });
 
   };

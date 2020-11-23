@@ -17,23 +17,16 @@ const initActions = function(userService, socketService, storageService, authSer
 
 	const usersSet = actionCreator(types.SET_USERS);
     const setUsers = (users) => (dispatch) => {
-        const usersMap = {};
-        for (let user of users) {
-            usersMap[user.username] = user;
-        }
+		const usersMap = Object.fromEntries(users.map(user => [user.username, user]));
+
         dispatch(usersSet(usersMap));
     }
 
 	const usersUpdate = actionCreator(types.UPDATE_USERS)
-	const updateUsers = (usernameToBeUpdated) => (dispatch, getState) => {
+	const updateLoggedInStatus = (usernameToBeUpdated, loggedIn) => (dispatch, getState) => {
 		const users = getState().user.users;
-		const updatedUsers = {}
-		for(let username in users){
-			if(username === usernameToBeUpdated){
-				users[username].logged_in = !users[username].logged_in
-			}
-			updatedUsers[username] = users[username]
-		}
+		const updatedUsers = Object.fromEntries(Object.entries(users).map(([ username, user ]) => (
+			username === usernameToBeUpdated ? [username,{...user, logged_in:loggedIn}] : [username, user])))
 		dispatch(usersUpdate(updatedUsers))
 	}
 
@@ -98,7 +91,7 @@ const initActions = function(userService, socketService, storageService, authSer
 		setUsername,
 		takenUsername,
 		setUsers,
-		updateUsers,
+		updateLoggedInStatus,
 		wrongCredentials,
 		setPassword,
 		missingCredentials,
