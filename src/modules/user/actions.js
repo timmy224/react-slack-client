@@ -23,10 +23,10 @@ const initActions = function(userService, socketService, storageService, authSer
     }
 
 	const usersUpdate = actionCreator(types.UPDATE_USERS)
-	const updateLoggedInStatus = (usernameToBeUpdated, loggedIn) => (dispatch, getState) => {
+	const updateLoggedInStatus = (usernameToBeUpdated, isLoggedIn) => (dispatch, getState) => {
 		const users = getState().user.users;
 		const updatedUsers = Object.fromEntries(Object.entries(users).map(([ username, user ]) => (
-			username === usernameToBeUpdated ? [username,{...user, logged_in:loggedIn}] : [username, user])))
+			username === usernameToBeUpdated ? [username,{...user, logged_in:isLoggedIn}] : [username, user])))
 		dispatch(usersUpdate(updatedUsers))
 	}
 
