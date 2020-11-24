@@ -37,9 +37,20 @@ const ChannelService = function(apiService) {
             .then(data => data.successful)
     };
 
-    const fetchNumberOfMembers = channelId => {
-        const url = `${config.API_URL}/channel/members/?channel_id=${channelId}`;
-        return apiService.go(url)
+    const fetchNumberOfMembers = (orgName, channelName) => {
+        const url = `${config.API_URL}/channel/members`;
+        const data = {
+            org_name: orgName,
+            channel_name: channelName
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => data.num_members);
     }

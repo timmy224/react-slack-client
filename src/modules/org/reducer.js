@@ -43,7 +43,7 @@ const initReducer = () => {
                 return {
                     ...state,
                     newOrgUsers: payload,
-                }
+                }              
             default:
                 return state;
         }

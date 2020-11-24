@@ -4,7 +4,7 @@ import sidebarTypes from "../sidebar/types";
 const initReducer = () => {
     /* type can be "private" or "channel" depending on what kind of chat we have open. 
     partnerUsername will be set to the username of the person we're chatting with.
-    channelId will be set to the id of the channel we're chatting in.  */
+    channel will be set to the channel we're chatting in. */
     const INITIAL_STATE = {
         type: "", 
         partnerUsername: "", 

@@ -27,17 +27,22 @@ const initActions = function (orgService, utilityService) {
         const channels = org.channels;
         dispatch(actions.channel.setChannels(channels))
         // select default channel
-        const channelsExist = channels && !utilityService.isEmpty(channels);
-        if (channelsExist) {
-            const defaultChannel = utilityService.getFirstProp(channels);
-            dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
-        }
+        dispatch(actions.sidebar.selectDefaultChannel());
         // set members 
         const orgMembers = org.members;
         const usernames = orgMembers.map(member => member.username);
         dispatch(actions.user.setUsernames(usernames));
         dispatch(orgSelect(org));
     }
+
+    const selectDefaultOrg = () => (dispatch, getState) => {
+        const orgs = getState().org.orgs;
+        const orgsExist = orgs && !utilityService.isEmpty(orgs);
+        if (orgsExist) {
+            const defaultOrg = utilityService.getFirstProp(orgs);
+            dispatch(selectOrg(defaultOrg.name));
+        }
+    };
 
     const modalCreateOrgShow = actionCreator(types.SHOW_CREATE_ORG_MODAL);
     const showCreateOrgModal = (show) => (dispatch) => {
@@ -63,10 +68,11 @@ const initActions = function (orgService, utilityService) {
         fetchOrgs,
         setOrgs,
         selectOrg,
+        selectDefaultOrg,
         showCreateOrgModal,
         setCreateOrgName,
         takenOrgName,
-        setNewOrgUsers, 
+        setNewOrgUsers,
     };
 };
 

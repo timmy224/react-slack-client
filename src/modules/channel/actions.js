@@ -30,25 +30,16 @@ const initActions = function (channelService, utilityService) {
         dispatch(channelNameTaken(isChannelNameTaken))
     };
 
-    const addedToChannel = (orgName, channel) => (dispatch, getState) => {
-        const orgs = cloneDeep(getState().org.orgs);
-        orgs[orgName].channels.push(channel);
-        dispatch(actions.org.setOrgs(orgs));
+    const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
+    const addedToChannel = (orgName, channel) => dispatch => {
+        dispatch(channelAddedTo({orgName, channel}))
     };
 
     const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
-        // Check for special case of currently selected channel being deleted
-        // TODO: update this check  
         const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.name === channelName;
         dispatch(removeChannel(orgName, channelName));
         if (isCurrentChannelDeleted) {
-            // If currently selected channel was deleted, choose first channel (default)
-            const channels = getState().channel.channels;
-            const channelsExist = channels && !utilityService.isEmpty(channels);
-            if (channelsExist) {
-                const defaultChannel = utilityService.getFirstProp(channels);
-                dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
-            }
+            dispatch(actions.sidebar.selectDefaultChannel());
         }
     };
 
@@ -72,8 +63,9 @@ const initActions = function (channelService, utilityService) {
         dispatch(usersPrivate(privateUsers))
     };
     const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
-    const fetchNumMembers = channelId => async (dispatch) => {
-        const [err, numMembers] = await to(channelService.fetchNumberOfMembers(channelId));
+    const fetchNumMembers = channelName => async (dispatch, getState) => {
+        const orgName = getState().org.name;
+        const [err, numMembers] = await to(channelService.fetchNumberOfMembers(orgName, channelName));
         if (err) {
             throw new Error("Could not fetch num channel members");
         }

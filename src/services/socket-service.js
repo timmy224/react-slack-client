@@ -73,7 +73,8 @@ function SocketService(chatService) {
       const orgName = info.org_name;
       const channel = JSON.parse(info.channel_json);      
       store.dispatch(actions.channel.addedToChannel(orgName, channel));
-      store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
+      // TODO test out if initializing messages still needed
+      // store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
       const info = {orgName, channelName: channel.name};
       send("join-channel", info);
     });

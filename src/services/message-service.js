@@ -1,16 +1,38 @@
 import { config } from "../Config";
 
 const MessageService = function(apiService) {
-    const fetchChannelMessages = channelId => {
-        const url = `${config.API_URL}/message/channel/?channel_id=${channelId}`;
-        return apiService.go(url)
+    const fetchChannelMessages = (orgName, channelName) => {
+        const url = `${config.API_URL}/message/channel`;
+        const data = {
+            org_name: orgName,
+            channel_name: channelName
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => JSON.parse(data.messages)); 
     };
 
-    const fetchPrivateMessages = (partnerUsername) => {
-        const url = `${config.API_URL}/message/private/?username2=${partnerUsername}`;
-        return apiService.go(url)
+    const fetchPrivateMessages = (orgName, partnerUsername) => {
+        const url = `${config.API_URL}/message/private`;
+        const data = {
+            org_name: orgName,
+            partner_username: partnerUsername,
+        };
+        const options = {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return apiService.go(url, options)
             .then(response => response.json())
             .then(data => JSON.parse(data.messages));
     }
