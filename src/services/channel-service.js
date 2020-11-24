@@ -19,11 +19,12 @@ const ChannelService = function(apiService) {
             .then(response => response.json())
     };
 
-    const deleteChannel = channelId => {
+    const deleteChannel = (orgName, channelName) => {
         const url = `${config.API_URL}/channel`;
-        const delete_data ={
-            "channel_id": channelId,
-        }
+        const delete_data = {
+            "org_name": orgName,
+            "channel_name": channelName,
+        };
         const options = {
             method: "DELETE",
             body: JSON.stringify(delete_data),

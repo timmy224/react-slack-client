@@ -3,15 +3,21 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
+import { cloneDeep } from "lodash-es";
 
 const initActions = function (channelService, utilityService) {
     const channelsSet = actionCreator(types.SET_CHANNELS);
     const setChannels = (channels) => (dispatch) => {
-        const channelsMap = {};
-        for (let channel of channels) {
-            channelsMap[channel.channel_id] = channel;
-        }
+        const channelsMap = Object.fromEntries(channels.map(channel => [channel.name, channel]));
         dispatch(channelsSet(channelsMap));
+    }
+
+    const deleteChannel = channelName => async (dispatch, getState) => {
+        const orgName = getState().org.name;
+        const [err, response] = await to(channelService.deleteChannel(orgName, channelName));
+        if (err) {
+            throw new Error("Could not fetch num channel members");
+        }
     }
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
@@ -24,11 +30,17 @@ const initActions = function (channelService, utilityService) {
         dispatch(channelNameTaken(isChannelNameTaken))
     };
 
-    const channelDeleted = (channelId) => async (dispatch, getState) => {
+    const addedToChannel = (orgName, channel) => (dispatch, getState) => {
+        const orgs = cloneDeep(getState().org.orgs);
+        orgs[orgName].channels.push(channel);
+        dispatch(actions.org.setOrgs(orgs));
+    };
+
+    const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
         // Check for special case of currently selected channel being deleted
-        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.channel_id === parseInt(channelId);
-        // Refresh channel list in sidebar
-        // TODO: remove channel from redux
+        // TODO: update this check  
+        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.name === channelName;
+        dispatch(removeChannel(orgName, channelName));
         if (isCurrentChannelDeleted) {
             // If currently selected channel was deleted, choose first channel (default)
             const channels = getState().channel.channels;
@@ -39,6 +51,11 @@ const initActions = function (channelService, utilityService) {
             }
         }
     };
+
+    const removeChannel = (orgName, channelName) => (dispatch, getState) => {
+        const channels = [...getState().org.orgs[orgName].channels].filter(channel => channel.name !== channelName);
+        dispatch(setChannels(channels));
+    }
 
     const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
     const showCreateModal = (show) => (dispatch) => {
@@ -65,8 +82,10 @@ const initActions = function (channelService, utilityService) {
 
     return {
         setChannels,
+        deleteChannel,
         setCreateChannelName,
         takenChannelName,
+        addedToChannel,
         channelDeleted,
         showCreateModal,
         createPrivate,

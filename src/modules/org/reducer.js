@@ -14,7 +14,7 @@ const initReducer = () => {
         const { type, payload } = action;
 
         switch (type) {
-            case types.FETCH_ORGS:
+            case types.SET_ORGS:
                 return {
                     ...state,
                     orgs: payload,

@@ -20,8 +20,8 @@ class SideBar extends Component {
         this.props.selectUser(event.target.value);
     }
 
-    deleteChannel = channelId => {
-        services.channelService.deleteChannel(channelId).catch(err => console.log(err));
+    deleteChannel = channelName => {
+        this.props.deleteChannel(channelName);
     }
 
     render() {
@@ -36,20 +36,20 @@ class SideBar extends Component {
         const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
-            : (Object.entries(channels).map(([channel_id, channel]) => 
-                <div key={channel.channel_id} className={selectedChannel && selectedChannel.channel_id == channel.channel_id ? sidebarItemHighlightClass : "sidebar-item"}>
+            : (Object.values(channels).map(channel => 
+                <div key={channel.name} className={selectedChannel && selectedChannel.name == channel.name ? sidebarItemHighlightClass : "sidebar-item"}>
                     <button
                         className="sidebar-channel unstyled-button"
                         type="button" 
-                        value={channel.channel_id}
+                        value={channel.name}
                         onClick={this.selectChannel}>
                         {"# " + channel.name}
                     </button>
                     <button
                         type="button" 
                         className="channel-delete unstyled-button"
-                        value={channel.channel_id}
-                        onClick={() => this.deleteChannel(channel.channel_id)}>
+                        value={channel.name}
+                        onClick={() => this.deleteChannel(channel.name)}>
                         <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
                     </button>
                 </div>
@@ -137,6 +137,7 @@ const mapStateToProps = (state) => {
 
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
+    deleteChannel: actions.channel.deleteChannel,
     selectUser: actions.sidebar.selectUser,
     showCreateChannelModal: actions.channel.showCreateModal,
     showSendInviteModal: actions.invitation.showInviteModal,

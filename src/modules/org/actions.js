@@ -6,16 +6,18 @@ import { actions } from "../../context";
 const initActions = function (orgService, utilityService) {
     const orgsFetch = actionCreator(types.FETCH_ORGS);
     const fetchOrgs = () => async (dispatch) => {
-        const [err, orgs] = await to(orgService.fetchOrgs());
+        let [err, orgs] = await to(orgService.fetchOrgs());
         if (err) {
             throw new Error("Could not fetch orgs");
         }
-        const orgsMap = {};
-        for (let org of orgs) {
-            orgsMap[org.name] = org;
-        }
-        dispatch(orgsFetch(orgsMap));
+        orgs = Object.fromEntries(orgs.map(org => [org.name, org]));
+        dispatch(setOrgs(orgs));
     };
+
+    const orgsSet = actionCreator(types.SET_ORGS);
+    const setOrgs = orgs => (dispatch) => {
+        dispatch(orgsSet(orgs));
+    }
 
     const orgSelect = actionCreator(types.SELECT_ORG);
     const selectOrg = (name) => (dispatch, getState) => {
@@ -59,6 +61,7 @@ const initActions = function (orgService, utilityService) {
 
     return {
         fetchOrgs,
+        setOrgs,
         selectOrg,
         showCreateOrgModal,
         setCreateOrgName,

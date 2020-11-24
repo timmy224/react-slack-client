@@ -62,15 +62,20 @@ function SocketService(chatService) {
       chatService.onMessageReceived(message_received);
     });
 
-    socket.on("channel-deleted", channelId => {
-      store.dispatch(actions.channel.channelDeleted(channelId));
+    socket.on("channel-deleted", info => {
+      console.log("channel-deleted", info);
+      const {org_name: orgName, channel_name: channelName} = info;
+      store.dispatch(actions.channel.channelDeleted(orgName, channelName));
     });
 
-    socket.on("added-to-channel", async channelId => {
-      console.log("added-to-channel", channelId);
-      // TODO: add channel to redux here once it's being sent by server side 
+    socket.on("added-to-channel", async info => {
+      console.log("added-to-channel", info);
+      const orgName = info.org_name;
+      const channel = JSON.parse(info.channel_json);      
+      store.dispatch(actions.channel.addedToChannel(orgName, channel));
       store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
-      send("join-channel", channelId);
+      const info = {orgName, channelName: channel.name};
+      send("join-channel", info);
     });
 
     socket.on("permissions-updated", () => {
