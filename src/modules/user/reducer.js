@@ -32,7 +32,10 @@ const initReducer = () => {
             case types.UPDATE_USERS:
                 return {
                     ...state,
-                    users: payload
+                    users: {
+                        ...state.users,
+                        [payload.username]: payload,
+                    }
                 };
             case types.SET_PASSWORD:
                 return {

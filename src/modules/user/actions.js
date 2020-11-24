@@ -18,16 +18,14 @@ const initActions = function(userService, socketService, storageService, authSer
 	const usersSet = actionCreator(types.SET_USERS);
     const setUsers = (users) => (dispatch) => {
 		const usersMap = Object.fromEntries(users.map(user => [user.username, user]));
-
         dispatch(usersSet(usersMap));
     }
 
 	const usersUpdate = actionCreator(types.UPDATE_USERS)
-	const updateLoggedInStatus = (usernameToBeUpdated, isLoggedIn) => (dispatch, getState) => {
-		const users = getState().user.users;
-		const updatedUsers = Object.fromEntries(Object.entries(users).map(([ username, user ]) => (
-			username === usernameToBeUpdated ? [username,{...user, logged_in:isLoggedIn}] : [username, user])))
-		dispatch(usersUpdate(updatedUsers))
+	const updateLoggedInStatus = (username, isLoggedIn) => (dispatch, getState) => {
+		const user = {...getState().user.users[username]};
+		user.logged_in = isLoggedIn
+		dispatch(usersUpdate(user))
 	}
 
 	const settingPassword = actionCreator(types.SET_PASSWORD);
