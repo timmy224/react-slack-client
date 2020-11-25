@@ -77,6 +77,7 @@ const initActions = function (channelService, utilityService) {
 		if (err) {
 			throw new Error("Could not fetch num channel members");
 		}
+		console.log("fetching NUMMEMBERS");
 		dispatch(numberOfMembersFetch(numMembers));
 	};
 	const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);

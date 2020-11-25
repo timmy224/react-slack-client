@@ -13,7 +13,6 @@ const initReducer = () => {
 		numChannelMembers: 0,
 		showChannelSideBar: false,
 		channelMemberNames: [],
-		removeMember: "",
 		addMember: "",
 	};
 
@@ -76,11 +75,7 @@ const initReducer = () => {
 					...state,
 					addMember: payload,
 				};
-			case types.REMOVE_CHANNEL_MEMBER:
-				return {
-					...state,
-					removeMember: payload,
-				};
+
 			default:
 				return state;
 		}

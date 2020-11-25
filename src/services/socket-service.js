@@ -97,7 +97,9 @@ function SocketService(chatService) {
 			store.dispatch(actions.channel.fetchMemberNames(channelName));
 			send("leave-channel", data);
 		});
-
+		socket.on("removed-from-channel", (channelId) => {
+			store.dispatch(actions.sidebar.reloadChannel());
+		});
 		socket.on("added-to-channel", (channelName) => {
 			console.log("channel member added to ChannelName ", channelName);
 			store.dispatch(actions.channel.fetchChannels());
