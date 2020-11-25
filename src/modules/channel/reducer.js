@@ -21,10 +21,16 @@ const initReducer = () => {
                     ...state,
                     channels: payload,
                 };
-            case types.ADDED_TO_CHANNEL:
+            case types.SET_ORG_CHANNELS: {
+                const { orgName, channels } = payload;
+                const path = ["channels", orgName]
+                return set(path, channels, state);
+            }
+            case types.ADDED_TO_CHANNEL: {
                 const { orgName, channel } = payload;
-                const path = [orgName, channel.name]
+                const path = ["channels", orgName, channel.name]
                 return set(path, channel, state);
+            }
             case types.CHANNEL_NAME_TAKEN:
                 return {
                     ...state,

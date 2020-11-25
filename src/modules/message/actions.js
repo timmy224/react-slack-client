@@ -77,9 +77,9 @@ const initActions = function(messageService, socketService) {
 
     return { 
         messageReceived, 
-        initChannelMessagesMap, 
-        initPrivateMessagesMap, 
-        initChannelMessages,
+        // initChannelMessagesMap, 
+        // initPrivateMessagesMap, 
+        // initChannelMessages,
         fetchChannelMessages, 
         fetchPrivateMessages,
         sendMessage,

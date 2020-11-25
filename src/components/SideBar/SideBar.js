@@ -125,14 +125,16 @@ class SideBar extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
+    const mapping = {
         org: state.org.org,
-        channels: state.channel.channels,
         usernames: state.user.usernames,
         selectedChannel: state.chat.channel,
         selectedPartner: state.chat.partnerUsername,
         invitations: state.invitation.pendingInvitations,
     };
+    const { org } = mapping;
+    mapping.channels = state.channel.channels[org.name];
+    return mapping;
 };
 
 const mapActionsToProps = {

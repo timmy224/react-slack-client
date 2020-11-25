@@ -75,8 +75,8 @@ function SocketService(chatService) {
       store.dispatch(actions.channel.addedToChannel(orgName, channel));
       // TODO test out if initializing messages still needed
       // store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
-      const info = {orgName, channelName: channel.name};
-      send("join-channel", info);
+      const joinInfo = {orgName, channelName: channel.name};
+      send("join-channel", joinInfo);
     });
 
     socket.on("permissions-updated", () => {

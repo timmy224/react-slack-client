@@ -20,19 +20,18 @@ const initActions = function (orgService, utilityService) {
     }
 
     const orgSelect = actionCreator(types.SELECT_ORG);
-    const selectOrg = (name) => (dispatch, getState) => {
-        const orgs = getState().org.orgs;
-        const org = orgs[name];
+    const selectOrg = orgName => (dispatch, getState) => {
+        const org = getState().org.orgs[orgName];
+        dispatch(orgSelect(org));
         // set channels
         const channels = org.channels;
-        dispatch(actions.channel.setChannels(channels))
+        dispatch(actions.channel.setOrgChannels(orgName, channels));
         // select default channel
         dispatch(actions.sidebar.selectDefaultChannel());
         // set members 
         const orgMembers = org.members;
         const usernames = orgMembers.map(member => member.username);
         dispatch(actions.user.setUsernames(usernames));
-        dispatch(orgSelect(org));
     }
 
     const selectDefaultOrg = () => (dispatch, getState) => {

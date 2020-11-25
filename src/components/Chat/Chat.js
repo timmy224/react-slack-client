@@ -63,9 +63,11 @@ const mapStateToProps = (state) => {
     switch (chatType) {
         case "channel":
             const channelName = channel.name;
-            mapping.messages = state.message.messages[orgName].channel[channelName];
+            mapping.messages = state.message.messages[orgName]?.channel[channelName];
+            break;
         case "private":
-            mapping.messages = state.message.messages[orgName].private[partnerUsername];
+            mapping.messages = state.message.messages[orgName]?.private[partnerUsername];
+            break;
     }
     return mapping;
 }

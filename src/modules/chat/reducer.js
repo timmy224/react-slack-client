@@ -17,7 +17,6 @@ const initReducer = () => {
 
         switch (type) {
             case sidebarTypes.CHANNEL_SELECT:
-                console.log("CHANNEL_SELECT", payload);
                 return {
                     ...state,                    
                     type: "channel",

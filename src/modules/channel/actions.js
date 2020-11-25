@@ -5,11 +5,17 @@ import { actionCreator } from "../utils";
 import { actions } from "../../context";
 import { cloneDeep } from "lodash-es";
 
-const initActions = function (channelService, utilityService) {
+const initActions = function (channelService) {
     const channelsSet = actionCreator(types.SET_CHANNELS);
-    const setChannels = (channels) => (dispatch) => {
+    const setChannels = (channels) => dispatch => {
         const channelsMap = Object.fromEntries(channels.map(channel => [channel.name, channel]));
         dispatch(channelsSet(channelsMap));
+    }
+
+    const orgChannelsSet = actionCreator(types.SET_ORG_CHANNELS);
+    const setOrgChannels = (orgName, channels) => dispatch => {
+        channels = Object.fromEntries(channels.map(channel => [channel.name, channel]));
+        dispatch(orgChannelsSet({orgName, channels}));
     }
 
     const deleteChannel = channelName => async (dispatch, getState) => {
@@ -64,7 +70,7 @@ const initActions = function (channelService, utilityService) {
     };
     const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
     const fetchNumMembers = channelName => async (dispatch, getState) => {
-        const orgName = getState().org.name;
+        const orgName = getState().org.org.name;
         const [err, numMembers] = await to(channelService.fetchNumberOfMembers(orgName, channelName));
         if (err) {
             throw new Error("Could not fetch num channel members");
@@ -74,6 +80,7 @@ const initActions = function (channelService, utilityService) {
 
     return {
         setChannels,
+        setOrgChannels,
         deleteChannel,
         setCreateChannelName,
         takenChannelName,
