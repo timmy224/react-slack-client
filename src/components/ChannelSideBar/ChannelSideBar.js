@@ -32,11 +32,10 @@ class ChannelSideBar extends Component {
 			addMember,
 			channelName,
 			clearAddMember,
-			fetchMemberNames,
 			fetchNumMembers,
 		} = this.props;
 		addChannelMember(channelName, addMember);
-		fetchMemberNames(channelName);
+		//This line below makes more sense in socket but isnt functioning correctly there
 		fetchNumMembers(channelName);
 	};
 

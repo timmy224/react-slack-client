@@ -103,7 +103,8 @@ function SocketService(chatService) {
 		socket.on("added-to-channel", (channelName) => {
 			console.log("channel member added to ChannelName ", channelName);
 			store.dispatch(actions.channel.fetchChannels());
-			store.dispatch(actions.channel.fetchNumMembers(channelName));
+			//It makes sense for these actions to be here yet for some reason it doesnt work appropriately here
+			// store.dispatch(actions.channel.fetchNumMembers(channelName));
 			store.dispatch(actions.channel.fetchMemberNames(channelName));
 		});
 	};
