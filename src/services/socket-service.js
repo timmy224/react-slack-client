@@ -52,14 +52,14 @@ function SocketService(chatService) {
             chatService.onUserJoinedChat(user_join.username);
         });
 
-        socket.on('message-received', (message_received) => {
-            console.log("message-received: ", message_received);
+        socket.on('message-received', message => {
+            console.log("message-received: ", message);
             console.log(
-                `Sender: ${message_received.sender},
-                Time Sent: ${message_received.time_sent},
-                Content: ${message_received.content}`
+                `Sender: ${message.sender},
+                Time Sent: ${message.time_sent},
+                Content: ${message.content}`
       );
-      chatService.onMessageReceived(message_received);
+      store.dispatch(actions.message.messageReceived(message))
     });
 
     socket.on("channel-deleted", info => {
@@ -71,11 +71,9 @@ function SocketService(chatService) {
     socket.on("added-to-channel", async info => {
       console.log("added-to-channel", info);
       const orgName = info.org_name;
-      const channel = JSON.parse(info.channel_json);      
+      const channel = info.channel;      
       store.dispatch(actions.channel.addedToChannel(orgName, channel));
-      // TODO test out if initializing messages still needed
-      // store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
-      const joinInfo = {orgName, channelName: channel.name};
+      const joinInfo = {"org_name": orgName, "channel_name": channel.name};
       send("join-channel", joinInfo);
     });
 

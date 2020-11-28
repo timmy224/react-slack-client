@@ -22,10 +22,10 @@ class Chat extends Component {
 
 
     render() {
-        let { numChannelMembers, channel, partnerUsername } = this.props
+        let { channel, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];
         let chatHeader = this.props.chatType === "channel"
-            ? <ChannelChatHeader numberOfUsers={numChannelMembers} channelName={channel.name} />
+            ? <ChannelChatHeader numberOfUsers={channel.members.length} channelName={channel.name} />
             : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
             <div className='col-12' id='box-wrapper'>
@@ -55,7 +55,6 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
-        numChannelMembers: state.channel.numChannelMembers,
         org: state.org.org,        
     }
     const { chatType, channel, partnerUsername } = mapping;
@@ -63,10 +62,10 @@ const mapStateToProps = (state) => {
     switch (chatType) {
         case "channel":
             const channelName = channel.name;
-            mapping.messages = state.message.messages[orgName]?.channel[channelName];
+            mapping.messages = state.message.messages[orgName]?.channel?.[channelName];
             break;
         case "private":
-            mapping.messages = state.message.messages[orgName]?.private[partnerUsername];
+            mapping.messages = state.message.messages[orgName]?.private?.[partnerUsername];
             break;
     }
     return mapping;

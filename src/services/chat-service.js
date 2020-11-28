@@ -24,21 +24,11 @@ function ChatService(userService) {
         return message;
     }
 
-    const onMessagesReceived = (messages) => {
-        for (const message of messages) {
-            onMessageReceived(message);
-        }
-    };
-
-    const onMessageReceived = (message) => store.dispatch(actions.message.messageReceived(message))
-
     const onUserJoinedChat = (username) => joinedChat$.next(username);
 
     return Object.freeze({
         getJoinedChat$,
         prepareMessage,
-        onMessagesReceived,
-        onMessageReceived,
         onUserJoinedChat,
     });
 }

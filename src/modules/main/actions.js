@@ -7,8 +7,8 @@ const initActions = function() {
     const initMain = () => async (dispatch, getState) => {
         if (!getState().user.isLoginBundleFetched) {
             await dispatch(actions.user.fetchLoginBundle())
-            dispatch(actions.org.selectDefaultOrg());
         }
+        dispatch(actions.org.selectDefaultOrg());
         await dispatch(actions.chat.initChat());        
         dispatch(initializedActionCreator());
     };

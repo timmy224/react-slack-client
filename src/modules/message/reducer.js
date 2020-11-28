@@ -23,13 +23,19 @@ const initReducer = () => {
             case types.CHANNEL_MESSAGE_RECEIVED: {
                 const { orgName, channelName, message } = payload;
                 const path = ["messages", orgName, "channel", channelName];
-                const messages = [...state.messages[orgName].channel[channelName], message];
+                let messages = [message];
+                if (state.messages[orgName]?.channel?.[channelName]) {
+                    messages.unshift(...state.messages[orgName].channel[channelName]);
+                }
                 return set(path, messages, state);
             }
             case types.PRIVATE_MESSAGE_RECEIVED: {
                 const { orgName, partnerUsername, message } = payload;
                 const path = ["messages", orgName, "private", partnerUsername];
-                const messages = [...state.messages[orgName].private[partnerUsername], message];
+                let messages = [message];
+                if (state.messages[orgName]?.private?.[partnerUsername]) {
+                    messages.unshift(...state.messages[orgName].private[partnerUsername]);
+                }
                 return set(path, messages, state);
             }
             // case types.INIT_CHANNEL_MESSAGES_MAP: {

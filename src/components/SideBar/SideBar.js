@@ -40,18 +40,27 @@ class SideBar extends Component {
                 <div key={channel.name} className={selectedChannel && selectedChannel.name == channel.name ? sidebarItemHighlightClass : "sidebar-item"}>
                     <button
                         className="sidebar-channel unstyled-button"
-                        type="button" 
+                        type="button"
                         value={channel.name}
                         onClick={this.selectChannel}>
                         {"# " + channel.name}
                     </button>
-                    <button
-                        type="button" 
-                        className="channel-delete unstyled-button"
-                        value={channel.name}
-                        onClick={() => this.deleteChannel(channel.name)}>
-                        <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
-                    </button>
+                    <CanView
+                        resource="channel"
+                        action="delete"
+                        yes={() => {
+                            return (
+                                <button
+                                    type="button"
+                                    className="channel-delete unstyled-button"
+                                    value={channel.name}
+                                    onClick={() => this.deleteChannel(channel.name)}>
+                                    <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
+                                </button>
+                            )
+                        }}
+                        no={() => null}
+                    />
                 </div>
                 ));
         let usernamesDisplay = !usernames.length ?

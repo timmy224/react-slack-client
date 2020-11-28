@@ -12,7 +12,7 @@ const initActions = function(messageService, socketService) {
         if (isChannelMessage) {
             const messagePayload = {
                 orgName: message["org_name"],
-                channelName: message["destination"],
+                channelName: message["channel_name"],
                 message,
             };
             dispatch(receivedChannelMessage(messagePayload));

@@ -6,6 +6,14 @@ import { actions } from "../../context";
 import { cloneDeep } from "lodash-es";
 
 const initActions = function (channelService) {
+    const fetchChannels = orgName => async dispatch => {
+        const [err, channels] = await to(channelService.fetchChannels(orgName));
+        if (err) {
+            throw new Error("Could not fetch channels");
+        }
+        dispatch(setOrgChannels(orgName, channels));
+    };
+
     const channelsSet = actionCreator(types.SET_CHANNELS);
     const setChannels = (channels) => dispatch => {
         const channelsMap = Object.fromEntries(channels.map(channel => [channel.name, channel]));
@@ -68,17 +76,9 @@ const initActions = function (channelService) {
     const privateChannelUsers = (privateUsers) => (dispatch) => {
         dispatch(usersPrivate(privateUsers))
     };
-    const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
-    const fetchNumMembers = channelName => async (dispatch, getState) => {
-        const orgName = getState().org.org.name;
-        const [err, numMembers] = await to(channelService.fetchNumberOfMembers(orgName, channelName));
-        if (err) {
-            throw new Error("Could not fetch num channel members");
-        }
-        dispatch(numberOfMembersFetch(numMembers));
-    };
 
     return {
+        fetchChannels,
         setChannels,
         setOrgChannels,
         deleteChannel,
@@ -89,7 +89,6 @@ const initActions = function (channelService) {
         showCreateModal,
         createPrivate,
         privateChannelUsers,
-        fetchNumMembers
     };
 };
 
