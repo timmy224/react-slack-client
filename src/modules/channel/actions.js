@@ -14,11 +14,6 @@ const initActions = function (channelService) {
         dispatch(setOrgChannels(orgName, channels));
     };
 
-    const channelsSet = actionCreator(types.SET_CHANNELS);
-    const setChannels = (orgName, channels) => dispatch => {
-        dispatch(channelsSet({orgName, channels}));
-    }
-
     const orgChannelsSet = actionCreator(types.SET_ORG_CHANNELS);
     const setOrgChannels = (orgName, channels) => dispatch => {
         channels = Object.fromEntries(channels.map(channel => [channel.name, channel]));
@@ -61,7 +56,7 @@ const initActions = function (channelService) {
         if (allOrgChannels) {
             const channels = cloneDeep(allOrgChannels);
             delete channels[channelName];
-            dispatch(setChannels(orgName, channels));
+            dispatch(orgChannelsSet({orgName, channels}));
         }
     }
 
@@ -82,7 +77,6 @@ const initActions = function (channelService) {
 
     return {
         fetchChannels,
-        setChannels,
         setOrgChannels,
         deleteChannel,
         setCreateChannelName,

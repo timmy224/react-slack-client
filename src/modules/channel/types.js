@@ -1,7 +1,6 @@
 // Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
 
 export default {
-    SET_CHANNELS: 'SET_CHANNELS',
     CHANNEL_NAME_TAKEN: 'CHANNEL_NAME_TAKEN',
     CHANNEL_NAME_SET: 'CHANNEL_NAME_SET',
     SHOW_CREATE_MODAL: 'SHOW_CREATE_MODAL',

@@ -18,11 +18,6 @@ const initReducer = () => {
         switch (type) {
             case userTypes.LOGOUT: 
                 return INITIAL_STATE;
-            case types.SET_CHANNELS: {
-                const { orgName, channels } = payload;
-                const path = ["channels", orgName]
-                return set(path, channels, state);
-            }
             case types.SET_ORG_CHANNELS: {
                 const { orgName, channels } = payload;
                 const path = ["channels", orgName]
