@@ -15,9 +15,8 @@ const initActions = function (channelService) {
     };
 
     const channelsSet = actionCreator(types.SET_CHANNELS);
-    const setChannels = (channels) => dispatch => {
-        const channelsMap = Object.fromEntries(channels.map(channel => [channel.name, channel]));
-        dispatch(channelsSet(channelsMap));
+    const setChannels = (orgName, channels) => dispatch => {
+        dispatch(channelsSet({orgName, channels}));
     }
 
     const orgChannelsSet = actionCreator(types.SET_ORG_CHANNELS);
@@ -27,7 +26,7 @@ const initActions = function (channelService) {
     }
 
     const deleteChannel = channelName => async (dispatch, getState) => {
-        const orgName = getState().org.name;
+        const orgName = getState().org.org.name;
         const [err, response] = await to(channelService.deleteChannel(orgName, channelName));
         if (err) {
             throw new Error("Could not fetch num channel members");
@@ -50,16 +49,20 @@ const initActions = function (channelService) {
     };
 
     const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
-        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.name === channelName;
         dispatch(removeChannel(orgName, channelName));
+        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.name === channelName;        
         if (isCurrentChannelDeleted) {
             dispatch(actions.sidebar.selectDefaultChannel());
         }
     };
 
     const removeChannel = (orgName, channelName) => (dispatch, getState) => {
-        const channels = [...getState().org.orgs[orgName].channels].filter(channel => channel.name !== channelName);
-        dispatch(setChannels(channels));
+        const allOrgChannels = getState().channel.channels[orgName];
+        if (allOrgChannels) {
+            const channels = cloneDeep(allOrgChannels);
+            delete channels[channelName];
+            dispatch(setChannels(orgName, channels));
+        }
     }
 
     const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);

@@ -15,11 +15,11 @@ const initReducer = () => {
     const reducer = (state = INITIAL_STATE, action) => {
         const { type, payload } = action;
         switch (type) {
-            case types.SET_CHANNELS:
-                return {
-                    ...state,
-                    channels: payload,
-                };
+            case types.SET_CHANNELS: {
+                const { orgName, channels } = payload;
+                const path = ["channels", orgName]
+                return set(path, channels, state);
+            }
             case types.SET_ORG_CHANNELS: {
                 const { orgName, channels } = payload;
                 const path = ["channels", orgName]
