@@ -25,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { org, channels, usernames, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
+        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
         let invitationsBtn = !invitations.length ? null 
             :   <div>
                     <InvitationsModal />
@@ -63,9 +63,9 @@ class SideBar extends Component {
                     />
                 </div>
                 ));
-        let usernamesDisplay = !usernames.length ?
+        let orgMembersDisplay = services.utilityService.isEmpty(orgMembers) ?
                 <h2>Loading users...</h2>
-                : (usernames.map(username => 
+                : (Object.entries(orgMembers).map(([username, orgMember]) => 
                     <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
@@ -80,7 +80,7 @@ class SideBar extends Component {
             <div className="sidebar-wrapper">
                 <div className="sidebar">
                     <div className="org-name">
-                        <p>{org.name}</p>
+                        <p>{org?.name}</p>
                     </div>
                     <div className="sidebar-section-heading">
                         <span className="sidebar-section-heading-expand">
@@ -117,7 +117,7 @@ class SideBar extends Component {
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         <CreateChannel />
                         <div className = "container text-center mt-3 p-3 rounded">
-                            {usernamesDisplay}
+                            {orgMembersDisplay}
                         </div>
                     </div>
                     <div className='text-center logout-wrapper'>
@@ -136,13 +136,15 @@ class SideBar extends Component {
 const mapStateToProps = (state) => {
     const mapping = {
         org: state.org.org,
-        usernames: state.user.usernames,
         selectedChannel: state.chat.channel,
         selectedPartner: state.chat.partnerUsername,
         invitations: state.invitation.pendingInvitations,
     };
     const { org } = mapping;
-    mapping.channels = state.channel.channels[org.name];
+    if (org) {
+        mapping.channels = state.channel.channels[org.name];
+        mapping.orgMembers = state.org.orgs[org.name].members
+    }    
     return mapping;
 };
 

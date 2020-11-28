@@ -3,7 +3,6 @@ import types from "./types";
 const initReducer = () => {
     const INITIAL_STATE = {
         username: '',
-        usernames: [],
         showTakenMsg: false,
         showMissingCred: false,
         wrongCredentialsMsg: false,
@@ -23,11 +22,6 @@ const initReducer = () => {
                 return {
                     ...state, 
                     showTakenMsg: payload
-                };
-            case types.SET_USERNAMES:
-                return {
-                    ...state,
-                    usernames: payload
                 };
             case types.SET_PASSWORD:
                 return {
@@ -55,10 +49,7 @@ const initReducer = () => {
                     isLoginBundleFetched: true
                 };
             case types.LOGOUT:
-                return {
-                    ...state,
-                    username: ""
-                };
+                return INITIAL_STATE;
             default:
                 return state;
         }

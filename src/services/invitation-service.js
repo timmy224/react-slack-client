@@ -20,6 +20,7 @@ const InvitationService = function(apiService) {
             .then(response => response.json())
             .then(data => JSON.parse(data.org_invites));
     }
+
     const sendInvite = (inviteInfo) => {
         const url = `${config.API_URL}/org/invite`;
 
@@ -34,12 +35,18 @@ const InvitationService = function(apiService) {
         return apiService.go(url, options)
             .then(response => response.json())
     };
-    const respondToInvite = (responseInfo) => {
+    
+    const respondToInvite = (orgName, isAccepted) => {
         const url = `${config.API_URL}/org/invite-response`;
+
+        const data = {
+            org_name: orgName,
+            is_accepted: isAccepted
+        };
 
         const options = {
             method: "POST",
-            body: JSON.stringify(responseInfo),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }

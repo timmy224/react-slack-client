@@ -32,9 +32,18 @@ const initActions = function (invitationService) {
         dispatch(invitedUserEmailSet(email))
     };
 
+    const respondToInvitation = (invitation, isAccepted) => async (dispatch, getState) => {
+        const orgName = invitation.org_name;
+        const [err, response] = await to(invitationService.respondToInvite(orgName, isAccepted));
+        if (err) {
+            throw new Error("Could not respond to invitation");
+        }
+        dispatch(removeInvitation(invitation));
+    }
+
     const invitationRemove = actionCreator(types.REMOVE_INVITATION);
-    const removeInvitation = (invitationToBeRemoved) => (dispatch) => {
-        dispatch(invitationRemove(invitationToBeRemoved))
+    const removeInvitation = (invitation) => (dispatch) => {
+        dispatch(invitationRemove(invitation))
     };  
 
     return {
@@ -42,6 +51,7 @@ const initActions = function (invitationService) {
         showInviteModal,
         showInvitationsModal,
         setInvitedUserEmail,
+        respondToInvitation,
         removeInvitation,
     };
 };

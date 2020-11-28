@@ -28,21 +28,6 @@ const initActions = function(messageService, socketService) {
         }
     };
 
-    // const initMessagesChannelMap = actionCreator(types.INIT_CHANNEL_MESSAGES_MAP);
-    // const initChannelMessagesMap = channelIds => (dispatch) => {
-    //     dispatch(initMessagesChannelMap({channelIds: channelIds}))
-    // };
-
-    // const initMessagesPrivateMap = actionCreator(types.INIT_PRIVATE_MESSAGES_MAP);
-    // const initPrivateMessagesMap = usernames => (dispatch) => {
-    //     dispatch(initMessagesPrivateMap({usernames: usernames}));
-    // };
-
-    // const initMessagesChannel = actionCreator(types.INIT_CHANNEL_MESSAGES);
-    // const initChannelMessages = channelId => (dispatch) => {
-    //     dispatch(initMessagesChannel({channelId: channelId}));
-    // };
-
     const fetchChannelMessages = channelName => async (dispatch, getState) => {
         const orgName = getState().org.org.name;
         const [err, messages] = await to(messageService.fetchChannelMessages(orgName, channelName));

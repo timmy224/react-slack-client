@@ -1,5 +1,6 @@
 // Credit: https://github.com/dprovodnikov/complex-redux-project-architecture
 import types from "./types";
+import userTypes from "../user/types";
 import set from "lodash/fp/set";
 
 const initReducer = () => {
@@ -15,6 +16,8 @@ const initReducer = () => {
     const reducer = (state = INITIAL_STATE, action) => {
         const { type, payload } = action;
         switch (type) {
+            case userTypes.LOGOUT: 
+                return INITIAL_STATE;
             case types.SET_CHANNELS: {
                 const { orgName, channels } = payload;
                 const path = ["channels", orgName]

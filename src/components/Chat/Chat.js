@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
         org: state.org.org,        
     }
     const { chatType, channel, partnerUsername } = mapping;
-    const orgName = mapping.org.name;
+    const orgName = mapping.org?.name;
     switch (chatType) {
         case "channel":
             const channelName = channel.name;

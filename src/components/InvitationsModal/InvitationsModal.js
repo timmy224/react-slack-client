@@ -11,32 +11,19 @@ const mapStateToProps = (state)=>{
 }
 const mapActionsToProps = {
     handleInvitationsShow: actions.invitation.showInvitationsModal,
-    removeInvitation: actions.invitation.removeInvitation,
+    respondToInvitation: actions.invitation.respondToInvitation,
 }
 
 class InvitationsModal extends Component {
-
     handleHide = () => {
         const { handleInvitationsShow } = this.props
         handleInvitationsShow(false);
     }
 
-    handleResponse = (invitation, isAccepted) => {
-        const { invitations, removeInvitation } = this.props;
-        const orgName = invitation.org_name;
-        const responseInfo = {
-            orgName,
-            isAccepted,
-        }
-        services.invitationService.respondToInvite(responseInfo)
-        .then(response => {
-            if(response.successful){
-                removeInvitation(invitation)
-                if(!invitations.length){
-                    this.handleHide();
-                }
-            }
-    })
+    handleResponse = (event, invitation, isAccepted) => {
+        event.preventDefault();
+        const { respondToInvitation } = this.props;
+        respondToInvitation(invitation, isAccepted);
     }
 
     render() {
@@ -56,13 +43,13 @@ class InvitationsModal extends Component {
                             <button
                                 className="mt-2 btn btn-primary custom-button"
                                 type='submit'
-                                onClick={()=>this.handleResponse(invitation, true)}
+                                onClick={event => this.handleResponse(event, invitation, true)}
                                 >Accept
                             </button>
                             <button
                                 className="mt-2 btn btn-primary custom-button"
                                 type='submit' 
-                                onClick={()=>this.handleResponse(invitation, false)}
+                                onClick={event => this.handleResponse(event, invitation, false)}
                                 >Decline
                             </button>
                         </div>
@@ -70,13 +57,13 @@ class InvitationsModal extends Component {
                 });
         return (
             <div>
-                <Modal show={showInvitationsModal} onHide={this.handleHide} className="custom-modal">
-                <Modal.Header closeButton>
-                    <Modal.Title>Invitations Pending</Modal.Title>
-                </Modal.Header>
-                <form className="custom-form">
-                {invitationsDisplay}
-                </form>
+                <Modal show={showInvitationsModal && invitations.length > 0} onHide={this.handleHide} className="custom-modal">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Invitations Pending</Modal.Title>
+                    </Modal.Header>
+                    <form className="custom-form">
+                        {invitationsDisplay}
+                    </form>
                 </Modal>
             </div>         
         );

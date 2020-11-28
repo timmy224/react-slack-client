@@ -13,22 +13,25 @@ const initActions = function(permissionService) {
         dispatch(permissionsFetch(data));
     };
 
-    const getPermissions = () => (dispatch, getState) => {
+    const getPermissions = () => (_, getState) => {
         const permissions = [];
-        const orgName = getState().org.org.name;
-        const orgPerms = getState().permission.orgMemberPerms[orgName]
-        if (orgPerms) {
-            permissions.push(...orgPerms);
-        }
-        if (getState().chat.type === "channel") {
-            const allChannelPerms = getState().permission.channelMemberPerms[orgName]
-            if (allChannelPerms) {
-                const channelName = getState().chat.channel.name;
-                const selectedChannelPerms = allChannelPerms[channelName];
-                if (selectedChannelPerms) {
-                    permissions.push(...selectedChannelPerms);
-                }   
-            }   
+        const org = getState().org.org;
+        if (org) {
+            const orgName = org.name;
+            const orgPerms = getState().permission.orgMemberPerms[orgName]
+            if (orgPerms) {
+                permissions.push(...orgPerms);
+            }
+            if (getState().chat.type === "channel") {
+                const allChannelPerms = getState().permission.channelMemberPerms[orgName]
+                if (allChannelPerms) {
+                    const channelName = getState().chat.channel.name;
+                    const selectedChannelPerms = allChannelPerms[channelName];
+                    if (selectedChannelPerms) {
+                        permissions.push(...selectedChannelPerms);
+                    }
+                }
+            }
         }
         return permissions;
     };

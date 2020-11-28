@@ -15,11 +15,6 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernameTaken(isUsernameTaken))
 	};
 
-	const usernamesSet = actionCreator(types.SET_USERNAMES);
-	const setUsernames = (usernames) => async (dispatch) => {		
-		dispatch(usernamesSet(usernames));
-	}
-
 	const settingPassword = actionCreator(types.SET_PASSWORD);
 	const setPassword = (password) => (dispatch) => {
 		dispatch(settingPassword(password))
@@ -80,7 +75,6 @@ const initActions = function(userService, socketService, storageService, authSer
 	return { 
 		setUsername,
 		takenUsername,
-		setUsernames,
 		wrongCredentials,
 		setPassword,
 		missingCredentials,

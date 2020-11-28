@@ -26,7 +26,7 @@ class Orgs extends Component {
         const orgsDisplay = isOrgsEmpty ?
             <h2>Loading orgs...</h2>
             : (Object.entries(orgs).map(([name, org]) => {
-                const isSelected = org.name === currentOrg.name;
+                const isSelected = org.name === currentOrg?.name;
                 return <Org org={org} key={org.name} className={isSelected ? "selected-org" : ""} onClickHandler={this.selectOrg.bind(this)} />;
             }));
         return (

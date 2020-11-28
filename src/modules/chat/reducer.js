@@ -1,5 +1,6 @@
 import types from "./types";
 import sidebarTypes from "../sidebar/types";
+import userTypes from "../user/types";
 
 const initReducer = () => {
     /* type can be "private" or "channel" depending on what kind of chat we have open. 
@@ -16,6 +17,8 @@ const initReducer = () => {
         const { type, payload } = action;
 
         switch (type) {
+            case userTypes.LOGOUT: 
+                return INITIAL_STATE;
             case sidebarTypes.CHANNEL_SELECT:
                 return {
                     ...state,                    

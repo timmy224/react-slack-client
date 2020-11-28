@@ -20,7 +20,27 @@ const OrgService = function (apiService) {
             .then(response => response.json())
             .then(data => JSON.parse(data.orgs));
     }
-    
+
+    const fetchOrg = orgName => {
+        const url = `${config.API_URL}/org`;
+
+        const data = {
+            action: "GET",
+            org_name: orgName
+        };
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return apiService.go(url, options)
+            .then(response => response.json())
+            .then(data => JSON.parse(data.org));
+    }
+
     const createOrg = (org_info) => {
         const url = `${config.API_URL}/org`;
 
@@ -38,7 +58,7 @@ const OrgService = function (apiService) {
 
     const deleteOrg = org_id => {
         const url = `${config.API_URL}/org`;
-        
+
         const options = {
             method: "DELETE",
             body: JSON.stringify(org_id),
@@ -55,6 +75,7 @@ const OrgService = function (apiService) {
     return Object.freeze({
         createOrg,
         fetchOrgs,
+        fetchOrg,
         deleteOrg,
     });
 };
