@@ -84,6 +84,7 @@ function SocketService(chatService) {
         socket.on("added-to-org", async orgName => {
             console.log("added-to-org", orgName);
             store.dispatch(actions.org.addedToOrg(orgName));
+            send("join-org", orgName);
         });
 
         socket.on("new-org-member", info => {

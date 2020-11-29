@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
-import Button from 'react-bootstrap/Button';
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
-import CreateOrg from "../CreateOrg/CreateOrg"
 import CanView from "../CanView/CanView";
 
 class SideBar extends Component {
@@ -25,13 +22,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal, invitations, showPendingInvitationsModal, showCreateOrgModal} = this.props;
-        let invitationsBtn = !invitations.length ? null 
-            :   <div>
-                    <InvitationsModal />
-                <button onClick={() => showPendingInvitationsModal(true)}>Invitations Pending</button> 
-                </div>
-
+        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
@@ -111,7 +102,6 @@ class SideBar extends Component {
                     </div>
                     <div className="container invite-create-wrapper">
                         <br />
-                        {invitationsBtn}
                         <InviteModal />
                         {/* TODO match CSS of button element with Button Component */}
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
@@ -138,7 +128,6 @@ const mapStateToProps = (state) => {
         org: state.org.org,
         selectedChannel: state.chat.channel,
         selectedPartner: state.chat.partnerUsername,
-        invitations: state.invitation.pendingInvitations,
     };
     const { org } = mapping;
     if (org) {
@@ -154,8 +143,6 @@ const mapActionsToProps = {
     selectUser: actions.sidebar.selectUser,
     showCreateChannelModal: actions.channel.showCreateModal,
     showSendInviteModal: actions.invitation.showInviteModal,
-    showPendingInvitationsModal: actions.invitation.showInvitationsModal,
-    showCreateOrgModal: actions.org.showCreateOrgModal,
     logout: actions.user.logout,
 };
 

@@ -4,6 +4,20 @@ import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
 const initActions = function (orgService, utilityService) {
+    const createOrg = (orgName, invitedEmails) => (dispatch, getState) => {
+        return new Promise(async (resolve, reject) => {
+            const [err, response] = await to(orgService.createOrg(orgName, invitedEmails));
+            if (err) {
+                throw new Error("Could not create org");
+            }
+            if (response.successful) {
+                await dispatch(fetchOrg(orgName));
+                dispatch(selectDefaultOrg());
+            }
+            resolve(response);
+        });
+    };
+
     const fetchOrgs = () => async (dispatch) => {
         let [err, orgs] = await to(orgService.fetchOrgs());
         if (err) {
@@ -19,7 +33,7 @@ const initActions = function (orgService, utilityService) {
     }
 
     const fetchOrg = orgName => async dispatch => {
-        const [err, org]  = await to(orgService.fetchOrg(orgName));
+        const [err, org] = await to(orgService.fetchOrg(orgName));
         if (err) {
             throw new Error("Could not fetch org");
         }
@@ -28,12 +42,16 @@ const initActions = function (orgService, utilityService) {
 
     const orgSet = actionCreator(types.SET_ORG);
     const setOrg = (orgName, org) => dispatch => {
-        dispatch(orgSet({orgName, org}));
+        dispatch(orgSet({ orgName, org }));
     }
 
     const orgSelect = actionCreator(types.SELECT_ORG);
     const selectOrg = orgName => async (dispatch, getState) => {
-        const org = getState().org.orgs[orgName];
+        let org = getState().org.orgs[orgName];
+        if (!org) {
+            await dispatch(fetchOrg(orgName));
+            org = getState().org.orgs[orgName];
+        }
         dispatch(orgSelect(org));
         // fetch channels and select default channel
         await dispatch(actions.channel.fetchChannels(orgName));
@@ -62,12 +80,12 @@ const initActions = function (orgService, utilityService) {
 
     const orgMemberAdd = actionCreator(types.ADD_ORG_MEMBER);
     const addOrgMember = (orgName, orgMember) => dispatch => {
-        dispatch(orgMemberAdd({orgName, orgMember}));
+        dispatch(orgMemberAdd({ orgName, orgMember }));
     }
 
     const orgmemberSetOnlineStatus = actionCreator(types.SET_ORG_MEMBER_ONLINE_STATUS);
     const setOrgMemberOnlineStatus = (orgName, username, isOnline) => dispatch => {
-        dispatch(orgmemberSetOnlineStatus({orgName, username, isOnline}));
+        dispatch(orgmemberSetOnlineStatus({ orgName, username, isOnline }));
     };
 
     const modalCreateOrgShow = actionCreator(types.SHOW_CREATE_ORG_MODAL);
@@ -91,13 +109,14 @@ const initActions = function (orgService, utilityService) {
     };
 
     return {
+        createOrg,
         fetchOrgs,
         setOrgs,
         fetchOrg,
         selectOrg,
         selectDefaultOrg,
         addedToOrg,
-        addOrgMember, 
+        addOrgMember,
         setOrgMemberOnlineStatus,
         showCreateOrgModal,
         setCreateOrgName,

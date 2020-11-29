@@ -41,17 +41,20 @@ const OrgService = function (apiService) {
             .then(data => JSON.parse(data.org));
     }
 
-    const createOrg = (org_info) => {
+    const createOrg = (orgName, invitedEmails) => {
         const url = `${config.API_URL}/org`;
-
+        const data = {
+            action: "STORE",
+            org_name: orgName,
+            invited_emails: invitedEmails
+        };
         const options = {
             method: "POST",
-            body: JSON.stringify(org_info),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
         }
-
         return apiService.go(url, options)
             .then(response => response.json())
     };
