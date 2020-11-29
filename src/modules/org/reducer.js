@@ -36,7 +36,7 @@ const initReducer = () => {
             case types.ADD_ORG_MEMBER: {
                 const { orgName, orgMember } = payload;
                 const path = ["orgs", orgName, "members"];
-                let members = state.orgs[orgName]?.members ? {...state.orgs[orgName].members} : {};
+                const members = state.orgs[orgName]?.members ? {...state.orgs[orgName].members} : {};
                 members[orgMember.username] = orgMember;
                 return set(path, members, state);
             }

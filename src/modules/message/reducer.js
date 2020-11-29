@@ -26,19 +26,15 @@ const initReducer = () => {
             case types.CHANNEL_MESSAGE_RECEIVED: {
                 const { orgName, channelName, message } = payload;
                 const path = ["messages", orgName, "channel", channelName];
-                let messages = [message];
-                if (state.messages[orgName]?.channel?.[channelName]) {
-                    messages.unshift(...state.messages[orgName].channel[channelName]);
-                }
+                const existingMessages = state.messages[orgName]?.channel?.[channelName];
+                const messages = existingMessages ? [...existingMessages, message] : [message];
                 return set(path, messages, state);
             }
             case types.PRIVATE_MESSAGE_RECEIVED: {
                 const { orgName, partnerUsername, message } = payload;
                 const path = ["messages", orgName, "private", partnerUsername];
-                let messages = [message];
-                if (state.messages[orgName]?.private?.[partnerUsername]) {
-                    messages.unshift(...state.messages[orgName].private[partnerUsername]);
-                }
+                const existingMessages = state.messages[orgName]?.private?.[partnerUsername];
+                const messages = existingMessages ? [...existingMessages, message] : [message];
                 return set(path, messages, state);
             }
             default:

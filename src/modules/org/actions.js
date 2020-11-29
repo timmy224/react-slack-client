@@ -12,7 +12,7 @@ const initActions = function (orgService, utilityService) {
             }
             if (response.successful) {
                 await dispatch(fetchOrg(orgName));
-                dispatch(selectDefaultOrg());
+                dispatch(selectOrg(orgName));
             }
             resolve(response);
         });
