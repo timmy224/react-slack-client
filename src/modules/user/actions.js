@@ -60,7 +60,7 @@ const initActions = function(userService, socketService, storageService, authSer
 	const logout = (withServerCall = true) => async (dispatch, getState) => {
 		const username = getState().user.username;
 		if (withServerCall) {
-			const [err, success] = await to(userService.logout(username));
+			const [err, _] = await to(userService.logout(username));
 			if (err) {
 				throw new Error("Could not log out");
 			}

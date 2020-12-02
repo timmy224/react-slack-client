@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chat from "../Chat/Chat";
-import Orgs from "../Orgs/Orgs";
+import OrgsSidebar from "../OrgsSidebar/OrgsSidebar";
 import SideBar from "../SideBar/SideBar";
-import CanView from "../CanView/CanView";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
 import "./MainComponent.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faLongArrowAltLeft, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state) => ({
     routePath: state.route.routePath,
@@ -52,7 +51,7 @@ class MainComponent extends Component {
     }
 
     render() {
-        const { isInitialized, orgsExist, orgs } = this.props
+        const { isInitialized, orgs } = this.props
         const { isEmpty } = services.utilityService;
         const sideBar = !isEmpty(orgs) ? <SideBar /> : (
             <div id="create-first-org-cta">
@@ -67,7 +66,7 @@ class MainComponent extends Component {
                     <div className="container-fluid px-0 background-view">                        
                         <div className="row main-wrapper">
                             <div >
-                                <Orgs />
+                                <OrgsSidebar />
                             </div>
                             <div className="sidebar-wrapper">
                                 {sideBar}

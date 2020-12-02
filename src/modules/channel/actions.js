@@ -22,9 +22,9 @@ const initActions = function (channelService) {
 
     const deleteChannel = channelName => async (dispatch, getState) => {
         const orgName = getState().org.org.name;
-        const [err, response] = await to(channelService.deleteChannel(orgName, channelName));
+        const [err, _] = await to(channelService.deleteChannel(orgName, channelName));
         if (err) {
-            throw new Error("Could not fetch num channel members");
+            throw new Error("Could not delete channel");
         }
     }
 

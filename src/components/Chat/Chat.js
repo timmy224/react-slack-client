@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
-import CanView from "../CanView/CanView";
 import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
 import "./Chat.css"
@@ -66,6 +65,8 @@ const mapStateToProps = (state) => {
             break;
         case "private":
             mapping.messages = state.message.messages[orgName]?.private?.[partnerUsername];
+            break;
+        default:
             break;
     }
     return mapping;

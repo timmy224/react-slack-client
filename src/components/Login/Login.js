@@ -55,7 +55,6 @@ class Login extends Component {
 	        return(
 	        	<div>
 	        		{credentialsIncorrect}
-                    <img className="logo" src="https://www.sblack.online/img/icon.png"></img>
                     <form>
     	      			<h1 className= "login">Sign in</h1>
                         <h6 className="continue">Continue with the username and password you use to sign in.</h6>

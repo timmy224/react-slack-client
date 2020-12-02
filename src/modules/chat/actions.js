@@ -1,8 +1,7 @@
 import types from "./types";
 import { actionCreator } from "../utils";
-import { actions } from "../../context";
 
-const initActions = function (utilityService) {
+const initActions = function () {
     const inputUpdated = actionCreator(types.INPUT_UPDATED);
     const updateInput = (input) => (dispatch) => {
         dispatch(inputUpdated(input));

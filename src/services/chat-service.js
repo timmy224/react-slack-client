@@ -1,5 +1,4 @@
 import { Subject } from "rxjs";
-import { actions, store } from "../context";
 
 function ChatService(userService) {
     let joinedChat$ = new Subject();

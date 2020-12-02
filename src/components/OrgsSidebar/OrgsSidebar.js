@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { actions, services } from "../../context";
 import { connect } from "react-redux";
 import Org from "../Org/Org";
-import "./Orgs.css";
+import "./OrgsSidebar.css";
 import CreateOrg from "../CreateOrg/CreateOrg";
 import InvitationsModal from "../InvitationsModal/InvitationsModal";
 
@@ -20,7 +20,7 @@ const mapActionsToProps = {
     showPendingInvitationsModal: actions.invitation.showInvitationsModal,
 };
 
-class Orgs extends Component {
+class OrgsSidebar extends Component {
     selectOrg = name => {
         this.props.selectOrg(name);
     }
@@ -52,4 +52,4 @@ class Orgs extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Orgs);
+export default connect(mapStateToProps, mapActionsToProps)(OrgsSidebar);

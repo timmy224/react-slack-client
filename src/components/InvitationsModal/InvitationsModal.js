@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { services, actions } from "../../context";
+import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state)=>{

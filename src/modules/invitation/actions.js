@@ -32,9 +32,9 @@ const initActions = function (invitationService) {
         dispatch(invitedUserEmailSet(email))
     };
 
-    const respondToInvitation = (invitation, isAccepted) => async (dispatch, getState) => {
+    const respondToInvitation = (invitation, isAccepted) => async dispatch => {
         const orgName = invitation.org_name;
-        const [err, response] = await to(invitationService.respondToInvite(orgName, isAccepted));
+        const [err, _] = await to(invitationService.respondToInvite(orgName, isAccepted));
         if (err) {
             throw new Error("Could not respond to invitation");
         }

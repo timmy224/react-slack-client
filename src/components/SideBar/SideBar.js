@@ -28,7 +28,7 @@ class SideBar extends Component {
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.values(channels).map(channel => 
-                <div key={channel.name} className={selectedChannel && selectedChannel.name == channel.name ? sidebarItemHighlightClass : "sidebar-item"}>
+                <div key={channel.name} className={selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : "sidebar-item"}>
                     <button
                         className="sidebar-channel unstyled-button"
                         type="button"
@@ -56,8 +56,8 @@ class SideBar extends Component {
                 ));
         let orgMembersDisplay = services.utilityService.isEmpty(orgMembers) ?
                 <h2>Loading users...</h2>
-                : (Object.entries(orgMembers).map(([username, orgMember]) => 
-                    <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
+                : (Object.values(orgMembers).map(({ username }) => 
+                    <div key={username} className={selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
                             className="sidebar-user unstyled-button"

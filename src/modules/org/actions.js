@@ -73,8 +73,7 @@ const initActions = function (orgService, utilityService) {
         if (otherOrgsExist) {
             dispatch(setOrg(orgName));
         } else {
-            await dispatch(fetchOrg(orgName));
-            dispatch(selectDefaultOrg());
+            dispatch(selectOrg(orgName));
         }
     }
 
