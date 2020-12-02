@@ -56,15 +56,16 @@ class SideBar extends Component {
                 ));
         let orgMembersDisplay = services.utilityService.isEmpty(orgMembers) ?
                 <h2>Loading users...</h2>
-                : (Object.values(orgMembers).map(({ username }) => 
+                : (Object.values(orgMembers).map(({ username, logged_in }) => 
                     <div key={username} className={selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
-                            className="sidebar-user unstyled-button"
+                            className= "sidebar-user unstyled-button"
                             value={username}
                             onClick={this.selectUser}>
                             {username}
                         </button>
+                        <div className={`login-circle ${logged_in ? "logged-in" : null}`}></div>
                     </div>
                 ))
         return (
