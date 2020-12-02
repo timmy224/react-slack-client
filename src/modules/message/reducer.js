@@ -1,92 +1,47 @@
 import types from "./types";
+import userTypes from "../user/types";
+import set from "lodash/fp/set";
 
 const initReducer = () => {
     const INITIAL_STATE = {
-        channelMessages: {},
-        privateMessages: {},
+        messages: {},
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
         const { type, payload } = action;
-    
+
         switch (type) {
-            case types.FETCH_CHANNEL_MESSAGES: {
-                let { channelId, messages } = payload;
-                return {
-                    ...state,
-                    channelMessages: {
-                        ...state.channelMessages,
-                        [channelId]: messages,
-                    }
-                };
+            case userTypes.LOGOUT: 
+                return INITIAL_STATE;
+            case types.SET_CHANNEL_MESSAGES: {
+                const { orgName, channelName, messages } = payload;
+                const path = ["messages", orgName, "channel", channelName];
+                return set(path, messages, state);
             }
-            case types.FETCH_PRIVATE_MESSAGES: {
-                let { partnerUsername, messages } = payload;
-                return {
-                    ...state,
-                    privateMessages: {
-                        ...state.privateMessages,
-                        [partnerUsername]: messages,
-                    }
-                };
+            case types.SET_PRIVATE_MESSAGES: {
+                const { orgName, partnerUsername, messages } = payload;
+                const path = ["messages", orgName, "private", partnerUsername];
+                return set(path, messages, state);
             }
             case types.CHANNEL_MESSAGE_RECEIVED: {
-                const { channelId, message } = payload;
-                return {
-                    ...state,
-                    channelMessages: {
-                        ...state.channelMessages,
-                        [channelId]: [...state.channelMessages[channelId], message]
-                    }
-                };
+                const { orgName, channelName, message } = payload;
+                const path = ["messages", orgName, "channel", channelName];
+                const existingMessages = state.messages[orgName]?.channel?.[channelName];
+                const messages = existingMessages ? [...existingMessages, message] : [message];
+                return set(path, messages, state);
             }
             case types.PRIVATE_MESSAGE_RECEIVED: {
-                const { partnerUsername, message } = payload;
-                return {
-                    ...state,
-                    privateMessages: {
-                        ...state.privateMessages,
-                        [partnerUsername]: [...state.privateMessages[partnerUsername], message]
-                    }
-                };
+                const { orgName, partnerUsername, message } = payload;
+                const path = ["messages", orgName, "private", partnerUsername];
+                const existingMessages = state.messages[orgName]?.private?.[partnerUsername];
+                const messages = existingMessages ? [...existingMessages, message] : [message];
+                return set(path, messages, state);
             }
-            case types.INIT_CHANNEL_MESSAGES_MAP: {
-                const { channelIds } = payload;
-                const messages = {};
-                for (const channelId of channelIds) {
-                    messages[channelId] = [];
-                }
-                return {
-                    ...state,
-                    channelMessages: messages
-                }
-            }
-            case types.INIT_PRIVATE_MESSAGES_MAP: {
-                const { usernames } = payload;
-                const messages = {};
-                for (const username of usernames) {
-                    messages[username] = [];
-                }
-                return {
-                    ...state,
-                    privateMessages: messages
-                }
-            }
-            case types.INIT_CHANNEL_MESSAGES: {
-                const { channelId } = payload;
-                return {
-                    ...state,
-                    channelMessages: {
-                        ...state.channelMessages,
-                        [channelId]: []
-                    }
-                }
-            }
-            default: 
+            default:
                 return state;
         }
     };
-    
+
     return reducer;
 };
 

@@ -3,15 +3,29 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
+import { cloneDeep } from "lodash-es";
 
-const initActions = function (channelService, utilityService) {
-    const channelsSet = actionCreator(types.SET_CHANNELS);
-    const setChannels = (channels) => (dispatch) => {
-        const channelsMap = {};
-        for (let channel of channels) {
-            channelsMap[channel.channel_id] = channel;
+const initActions = function (channelService) {
+    const fetchChannels = orgName => async dispatch => {
+        const [err, channels] = await to(channelService.fetchChannels(orgName));
+        if (err) {
+            throw new Error("Could not fetch channels");
         }
-        dispatch(channelsSet(channelsMap));
+        dispatch(setOrgChannels(orgName, channels));
+    };
+
+    const orgChannelsSet = actionCreator(types.SET_ORG_CHANNELS);
+    const setOrgChannels = (orgName, channels) => dispatch => {
+        channels = Object.fromEntries(channels.map(channel => [channel.name, channel]));
+        dispatch(orgChannelsSet({orgName, channels}));
+    }
+
+    const deleteChannel = channelName => async (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        const [err, _] = await to(channelService.deleteChannel(orgName, channelName));
+        if (err) {
+            throw new Error("Could not delete channel");
+        }
     }
 
     const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
@@ -24,21 +38,27 @@ const initActions = function (channelService, utilityService) {
         dispatch(channelNameTaken(isChannelNameTaken))
     };
 
-    const channelDeleted = (channelId) => async (dispatch, getState) => {
-        // Check for special case of currently selected channel being deleted
-        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.channel_id === parseInt(channelId);
-        // Refresh channel list in sidebar
-        // TODO: remove channel from redux
+    const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
+    const addedToChannel = (orgName, channel) => dispatch => {
+        dispatch(channelAddedTo({orgName, channel}))
+    };
+
+    const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
+        dispatch(removeChannel(orgName, channelName));
+        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.name === channelName;        
         if (isCurrentChannelDeleted) {
-            // If currently selected channel was deleted, choose first channel (default)
-            const channels = getState().channel.channels;
-            const channelsExist = channels && !utilityService.isEmpty(channels);
-            if (channelsExist) {
-                const defaultChannel = utilityService.getFirstProp(channels);
-                dispatch(actions.sidebar.selectChannel(defaultChannel.channel_id));
-            }
+            dispatch(actions.sidebar.selectDefaultChannel());
         }
     };
+
+    const removeChannel = (orgName, channelName) => (dispatch, getState) => {
+        const allOrgChannels = getState().channel.channels[orgName];
+        if (allOrgChannels) {
+            const channels = cloneDeep(allOrgChannels);
+            delete channels[channelName];
+            dispatch(orgChannelsSet({orgName, channels}));
+        }
+    }
 
     const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
     const showCreateModal = (show) => (dispatch) => {
@@ -54,24 +74,18 @@ const initActions = function (channelService, utilityService) {
     const privateChannelUsers = (privateUsers) => (dispatch) => {
         dispatch(usersPrivate(privateUsers))
     };
-    const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
-    const fetchNumMembers = channelId => async (dispatch) => {
-        const [err, numMembers] = await to(channelService.fetchNumberOfMembers(channelId));
-        if (err) {
-            throw new Error("Could not fetch num channel members");
-        }
-        dispatch(numberOfMembersFetch(numMembers));
-    };
 
     return {
-        setChannels,
+        fetchChannels,
+        setOrgChannels,
+        deleteChannel,
         setCreateChannelName,
         takenChannelName,
+        addedToChannel,
         channelDeleted,
         showCreateModal,
         createPrivate,
         privateChannelUsers,
-        fetchNumMembers
     };
 };
 

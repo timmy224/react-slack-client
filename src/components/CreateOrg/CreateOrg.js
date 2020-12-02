@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { services, actions } from "../../context";
+import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 
 const mapStateToProps = (state) => {
@@ -13,30 +13,25 @@ const mapStateToProps = (state) => {
     }
 }
 const mapActionsToProps = {
+    createOrg: actions.org.createOrg,
     setCreateOrgName: actions.org.setCreateOrgName,
     takenOrgName: actions.org.takenOrgName,
     handleShowCreateOrgModal: actions.org.showCreateOrgModal,
     setNewOrgUsers: actions.org.setNewOrgUsers,
-
 }
 
 class CreateOrg extends Component {
     handleSubmit = (event) => {
-        const { createOrgName, takenOrgName, username, newOrgUsers } = this.props
+        const { createOrgName, takenOrgName, newOrgUsers, createOrg } = this.props
         event.preventDefault();
-        const orgInfo = {
-            org_name : createOrgName,
-            invited_emails: newOrgUsers,
-            action: "STORE",
-        }
-        services.orgService.createOrg(orgInfo)
+        createOrg(createOrgName, newOrgUsers)
             .then(response => {
                 if (response.successful) {
                     this.handleHide()
                 } else {
                     takenOrgName(true)
-                }
-            })
+                } 
+            });
     }
 
     resetModal = () => {

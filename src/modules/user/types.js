@@ -7,8 +7,6 @@ export default {
     LOGIN: "LOGIN",
     FETCH_LOGIN_BUNDLE: "FETCH_LOGIN_BUNDLE",
     LOGOUT: "LOGOUT",
-    UPDATE_USERS: "UPDATE_USERS",
-    SET_USERS: "SET_USERS",
 };
 
 

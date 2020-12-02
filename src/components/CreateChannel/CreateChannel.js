@@ -12,7 +12,8 @@ const mapStateToProps = (state)=>{
         showCreateModal: state.channel.showCreateModal,
         username: state.user.username,
         isPrivate: state.channel.isPrivate,
-        privateChannelUsers: state.channel.privateChannelUsers
+        privateChannelUsers: state.channel.privateChannelUsers,
+        org: state.org.org,
     }
 }
 const mapActionsToProps = {
@@ -25,7 +26,7 @@ const mapActionsToProps = {
 
 class CreateChannel extends Component {
     handleSubmit = (event) => {
-        const { create_channel_name, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
+        const { create_channel_name, org, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
         event.preventDefault();
         const name = create_channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
@@ -33,7 +34,7 @@ class CreateChannel extends Component {
             name,
             members,
             isPrivate,
-            orgName: "Source Coders", // this is hardcoded for now but will have to come from redux soon (currently selected org)
+            orgName: org.name, 
         }
         services.channelService.createChannel(channelInfo)
         .then(response => {

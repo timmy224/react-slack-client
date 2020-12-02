@@ -2,29 +2,44 @@ import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
 
-const initActions = function() {
+const initActions = function (utilityService) {
     const channelSelect = actionCreator(types.CHANNEL_SELECT);
-    const selectChannel = channelId => (dispatch, getState) => {
-        const channels = getState().channel.channels;
-        const channel = channels[channelId];
+    const selectChannel = channelName => (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        const channels = getState().channel.channels[orgName];
+        const channel = channels[channelName];
         dispatch(channelSelect(channel));
-        dispatch(actions.channel.fetchNumMembers(channelId))
-        const isMessagesExist = getState().message.channelMessages[channelId]?.length > 0;
+        const isMessagesExist = getState().message.messages[orgName]?.channel[channelName]?.length > 0;
         if (!isMessagesExist) {
-            dispatch(actions.message.fetchChannelMessages(channelId));
-        } 
-    };
-
-    const userSelect = actionCreator(types.USER_SELECT);
-    const selectUser = selectedUsername => (dispatch, getState) => {
-        dispatch(userSelect(selectedUsername));
-        const isMessagesExist = getState().message.privateMessages[selectedUsername].length > 0;
-        if (!isMessagesExist) {
-            dispatch(actions.message.fetchPrivateMessages(selectedUsername));
+            dispatch(actions.message.fetchChannelMessages(channelName));
         }
     };
 
-    return { selectChannel, selectUser };
+    const selectDefaultChannel = () => (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        const channels = getState().channel.channels[orgName];
+        const channelsExist = channels && !utilityService.isEmpty(channels);
+        if (channelsExist) {
+            const defaultChannel = utilityService.getFirstProp(channels);
+            dispatch(selectChannel(defaultChannel.name));
+        }
+    };
+
+    const userSelect = actionCreator(types.USER_SELECT);
+    const selectUser = username => (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        dispatch(userSelect(username));
+        const isMessagesExist = getState().message.messages[orgName]?.private?.[username]?.length > 0;
+        if (!isMessagesExist) {
+            dispatch(actions.message.fetchPrivateMessages(username));
+        }
+    };
+
+    return { 
+        selectChannel, 
+        selectDefaultChannel,
+        selectUser,
+    };
 }
 
 export default initActions;

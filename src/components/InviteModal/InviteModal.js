@@ -7,7 +7,8 @@ const mapStateToProps = (state)=>{
     return { 
         showInviteModal: state.invitation.showInviteModal,
         username: state.user.username,
-        invitedUserEmail :state.invitation.invitedUserEmail,
+        invitedUserEmail: state.invitation.invitedUserEmail,
+        org: state.org.org,
     }
 }
 const mapActionsToProps = {
@@ -17,21 +18,21 @@ const mapActionsToProps = {
 
 class InviteModal extends Component {
     handleSubmit = (event) => {
-        const { invitedUserEmail, } = this.props
+        const { invitedUserEmail, org } = this.props
         event.preventDefault();
         const inviteInfo = {
-            orgName: "Source Coders",// this is hardcoded for now but will have to come from redux soon (currently selected org)
+            orgName: org.name,
             email: invitedUserEmail,
             action: "STORE",
         }
         services.invitationService.sendInvite(inviteInfo)
-        .then(response => {
-            if(response.successful){
-                this.handleHide();
-            }else if(response.ERROR){
-                alert('User already has an active invite to this org');
-            }
-    })
+            .then(response => {
+                if (response.successful) {
+                    this.handleHide();
+                } else if (response.ERROR) {
+                    alert('User already has an active invite to this org');
+                }
+            })
     }
 
     resetModal = () => {
