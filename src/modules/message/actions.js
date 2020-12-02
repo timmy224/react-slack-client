@@ -2,7 +2,7 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 
-const initActions = function(messageService) {
+const initActions = function(messageService, socketService) {
     const receivedChannelMessage = actionCreator(types.CHANNEL_MESSAGE_RECEIVED);
     const receivedPrivateMessage = actionCreator(types.PRIVATE_MESSAGE_RECEIVED);
     const messageReceived = message => (dispatch, getState) => {
@@ -10,69 +10,60 @@ const initActions = function(messageService) {
         const isPrivateMessage = message["type"] === "private";
         if (isChannelMessage) {
             const messagePayload = {
-                channelId: message["channel_id"],
-                message: message
+                orgName: message["org_name"],
+                channelName: message["channel_name"],
+                message,
             };
             dispatch(receivedChannelMessage(messagePayload));
         } else if (isPrivateMessage) {
             const ourUsername = getState().user.username;
-            const partnerUsername = message["sender"] !== ourUsername ? message["sender"] : message["receiver"];
+            const partnerUsername = message["receiver"] === ourUsername ? message["sender"] : message["receiver"];
             const messagePayload = {
-                partnerUsername: partnerUsername,
-                message: message
+                orgName: message["org_name"],
+                partnerUsername,
+                message,
             };
             dispatch(receivedPrivateMessage(messagePayload));
         }
     };
 
-    const initMessagesChannelMap = actionCreator(types.INIT_CHANNEL_MESSAGES_MAP);
-    const initChannelMessagesMap = channelIds => (dispatch) => {
-        dispatch(initMessagesChannelMap({channelIds: channelIds}))
-    };
-
-    const initMessagesPrivateMap = actionCreator(types.INIT_PRIVATE_MESSAGES_MAP);
-    const initPrivateMessagesMap = usernames => (dispatch) => {
-        dispatch(initMessagesPrivateMap({usernames: usernames}));
-    };
-
-    const initMessagesChannel = actionCreator(types.INIT_CHANNEL_MESSAGES);
-    const initChannelMessages = channelId => (dispatch) => {
-        dispatch(initMessagesChannel({channelId: channelId}));
-    };
-
-    const fetchMessagesChannel = actionCreator(types.FETCH_CHANNEL_MESSAGES);
-    const fetchChannelMessages = channelId => async (dispatch) => {
-        const [err, messages] = await to(messageService.fetchChannelMessages(channelId));
+    const fetchChannelMessages = channelName => async (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        const [err, messages] = await to(messageService.fetchChannelMessages(orgName, channelName));
         if (err) {
             throw new Error("Could not fetch channel messages");
         }
-        const messagesPayload = {
-            channelId: channelId,
-            messages: messages,
-        };
-        dispatch(fetchMessagesChannel(messagesPayload));   
+        dispatch(setChannelMessages(orgName, channelName, messages));   
     };
 
-    const fetchMessagesPrivate = actionCreator(types.FETCH_PRIVATE_MESSAGES);
     const fetchPrivateMessages = partnerUsername => async (dispatch, getState) => {
-        const [err, messages] = await to(messageService.fetchPrivateMessages(partnerUsername));
+        const orgName = getState().org.org.name;
+        const [err, messages] = await to(messageService.fetchPrivateMessages(orgName, partnerUsername));
         if (err) {
             throw new Error("Could not fetch private messages");
         }
-        const messagesPayload = {
-            partnerUsername: partnerUsername,
-            messages: messages,
-        };
-        dispatch(fetchMessagesPrivate(messagesPayload));
+        dispatch(setPrivateMessages(orgName, partnerUsername, messages));   
+    };
+
+    const channelMessagesSet = actionCreator(types.SET_CHANNEL_MESSAGES);
+    const setChannelMessages = (orgName, channelName, messages) => dispatch => {
+        dispatch(channelMessagesSet({orgName, channelName, messages}));
+    };
+
+    const privateMessagesSet = actionCreator(types.SET_PRIVATE_MESSAGES);
+    const setPrivateMessages = (orgName, partnerUsername, messages) => dispatch => {
+        dispatch(privateMessagesSet({orgName, partnerUsername, messages}));
+    };
+    
+    const sendMessage = message => () => {
+        socketService.send("send-message", message);
     };
 
     return { 
         messageReceived, 
-        initChannelMessagesMap, 
-        initPrivateMessagesMap, 
-        initChannelMessages,
         fetchChannelMessages, 
         fetchPrivateMessages,
+        sendMessage,
     };
 }
 

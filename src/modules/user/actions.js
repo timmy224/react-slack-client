@@ -15,11 +15,6 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernameTaken(isUsernameTaken))
 	};
 
-	const usernamesSet = actionCreator(types.SET_USERNAMES);
-	const setUsernames = (usernames) => async (dispatch) => {		
-		dispatch(usernamesSet(usernames));
-	}
-
 	const settingPassword = actionCreator(types.SET_PASSWORD);
 	const setPassword = (password) => (dispatch) => {
 		dispatch(settingPassword(password))
@@ -65,7 +60,7 @@ const initActions = function(userService, socketService, storageService, authSer
 	const logout = (withServerCall = true) => async (dispatch, getState) => {
 		const username = getState().user.username;
 		if (withServerCall) {
-			const [err, success] = await to(userService.logout(username));
+			const [err, _] = await to(userService.logout(username));
 			if (err) {
 				throw new Error("Could not log out");
 			}
@@ -80,7 +75,6 @@ const initActions = function(userService, socketService, storageService, authSer
 	return { 
 		setUsername,
 		takenUsername,
-		setUsernames,
 		wrongCredentials,
 		setPassword,
 		missingCredentials,

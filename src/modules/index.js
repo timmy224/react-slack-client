@@ -6,7 +6,6 @@ import configureMessageModule from "./message";
 import configureChannelModule from "./channel";
 import configureSidebarModule from "./sidebar";
 import configureChatModule from "./chat";
-import configureWorkspaceModule from "./workspace";
 import configureMainModule from "./main";
 import configureInvitationModule from "./invitation";
 import configureOrgModule from "./org";
@@ -20,7 +19,6 @@ const configureModules = services => {
     const channelModule = configureChannelModule(services); 
     const sidebarModule = configureSidebarModule(services);
     const chatModule = configureChatModule(services);
-    const workspaceModule = configureWorkspaceModule(services);
     const mainModule = configureMainModule(services);
     const invitationModule = configureInvitationModule(services);
     const orgModule = configureOrgModule(services);
@@ -33,7 +31,6 @@ const configureModules = services => {
         channel: channelModule,
         sidebar: sidebarModule,
         chat: chatModule,
-        workspace: workspaceModule,
         main: mainModule,
         invitation : invitationModule,
         org: orgModule,

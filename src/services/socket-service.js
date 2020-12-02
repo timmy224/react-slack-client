@@ -46,56 +46,73 @@ function SocketService(chatService) {
             connected$.next(false);
         });
 
-        socket.on('user-joined-chat', (user_join) => {
-            console.log("user_join", user_join);
-            console.log(`User joined the chat: ${user_join.username}`);
-            chatService.onUserJoinedChat(user_join.username);
+        socket.on('message-received', message => {
+            console.log("message-received: ", message);
+            console.log(
+                `Sender: ${message.sender},
+                Time Sent: ${message.time_sent},
+                Content: ${message.content}`
+            );
+            store.dispatch(actions.message.messageReceived(message))
         });
 
-        socket.on('message-received', (message_received) => {
-            console.log("message-received: ", message_received);
-            console.log(
-                `Sender: ${message_received.sender},
-                Time Sent: ${message_received.time_sent},
-                Content: ${message_received.content}`
-      );
-      chatService.onMessageReceived(message_received);
-    });
+        socket.on("channel-deleted", info => {
+            console.log("channel-deleted", info);
+            const { org_name: orgName, channel_name: channelName } = info;
+            store.dispatch(actions.channel.channelDeleted(orgName, channelName));
+        });
 
-    socket.on("channel-deleted", channelId => {
-      store.dispatch(actions.channel.channelDeleted(channelId));
-    });
+        socket.on("added-to-channel", async info => {
+            console.log("added-to-channel", info);
+            const orgName = info.org_name;
+            const channel = info.channel;
+            store.dispatch(actions.channel.addedToChannel(orgName, channel));
+            const joinInfo = { "org_name": orgName, "channel_name": channel.name };
+            send("join-channel", joinInfo);
+        });
 
-    socket.on("added-to-channel", async channelId => {
-      console.log("added-to-channel", channelId);
-      // TODO: add channel to redux here once it's being sent by server side 
-      store.dispatch(actions.message.initChannelMessages(parseInt(channelId)));
-      send("join-channel", channelId);
-    });
+        socket.on("permissions-updated", () => {
+            console.log("permissions-updated");
+            store.dispatch(actions.permission.fetchPermissions());
+        });
 
-    socket.on("permissions-updated", () => {
-      console.log("permissions-updated");
-      store.dispatch(actions.permission.fetchPermissions());
-    });
+        socket.on("invited-to-org", orgName => {
+            console.log("invited-to-org", orgName);
+            store.dispatch(actions.invitation.fetchInvitations());
+        });
 
-    socket.on("invited-to-org", orgName => {
-      console.log("invited-to-org", orgName);
-      store.dispatch(actions.invitation.fetchInvitations());
-    });
+        socket.on("added-to-org", async orgName => {
+            console.log("added-to-org", orgName);
+            store.dispatch(actions.org.addedToOrg(orgName));
+            send("join-org", orgName);
+        });
 
-    socket.on("added-to-org", orgName => {
-      console.log("added-to-org", orgName);
-      store.dispatch(actions.org.fetchOrgs());
-    });
-  };
+        socket.on("new-org-member", info => {
+            const { org_name: orgName, org_member: orgMember } = info;
+            console.log(`new-org-member: ${orgName}: ${orgMember}`);
+            store.dispatch(actions.org.addOrgMember(orgName, orgMember));
+        });
 
-  return Object.freeze({
-    getConnected,
-    getConnected$,
-    connect,
-    send,
-    disconnect
-  });
+        socket.on("org-member-online", info => {
+            const { org_name: orgName, username } = info;
+            console.log(`org-member-online: ${orgName}: ${username}`);
+            store.dispatch(actions.org.setOrgMemberOnlineStatus(orgName, username, true));
+        });
+
+        socket.on("org-member-offline", info => {
+            const { org_name: orgName, username } = info;
+            console.log(`org-member-online: ${orgName}: ${username}`);
+            store.dispatch(actions.org.setOrgMemberOnlineStatus(orgName, username, false));
+        });
+    };
+
+    return Object.freeze({
+        getConnected,
+        getConnected$,
+        connect,
+        send,
+        disconnect
+    });
 }
 
 export default SocketService;

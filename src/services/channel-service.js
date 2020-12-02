@@ -1,10 +1,31 @@
 import { config } from "../Config";
 
 const ChannelService = function(apiService) {
-    const createChannel = (channel_info) => {
+    const fetchChannels = orgName => {
         const url = `${config.API_URL}/channel`;
         const post_data = {
-            channel_info,
+            action: "GET",
+            org_name: orgName
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        return apiService.go(url, options)
+            .then(response => response.json())
+            .then(data => data.channels);
+    }
+
+    const createChannel = channelInfo => {
+        const url = `${config.API_URL}/channel`;
+        const post_data = {
+            action: "STORE",
+            channel_info: channelInfo
         }
 
         const options = {
@@ -19,11 +40,12 @@ const ChannelService = function(apiService) {
             .then(response => response.json())
     };
 
-    const deleteChannel = channelId => {
+    const deleteChannel = (orgName, channelName) => {
         const url = `${config.API_URL}/channel`;
-        const delete_data ={
-            "channel_id": channelId,
-        }
+        const delete_data = {
+            "org_name": orgName,
+            "channel_name": channelName,
+        };
         const options = {
             method: "DELETE",
             body: JSON.stringify(delete_data),
@@ -36,17 +58,10 @@ const ChannelService = function(apiService) {
             .then(data => data.successful)
     };
 
-    const fetchNumberOfMembers = channelId => {
-        const url = `${config.API_URL}/channel/members/?channel_id=${channelId}`;
-        return apiService.go(url)
-            .then(response => response.json())
-            .then(data => data.num_members);
-    }
-
     return Object.freeze({
+        fetchChannels,
         createChannel,
         deleteChannel,
-        fetchNumberOfMembers
     });
 };
 
