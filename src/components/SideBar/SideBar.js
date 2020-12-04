@@ -4,7 +4,12 @@ import { actions, services } from "../../context";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+<<<<<<< HEAD
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+=======
+import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import InvitationsModal from "../InvitationsModal/InvitationsModal"
+>>>>>>> feature/orgs-css
 import InviteModal from "../InviteModal/InviteModal"
 import CanView from "../CanView/CanView";
 
@@ -59,10 +64,18 @@ class SideBar extends Component {
                 : (Object.values(orgMembers).map(({ username, logged_in }) => 
                     <div key={username} className={selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
+                            type="button" 
+                            className="user-icon unstyled-button"
+                            value={username}
+                            onClick={this.selectUser}>
+                            <FontAwesomeIcon icon={faUser} transform="grow-3" color="#c3c3c3" />
+                        </button>
+                        <button
                             type="button"
                             className= "sidebar-user unstyled-button"
                             value={username}
-                            onClick={this.selectUser}>
+                            onClick={this.selectUser}
+                        >
                             {username}
                         </button>
                         <div className={`login-circle ${logged_in ? "logged-in" : null}`}></div>
@@ -104,7 +117,6 @@ class SideBar extends Component {
                     <div className="container invite-create-wrapper">
                         <br />
                         <InviteModal />
-                        {/* TODO match CSS of button element with Button Component */}
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         <CreateChannel />
                         <div className = "container text-center mt-3 p-3 rounded">
@@ -118,6 +130,11 @@ class SideBar extends Component {
                                 onClick={() => this.props.logout()}>Logout</button>
                         </div>
                     </div>
+                </div>
+                <div className='container text-center logout-wrapper'>
+                    <button
+                        type="button" className="logout-btn btn btn-secondary m-1"
+                        onClick={() => this.props.logout()}>Logout</button>
                 </div>
             </div>
         );    

@@ -65,8 +65,13 @@ class MainComponent extends Component {
                 {isInitialized ?
                     <div className="container-fluid px-0 background-view">                        
                         <div className="row main-wrapper">
+<<<<<<< HEAD
                             <div >
                                 <OrgsSidebar />
+=======
+                            <div className="org-wrapper">
+                                <Orgs />
+>>>>>>> feature/orgs-css
                             </div>
                             <div className="sidebar-wrapper">
                                 {sideBar}

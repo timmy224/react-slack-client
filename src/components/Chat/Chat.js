@@ -19,7 +19,6 @@ class Chat extends Component {
         this.props.sendMessage(message);
     }
 
-
     render() {
         let { channel, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];
