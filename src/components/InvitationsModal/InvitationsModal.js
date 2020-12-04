@@ -49,7 +49,7 @@ class InvitationsModal extends Component {
                 });
         const form =
                 <CustomForm >
-                        {invitationsDisplay}
+                    {invitationsDisplay}
                 </CustomForm>
         return (
             <CustomModal

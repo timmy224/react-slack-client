@@ -65,8 +65,8 @@ class CreateOrg extends Component {
         const form = 
             <CustomForm onSubmit={this.handleSubmit}>
                 <FormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</FormInput>
-                    <span>{userButton}</span>
-                    <FormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</FormInput>
+                <span>{userButton}</span>
+                <FormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</FormInput>
                 <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
             </CustomForm>
         return (

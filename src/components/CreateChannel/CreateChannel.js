@@ -84,7 +84,7 @@ class CreateChannel extends Component {
                         </div>
                     </div>
 
-        const formDisplay = !isPrivate ?
+        const form = !isPrivate ?
             <CustomForm onSubmit={this.handleSubmit} key="body">
                     <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
             </CustomForm>
@@ -95,20 +95,17 @@ class CreateChannel extends Component {
                     <FormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</FormInput>
             </CustomForm>
         return (
-            <div id="create-channel-container">
                 <CustomModal 
                     show={showCreateModal} 
                     onHide={this.handleHide} 
                     errorMsg={takenMessage}
-                    header="Create a channel"
-                    footer= {<CustomButton key="footer" type='submit' onClick={this.handleSubmit}>Create</CustomButton>}
+                    title="Create a channel"
+                    subtitle="Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example."
+                    form={form}
+                    footer= {<CustomButton type='submit' onClick={this.handleSubmit}>Create</CustomButton>}
                     >
-                        <h1>Create a channel</h1>
-                        <span className="create-channel-description">Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</span>
-                        {formDisplay}
                         {privateSection}
-                </CustomModal>
-            </div>        
+                </CustomModal>    
         );
     }
 }
