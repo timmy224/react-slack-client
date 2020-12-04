@@ -1,20 +1,42 @@
-.custom-modal {
-	color: rgb(204,199,192);
+.modal-content {
 	font-family: sans-serif;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background-color: rgb(26,29,33);
+	color: rgb(204,199,192);
 }
 
-.modal-header {
+.modal-header, .footer {
 	display: flex;
-	align-items: center;
-	padding: 20px 28px 0px;
+	flex-direction: column;
+	align-items: flex-start;
 	width: 100%;
 	font-weight: 900;
 	border: 0;
+}
+
+.subtitle {
+	box-sizing: inherit;
+	align-items: center;
+	display: flex;
+	min-height: 70px;
+	padding: 0px 28px;
+	width: 100%;
 	background-color: rgb(26,29,33)
 }
 
-.footer {
-	border: 0;
-	padding: 10px;
-	background-color: rgb(26,29,33)
+.modal-body {
+
+}
+
+button.close {
+	color: rgb(204,199,192);
+	position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+button.close:hover {
+	color: #ebeff3
 }

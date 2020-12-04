@@ -8,16 +8,16 @@ const CustomModal = ({children, errorMsg, footer, title, form, subtitle, ...othe
     return(
         <Modal className="custom-modal" {...otherProps} >
             <Modal.Header  className="modal-header" closeButton>
-                {title}
-                {subtitle}
-                {errorMsg}
+                <div className="title">{title}</div>
+                {subtitle ? <div className="subtitle">{subtitle}</div> : null}
+                {errorMsg ? <div className="errorMsg">{errorMsg}</div> : null}
             </Modal.Header>
-            <Modal.Body>
-                {form}
-                {children}
+            <Modal.Body className="modal-body">
+                <div className="form">{form}</div>
+                {children ? <div className="children-container">{children}</div> : null}
             </Modal.Body>
             <Modal.Footer className="footer">
-                {footer}
+                <div className="footer-div">{footer}</div>
             </Modal.Footer>  
         </Modal>
     )

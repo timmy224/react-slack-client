@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { services } from "../../context";
-import { actions } from "../../context";
-import "./CreateChannel.css"
+import { actions } from "../../context"; 
 import CustomButton from '../CustomButton/CustomButton';
 import FormInput from '../FormInput/FormInput';
 import CustomModal from '../CustomModal/CustomModal';

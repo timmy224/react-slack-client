@@ -66,3 +66,7 @@ body {
   background: var(--send-message-form);
   font-weight: 200;
 }
+
+* {
+    box-sizing: border-box;
+}
