@@ -3,43 +3,48 @@ import {actionCreator} from "../utils";
 import {actions, services} from "../../context";
 import {dispatch} from "rxjs/internal/observable/pairs";
 
-const initActions = function () {
+const initActions = function (utilityService) {
 	const channelSelect = actionCreator(types.CHANNEL_SELECT);
-	const selectChannel = (channelId) => (dispatch, getState) => {
-		let channels = getState().channel.channels;
-		const channel = channels[channelId];
-		console.log("THIS IS THE  CHANNEL NAME", channel.name);
+	const selectChannel = (channelName) => (dispatch, getState) => {
+		const orgName = getState().org.org.name;
+		const channels = getState().channel.channels[orgName];
+		const channel = channels[channelName];
 		dispatch(channelSelect(channel));
-		dispatch(actions.channel.fetchNumMembers(channel.name));
-		dispatch(actions.channel.setCreateChannelName(channel.name));
-		dispatch(actions.message.fetchChannelMessages(channelId));
+		const isMessagesExist =
+			getState().message.messages[orgName]?.channel[channelName]?.length >
+			0;
+		if (!isMessagesExist) {
+			dispatch(actions.message.fetchChannelMessages(channelName));
+		}
+	};
+
+	const selectDefaultChannel = () => (dispatch, getState) => {
+		const orgName = getState().org.org.name;
+		const channels = getState().channel.channels[orgName];
+		const channelsExist = channels && !utilityService.isEmpty(channels);
+		if (channelsExist) {
+			const defaultChannel = utilityService.getFirstProp(channels);
+			dispatch(selectChannel(defaultChannel.name));
+		}
 	};
 
 	const userSelect = actionCreator(types.USER_SELECT);
-	const selectUser = (selectedUsername) => (dispatch, getState) => {
-		dispatch(userSelect(selectedUsername));
+	const selectUser = (username) => (dispatch, getState) => {
+		const orgName = getState().org.org.name;
+		dispatch(userSelect(username));
 		const isMessagesExist =
-			getState().message.privateMessages[selectedUsername].length > 0;
+			getState().message.messages[orgName]?.private?.[username]?.length >
+			0;
 		if (!isMessagesExist) {
-			dispatch(actions.message.fetchPrivateMessages(selectedUsername));
+			dispatch(actions.message.fetchPrivateMessages(username));
 		}
 	};
-	const channelReload = actionCreator(types.CHANNEL_RELOAD);
-	const reloadChannel = () => async (dispatch, getState) => {
-		await dispatch(actions.channel.fetchChannels);
-		let channels = getState().channel.channels;
-		const defaultChannel = services.utilityService.getFirstProp(channels);
-		let channel = channels[defaultChannel.channel_id];
-		console.log(
-			"RELOAD THIS IS THE CHANNEL NAME, channels, defaultCHannel",
-			channel,
-			channels,
-			defaultChannel
-		);
-		dispatch(channelSelect(channel));
-	};
 
-	return {selectChannel, selectUser, reloadChannel};
+	return {
+		selectChannel,
+		selectDefaultChannel,
+		selectUser,
+	};
 };
 
 export default initActions;

@@ -3,21 +3,33 @@ import to from "await-to-js";
 import types from "./types";
 import {actionCreator} from "../utils";
 import {actions} from "../../context";
-import {dispatch} from "rxjs/internal/observable/pairs";
-import {asyncScheduler} from "rxjs";
+import {cloneDeep} from "lodash-es";
 
-const initActions = function (channelService, utilityService) {
-	const channelsFetch = actionCreator(types.FETCH_CHANNELS);
-	const fetchChannels = () => async (dispatch) => {
-		const [err, channels] = await to(channelService.fetchChannels());
+const initActions = function (channelService) {
+	const fetchChannels = (orgName) => async (dispatch) => {
+		const [err, channels] = await to(channelService.fetchChannels(orgName));
 		if (err) {
 			throw new Error("Could not fetch channels");
 		}
-		const channelsMap = {};
-		for (let channel of channels) {
-			channelsMap[channel.channel_id] = channel;
+		dispatch(setOrgChannels(orgName, channels));
+	};
+
+	const orgChannelsSet = actionCreator(types.SET_ORG_CHANNELS);
+	const setOrgChannels = (orgName, channels) => (dispatch) => {
+		channels = Object.fromEntries(
+			channels.map((channel) => [channel.name, channel])
+		);
+		dispatch(orgChannelsSet({orgName, channels}));
+	};
+
+	const deleteChannel = (channelName) => async (dispatch, getState) => {
+		const orgName = getState().org.org.name;
+		const [err, _] = await to(
+			channelService.deleteChannel(orgName, channelName)
+		);
+		if (err) {
+			throw new Error("Could not delete channel");
 		}
-		dispatch(channelsFetch(channelsMap));
 	};
 
 	const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
@@ -30,23 +42,30 @@ const initActions = function (channelService, utilityService) {
 		dispatch(channelNameTaken(isChannelNameTaken));
 	};
 
-	const channelDeleted = (channelId) => async (dispatch, getState) => {
-		// Check for special case of currently selected channel being deleted
+	const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
+	const addedToChannel = (orgName, channel) => (dispatch) => {
+		dispatch(channelAddedTo({orgName, channel}));
+	};
+
+	const channelDeleted = (orgName, channelName) => async (
+		dispatch,
+		getState
+	) => {
+		dispatch(removeChannel(orgName, channelName));
 		const isCurrentChannelDeleted =
 			getState().chat.type === "channel" &&
-			getState().chat.channel.channel_id === parseInt(channelId);
-		// Refresh channel list in sidebar
-		await dispatch(fetchChannels());
+			getState().chat.channel.name === channelName;
 		if (isCurrentChannelDeleted) {
-			// If currently selected channel was deleted, choose first channel (default)
-			const channels = getState().channel.channels;
-			const channelsExist = channels && !utilityService.isEmpty(channels);
-			if (channelsExist) {
-				const defaultChannel = utilityService.getFirstProp(channels);
-				dispatch(
-					actions.sidebar.selectChannel(defaultChannel.channel_id)
-				);
-			}
+			dispatch(actions.sidebar.selectDefaultChannel());
+		}
+	};
+
+	const removeChannel = (orgName, channelName) => (dispatch, getState) => {
+		const allOrgChannels = getState().channel.channels[orgName];
+		if (allOrgChannels) {
+			const channels = cloneDeep(allOrgChannels);
+			delete channels[channelName];
+			dispatch(orgChannelsSet({orgName, channels}));
 		}
 	};
 
@@ -118,15 +137,15 @@ const initActions = function (channelService, utilityService) {
 	const updateAddMember = (addMember) => (dispatch) => {
 		dispatch(addMemberUpdate(addMember));
 	};
-	const clearAddMember = actionCreator(types.CLEAR_ADD_MEMBER);
-	const addMemberClear = () => (dispatch) => {
-		dispatch(clearAddMember());
+	const usersPrivate = actionCreator(types.PRIVATE_CHANNEL_USERS);
+	const privateChannelUsers = (privateUsers) => (dispatch) => {
+		dispatch(usersPrivate(privateUsers));
 	};
 	return {
 		fetchChannels,
 		setCreateChannelName,
 		takenChannelName,
-		channelDeleted,
+		deleteChannel,
 		showCreateModal,
 		createPrivate,
 		privateChannelUsers,
@@ -136,7 +155,8 @@ const initActions = function (channelService, utilityService) {
 		addChannelMember,
 		removeChannelMember,
 		updateAddMember,
-		clearAddMember,
+		addedToChannel,
+		channelDeleted,
 	};
 };
 //  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display

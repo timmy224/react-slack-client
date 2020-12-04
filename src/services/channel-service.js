@@ -1,18 +1,32 @@
 import {config} from "../Config";
 
 const ChannelService = function (apiService) {
-	const fetchChannels = () => {
+	const fetchChannels = (orgName) => {
 		const url = `${config.API_URL}/channel`;
+		const post_data = {
+			action: "GET",
+			org_name: orgName,
+		};
+
+		const options = {
+			method: "POST",
+			body: JSON.stringify(post_data),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+
 		return apiService
-			.go(url)
+			.go(url, options)
 			.then((response) => response.json())
 			.then((data) => data.channels);
 	};
 
-	const createChannel = (channel_info) => {
+	const createChannel = (channelInfo) => {
 		const url = `${config.API_URL}/channel`;
 		const post_data = {
-			channel_info,
+			action: "STORE",
+			channel_info: channelInfo,
 		};
 
 		const options = {
@@ -26,10 +40,11 @@ const ChannelService = function (apiService) {
 		return apiService.go(url, options).then((response) => response.json());
 	};
 
-	const deleteChannel = (channelId) => {
+	const deleteChannel = (orgName, channelName) => {
 		const url = `${config.API_URL}/channel`;
 		const delete_data = {
-			channel_id: channelId,
+			org_name: orgName,
+			channel_name: channelName,
 		};
 		const options = {
 			method: "DELETE",

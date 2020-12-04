@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import {HashRouter} from "react-router-dom"
 import "../../index.css";
 import App from "../App/App";

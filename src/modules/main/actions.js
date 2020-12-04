@@ -8,7 +8,7 @@ const initActions = function() {
         if (!getState().user.isLoginBundleFetched) {
             await dispatch(actions.user.fetchLoginBundle())
         }
-        await dispatch(actions.chat.initChat());        
+        dispatch(actions.org.selectDefaultOrg());     
         dispatch(initializedActionCreator());
     };
 

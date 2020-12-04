@@ -15,15 +15,6 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(usernameTaken(isUsernameTaken))
 	};
 
-	const usernamesFetch = actionCreator(types.FETCH_USERNAMES);
-	const fetchUsernames = () => async (dispatch) => {
-		const [err, usernames] = await to(userService.fetchUsernames());
-		if (err) {
-			throw new Error("Could not fetch usernames");
-		}
-		dispatch(usernamesFetch(usernames));
-	}
-
 	const settingPassword = actionCreator(types.SET_PASSWORD);
 	const setPassword = (password) => (dispatch) => {
 		dispatch(settingPassword(password))
@@ -58,10 +49,9 @@ const initActions = function(userService, socketService, storageService, authSer
 	const loginBundleFetch = actionCreator(types.FETCH_LOGIN_BUNDLE);
 	const fetchLoginBundle = () => async (dispatch) => {
 		await Promise.all([
-			dispatch(actions.channel.fetchChannels()),
-			dispatch(actions.user.fetchUsernames()),
 			dispatch(actions.permission.fetchPermissions()),
 			dispatch(actions.invitation.fetchInvitations()),
+			dispatch(actions.org.fetchOrgs()),
 		]);
 		dispatch(loginBundleFetch());
 	};
@@ -70,7 +60,7 @@ const initActions = function(userService, socketService, storageService, authSer
 	const logout = (withServerCall = true) => async (dispatch, getState) => {
 		const username = getState().user.username;
 		if (withServerCall) {
-			const [err, success] = await to(userService.logout(username));
+			const [err, _] = await to(userService.logout(username));
 			if (err) {
 				throw new Error("Could not log out");
 			}
@@ -85,7 +75,6 @@ const initActions = function(userService, socketService, storageService, authSer
 	return { 
 		setUsername,
 		takenUsername,
-		fetchUsernames,
 		wrongCredentials,
 		setPassword,
 		missingCredentials,

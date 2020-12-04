@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions, services, store } from "../../context";
+import { actions, services } from "../../context";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import Button from "react-bootstrap/Button";
-import InvitationsModal from "../InvitationsModal/InvitationsModal"
 import InviteModal from "../InviteModal/InviteModal"
+import CanView from "../CanView/CanView";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -18,69 +17,79 @@ class SideBar extends Component {
         this.props.selectUser(event.target.value);
     }
 
-    deleteChannel = channelId => {
-        services.channelService.deleteChannel(channelId).catch(err => console.log(err));
+    deleteChannel = channelName => {
+        this.props.deleteChannel(channelName);
     }
 
     render() {
-        const { channels, usernames, selectedChannel, selectedPartner, handleInviteShow, handleCreateShow, invitations, handleInvitationsShow} = this.props;
-        let invitationsBtn = !invitations.length ? null 
-            :   <div>
-                    <InvitationsModal />
-                    <button onClick={()=>handleInvitationsShow(true)}>Invitations Pending</button> 
-                </div>
-
+        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
-            : (Object.entries(channels).map(([channel_id, channel]) => 
-                <div key={channel.channel_id} className={selectedChannel && selectedChannel.channel_id == channel.channel_id ? sidebarItemHighlightClass : "sidebar-item"}>
+            : (Object.values(channels).map(channel => 
+                <div key={channel.name} className={selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : "sidebar-item"}>
                     <button
                         className="sidebar-channel unstyled-button"
-                        type="button" 
-                        value={channel.channel_id}
+                        type="button"
+                        value={channel.name}
                         onClick={this.selectChannel}>
                         {"# " + channel.name}
                     </button>
-                    <button
-                        type="button" 
-                        className="channel-delete unstyled-button"
-                        value={channel.channel_id}
-                        onClick={() => this.deleteChannel(channel.channel_id)}>
-                        <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
-                    </button>
+                    <CanView
+                        resource="channel"
+                        action="delete"
+                        yes={() => {
+                            return (
+                                <button
+                                    type="button"
+                                    className="channel-delete unstyled-button"
+                                    value={channel.name}
+                                    onClick={() => this.deleteChannel(channel.name)}>
+                                    <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
+                                </button>
+                            )
+                        }}
+                        no={() => null}
+                    />
                 </div>
                 ));
-        let usernamesDisplay = !usernames.length ?
+        let orgMembersDisplay = services.utilityService.isEmpty(orgMembers) ?
                 <h2>Loading users...</h2>
-                : (usernames.map(username => 
-                    <div key={username} className={selectedPartner && selectedPartner == username ? sidebarItemHighlightClass : "sidebar-item"}>
+                : (Object.values(orgMembers).map(({ username, logged_in }) => 
+                    <div key={username} className={selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
                             type="button"
-                            className="sidebar-user unstyled-button"
+                            className= "sidebar-user unstyled-button"
                             value={username}
                             onClick={this.selectUser}>
                             {username}
                         </button>
+                        <div className={`login-circle ${logged_in ? "logged-in" : null}`}></div>
                     </div>
                 ))
         return (
             <div className="sidebar-wrapper">
                 <div className="sidebar">
                     <div className="org-name">
-                        <p>CodeLearning</p>
+                        <p>{org?.name}</p>
                     </div>
                     <div className="sidebar-section-heading">
                         <span className="sidebar-section-heading-expand">
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Channels</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button" onClick={()=>handleCreateShow(true)}>
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
-                            </button>
-                        </div>                               
+                        <CanView
+                            resource="channel"
+                            action="create"
+                            yes={() => {
+                                return (<div className="sidebar-section-heading-right">
+                                            <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
+                                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
+                                            </button>
+                                        </div>)}}
+                            no={() => null}
+                        />                              
                     </div>
                     <CreateChannel />                
                     <div className="container">
@@ -91,26 +100,19 @@ class SideBar extends Component {
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
-                        <div className="sidebar-section-heading-right">
-                            <button className="unstyled-button">
-                                <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" onClick={()=>handleCreateShow(true)}/>
-                            </button>
-                        </div>                               
                     </div>
                     <div className="container invite-create-wrapper">
                         <br />
-                        {invitationsBtn}
                         <InviteModal />
                         {/* TODO match CSS of button element with Button Component */}
-                        <button onClick={()=>handleInviteShow(true)} type="button">Invite People</button>
+                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         <CreateChannel />
-                        <Button variant="primary" onClick={()=>handleCreateShow(true)}>Create Channel</Button>
-                        <div className = "container text-center mt-3 p-3 rounded" style={{border:'2px solid black'}}>
-                            {usernamesDisplay}
+                        <div className = "container text-center mt-3 p-3 rounded">
+                            {orgMembersDisplay}
                         </div>
                     </div>
-                    <div className='logout-wrapper'>
-                        <div className="container text-center mt-auto logout-btn">
+                    <div className='text-center logout-wrapper'>
+                        <div className="container text-center logout-btn">
                             <button
                                 type="button" className="btn btn-secondary m-1"
                                 onClick={() => this.props.logout()}>Logout</button>
@@ -123,21 +125,25 @@ class SideBar extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        channels: state.channel.channels,
-        usernames: state.user.usernames,
+    const mapping = {
+        org: state.org.org,
         selectedChannel: state.chat.channel,
         selectedPartner: state.chat.partnerUsername,
-        invitations: state.invitation.pendingInvitations,
     };
+    const { org } = mapping;
+    if (org) {
+        mapping.channels = state.channel.channels[org.name];
+        mapping.orgMembers = state.org.orgs[org.name].members
+    }    
+    return mapping;
 };
 
 const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
+    deleteChannel: actions.channel.deleteChannel,
     selectUser: actions.sidebar.selectUser,
-    handleCreateShow: actions.channel.showCreateModal,
-    handleInviteShow: actions.invitation.showInviteModal,
-    handleInvitationsShow: actions.invitation.showInvitationsModal,
+    showCreateChannelModal: actions.channel.showCreateModal,
+    showSendInviteModal: actions.invitation.showInviteModal,
     logout: actions.user.logout,
 };
 

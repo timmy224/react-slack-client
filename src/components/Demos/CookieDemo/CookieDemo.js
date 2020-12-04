@@ -1,14 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { actions, services } from "../../../context";
-
-const mapStateToProps = (state) => ({
-    routePath: state.route.routePath,
-    routeState: state.route.routeState,
-});
-
-const mapActionsToProps = {
-    changeRoute: actions.route.changeRoute
-};
+import { services } from "../../../context";
 
 class CookieDemo extends Component {
     getCookie() {

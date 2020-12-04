@@ -1,6 +1,5 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService
 import { services } from "../../context";
 import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
@@ -10,26 +9,24 @@ const mapStateToProps = (state)=>{
     return { 
         create_channel_name: state.channel.create_channel_name,
         show_taken_msg: state.channel.show_taken_msg,
-        routePath: state.route.routePath,
-        routeState: state.route.routeState,
         showCreateModal: state.channel.showCreateModal,
         username: state.user.username,
         isPrivate: state.channel.isPrivate,
-        privateChannelUsers: state.channel.privateChannelUsers
+        privateChannelUsers: state.channel.privateChannelUsers,
+        org: state.org.org,
     }
 }
 const mapActionsToProps = {
     setCreateChannelName: actions.channel.setCreateChannelName,
     takenChannelName: actions.channel.takenChannelName,
-    changeRoute: actions.route.changeRoute,
-    handleCreateShow: actions.channel.showCreateModal,
+    handleShowCreateModal: actions.channel.showCreateModal,
     createPrivate: actions.channel.createPrivate,
     setPrivateUsers: actions.channel.privateChannelUsers
 }
 
 class CreateChannel extends Component {
     handleSubmit = (event) => {
-        const { create_channel_name, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
+        const { create_channel_name, org, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
         event.preventDefault();
         const name = create_channel_name;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
@@ -37,7 +34,7 @@ class CreateChannel extends Component {
             name,
             members,
             isPrivate,
-            orgName: "Source Coders", // this is hardcoded for now but will have to come from redux soon (currently selected org)
+            orgName: org.name, 
         }
         services.channelService.createChannel(channelInfo)
         .then(response => {
@@ -66,90 +63,92 @@ class CreateChannel extends Component {
         return this.props.setCreateChannelName(channel_name)
     }
     handleHide = () => {
-        const { handleCreateShow } = this.props
-        handleCreateShow(false);
+        const { handleShowCreateModal } = this.props
+        handleShowCreateModal(false);
         this.resetModal();
     }
 
     render() {
-        const { show_taken_msg, handleCreateShow, showCreateModal, isPrivate, createPrivate, privateChannelUsers, setPrivateUsers} = this.props;
+        const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" className="btn btn-light m-1"value={user} key={user}>{user}</button>)
         const formDisplay = !isPrivate ?
-                <form
-                onSubmit={this.handleSubmit}
-                className="custom-form"
-                >
-                      <div className="form-group channel-name-label">
-                        <label>Name</label>
-                        <input 
-                        className = "form-control" 
-                        type="text" 
-                        placeholder="#new channel name" 
-                        onChange={this.handleChannelName}/>
-                      </div>
-                </form>
-            :
-                <form
+            <form
                 onSubmit={this.handleSubmit}
                 className="custom-form">
-                      <div className="form-group channel-name-label">
-                        <label>Private Channel Name</label>
-                        <input 
-                        className = "form-control" 
-                        name="channelName"
-                        type="text" 
+                <div className="form-group channel-name-label">
+                    <label>Name</label>
+                    <input
+                        className="form-control"
+                        type="text"
                         placeholder="#new channel name"
-                        onChange={this.handleChannelName}/>
-                      </div>
-                      {userButton}
-                      <div className="form-group" controlId="channelName">
-                        <label>Users</label>
-                        <input 
-                        className = "form-control"
-                        name="users"
-                        type="text" 
-                        placeholder="#enter users separated by a space" 
-                        onChange={this.handleUserChange}/>
-                      </div>
-                </form>
-        return (
-            <div>
-                <Modal show={showCreateModal} onHide={this.handleHide}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Channel Creation</Modal.Title>
-                    {takenMessage}
-                </Modal.Header>
-                <div className="create-channel-description">
-                    <p>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
+                        onChange={this.handleChannelName} />
                 </div>
-                {formDisplay}
-                <div id="private-section">
-                    <h4>Make Private</h4>
-                    <div id="private-label">
-                        <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                        <div className="custom-control custom-switch">
-                            <input type="checkbox" className="custom-control-input" id="customSwitch1"/>
-                            <label className="custom-control-label " htmlFor="customSwitch1" onClick={()=>createPrivate(!isPrivate)}>
-                                <p>Make private</p>
-                            </label>
+            </form>
+            :
+            <form
+                onSubmit={this.handleSubmit}
+                className="custom-form">
+                <div className="form-group channel-name-label">
+                    <label>Private Channel Name</label>
+                    <input
+                        className="form-control"
+                        name="channelName"
+                        type="text"
+                        placeholder="#new channel name"
+                        onChange={this.handleChannelName} />
+                </div>
+                {userButton}
+                <div className="form-group" controlId="channelName">
+                    <label>Users</label>
+                    <input
+                        className="form-control"
+                        name="users"
+                        type="text"
+                        placeholder="#enter users separated by a space"
+                        onChange={this.handleUserChange} />
+                </div>
+            </form>
+        return (
+            <div id="create-channel-container">
+                <Modal className="custom-modal" show={showCreateModal} onHide={this.handleHide}>
+                    <Modal.Header className="modal-header " closeButton>
+                        <Modal.Title>
+                            <h1>Create a channel</h1>
+                        </Modal.Title>
+                        {takenMessage}
+                    </Modal.Header>
+                    <div className="create-channel-description">
+                        <p>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
+                    </div>
+                    {formDisplay}
+                    <div id="private-section">
+                        <h4>Make Private</h4>
+                        <div id="private-label">
+                            <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                            <div className="custom-control custom-switch">
+                                <input type="checkbox" className="custom-control-input" id="privateCheckbox" />
+                                <label className="custom-control-label " htmlFor="privateCheckbox" onClick={() => createPrivate(!isPrivate)}>
+                                    <p>Make private</p>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <Modal.Footer className= "footer">
-                    <button
-                    id="create-button"
-                    type="button"
-                    className="mt-2 btn btn-primary custom-button"
-                    type='submit' 
-                    onClick={this.handleSubmit}
-                    >Create
+                    <Modal.Footer className="footer">
+                        <button
+                            id="create-button"
+                            type="button"
+                            className="mt-2 btn btn-primary custom-button"
+                            type='submit'
+                            onClick={this.handleSubmit}
+                        >Create
                     </button>
-                </Modal.Footer>
+                    </Modal.Footer>
                 </Modal>
-            </div>         
+            </div>        
         );
     }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
+

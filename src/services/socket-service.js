@@ -52,27 +52,31 @@ function SocketService(chatService) {
 			chatService.onUserJoinedChat(user_join.username);
 		});
 
-		socket.on("message-received", (message_received) => {
-			console.log("message-received: ", message_received);
+		socket.on("message-received", (message) => {
+			console.log("message-received: ", message);
 			console.log(
-				`Sender: ${message_received.sender},
-                Time Sent: ${message_received.time_sent},
-                Content: ${message_received.content}`
+				`Sender: ${message.sender},
+          Time Sent: ${message.time_sent},
+          Content: ${message.content}`
 			);
-			chatService.onMessageReceived(message_received);
+			store.dispatch(actions.message.messageReceived(message));
 		});
 
-		socket.on("channel-deleted", (channelId) => {
-			store.dispatch(actions.channel.channelDeleted(channelId));
-		});
-
-		socket.on("added-to-channel", async (channelId) => {
-			console.log("added-to-channel", channelId);
-			await store.dispatch(actions.channel.fetchChannels());
+		socket.on("channel-deleted", (info) => {
+			console.log("channel-deleted", info);
+			const {org_name: orgName, channel_name: channelName} = info;
 			store.dispatch(
-				actions.message.initChannelMessages(parseInt(channelId))
+				actions.channel.channelDeleted(orgName, channelName)
 			);
-			send("join-channel", channelId);
+		});
+
+		socket.on("added-to-channel", async (info) => {
+			console.log("added-to-channel", info);
+			const orgName = info.org_name;
+			const channel = info.channel;
+			store.dispatch(actions.channel.addedToChannel(orgName, channel));
+			const joinInfo = {org_name: orgName, channel_name: channel.name};
+			send("join-channel", joinInfo);
 		});
 
 		socket.on("permissions-updated", () => {
@@ -85,10 +89,34 @@ function SocketService(chatService) {
 			store.dispatch(actions.invitation.fetchInvitations());
 		});
 
-		socket.on("added-to-org", (orgName) => {
+		socket.on("added-to-org", async (orgName) => {
 			console.log("added-to-org", orgName);
-			// TODO fetch orgs
+			store.dispatch(actions.org.addedToOrg(orgName));
+			send("join-org", orgName);
 		});
+
+		socket.on("new-org-member", (info) => {
+			const {org_name: orgName, org_member: orgMember} = info;
+			console.log(`new-org-member: ${orgName}: ${orgMember}`);
+			store.dispatch(actions.org.addOrgMember(orgName, orgMember));
+		});
+
+		socket.on("org-member-online", (info) => {
+			const {org_name: orgName, username} = info;
+			console.log(`org-member-online: ${orgName}: ${username}`);
+			store.dispatch(
+				actions.org.setOrgMemberOnlineStatus(orgName, username, true)
+			);
+		});
+
+		socket.on("org-member-offline", (info) => {
+			const {org_name: orgName, username} = info;
+			console.log(`org-member-online: ${orgName}: ${username}`);
+			store.dispatch(
+				actions.org.setOrgMemberOnlineStatus(orgName, username, false)
+			);
+		});
+
 		socket.on("channel-member-removed", (data) => {
 			let channelName = data.channel_name;
 			let removedUsername = data.removed_username;
