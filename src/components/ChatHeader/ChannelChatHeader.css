@@ -27,14 +27,3 @@ h1 {
 	line-height: 22px;
 	color: rgb(209,210,211)
 }
-
-.custom-button {
-	font-size: .75rem;
-	padding: 4px 8px;
-	background-color: rgb(29,28,28);
-	color: rgb(209,210,211);
-	font-weight: 500;
-	border-color: rgb(209,210,211);
-	border-radius: 20px;
-	border-width: 2px;
-}

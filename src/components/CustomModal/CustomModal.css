@@ -1,0 +1,20 @@
+.custom-modal {
+	color: rgb(204,199,192);
+	font-family: sans-serif;
+}
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	padding: 20px 28px 0px;
+	width: 100%;
+	font-weight: 900;
+	border: 0;
+	background-color: rgb(26,29,33)
+}
+
+.footer {
+	border: 0;
+	padding: 10px;
+	background-color: rgb(26,29,33)
+}

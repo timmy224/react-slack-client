@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../context";
-import Modal from 'react-bootstrap/Modal';
+import CustomModal from '../CustomModal/CustomModal';
+import CustomButton from '../CustomButton/CustomButton';
+import FormInput from '../FormInput/FormInput';
+import CustomForm from '../CustomForm/CustomForm';
 
 const mapStateToProps = (state) => {
     return {
@@ -59,24 +62,20 @@ class CreateOrg extends Component {
     render() {
         const { newOrgUsers, showCreateOrgModal } = this.props
         const userButton = newOrgUsers.map(user => <button type="button" value={user} key={user}>{user}</button>)
+        const form = 
+            <CustomForm onSubmit={this.handleSubmit}>
+                <FormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</FormInput>
+                    <span>{userButton}</span>
+                    <FormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</FormInput>
+                <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
+            </CustomForm>
         return (
-            <div>
-                <Modal show={showCreateOrgModal} onHide={this.handleHide} className="custom-modal">
-                    <Modal.Header closeButton>
-                        <Modal.Title>Create a new Org</Modal.Title>
-                    </Modal.Header>
-                    <form
-                    className="custom-form"
-                    onSubmit={this.handleSubmit}>
-                        <label htmlFor='newOrgName'>Enter Org Name</label>
-                        <input name="newOrgName" type="text" placeholder="react_slack" onChange={this.handleOrgName} className="form-control"/>
-                        {userButton}
-                        <label htmlFor="users" >Users</label>
-                        <input name="users" type="text" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} className="form-control"/>
-                        <button type='submit' onClick={this.handleSubmit} className="mt-2 btn btn-primary custom-button">Submit</button>
-                    </form>
-                </Modal>
-            </div>
+            <CustomModal 
+                show={showCreateOrgModal} 
+                onHide={this.handleHide}
+                title="Create a new Org"
+                form={form}
+                />
         );
     }
 }

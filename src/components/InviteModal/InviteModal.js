@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { services, actions } from "../../context";
-import Modal from 'react-bootstrap/Modal';
-import CustomButton from '../CustomButton/CustomButton'
-import FormInput from '../FormInput/FormInput'
+import CustomButton from '../CustomButton/CustomButton';
+import FormInput from '../FormInput/FormInput';
+import CustomModal from '../CustomModal/CustomModal';
+import CustomForm from '../CustomForm/CustomForm'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -53,18 +54,18 @@ class InviteModal extends Component {
 
     render() {
         const { showInviteModal } = this.props;
-        return (
-            <div>
-                <Modal show={showInviteModal} onHide={this.handleHide} className="custom-modal">
-                <Modal.Header closeButton>
-                    <Modal.Title>Invite users to your org</Modal.Title>
-                </Modal.Header>
-                <form className="custom-form">
+        const form = 
+                <CustomForm onClick={this.handleSubmit}>
                     <FormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</FormInput>
                     <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
-                </form>
-                </Modal>
-            </div>         
+                </CustomForm>
+        return (
+            <CustomModal 
+                show={showInviteModal} 
+                onHide={this.handleHide} 
+                title="Invite users to your org"
+                form={form}
+                />      
         );
     }
 }

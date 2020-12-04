@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../context";
-import Modal from 'react-bootstrap/Modal';
+import CustomButton from '../CustomButton/CustomButton';
+import CustomForm from '../CustomForm/CustomForm';
+import CustomModal from '../CustomModal/CustomModal';
 
 const mapStateToProps = (state)=>{
     return { 
@@ -40,32 +42,22 @@ class InvitationsModal extends Component {
                                 <p>Organization Name : {org_name}</p>
                                 <p>User : {inviter}</p>
                             </div>
-                            <button
-                                className="mt-2 btn btn-primary custom-button"
-                                type='submit'
-                                onClick={event => this.handleResponse(event, invitation, true)}
-                                >Accept
-                            </button>
-                            <button
-                                className="mt-2 btn btn-primary custom-button"
-                                type='submit' 
-                                onClick={event => this.handleResponse(event, invitation, false)}
-                                >Decline
-                            </button>
+                            <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, true)}>Accept</CustomButton>
+                            <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, false)}>Decline</CustomButton>
                         </div>
                         )
                 });
-        return (
-            <div>
-                <Modal show={showInvitationsModal && invitations.length > 0} onHide={this.handleHide} className="custom-modal">
-                    <Modal.Header closeButton>
-                        <Modal.Title>Invitations Pending</Modal.Title>
-                    </Modal.Header>
-                    <form className="custom-form">
+        const form =
+                <CustomForm >
                         {invitationsDisplay}
-                    </form>
-                </Modal>
-            </div>         
+                </CustomForm>
+        return (
+            <CustomModal
+                show={showInvitationsModal && invitations.length > 0} 
+                onHide={this.handleHide} 
+                title="Invitations Pending"
+                form={form}
+            />     
         );
     }
 }

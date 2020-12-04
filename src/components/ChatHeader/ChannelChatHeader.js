@@ -1,15 +1,12 @@
 import React from "react";
-import "./ChannelChatHeader.css"
+import "./ChannelChatHeader.css";
+import CustomButton from '../CustomButton/CustomButton';
 
 function ChannelChatHeader(props) {
 	return (
 		<div className="chat-header" >
 			<h1>{`# ${props.channelName}`}</h1>
-			<button
-				type="button"
-				className="btn btn-light custom-button">
-				{`${props.numberOfUsers} members`}
-			</button>
+			<CustomButton type='submit'>{`${props.numberOfUsers} members`}</CustomButton>
 		</div>
 	);
 }

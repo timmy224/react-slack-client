@@ -1,31 +1,3 @@
-.custom-modal {
-	color: rgb(204,199,192);
-	font-family: sans-serif;
-}
-
-.custom-form {
-	font-family: sans-serif;
-	background-color: rgb(26,29,33);
-	color: rgb(209,210,211);
-}
-
-.modal-header {
-	display: flex;
-	align-items: center;
-	padding: 20px 28px 0px;
-	width: 100%;
-	font-weight: 900;
-	border: 0;
-	background-color: rgb(26,29,33)
-}
-
-form {
-	display: block;
-	align-items: center;
-	min-height: 70px;
-	padding: 10px 28px;
-	width: 100%;
-}
 
 .channel-name-label {
 	display: flex;
@@ -54,13 +26,6 @@ form {
 	width: 100%;
 	background-color: rgb(26,29,33)
 }
-
-.footer {
-	border: 0;
-	padding: 10px;
-	background-color: rgb(26,29,33)
-}
-
 h1 {
 	font-size: 28px;
 	font-weight: 900;

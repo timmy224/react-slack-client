@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { services } from "../../context";
 import { actions } from "../../context";
-import Modal from 'react-bootstrap/Modal';
 import "./CreateChannel.css"
-import CustomButton from '../CustomButton/CustomButton'
-import FormInput from '../FormInput/FormInput'
+import CustomButton from '../CustomButton/CustomButton';
+import FormInput from '../FormInput/FormInput';
+import CustomModal from '../CustomModal/CustomModal';
+import CustomForm from '../CustomForm/CustomForm';
 
 const mapStateToProps = (state)=>{
     return { 
@@ -74,53 +75,42 @@ class CreateChannel extends Component {
         const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" className="btn btn-light m-1"value={user} key={user}>{user}</button>)
-        const formDisplay = !isPrivate ?
-            <form
-                onSubmit={this.handleSubmit}
-                className="custom-form">
-                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
-            </form>
-            :
-            <form
-                onSubmit={this.handleSubmit}
-                className="custom-form">
-                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
-                    {userButton}
-                    <FormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</FormInput>
-            </form>
-        return (
-            <div id="create-channel-container">
-                <Modal className="custom-modal" show={showCreateModal} onHide={this.handleHide}>
-                    <Modal.Header className="modal-header " closeButton>
-                        <Modal.Title>
-                            <h1>Create a channel</h1>
-                        </Modal.Title>
-                        {takenMessage}
-                    </Modal.Header>
-                    <div className="create-channel-description">
-                        <p>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
-                    </div>
-                    {formDisplay}
+        const privateSection =
                     <div id="private-section">
                         <h4>Make Private</h4>
                         <div id="private-label">
                             <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                            <div className="custom-control custom-switch">
-                                <input type="checkbox" className="custom-control-input" id="privateCheckbox" />
-                                <label className="custom-control-label " htmlFor="privateCheckbox" onClick={() => createPrivate(!isPrivate)}>
-                                    <p>Make private</p>
-                                </label>
-                            </div>
+                            <FormInput key="body" isSwitch type="switch" name="switch" onClick={() => createPrivate(!isPrivate)} label="makePrivate">Make private</FormInput>
                         </div>
                     </div>
-                    <Modal.Footer className="footer">
-                    <CustomButton type='submit' onClick={this.handleSubmit}>Create</CustomButton>
-                    </Modal.Footer>
-                </Modal>
+
+        const formDisplay = !isPrivate ?
+            <CustomForm onSubmit={this.handleSubmit} key="body">
+                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
+            </CustomForm>
+            :
+            <CustomForm onSubmit={this.handleSubmit} key="body">
+                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
+                    {userButton}
+                    <FormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</FormInput>
+            </CustomForm>
+        return (
+            <div id="create-channel-container">
+                <CustomModal 
+                    show={showCreateModal} 
+                    onHide={this.handleHide} 
+                    errorMsg={takenMessage}
+                    header="Create a channel"
+                    footer= {<CustomButton key="footer" type='submit' onClick={this.handleSubmit}>Create</CustomButton>}
+                    >
+                        <h1>Create a channel</h1>
+                        <span className="create-channel-description">Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</span>
+                        {formDisplay}
+                        {privateSection}
+                </CustomModal>
             </div>        
         );
     }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
-
