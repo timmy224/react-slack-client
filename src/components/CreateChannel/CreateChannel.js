@@ -4,6 +4,8 @@ import { services } from "../../context";
 import { actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
 import "./CreateChannel.css"
+import CustomButton from '../CustomButton/CustomButton'
+import FormInput from '../FormInput/FormInput'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -76,38 +78,15 @@ class CreateChannel extends Component {
             <form
                 onSubmit={this.handleSubmit}
                 className="custom-form">
-                <div className="form-group channel-name-label">
-                    <label>Name</label>
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="#new channel name"
-                        onChange={this.handleChannelName} />
-                </div>
+                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
             </form>
             :
             <form
                 onSubmit={this.handleSubmit}
                 className="custom-form">
-                <div className="form-group channel-name-label">
-                    <label>Private Channel Name</label>
-                    <input
-                        className="form-control"
-                        name="channelName"
-                        type="text"
-                        placeholder="#new channel name"
-                        onChange={this.handleChannelName} />
-                </div>
-                {userButton}
-                <div className="form-group" controlId="channelName">
-                    <label>Users</label>
-                    <input
-                        className="form-control"
-                        name="users"
-                        type="text"
-                        placeholder="#enter users separated by a space"
-                        onChange={this.handleUserChange} />
-                </div>
+                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
+                    {userButton}
+                    <FormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</FormInput>
             </form>
         return (
             <div id="create-channel-container">
@@ -135,14 +114,7 @@ class CreateChannel extends Component {
                         </div>
                     </div>
                     <Modal.Footer className="footer">
-                        <button
-                            id="create-button"
-                            type="button"
-                            className="mt-2 btn btn-primary custom-button"
-                            type='submit'
-                            onClick={this.handleSubmit}
-                        >Create
-                    </button>
+                    <CustomButton type='submit' onClick={this.handleSubmit}>Create</CustomButton>
                     </Modal.Footer>
                 </Modal>
             </div>        

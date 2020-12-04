@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { services, actions } from "../../context";
 import Modal from 'react-bootstrap/Modal';
+import CustomButton from '../CustomButton/CustomButton'
+import FormInput from '../FormInput/FormInput'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -58,9 +60,8 @@ class InviteModal extends Component {
                     <Modal.Title>Invite users to your org</Modal.Title>
                 </Modal.Header>
                 <form className="custom-form">
-                    <label htmlFor='email'>Enter Email adress</label>
-                    <input name="email" type="email" placeholder="joeschmoe@gmail.com" onChange={this.handleInputChange} className="form-control"/>
-                        <button type='submit' onClick={this.handleSubmit} className="mt-2 btn btn-primary custom-button">Submit</button >
+                    <FormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</FormInput>
+                    <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
                 </form>
                 </Modal>
             </div>         
