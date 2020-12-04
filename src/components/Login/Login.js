@@ -78,18 +78,6 @@ class Login extends Component {
                                 <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
                             </Col>
                         </Row>
-                        
-                        {/* <div className="ui-wrapper">
-                            <img className="logo" src="https://www.sblack.online/img/icon.png"></img>
-                            <form className="form-wrapper">
-                                <h1 className= "login">Sign in</h1>
-                                <h6 className="continue">Continue with the username and password you use to sign in.</h6>
-                                <input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
-                                <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
-                                <input className="sign-in-reg" onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
-                            </form>
-                            <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
-                        </div> */}
                     </Container>
                 </div>
         	)

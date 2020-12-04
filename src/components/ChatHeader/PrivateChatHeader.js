@@ -12,7 +12,6 @@ function PrivateChatHeader(props){
 			<button 
 			type="button" 
             className="btn btn-light custom-button">
-            {/*onClick={this.handleClick}>*/}
             {`${props.numberOfUsers} members`}
             </button>
 		</div>

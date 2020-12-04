@@ -117,7 +117,6 @@ class SideBar extends Component {
                         </div>
                         {invitationsBtn}
                         <InviteModal />
-                        {/* TODO match CSS of button element with Button Component */}
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         <CreateChannel />
                         <Button variant="primary" onClick={()=>showCreateChannelModal(true)}>Create Channel</Button>
