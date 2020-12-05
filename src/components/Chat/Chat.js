@@ -34,7 +34,6 @@ class Chat extends Component {
 
 	render() {
 		let {
-			channelName,
 			showChannelSideBar,
 			toggleChannelSideBar,
 			partnerUsername,
@@ -45,7 +44,7 @@ class Chat extends Component {
 			this.props.chatType === "channel" ? (
 				<ChannelChatHeader
 					numberOfUsers={channel.members.length}
-					channelName={channelName}
+					channelName={channel.name}
 					showChannelSideBar={showChannelSideBar}
 					toggleChannelSideBar={toggleChannelSideBar}
 				/>
