@@ -22,7 +22,6 @@ const mapActionsToProps = {
 class ChannelSideBar extends Component {
 	componentDidMount() {
 		const {fetchMemberNames, channelName, orgName} = this.props;
-		console.log("ORG NAME ISSSSS", orgName);
 		fetchMemberNames(orgName, channelName);
 	}
 
@@ -32,8 +31,9 @@ class ChannelSideBar extends Component {
 			addMember,
 			channelName,
 			clearAddMember,
+			orgName,
 		} = this.props;
-		addChannelMember(channelName, addMember);
+		addChannelMember(orgName, channelName, addMember);
 	};
 
 	handleMemberAdd = (event) => {
@@ -43,12 +43,12 @@ class ChannelSideBar extends Component {
 
 	render() {
 		let {
-			// fetchMemberNames,
 			channelMemberNames,
 			channelName,
 			channelMember,
 			removeChannelMember,
 			channelId,
+			orgName,
 		} = this.props;
 		let listOfMembers = channelMemberNames.map((channelMember) => (
 			<p>{channelMember.username}</p>
@@ -62,6 +62,7 @@ class ChannelSideBar extends Component {
 						value={channelMember}
 						onClick={() =>
 							removeChannelMember(
+								orgName,
 								channelName,
 								channelMember.username
 							)

@@ -103,7 +103,7 @@ const initActions = function (channelService) {
 		dispatch
 	) => {
 		const [err, memberAdded] = await to(
-			channelService.addChannelMember(channelName, addMember)
+			channelService.addChannelMember(orgName, channelName, addMember)
 		);
 		if (err) {
 			throw new Error("Could not add member to channel");
@@ -116,7 +116,11 @@ const initActions = function (channelService) {
 		dispatch
 	) => {
 		const [err, memberRemoved] = await to(
-			channelService.removeChannelMember(channelName, removeMember)
+			channelService.removeChannelMember(
+				orgName,
+				channelName,
+				removeMember
+			)
 		);
 		if (err) {
 			throw new Error("Could not remove member from channel");

@@ -79,12 +79,13 @@ const ChannelService = function (apiService) {
 			.then((data) => JSON.parse(data.channel_members));
 	};
 
-	const addChannelMember = (channelName, addMember) => {
+	const addChannelMember = (orgName, channelName, addMember) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
 			action: "STORE",
 			channel_name: channelName,
 			new_member_username: addMember,
+			org_name: orgName,
 		};
 		const options = {
 			method: "POST",
@@ -99,11 +100,12 @@ const ChannelService = function (apiService) {
 			.then((data) => data.successful);
 	};
 
-	const removeChannelMember = (channelName, removeMember) => {
+	const removeChannelMember = (orgName, channelName, removeMember) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
 			channel_name: channelName,
 			removed_username: removeMember,
+			org_name: orgName,
 		};
 		const options = {
 			method: "DELETE",
