@@ -23,7 +23,7 @@
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-input {
+.input {
 	margin: 0 0 20px;
 	color: rgb(29,28,29);
 	background-color: rgb(255,255,255);
@@ -45,3 +45,4 @@ input {
 	padding-left: 36px;
 	padding-right: 46px;
 }
+

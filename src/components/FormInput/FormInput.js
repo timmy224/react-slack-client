@@ -1,11 +1,11 @@
 import React from 'react';
 import './FormInput.css'
 
-const FormInput = ({children, onChange, label, isSwitch, ...otherProps}) => {
+const FormInput = ({children, onClick, label, isSwitch, ...otherProps}) => {
     return(
-        <div className={`${isSwitch ? "custom-control custom-switch" : "form-group"}`}>
-            <label className={`${isSwitch ? "custom-control-input" :"form-input-label"}`}>{children}</label>
-            <input className={`${isSwitch ? "custom-control-label" :"form-input"}`} onChange={onChange} {...otherProps}></input>
+        <div className="form-group">
+            <label className="label">{children}</label>
+            <input className="input" {...otherProps}></input>
         </div>
     )
 }

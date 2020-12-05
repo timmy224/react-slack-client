@@ -74,15 +74,18 @@ class CreateChannel extends Component {
         const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
         const userButton = privateChannelUsers.map(user => <button type="button" className="btn btn-light m-1"value={user} key={user}>{user}</button>)
+        const checkbox = 
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1" />
+                <label class="custom-control-label" htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
+            </div>
         const privateSection =
                     <div id="private-section">
                         <h4>Make Private</h4>
                         <div id="private-label">
                             <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                            <FormInput key="body" isSwitch type="switch" name="switch" onClick={() => createPrivate(!isPrivate)} label="makePrivate">Make private</FormInput>
                         </div>
                     </div>
-
         const form = !isPrivate ?
             <CustomForm onSubmit={this.handleSubmit} key="body">
                     <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
@@ -104,9 +107,16 @@ class CreateChannel extends Component {
                     footer= {<CustomButton type='submit' onClick={this.handleSubmit}>Create</CustomButton>}
                     >
                         {privateSection}
+                        {checkbox}
                 </CustomModal>    
         );
     }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
+
+{/* <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label " for="customSwitch1"><p>Make private</p>
+        </label>
+</div> */}
