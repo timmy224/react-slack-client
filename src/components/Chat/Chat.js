@@ -39,6 +39,7 @@ class Chat extends Component {
 			partnerUsername,
 			channel,
 		} = this.props;
+
 		let messages = this.props.messages ? this.props.messages : [];
 		let chatHeader =
 			this.props.chatType === "channel" ? (

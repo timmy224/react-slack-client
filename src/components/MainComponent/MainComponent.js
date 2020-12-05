@@ -17,6 +17,7 @@ const mapStateToProps = (state) => ({
 	isInitialized: state.main.isInitialized,
 	showChannelSideBar: state.channel.showChannelSideBar,
 	orgs: state.org.orgs,
+	org: state.org.org,
 });
 
 const mapActionsToProps = {
@@ -58,7 +59,7 @@ class MainComponent extends Component {
 	}
 
 	render() {
-		const {isInitialized, orgs, showChannelSideBar} = this.props;
+		const {isInitialized, orgs, showChannelSideBar, org} = this.props;
 		const {isEmpty} = services.utilityService;
 		const sideBar = !isEmpty(orgs) ? (
 			<SideBar />
@@ -85,7 +86,9 @@ class MainComponent extends Component {
 							</div>
 							<div className="sidebar-wrapper">{sideBar}</div>
 							<div className="chat-wrapper">{chat}</div>
-							{showChannelSideBar ? <ChannelSideBar /> : null}
+							{showChannelSideBar ? (
+								<ChannelSideBar orgName={org.name} />
+							) : null}
 						</div>
 					</div>
 				) : null}

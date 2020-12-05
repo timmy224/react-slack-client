@@ -89,9 +89,9 @@ const initActions = function (channelService) {
 		dispatch(usersPrivate(privateUsers));
 	};
 	const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);
-	const fetchMemberNames = (channelName) => async (dispatch) => {
+	const fetchMemberNames = (orgName, channelName) => async (dispatch) => {
 		const [err, nameMembers] = await to(
-			channelService.fetchMemberNames(channelName)
+			channelService.fetchMemberNames(orgName, channelName)
 		);
 		if (err) {
 			throw new Error("Could not fetch names of channel members");
@@ -99,7 +99,9 @@ const initActions = function (channelService) {
 		dispatch(nameOfMembersFetch(nameMembers));
 	};
 	const channelMemberAdd = actionCreator(types.ADD_CHANNEL_MEMBER);
-	const addChannelMember = (channelName, addMember) => async (dispatch) => {
+	const addChannelMember = (orgName, channelName, addMember) => async (
+		dispatch
+	) => {
 		const [err, memberAdded] = await to(
 			channelService.addChannelMember(channelName, addMember)
 		);
@@ -107,10 +109,10 @@ const initActions = function (channelService) {
 			throw new Error("Could not add member to channel");
 		}
 		dispatch(channelMemberAdd(memberAdded));
-		dispatch(fetchMemberNames(channelName));
+		dispatch(fetchMemberNames(orgName, channelName));
 	};
 	const channelMemberRemove = actionCreator(types.REMOVE_CHANNEL_MEMBER);
-	const removeChannelMember = (channelName, removeMember) => async (
+	const removeChannelMember = (orgName, channelName, removeMember) => async (
 		dispatch
 	) => {
 		const [err, memberRemoved] = await to(
@@ -120,7 +122,7 @@ const initActions = function (channelService) {
 			throw new Error("Could not remove member from channel");
 		}
 		dispatch(channelMemberRemove(memberRemoved));
-		dispatch(fetchMemberNames(channelName));
+		dispatch(fetchMemberNames(orgName, channelName));
 	};
 	const addMemberUpdate = actionCreator(types.UPDATE_ADD_MEMBER);
 	const updateAddMember = (addMember) => (dispatch) => {

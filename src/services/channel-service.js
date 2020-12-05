@@ -59,11 +59,12 @@ const ChannelService = function (apiService) {
 			.then((data) => data.successful);
 	};
 
-	const fetchMemberNames = (channelName) => {
+	const fetchMemberNames = (orgName, channelName) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
 			action: "GET",
 			channel_name: channelName,
+			org_name: orgName,
 		};
 		const options = {
 			method: "POST",
