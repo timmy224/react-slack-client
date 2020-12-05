@@ -121,7 +121,7 @@ function SocketService(chatService) {
 			let channelName = data.channel_name;
 			let removedUsername = data.removed_username;
 			let channelId = data.channel_id;
-			store.dispatch(actions.channel.fetchNumMembers(channelName));
+			// store.dispatch(actions.channel.fetchNumMembers(channelName));
 			store.dispatch(actions.channel.fetchMemberNames(channelName));
 			send("leave-channel", data);
 		});

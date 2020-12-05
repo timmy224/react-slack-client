@@ -34,17 +34,17 @@ class Chat extends Component {
 
 	render() {
 		let {
-			numChannelMembers,
 			channelName,
 			showChannelSideBar,
 			toggleChannelSideBar,
 			partnerUsername,
+			channel,
 		} = this.props;
 		let messages = this.props.messages ? this.props.messages : [];
 		let chatHeader =
 			this.props.chatType === "channel" ? (
 				<ChannelChatHeader
-					numberOfUsers={numChannelMembers}
+					numberOfUsers={channel.members.length}
 					channelName={channelName}
 					showChannelSideBar={showChannelSideBar}
 					toggleChannelSideBar={toggleChannelSideBar}
@@ -82,7 +82,6 @@ const mapStateToProps = (state) => {
 		partnerUsername: state.chat.partnerUsername,
 		channel: state.chat.channel,
 		currentInput: state.chat.currentInput,
-		numChannelMembers: state.channel.numChannelMembers,
 		showChannelSideBar: state.channel.showChannelSideBar,
 		org: state.org.org,
 	};

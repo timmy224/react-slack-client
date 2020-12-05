@@ -11,7 +11,6 @@ const initReducer = () => {
 		showCreateModal: false,
 		isPrivate: false,
 		privateChannelUsers: [],
-		numChannelMembers: 0,
 		showChannelSideBar: false,
 		channelMemberNames: [],
 		addMember: "",
@@ -63,11 +62,6 @@ const initReducer = () => {
 				return {
 					...state,
 					privateChannelUsers: payload,
-				};
-			case types.FETCH_TOTAL_MEMBERS:
-				return {
-					...state,
-					numChannelMembers: payload,
 				};
 			case types.SHOW_CHANNEL_SIDE_BAR:
 				return {

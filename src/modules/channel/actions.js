@@ -88,17 +88,6 @@ const initActions = function (channelService) {
 	const privateChannelUsers = (privateUsers) => (dispatch) => {
 		dispatch(usersPrivate(privateUsers));
 	};
-	const numberOfMembersFetch = actionCreator(types.FETCH_TOTAL_MEMBERS);
-	const fetchNumMembers = (channelName) => async (dispatch) => {
-		const [err, numMembers] = await to(
-			channelService.fetchNumberOfMembers(channelName)
-		);
-		if (err) {
-			throw new Error("Could not fetch num channel members");
-		}
-		console.log("fetching NUMMEMBERS");
-		dispatch(numberOfMembersFetch(numMembers));
-	};
 	const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);
 	const fetchMemberNames = (channelName) => async (dispatch) => {
 		const [err, nameMembers] = await to(
@@ -137,10 +126,6 @@ const initActions = function (channelService) {
 	const updateAddMember = (addMember) => (dispatch) => {
 		dispatch(addMemberUpdate(addMember));
 	};
-	const usersPrivate = actionCreator(types.PRIVATE_CHANNEL_USERS);
-	const privateChannelUsers = (privateUsers) => (dispatch) => {
-		dispatch(usersPrivate(privateUsers));
-	};
 	return {
 		fetchChannels,
 		setCreateChannelName,
@@ -149,7 +134,6 @@ const initActions = function (channelService) {
 		showCreateModal,
 		createPrivate,
 		privateChannelUsers,
-		fetchNumMembers,
 		toggleChannelSideBar,
 		fetchMemberNames,
 		addChannelMember,

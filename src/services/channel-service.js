@@ -59,25 +59,6 @@ const ChannelService = function (apiService) {
 			.then((data) => data.successful);
 	};
 
-	const fetchNumberOfMembers = (channelName) => {
-		const url = `${config.API_URL}/channel/members/`;
-		const post_data = {
-			action: "NUM GET",
-			channel_name: channelName,
-		};
-		const options = {
-			method: "POST",
-			body: JSON.stringify(post_data),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		return apiService
-			.go(url, options)
-			.then((response) => response.json())
-			.then((data) => data.num_members);
-	};
-
 	const fetchMemberNames = (channelName) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
@@ -140,7 +121,6 @@ const ChannelService = function (apiService) {
 		fetchChannels,
 		createChannel,
 		deleteChannel,
-		fetchNumberOfMembers,
 		fetchMemberNames,
 		addChannelMember,
 		removeChannelMember,

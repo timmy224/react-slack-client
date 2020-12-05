@@ -18,7 +18,6 @@ const mapActionsToProps = {
 	removeChannelMember: actions.channel.removeChannelMember,
 	updateAddMember: actions.channel.updateAddMember,
 	clearAddMember: actions.channel.clearAddMember,
-	fetchNumMembers: actions.channel.fetchNumMembers,
 };
 class ChannelSideBar extends Component {
 	componentDidMount() {
@@ -32,11 +31,8 @@ class ChannelSideBar extends Component {
 			addMember,
 			channelName,
 			clearAddMember,
-			fetchNumMembers,
 		} = this.props;
 		addChannelMember(channelName, addMember);
-		//This line below makes more sense in socket but isnt functioning correctly there
-		fetchNumMembers(channelName);
 	};
 
 	handleMemberAdd = (event) => {
