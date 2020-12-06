@@ -4,7 +4,7 @@ import { actions, services } from "../../context";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import InviteModal from "../InviteModal/InviteModal"
 import CanView from "../CanView/CanView";
 
@@ -59,21 +59,29 @@ class SideBar extends Component {
                 : (Object.values(orgMembers).map(({ username, logged_in }) => 
                     <div key={username} className={selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : "sidebar-item"}>
                         <button
+                            type="button" 
+                            className="user-icon unstyled-button"
+                            value={username}
+                            onClick={this.selectUser}>
+                            <FontAwesomeIcon icon={faUser} transform="grow-3" color="#c3c3c3" />
+                        </button>
+                        <button
                             type="button"
                             className= "sidebar-user unstyled-button"
                             value={username}
-                            onClick={this.selectUser}>
+                            onClick={this.selectUser}
+                        >
                             {username}
                         </button>
                         <div className={`login-circle ${logged_in ? "logged-in" : null}`}></div>
                     </div>
                 ))
         return (
-            <div className="sidebar-wrapper">
-                <div className="sidebar">
-                    <div className="org-name">
-                        <p>{org?.name}</p>
+            <div id="sidebar">
+                <div className="org-name-header">
+                        <h1>{org?.name}</h1>
                     </div>
+                <div className="sidebar-body">
                     <div className="sidebar-section-heading">
                         <span className="sidebar-section-heading-expand">
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
@@ -101,23 +109,20 @@ class SideBar extends Component {
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     </div>
+                    <div className = "container">
+                        {orgMembersDisplay}
+                    </div>
                     <div className="container invite-create-wrapper">
                         <br />
                         <InviteModal />
-                        {/* TODO match CSS of button element with Button Component */}
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                        <CreateChannel />
-                        <div className = "container text-center mt-3 p-3 rounded">
-                            {orgMembersDisplay}
-                        </div>
+                        
                     </div>
-                    <div className='text-center logout-wrapper'>
-                        <div className="container text-center logout-btn">
-                            <button
-                                type="button" className="btn btn-secondary m-1"
-                                onClick={() => this.props.logout()}>Logout</button>
-                        </div>
-                    </div>
+                </div>
+                <div className="sidebar-end" old_className='container text-center logout-wrapper'>
+                    <button
+                        type="button" className="logout-btn"
+                        onClick={() => this.props.logout()}>Logout</button>
                 </div>
             </div>
         );    

@@ -1,5 +1,6 @@
 .input-outer {
-    padding: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: #1A1D21;
     width: 100%;
 }
@@ -10,4 +11,24 @@ textarea {
 
 textarea[type=text]:focus{
     background-color: #1A1D21;
+}
+
+textarea::-webkit-input-placeholder {
+    color: #c3c3c3 !important;
+}
+
+textarea:-moz-placeholder { /* Firefox 18- */
+    color: #c3c3c3 !important;
+}
+
+textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #c3c3c3 !important;
+}
+
+textarea:-ms-input-placeholder {
+    color: #c3c3c3 !important;
+}
+
+textarea::placeholder {
+    color: #c3c3c3 !important;
 }
