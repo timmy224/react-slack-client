@@ -26,22 +26,23 @@ class Chat extends Component {
             ? <ChannelChatHeader numberOfUsers={channel.members.length} channelName={channel.name} />
             : <PrivateChatHeader partnerUsername={partnerUsername}/>
         return (
-            <div className='col-12' id='box-wrapper'>
-                <div id="box-first">
-                    {chatHeader}
+            <div id="chat">
+                    <div id="box-first">
+                        {chatHeader}
+                    </div>
+                    <div className="messages-wrapper" id="box-fill">
+                        {messages.map((message) => {
+                            return (<Message key={message.sender + message.content}
+                                sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
+                        })}
+                    </div>
+                    <div id="box-end">
+                        <InputMessage
+                            onEnter={this.onEnterPressed}
+                        />
+                    </div>
                 </div>
-                <div className="messages-wrapper" id="box-fill">
-                    {messages.map((message) => {
-                        return (<Message key={message.sender + message.content}
-                            sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
-                    })}
-                </div>
-                <div id="box-end">
-                    <InputMessage
-                        onEnter={this.onEnterPressed}
-                    />
-                </div>
-            </div>
+            
         );
     }
 }

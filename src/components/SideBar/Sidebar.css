@@ -1,31 +1,25 @@
-.sidebar-wrapper {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding-left: 15px;
-    padding: 0;
+#sidebar {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
-.sidebar {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-}
-
-.org-name {
-    color: #c3c3c3;
+.org-name-header {
+    grid-row-start: 1;
+    grid-row-end: 2;
     text-align: center;
-    padding: 0 auto;
-    border-bottom: 1px solid #02313C;
+    margin: 0;
+    border-bottom: 2px solid #02313C;
 }
 
-.loading {
-    color: #c3c3c3;
-    text-align: center;
-    padding: 0 auto;
+.sidebar-body {
+    grid-row-start: 2;
+    grid-row-end:3;
+    height: 87vh;
 }
 
 .sidebar-section-heading {
+    grid-row-start: 3;
+    grid-row-end: 4;
     padding: 9px 20px;
     display: flex;
 }
@@ -50,7 +44,6 @@
     display: flex;
     align-items: center;
     margin-left: auto;
-    /* padding: 0 8px; */
 }
 
 .unstyled-button {
@@ -81,6 +74,16 @@
     opacity: 0.7;
 }
 
+.sidebar-item {
+    display: flex;
+    /* justify-content: center; */
+    padding-left: 0px;
+    position: relative;
+    bottom: 12px;
+    width: 100%;
+    padding: 0 auto;
+}
+
 .sidebar-item:hover {
     background-color: rgb(80, 84, 90);
 }
@@ -95,6 +98,14 @@
     flex-grow: 1;
 }
 
+.sidebar-end {
+    display: flex;
+    align-items: flex-end;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    /* height: 0vh; */
+}
+
 .logout-wrapper {
     position: absolute;
     display: flex;
@@ -104,11 +115,11 @@
     bottom: 0;
     width: 100%;
     align-items: center;
+    margin: auto;
 }
 
 .logout-btn {
-    position: absolute;
-    bottom: 0;
+    margin: 0 auto;
 }
 
 .login-circle {
@@ -128,10 +139,26 @@
     
 }
 
-.sidebar-item {
+
+
+/* .sidebar-body-wrapper {
     display: flex;
-    justify-content: center;
-    position: relative;
-    bottom: 12px;
-    width: 50%;
+    overflow: auto;
+    scrollbar-color: #c3c3c3 #1A1D21;
 }
+
+.sidebar-body-wrapper::-webkit-scrollbar {
+    width: 0.1px !important;
+}
+
+.sidebar-body-wrapper::-webkit-scrollbar-track {
+    background: transparent !important; 
+}
+
+.sidebar-body-wrapper::-webkit-scrollbar-thumb {
+    background: transparent !important; 
+}
+
+.sidebar-body-wrapper::-webkit-scrollbar-thumb:hover {
+    background: transparent !important; 
+} */

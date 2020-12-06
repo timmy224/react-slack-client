@@ -10,16 +10,7 @@ const mapStateToProps = (state) => {
     };    
 }
 
-const mapActionsToProps = {
-
-}
-
 class Orgs extends Component {
-
-    selectOrg = (event) => {
-
-    }
-
     render() {
         const { orgs } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
@@ -30,8 +21,8 @@ class Orgs extends Component {
             ));
         return (
             <div className="orgs">
-                <div className="orgs-label">
-                        <h1>Orgs</h1>
+                <div className="orgs-header1">
+                    <h1>Orgs Title</h1>
                 </div>
                 <div className="org-btns">
                     {orgsDisplay}

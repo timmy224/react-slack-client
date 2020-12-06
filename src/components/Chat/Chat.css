@@ -1,23 +1,24 @@
-body {
+/* body {
     height: 100%;
-}
-
-#box-wrapper {
-    display: flex;
-    flex-direction: column;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+} */
+#chat {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 #box-first{
-    height: 8vh; 
+    /* height: 8vh;  */
+    grid-row-start: 1;
+    grid-row-end: 2; 
+    margin: 0;
 }
 
 #box-fill {
-    display: flex;
-    height: 84vh;
-    flex-direction: column;
-    align-items: flex-end;
+    height: 86vh;
+    grid-row-start: 2;
+    grid-row-end: 3; 
+    /* flex-direction: column;
+    align-items: flex-end; */
 }
 
 .messages-wrapper {
@@ -27,12 +28,15 @@ body {
 }
 
 #box-end {
-    height: 6vh;
-    width: 100%;
-    padding-left: 8px;
-    padding-right: 8px;
+    /* height: vh; */
     display: flex;
     align-items: flex-end;
+    grid-row-start: 3;
+    grid-row-end: 4; 
+    /* width: 100%;
+    padding-left: 15px;
+    padding-right: 15px; 
+    padding-top: 10px; */
 }
 
 .messages-wrapper::-webkit-scrollbar {

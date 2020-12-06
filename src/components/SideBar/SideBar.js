@@ -4,12 +4,7 @@ import { actions, services } from "../../context";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-<<<<<<< HEAD
-import { faPlus, faCaretDown, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-=======
 import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-import InvitationsModal from "../InvitationsModal/InvitationsModal"
->>>>>>> feature/orgs-css
 import InviteModal from "../InviteModal/InviteModal"
 import CanView from "../CanView/CanView";
 
@@ -82,11 +77,11 @@ class SideBar extends Component {
                     </div>
                 ))
         return (
-            <div className="sidebar-wrapper">
-                <div className="sidebar">
-                    <div className="org-name">
-                        <p>{org?.name}</p>
+            <div id="sidebar">
+                <div className="org-name-header">
+                        <h1>{org?.name}</h1>
                     </div>
+                <div className="sidebar-body sidebar-body-wrapper">
                     <div className="sidebar-section-heading">
                         <span className="sidebar-section-heading-expand">
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
@@ -114,26 +109,19 @@ class SideBar extends Component {
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     </div>
+                    <div className = "container">
+                        {orgMembersDisplay}
+                    </div>
                     <div className="container invite-create-wrapper">
                         <br />
                         <InviteModal />
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                        <CreateChannel />
-                        <div className = "container text-center mt-3 p-3 rounded">
-                            {orgMembersDisplay}
-                        </div>
-                    </div>
-                    <div className='text-center logout-wrapper'>
-                        <div className="container text-center logout-btn">
-                            <button
-                                type="button" className="btn btn-secondary m-1"
-                                onClick={() => this.props.logout()}>Logout</button>
-                        </div>
+                        
                     </div>
                 </div>
-                <div className='container text-center logout-wrapper'>
+                <div className="sidebar-end" old_className='container text-center logout-wrapper'>
                     <button
-                        type="button" className="logout-btn btn btn-secondary m-1"
+                        type="button" className="logout-btn"
                         onClick={() => this.props.logout()}>Logout</button>
                 </div>
             </div>

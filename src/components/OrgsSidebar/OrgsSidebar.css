@@ -1,13 +1,26 @@
 #orgs {
-    position: relative;
+    display: grid;
 }
 
-#orgs-label {
-    color: #c3c3c3;
-    text-align: center;
+#orgs-header {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    /*
     font-size: 25px;
     font-weight: 800;
-    padding: 15px 0px 10px 0px;
+    padding: 15px 0px 15px 0px; */
+    margin: 0;
+    padding: 15px 0px 15px 0px;
+    text-align: center;
+    border-bottom: 2px solid #02313C;
+}
+
+#orgs-btns {
+    /* grid-row-start: 2;
+    grid-row-end: 3; */
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 #new-org button {

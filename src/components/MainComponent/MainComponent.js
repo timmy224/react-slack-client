@@ -62,24 +62,18 @@ class MainComponent extends Component {
         const chat = !isEmpty(orgs) ? <Chat /> : null;
         return (
             <div className="main">
-                {isInitialized ?
-                    <div className="container-fluid px-0 background-view">                        
-                        <div className="row main-wrapper">
-<<<<<<< HEAD
-                            <div >
-                                <OrgsSidebar />
-=======
-                            <div className="org-wrapper">
-                                <Orgs />
->>>>>>> feature/orgs-css
-                            </div>
-                            <div className="sidebar-wrapper">
-                                {sideBar}
-                            </div>
-                            <div className="chat-wrapper">
-                                {chat}
-                            </div>
+                {isInitialized ?                    
+                    <div className="main-wrapper">
+                        <div className="org-wrapper">
+                            <OrgsSidebar />
                         </div>
+                        
+                        <div className="sidebar-wrapper">
+                            {sideBar}
+                        </div>
+                        <div className="chat-wrapper">
+                            {chat} 
+                        </div> 
                     </div>
                     : null}
             </div>

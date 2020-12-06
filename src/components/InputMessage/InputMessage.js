@@ -35,8 +35,8 @@ class InputMessage extends Component {
 			<div className="text-center rounded input-outer">
 				<textarea
 					placeholder='Enter a message'
-					className= "form-control form-control-md"
-					style={{resize:'none'}}
+					className= "form-control"
+					style={{resize:'none', color: "white"}}
 					value={this.props.currentInput}
 					onChange={this.handleChange}
 					onKeyPress={this.handleKeyPressed}
