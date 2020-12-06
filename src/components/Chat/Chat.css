@@ -7,7 +7,6 @@
 }
 
 #box-first{
-    /* height: 8vh;  */
     grid-row-start: 1;
     grid-row-end: 2; 
     margin: 0;
@@ -17,8 +16,6 @@
     height: 86vh;
     grid-row-start: 2;
     grid-row-end: 3; 
-    /* flex-direction: column;
-    align-items: flex-end; */
 }
 
 .messages-wrapper {
@@ -28,15 +25,10 @@
 }
 
 #box-end {
-    /* height: vh; */
     display: flex;
     align-items: flex-end;
     grid-row-start: 3;
     grid-row-end: 4; 
-    /* width: 100%;
-    padding-left: 15px;
-    padding-right: 15px; 
-    padding-top: 10px; */
 }
 
 .messages-wrapper::-webkit-scrollbar {

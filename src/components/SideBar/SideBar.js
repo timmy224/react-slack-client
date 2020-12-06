@@ -81,7 +81,7 @@ class SideBar extends Component {
                 <div className="org-name-header">
                         <h1>{org?.name}</h1>
                     </div>
-                <div className="sidebar-body sidebar-body-wrapper">
+                <div className="sidebar-body">
                     <div className="sidebar-section-heading">
                         <span className="sidebar-section-heading-expand">
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />

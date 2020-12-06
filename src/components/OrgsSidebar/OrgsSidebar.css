@@ -5,10 +5,6 @@
 #orgs-header {
     grid-row-start: 1;
     grid-row-end: 2;
-    /*
-    font-size: 25px;
-    font-weight: 800;
-    padding: 15px 0px 15px 0px; */
     margin: 0;
     padding: 15px 0px 15px 0px;
     text-align: center;
@@ -16,8 +12,6 @@
 }
 
 #orgs-btns {
-    /* grid-row-start: 2;
-    grid-row-end: 3; */
     padding-top: 20px;
     display: flex;
     flex-direction: column;
