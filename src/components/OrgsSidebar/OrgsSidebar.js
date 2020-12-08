@@ -33,20 +33,23 @@ class OrgsSidebar extends Component {
                 const isSelected = orgName === currentOrg?.name;
                 return <Org name={orgName} key={orgName} className={isSelected ? "selected-org" : ""} onClickHandler={this.selectOrg} />;
             })) : null;
+        
         const orgInvitesButton = invitations.length ?
             <div id="org-invites">
                 <button onClick={() => showPendingInvitationsModal(true)}>{invitations.length}</button>
             </div> : null;
         return (
             <div id="orgs">
-                <h2 id="orgs-label">Orgs</h2>
-                {orgInvitesButton}
-                {orgsDisplay}
-                <div id="new-org">
-                    <button onClick={() => showCreateOrgModal(true)}>+</button>
+                <h1 id="orgs-header">Orgs</h1>
+                <div id="orgs-btns">
+                    {orgInvitesButton}
+                    {orgsDisplay}
+                    <div id="new-org">
+                        <button onClick={() => showCreateOrgModal(true)}>+</button>
+                    </div>
+                    <CreateOrg />
+                    <InvitationsModal />
                 </div>
-                <CreateOrg />
-                <InvitationsModal />
             </div>            
         );
     }

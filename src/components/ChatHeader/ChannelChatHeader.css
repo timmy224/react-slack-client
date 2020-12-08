@@ -1,5 +1,10 @@
 .chat-header {
-	font-size: 15px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 15px;
+	border-bottom: 2px solid #02313C;
+	/* font-size: 15px;
 	line-height: 1.46668;
 	font-weight: 400;
 	font-family: sans-serif;
@@ -9,21 +14,11 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 16px 0 8px;
-	border: 1px solid rgb(29,28,29);
-	border-radius: 3px;
 	padding-left: 20px;
 	background-color: rgb(26,29,33);
-	border-top: 1px solid white;
-	border-bottom: 1px solid white;
-}
-
-p {
-	margin-bottom: 0;
+	border-bottom: 2px solid #02313C; */
 }
 
 h1 {
-	font-size: 15px;
-	font-weight: 900;
-	line-height: 22px;
 	color: rgb(209,210,211)
 }

@@ -1,36 +1,51 @@
-body {
+/* body {
     height: 100%;
-}
-
-#box-wrapper {
-    display: flex;
-    flex-direction: column;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+} */
+#chat {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 #box-first{
-    height: 9vh; 
+    grid-row-start: 1;
+    grid-row-end: 2; 
+    margin: 0;
 }
 
 #box-fill {
-    display: flex;
-    height: 80vh;
-    flex-direction: column;
-    align-items: flex-end;
+    height: 86vh;
+    grid-row-start: 2;
+    grid-row-end: 3; 
 }
 
 .messages-wrapper {
     display: flex;
-    
+    overflow: auto;
+    scrollbar-color: #c3c3c3 #1A1D21;
 }
 
 #box-end {
-    height: 10vh;
-    width: 100%;
-    padding-left: 8px;
-    padding-right: 8px;
     display: flex;
     align-items: flex-end;
+    grid-row-start: 3;
+    grid-row-end: 4; 
 }
 
+.messages-wrapper::-webkit-scrollbar {
+    width: 0.1px !important;
+}
+
+/* Track */
+.messages-wrapper::-webkit-scrollbar-track {
+    background: transparent !important; 
+}
+
+/* Handle */
+.messages-wrapper::-webkit-scrollbar-thumb {
+    background: transparent !important; 
+}
+
+/* Handle on hover */
+.messages-wrapper::-webkit-scrollbar-thumb:hover {
+    background: transparent !important; 
+}
