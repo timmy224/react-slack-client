@@ -25,25 +25,3 @@
     border-left: 3px solid#02313C;
     border-right: 3px solid#02313C;
 }
-
-.form-wrapper {
-    text-align: center;
-}
-
-.sign-in-reg {
-    width: 90%;
-}
-
-.login-input {
-    width: 100%;
-}
-
-.btn-col {
-    border-left: 3px solid#02313C;
-    border-right: 3px solid#02313C;
-    border-bottom: 3px solid#02313C;
-}
-
-.btn-wrapper {
-    flex-direction: column;
-}
