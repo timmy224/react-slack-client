@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { actions, services} from "../../context";
 import "./Login.css";
 import { Container, Row, Col } from 'react-bootstrap'
+import CustomButton from '../CustomButton/CustomButton';
+import FormInput from '../FormInput/FormInput';
+import CustomForm from '../CustomForm/CustomForm';
 
 const mapStateToProps = (state)=>{
     return { 
@@ -63,20 +66,16 @@ class Login extends Component {
                         </Row>
                         <Row className="justify-content-md-center">
                             <Col md lg="6" className="form-col green-color">
-                                <form className="form-wrapper">
+                                <CustomForm onSubmit={this.handleSubmit}>
                                     <h2 className= "login">Sign in to Kcals</h2>
                                     <h6 className="continue">Continue with the username and password you use to sign in.</h6>
-                                    <input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
-                                    <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
-                                </form>
+                                    <FormInput type="text" name="username" placeholder="username" onChange={this.onUsernameChange}>Enter Username</FormInput>
+                                    <FormInput type="password" name="password" placeholder="password" onChange={this.onPasswordChange}>Enter Password</FormInput>
+                                    <CustomButton onClick={this.handleSubmit} type="submit">Sign In</CustomButton>
+                                    <CustomButton onClick={this.handleClick}>Register</CustomButton>
+                                </CustomForm>
                                 {credentialsIncorrect}
                             </Col> 
-                        </Row>
-                        <Row className="justify-content-md-center">
-                            <Col md lg="6" className="btn-col green-color">
-                                <button className="sign-in-reg" onClick={this.handleSubmit} type="submit" value="Sign in" required="required">Sign In</button>
-                                <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
-                            </Col>
                         </Row>
                     </Container>
                 </div>

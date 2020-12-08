@@ -6,6 +6,7 @@ import CustomButton from '../CustomButton/CustomButton';
 import FormInput from '../FormInput/FormInput';
 import CustomModal from '../CustomModal/CustomModal';
 import CustomForm from '../CustomForm/CustomForm';
+import './CreateChannel.css'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -73,11 +74,11 @@ class CreateChannel extends Component {
     render() {
         const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
         const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
-        const userButton = privateChannelUsers.map(user => <button type="button" className="btn btn-light m-1"value={user} key={user}>{user}</button>)
+        const usernamesDisplay = privateChannelUsers.map(user => <span className="username-display">{user}</span>)
         const checkbox = 
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="customSwitch1" />
-                <label class="custom-control-label" htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
+                <input type="checkbox" className="custom-control-input custom-switch-label" id="customSwitch" />
+                <label className="custom-control-label" htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
             </div>
         const privateSection =
                     <div id="private-section">
@@ -88,12 +89,12 @@ class CreateChannel extends Component {
                     </div>
         const form = !isPrivate ?
             <CustomForm onSubmit={this.handleSubmit} key="body">
-                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
+                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required">Name</FormInput>
             </CustomForm>
             :
             <CustomForm onSubmit={this.handleSubmit} key="body">
-                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name">Name</FormInput>
-                    {userButton}
+                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required" min="1" >Name</FormInput>
+                    {usernamesDisplay}
                     <FormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</FormInput>
             </CustomForm>
         return (
@@ -114,9 +115,3 @@ class CreateChannel extends Component {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
-
-{/* <div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-        <label class="custom-control-label " for="customSwitch1"><p>Make private</p>
-        </label>
-</div> */}

@@ -2,11 +2,12 @@ import React from "react";
 import "./ChannelChatHeader.css";
 import CustomButton from '../CustomButton/CustomButton';
 
-function ChannelChatHeader(props){
+function ChannelChatHeader({channelName, numOfUsers}){
+	const isPlural = numOfUsers > 1
 	return(
 		<div className = "chat-header" >
-			<h1>{`# ${props.channelName}`}</h1>
-			<CustomButton type='submit'>{`${props.numberOfUsers} members`}</CustomButton>
+			<h1>{`# ${channelName}`}</h1>
+			<div className="chat-member-display">{`${isPlural ? `${numOfUsers} members` : `${numOfUsers} member`}`}</div>
 		</div>
 	);
 }

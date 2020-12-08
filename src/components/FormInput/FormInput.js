@@ -1,11 +1,11 @@
 import React from 'react';
 import './FormInput.css'
 
-const FormInput = ({children, onClick, label, isSwitch, ...otherProps}) => {
+const FormInput = ({children, onClick, label, ...otherProps}) => {
     return(
         <div className="form-group">
-            <label className="label">{children}</label>
-            <input className="input" {...otherProps}></input>
+            <label className="form-input-label">{children}</label>
+            <input className="form-input" {...otherProps} ></input>
         </div>
     )
 }

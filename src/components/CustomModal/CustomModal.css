@@ -1,8 +1,4 @@
 .modal-content {
-	font-family: sans-serif;
-	position: relative;
-	display: flex;
-	flex-direction: column;
 	background-color: rgb(26,29,33);
 	color: rgb(204,199,192);
 }
@@ -14,6 +10,11 @@
 	width: 100%;
 	font-weight: 900;
 	border: 0;
+	padding: 20px;
+}
+
+.modal-body {
+	padding: 0 20px;
 }
 
 .subtitle {
@@ -21,13 +22,13 @@
 	align-items: center;
 	display: flex;
 	min-height: 70px;
-	padding: 0px 28px;
 	width: 100%;
 	background-color: rgb(26,29,33)
 }
 
-.modal-body {
-
+.title {
+	width: 100%;
+	font-size: 2rem;
 }
 
 button.close {
@@ -40,3 +41,8 @@ button.close {
 button.close:hover {
 	color: #ebeff3
 }
+
+/* .custom {
+	top: 10px;
+	left: 200px;
+} */
