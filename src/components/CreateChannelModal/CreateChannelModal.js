@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { services } from "../../context";
-import { actions } from "../../context"; 
+import { actions, services } from "../../context";
 import CustomButton from '../CustomButton/CustomButton';
-import FormInput from '../FormInput/FormInput';
+import CustomFormInput from '../CustomFormInput/CustomFormInput';
 import CustomModal from '../CustomModal/CustomModal';
 import CustomForm from '../CustomForm/CustomForm';
-import './CreateChannel.css'
+import './CreateChannelModal.css'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -27,7 +26,7 @@ const mapActionsToProps = {
     setPrivateUsers: actions.channel.privateChannelUsers
 }
 
-class CreateChannel extends Component {
+class CreateChannelModal extends Component {
     handleSubmit = (event) => {
         const { create_channel_name, org, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
         event.preventDefault();
@@ -89,13 +88,13 @@ class CreateChannel extends Component {
                     </div>
         const form = !isPrivate ?
             <CustomForm onSubmit={this.handleSubmit} key="body">
-                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required">Name</FormInput>
+                    <CustomFormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required">Name</CustomFormInput>
             </CustomForm>
             :
             <CustomForm onSubmit={this.handleSubmit} key="body">
-                    <FormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required" min="1" >Name</FormInput>
+                    <CustomFormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required" min="1" >Name</CustomFormInput>
                     {usernamesDisplay}
-                    <FormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</FormInput>
+                    <CustomFormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</CustomFormInput>
             </CustomForm>
         return (
                 <CustomModal 
@@ -114,4 +113,4 @@ class CreateChannel extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(CreateChannel);
+export default connect(mapStateToProps, mapActionsToProps)(CreateChannelModal);

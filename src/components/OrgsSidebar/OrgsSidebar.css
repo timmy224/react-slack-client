@@ -17,7 +17,7 @@
     flex-direction: column;
 }
 
-#new-org button {
+#org-settings button {
     display: block;
     text-align: center;
     font-size: 30px;
@@ -31,7 +31,7 @@
     margin: 0px auto 20px auto;
 }
 
-#new-org button:hover {
+#org-settings button:hover {
     background-color: rgb(133, 245, 123);
     color: #000000;
 }

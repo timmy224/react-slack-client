@@ -3,9 +3,8 @@ import { actions, services } from "../../context";
 import { connect } from "react-redux";
 import Org from "../Org/Org";
 import "./OrgsSidebar.css";
-import CreateOrg from "../CreateOrg/CreateOrg";
-import InvitationsModal from "../InvitationsModal/InvitationsModal";
-
+import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
+import OrgSettingsModal from "../OrgSettingsModal/OrgSettingsModal";
 const mapStateToProps = (state) => {
     return {
         currentOrg: state.org.org,
@@ -16,7 +15,7 @@ const mapStateToProps = (state) => {
 
 const mapActionsToProps = {
     selectOrg: actions.org.selectOrg,
-    showCreateOrgModal: actions.org.showCreateOrgModal,
+    showOrgSettingsModal: actions.org.showOrgSettingsModal,
     showPendingInvitationsModal: actions.invitation.showInvitationsModal,
 };
 
@@ -26,7 +25,7 @@ class OrgsSidebar extends Component {
     }
 
     render() {
-        const { orgs, currentOrg, showCreateOrgModal, invitations, showPendingInvitationsModal} = this.props;
+        const { orgs, currentOrg, showCreateOrgModal, invitations, showPendingInvitationsModal, showOrgSettingsModal } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
         const orgsDisplay = !isOrgsEmpty ?
             (Object.keys(orgs).map(orgName => {
@@ -44,11 +43,11 @@ class OrgsSidebar extends Component {
                 <div id="orgs-btns">
                     {orgInvitesButton}
                     {orgsDisplay}
-                    <div id="new-org">
-                        <button onClick={() => showCreateOrgModal(true)}>+</button>
+                    <div id="org-settings">
+                        <button onClick={() => showOrgSettingsModal(true)}>+</button>
                     </div>
-                    <CreateOrg />
-                    <InvitationsModal />
+                    <OrgSettingsModal />
+                    <PendingInvitationsModal />
                 </div>
             </div>            
         );

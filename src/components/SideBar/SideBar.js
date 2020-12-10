@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
-import CreateChannel from "../CreateChannel/CreateChannel";
+import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-import InviteModal from "../InviteModal/InviteModal"
+import NewInvitationsModal from "../NewInvitationsModal/NewInvitationsModal"
 import CanView from "../CanView/CanView";
 
 class SideBar extends Component {
@@ -99,7 +99,7 @@ class SideBar extends Component {
                             no={() => null}
                         />                              
                     </div>
-                    <CreateChannel />                
+                    <CreateChannelModal />                
                     <div className="container">
                         {channelsDisplay}
                     </div>
@@ -114,7 +114,7 @@ class SideBar extends Component {
                     </div>
                     <div className="container invite-create-wrapper">
                         <br />
-                        <InviteModal />
+                        <NewInvitationsModal />
                         <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
                         
                     </div>

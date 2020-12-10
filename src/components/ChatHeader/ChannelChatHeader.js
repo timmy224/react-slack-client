@@ -1,6 +1,5 @@
 import React from "react";
 import "./ChannelChatHeader.css";
-import CustomButton from '../CustomButton/CustomButton';
 
 function ChannelChatHeader({channelName, numOfUsers}){
 	const isPlural = numOfUsers > 1

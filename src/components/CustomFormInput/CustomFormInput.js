@@ -1,7 +1,7 @@
 import React from 'react';
-import './FormInput.css'
+import './CustomFormInput.css'
 
-const FormInput = ({children, onClick, label, ...otherProps}) => {
+const CustomFormInput = ({children, onClick, label, ...otherProps}) => {
     return(
         <div className="form-group">
             <label className="form-input-label">{children}</label>
@@ -10,4 +10,4 @@ const FormInput = ({children, onClick, label, ...otherProps}) => {
     )
 }
 
-export default FormInput;
+export default CustomFormInput;

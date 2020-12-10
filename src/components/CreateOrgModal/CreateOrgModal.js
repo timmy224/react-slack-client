@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { actions } from "../../context";
 import CustomModal from '../CustomModal/CustomModal';
 import CustomButton from '../CustomButton/CustomButton';
-import FormInput from '../FormInput/FormInput';
+import CustomFormInput from '../CustomFormInput/CustomFormInput';
 import CustomForm from '../CustomForm/CustomForm';
 
 const mapStateToProps = (state) => {
@@ -23,7 +23,7 @@ const mapActionsToProps = {
     setNewOrgUsers: actions.org.setNewOrgUsers,
 }
 
-class CreateOrg extends Component {
+class CreateOrgModal extends Component {
     handleSubmit = (event) => {
         const { createOrgName, takenOrgName, newOrgUsers, createOrg } = this.props
         event.preventDefault();
@@ -64,9 +64,9 @@ class CreateOrg extends Component {
         const usernamesDisplay = newOrgUsers.map(user => <span className="username-display">{user}</span>)
         const form = 
             <CustomForm onSubmit={this.handleSubmit}>
-                <FormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</FormInput>
+                <CustomFormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</CustomFormInput>
                     {usernamesDisplay}
-                <FormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</FormInput>
+                <CustomFormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</CustomFormInput>
                 <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
             </CustomForm>
         return (
@@ -80,6 +80,7 @@ class CreateOrg extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(CreateOrg);
+export default connect(mapStateToProps, mapActionsToProps)(CreateOrgModal
+    );
 
 

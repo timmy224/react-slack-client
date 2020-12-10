@@ -107,6 +107,19 @@ const initActions = function (orgService, utilityService) {
         dispatch(newOrgUserSet(newOrgUsers))
     };
 
+    const orgSettingsModalShow = actionCreator(types.SHOW_ORG_SETTINGS_MODAL);
+    const showOrgSettingsModal = (show) => (dispatch) => {
+        dispatch(orgSettingsModalShow(show))
+    };
+
+    const deleteOrg = orgName => async (getState) => {
+        const orgName = getState().org.org.name;
+        const [err, _] = await to(orgService.deleteOrg(orgName));
+        if (err) {
+            throw new Error("Could not delete org");
+        }
+    }
+
     return {
         createOrg,
         fetchOrgs,
@@ -121,6 +134,8 @@ const initActions = function (orgService, utilityService) {
         setCreateOrgName,
         takenOrgName,
         setNewOrgUsers,
+        showOrgSettingsModal,
+        deleteOrg,
     };
 };
 

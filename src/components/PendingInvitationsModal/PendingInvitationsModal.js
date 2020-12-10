@@ -16,7 +16,7 @@ const mapActionsToProps = {
     respondToInvitation: actions.invitation.respondToInvitation,
 }
 
-class InvitationsModal extends Component {
+class PendingInvitationsModal extends Component {
     handleHide = () => {
         const { handleInvitationsShow } = this.props
         handleInvitationsShow(false);
@@ -62,5 +62,5 @@ class InvitationsModal extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(InvitationsModal);
+export default connect(mapStateToProps, mapActionsToProps)(PendingInvitationsModal);
 

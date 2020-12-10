@@ -5,7 +5,7 @@ import { services } from "../../context";
 import { actions } from "../../context";
 import "./Register.css"
 import CustomButton from '../CustomButton/CustomButton';
-import FormInput from '../FormInput/FormInput';
+import CustomFormInput from '../CustomFormInput/CustomFormInput';
 import CustomForm from '../CustomForm/CustomForm';
 
 const mapStateToProps = (state)=>{
@@ -73,20 +73,20 @@ class Register extends Component {
                 <h6 className="create">Create an account with the username and password you will use to sign in.</h6>
                 {takenMessage}
                 {missingCred}
-                <FormInput 
+                <CustomFormInput 
                     type="text" 
                     name="username" 
                     placeholder="username" 
                     onChange={this.handleChangeUser}>
                     Enter Username
-                </FormInput>
-                <FormInput 
+                </CustomFormInput>
+                <CustomFormInput 
                     type="text" 
                     name="password" 
                     placeholder="password" 
                     onChange={this.handleChangePassword} >
                     Enter Password
-                </FormInput>
+                </CustomFormInput>
                 <CustomButton type="submit" onClick={this.handleSubmit}>Submit</CustomButton>    
                 <CustomButton onClick={()=>changeRoute({path:"/login"})}>Login Form</CustomButton>     
             </CustomForm>           

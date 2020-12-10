@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { services, actions } from "../../context";
 import CustomButton from '../CustomButton/CustomButton';
-import FormInput from '../FormInput/FormInput';
+import CustomFormInput from '../CustomFormInput/CustomFormInput';
 import CustomModal from '../CustomModal/CustomModal';
 import CustomForm from '../CustomForm/CustomForm'
 
@@ -19,7 +19,7 @@ const mapActionsToProps = {
     setInvitedUserEmail: actions.invitation.setInvitedUserEmail,
 }
 
-class InviteModal extends Component {
+class NewInvitationsModal extends Component {
     handleSubmit = (event) => {
         const { invitedUserEmail, org } = this.props
         event.preventDefault();
@@ -56,7 +56,7 @@ class InviteModal extends Component {
         const { showInviteModal } = this.props;
         const form = 
                 <CustomForm onClick={this.handleSubmit}>
-                    <FormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</FormInput>
+                    <CustomFormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</CustomFormInput>
                     <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
                 </CustomForm>
         return (
@@ -70,7 +70,7 @@ class InviteModal extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(InviteModal);
+export default connect(mapStateToProps, mapActionsToProps)(NewInvitationsModal);
 
 
 

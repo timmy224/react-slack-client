@@ -10,6 +10,7 @@ const initReducer = () => {
         createOrgName: '',
         showTakenMsg: false,
         newOrgUsers: [],
+        showOrgSettingsModal: false,
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -65,7 +66,12 @@ const initReducer = () => {
                 return {
                     ...state,
                     newOrgUsers: payload,
-                }              
+                }    
+            case types.SHOW_ORG_SETTINGS_MODAL:
+                return {
+                    ...state,
+                    showOrgSettingsModal: payload,
+                }          
             default:
                 return state;
         }
