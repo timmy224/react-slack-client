@@ -121,8 +121,8 @@ function SocketService(chatService) {
 			let channelName = data.channel_name;
 			let removedUsername = data.removed_username;
 			let channelId = data.channel_id;
-			// store.dispatch(actions.channel.fetchNumMembers(channelName));
-			store.dispatch(actions.channel.fetchMemberNames(channelName));
+			let orgName = data.org_name;
+			store.dispatch(actions.channel.fetchMemberNames(orgName, channelName));
 			send("leave-channel", data);
 		});
 		socket.on("removed-from-channel", (data) => {
@@ -131,7 +131,7 @@ function SocketService(chatService) {
 			let channelId = data.channel_id;
 			let orgName = data.org_name;
 			console.log(
-				`User ${removedUsername} removed from channel ${channelName}  with ID ${channelId}in org ${orgName}`
+				`User ${removedUsername} removed from channel ${channelName}  with ID ${channelId} in org ${orgName}`
 			);
 			store.dispatch(actions.channel.fetchChannels(orgName));
 
@@ -142,8 +142,6 @@ function SocketService(chatService) {
 		socket.on("added-to-channel", (channelName) => {
 			console.log("channel member added to ChannelName ", channelName);
 			store.dispatch(actions.channel.fetchChannels());
-			//It makes sense for these actions to be here yet for some reason it doesnt work appropriately here
-			// store.dispatch(actions.channel.fetchNumMembers(channelName));
 			store.dispatch(actions.channel.fetchMemberNames(channelName));
 		});
 	};
