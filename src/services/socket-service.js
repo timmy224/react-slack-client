@@ -139,10 +139,13 @@ function SocketService(chatService) {
 
 			// store.dispatch(actions.message.fetchChannelMessages(channelName))
 		});
-		socket.on("added-to-channel", (channelName) => {
-			console.log("channel member added to ChannelName ", channelName);
-			store.dispatch(actions.channel.fetchChannels());
-			store.dispatch(actions.channel.fetchMemberNames(channelName));
+		socket.on("added-to-channel", (data) => {
+			let addedUsername = data.added_username;
+			let channelName = data.channel_name;
+			let orgName = data.org_name;			
+			console.log(`User ${addedUsername} has been added to channel ${channelName}`);
+			store.dispatch(actions.channel.fetchChannels(orgName));
+			// store.dispatch(actions.channel.fetchMemberNames(orgName, channelName));
 		});
 	};
 

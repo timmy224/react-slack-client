@@ -73,11 +73,6 @@ const initReducer = () => {
 					...state,
 					channelMemberNames: payload,
 				};
-			case types.CLEAR_ADD_MEMBER:
-				return {
-					...state,
-					addMember: "",
-				};
 			case types.UPDATE_ADD_MEMBER:
 				return {
 					...state,
