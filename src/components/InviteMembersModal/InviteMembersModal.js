@@ -58,7 +58,7 @@ class InviteMembersModal extends Component {
     render() {
         const { showInviteMembersModal } = this.props;
         const form = 
-                <CustomForm onClick={this.handleSubmit}>
+                <CustomForm onSubmit={this.handleSubmit}>
                     <CustomFormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</CustomFormInput>
                     <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
                 </CustomForm>
