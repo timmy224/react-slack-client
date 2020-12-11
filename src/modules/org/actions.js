@@ -2,6 +2,8 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
+import { dispatch } from "rxjs/internal/observable/pairs";
+import { cloneDeep } from "lodash-es";
 
 const initActions = function (orgService, utilityService) {
     const createOrg = (orgName, invitedEmails) => (dispatch, getState) => {
@@ -112,12 +114,31 @@ const initActions = function (orgService, utilityService) {
         dispatch(orgSettingsModalShow(show))
     };
 
-    const deleteOrg = orgName => async (getState) => {
-        const orgName = getState().org.org.name;
+    const deleteOrg = orgName => async () => {
         const [err, _] = await to(orgService.deleteOrg(orgName));
         if (err) {
             throw new Error("Could not delete org");
         }
+    }
+
+    const handleOrgDeleted = (orgName) => (dispatch, getState) => {
+        const orgs = getState().org.orgs;
+        const otherOrgsExist = Object.keys(orgs).length > 1;
+        const newSelectedOrgName = Object.keys(orgs).find(org => org !== orgName)
+        if(otherOrgsExist){
+            dispatch(selectOrg(newSelectedOrgName));
+            dispatch(removeOrg(orgName));
+        }else{
+            dispatch(setOrg(null));
+            dispatch(setOrgs({}));
+        } 
+    };
+
+    const removeOrg = orgName => (dispatch, getState) => {
+        const allOrgs = getState().org.orgs
+        const orgs = cloneDeep(allOrgs);
+        delete orgs[orgName]
+        dispatch(setOrgs(orgs));
     }
 
     return {
@@ -136,6 +157,8 @@ const initActions = function (orgService, utilityService) {
         setNewOrgUsers,
         showOrgSettingsModal,
         deleteOrg,
+        handleOrgDeleted,
+        removeOrg,
     };
 };
 

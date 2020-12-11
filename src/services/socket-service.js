@@ -104,6 +104,11 @@ function SocketService(chatService) {
             console.log(`org-member-online: ${orgName}: ${username}`);
             store.dispatch(actions.org.setOrgMemberOnlineStatus(orgName, username, false));
         });
+
+        socket.on("org-deleted", orgName => {
+            console.log("org-deleted", orgName);
+            store.dispatch(actions.org.handleOrgDeleted(orgName));
+        });
     };
 
     return Object.freeze({

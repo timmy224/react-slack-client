@@ -21,6 +21,7 @@ const mapActionsToProps = {
     takenOrgName: actions.org.takenOrgName,
     handleShowCreateOrgModal: actions.org.showCreateOrgModal,
     setNewOrgUsers: actions.org.setNewOrgUsers,
+    handleOrgSettingsModalShow: actions.org.showOrgSettingsModal,
 }
 
 class CreateOrgModal extends Component {
@@ -50,8 +51,9 @@ class CreateOrgModal extends Component {
     }
 
     handleHide = () => {
-        const { handleShowCreateOrgModal } = this.props
+        const { handleShowCreateOrgModal, handleOrgSettingsModalShow } = this.props
         handleShowCreateOrgModal(false);
+        handleOrgSettingsModalShow(false);
         this.resetModal();
     }
     handleUserChange = (event) => {

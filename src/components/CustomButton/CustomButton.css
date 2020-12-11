@@ -1,14 +1,14 @@
 .custom-button{
-    font-size: .75rem;
-	padding: 4px 8px;
-	background-color: rgb(29,28,28);
-	color: rgb(209,210,211);
-	font-weight: 500;
-	border-color: rgb(209,210,211);
-	border-radius: 20px;
+    font-size: 1rem;
+    background-color: rgb(29,28,28);
+    color: rgb(209,210,211);
+    font-weight: 500;
+    border-color: rgb(209,210,211);
     border-width: 2px;
-    margin: 0 20px 10px auto;
-
+    height: 3rem;
+    width: auto;
+    min-width: 1rem;
+    margin: .5rem;
 }
 
 .custom-button:focus {
@@ -20,3 +20,5 @@
 	border-color: rgb(209,210,211);
 	color:rgb(29,28,28);
 }
+
+	

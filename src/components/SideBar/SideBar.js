@@ -5,7 +5,7 @@ import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-import NewInvitationsModal from "../NewInvitationsModal/NewInvitationsModal"
+// import NewInvitationsModal from "../NewInvitationsModal/NewInvitationsModal"
 import CanView from "../CanView/CanView";
 
 class SideBar extends Component {
@@ -112,12 +112,6 @@ class SideBar extends Component {
                     <div className = "container">
                         {orgMembersDisplay}
                     </div>
-                    <div className="container invite-create-wrapper">
-                        <br />
-                        <NewInvitationsModal />
-                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                        
-                    </div>
                 </div>
                 <div className="sidebar-end" old_className='container text-center logout-wrapper'>
                     <button
@@ -148,7 +142,6 @@ const mapActionsToProps = {
     deleteChannel: actions.channel.deleteChannel,
     selectUser: actions.sidebar.selectUser,
     showCreateChannelModal: actions.channel.showCreateModal,
-    showSendInviteModal: actions.invitation.showInviteModal,
     logout: actions.user.logout,
 };
 

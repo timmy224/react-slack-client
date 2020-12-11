@@ -5,6 +5,9 @@ import Org from "../Org/Org";
 import "./OrgsSidebar.css";
 import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
 import OrgSettingsModal from "../OrgSettingsModal/OrgSettingsModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
+
 const mapStateToProps = (state) => {
     return {
         currentOrg: state.org.org,
@@ -44,7 +47,9 @@ class OrgsSidebar extends Component {
                     {orgInvitesButton}
                     {orgsDisplay}
                     <div id="org-settings">
-                        <button onClick={() => showOrgSettingsModal(true)}>+</button>
+                        <button onClick={() => showOrgSettingsModal(true)}>
+                            <FontAwesomeIcon icon={faCog} transform="grow-4" color="#99a59e" />
+                        </button>
                     </div>
                     <OrgSettingsModal />
                     <PendingInvitationsModal />

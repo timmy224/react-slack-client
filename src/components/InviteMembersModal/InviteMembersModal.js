@@ -17,9 +17,10 @@ const mapStateToProps = (state)=>{
 const mapActionsToProps = {
     handleInviteShow: actions.invitation.showInviteModal,
     setInvitedUserEmail: actions.invitation.setInvitedUserEmail,
+    handleOrgSettingsModalShow: actions.org.showOrgSettingsModal,
 }
 
-class NewInvitationsModal extends Component {
+class InviteMembersModal extends Component {
     handleSubmit = (event) => {
         const { invitedUserEmail, org } = this.props
         event.preventDefault();
@@ -48,7 +49,9 @@ class NewInvitationsModal extends Component {
     }
 
     handleHide = () => {
-    	this.props.handleInviteShow(false);
+        const { handleInviteShow, handleOrgSettingsModalShow } = this.props;
+        handleInviteShow(false);
+        handleOrgSettingsModalShow(false);
         this.resetModal();
     }
 
@@ -70,7 +73,7 @@ class NewInvitationsModal extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(NewInvitationsModal);
+export default connect(mapStateToProps, mapActionsToProps)(InviteMembersModal);
 
 
 
