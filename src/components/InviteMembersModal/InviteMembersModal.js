@@ -8,14 +8,14 @@ import CustomForm from '../CustomForm/CustomForm'
 
 const mapStateToProps = (state)=>{
     return { 
-        showInviteModal: state.invitation.showInviteModal,
+        showInviteMembersModal: state.invitation.showInviteMembersModal,
         username: state.user.username,
         invitedUserEmail: state.invitation.invitedUserEmail,
         org: state.org.org,
     }
 }
 const mapActionsToProps = {
-    handleInviteShow: actions.invitation.showInviteModal,
+    handleInviteMembersModal: actions.invitation.showInviteMembersModal,
     setInvitedUserEmail: actions.invitation.setInvitedUserEmail,
     handleOrgSettingsModalShow: actions.org.showOrgSettingsModal,
 }
@@ -49,14 +49,14 @@ class InviteMembersModal extends Component {
     }
 
     handleHide = () => {
-        const { handleInviteShow, handleOrgSettingsModalShow } = this.props;
-        handleInviteShow(false);
+        const { handleInviteMembersModal, handleOrgSettingsModalShow } = this.props;
+        handleInviteMembersModal(false);
         handleOrgSettingsModalShow(false);
         this.resetModal();
     }
 
     render() {
-        const { showInviteModal } = this.props;
+        const { showInviteMembersModal } = this.props;
         const form = 
                 <CustomForm onClick={this.handleSubmit}>
                     <CustomFormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</CustomFormInput>
@@ -64,7 +64,7 @@ class InviteMembersModal extends Component {
                 </CustomForm>
         return (
             <CustomModal 
-                show={showInviteModal} 
+                show={showInviteMembersModal} 
                 onHide={this.handleHide} 
                 title="Invite users to your org"
                 form={form}

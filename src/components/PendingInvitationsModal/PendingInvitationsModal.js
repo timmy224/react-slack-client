@@ -7,19 +7,19 @@ import CustomModal from '../CustomModal/CustomModal';
 
 const mapStateToProps = (state)=>{
     return { 
-        showInvitationsModal: state.invitation.showInvitationsModal,
+        showPendingInvitationsModal: state.invitation.showPendingInvitationsModal,
         invitations: state.invitation.pendingInvitations,
     }
 }
 const mapActionsToProps = {
-    handleInvitationsShow: actions.invitation.showInvitationsModal,
+    handlePendingInvitationsModal: actions.invitation.showPendingInvitationsModal,
     respondToInvitation: actions.invitation.respondToInvitation,
 }
 
 class PendingInvitationsModal extends Component {
     handleHide = () => {
-        const { handleInvitationsShow } = this.props
-        handleInvitationsShow(false);
+        const { handlePendingInvitationsModal } = this.props
+        handlePendingInvitationsModal(false);
     }
 
     handleResponse = (event, invitation, isAccepted) => {
@@ -29,7 +29,8 @@ class PendingInvitationsModal extends Component {
     }
 
     render() {
-        const { showInvitationsModal, invitations} = this.props;
+        const { showPendingInvitationsModal, invitations} = this.props;
+        console.log({showPendingInvitationsModal, invitations})
         let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
@@ -53,7 +54,8 @@ class PendingInvitationsModal extends Component {
                 </CustomForm>
         return (
             <CustomModal
-                show={showInvitationsModal && invitations.length > 0} 
+                // show={showPendingInvitationsModal && invitations.length > 0} 
+                show={showPendingInvitationsModal } 
                 onHide={this.handleHide} 
                 title="Invitations Pending"
                 form={form}

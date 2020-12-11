@@ -3,8 +3,8 @@ import userTypes from "../user/types";
 
 const initReducer = () => {
     const INITIAL_STATE = {
-        showInviteModal: false,
-        showInvitationsModal: false,
+        showInviteMembersModal: false,
+        showPendingInvitationsModal: false,
         pendingInvitations:[],
         invitedUserEmail:'',
     };
@@ -18,12 +18,12 @@ const initReducer = () => {
             case types.SHOW_INVITE_MODAL:
                 return{
                     ...state,
-                    showInviteModal: payload,
+                    showInviteMembersModal: payload,
                 }
             case types.SHOW_INVITATIONS_MODAL:
                 return{
                     ...state,
-                    showInvitationsModal: payload,
+                    showPendingInvitationsModal: payload,
                 }
             case types.FETCH_INVITATIONS:
                 return {

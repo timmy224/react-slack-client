@@ -5,36 +5,43 @@
 .main-wrapper {
     height: 100%;
     width: 100%;
-    display: grid;
+    /* display: grid;
     grid-template-columns: 6% 21% 73%;
-    grid-template-rows: 1fr 80% 1fr;
+    grid-template-rows: 1fr 80% 1fr; */
+    display: flex;
+
 }
 
 .org-wrapper {
-    grid-column-start: 1;
+    /* grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: 4;
+    grid-row-end: 4; */
     background-color: #011F26;
     border-right: 2px solid #02313C;
     overflow: auto;
+    min-width: 65px;
+    max-width: 6vw;
 }
 
 .sidebar-wrapper {
-    grid-column-start: 2;
+    /* grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 4;
+    grid-row-end: 4; */
     background-color: #011F26;
     border-right: 2px solid #02313C; 
     overflow: auto;
+    max-width: 20vw;
+    min-width: 200px;
 }
 .chat-wrapper {
-    grid-column-start: 3;
+    /* grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 1;
-    grid-row-end: 4;
+    grid-row-end: 4; */
     overflow: auto;
+    width: 100%;
 }
 
 h1 {
