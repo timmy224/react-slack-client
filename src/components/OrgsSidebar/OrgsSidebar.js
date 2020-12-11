@@ -6,6 +6,9 @@ import "./OrgsSidebar.css";
 import OrgSettingsModal from "../OrgSettingsModal/OrgSettingsModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
+import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
+import CreateOrgModal from "../CreateOrgModal/CreateOrgModal";
+import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
 
 const mapStateToProps = (state) => {
     return {
@@ -46,6 +49,9 @@ class OrgsSidebar extends Component {
                         </button>
                     </div>
                     <OrgSettingsModal />
+                    <PendingInvitationsModal />
+                    <CreateOrgModal />
+                    <InviteMembersModal />
                 </div>
             </div>            
         );
