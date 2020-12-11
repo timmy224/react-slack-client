@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { services } from "../../context";
 import { actions } from "../../context";
 import "./Register.css"
-import CustomButton from '../CustomButton/CustomButton';
-import CustomFormInput from '../CustomFormInput/CustomFormInput';
-import CustomForm from '../CustomForm/CustomForm';
 
 const mapStateToProps = (state)=>{
     return { 
@@ -65,31 +62,39 @@ class Register extends Component {
     }
     render() {
         const {showTakenMsg, changeRoute, showMissingCred} = this.props
+
         const takenMessage = showTakenMsg ? <h3>Username taken, Try another</h3> : null;
         const missingCred = showMissingCred ?  <h3>Either password or username are missing.</h3> : null;
         return (
-            <CustomForm onSubmit={this.handleSubmit}>
+            <Fragment>
                 <h1 className="register">Register for a new account</h1>
                 <h6 className="create">Create an account with the username and password you will use to sign in.</h6>
                 {takenMessage}
                 {missingCred}
-                <CustomFormInput 
-                    type="text" 
-                    name="username" 
-                    placeholder="username" 
-                    onChange={this.handleChangeUser}>
-                    Enter Username
-                </CustomFormInput>
-                <CustomFormInput 
-                    type="text" 
-                    name="password" 
-                    placeholder="password" 
-                    onChange={this.handleChangePassword} >
-                    Enter Password
-                </CustomFormInput>
-                <CustomButton type="submit" onClick={this.handleSubmit}>Submit</CustomButton>    
-                <CustomButton onClick={()=>changeRoute({path:"/login"})}>Login Form</CustomButton>     
-            </CustomForm>           
+                <input
+                    className="login-input"
+                    onChange={this.handleChangeUser}
+                    type="text"
+                    placeholder="Username"
+                />
+                <input 
+                    className="login-input"
+                     onChange={this.handleChangePassword} 
+                     type="password"
+                     placeholder="Password"
+                />
+                <input
+                className="sign-in-reg"
+                 onClick={this.handleSubmit}
+                  type="submit"
+                  value="Register" />
+                
+                <button
+                className="sign-in-reg"
+                 onClick = {()=> changeRoute({path:"/login"})}>Login Form
+                 </button>      
+            
+            </Fragment>            
         );
     }
 }
