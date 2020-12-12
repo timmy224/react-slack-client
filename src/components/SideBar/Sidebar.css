@@ -1,6 +1,7 @@
 #sidebar {
     background-color: #011F26;
     border-right: 2px solid #02313C; 
+    grid-template-rows: auto 1fr auto;
 }
 
 .org-name-header {

@@ -51,7 +51,6 @@ class InviteMembersModal extends Component {
     handleHide = () => {
         const { handleInviteMembersModal, handleOrgSettingsModalShow } = this.props;
         handleInviteMembersModal(false);
-        handleOrgSettingsModalShow(false);
         this.resetModal();
     }
 
