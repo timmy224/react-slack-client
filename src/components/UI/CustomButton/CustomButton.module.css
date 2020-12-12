@@ -1,4 +1,4 @@
-.custom-button{
+.customButton{
     font-size: 1rem;
     background-color: rgb(29,28,28);
     color: rgb(209,210,211);
@@ -11,11 +11,11 @@
     margin: .5rem;
 }
 
-.custom-button:focus {
+.customButton:focus {
     outline:none;
 }
 
-.custom-button:hover {
+.customButton:hover {
     background-color: #ebeff3;
 	border-color: rgb(209,210,211);
 	color:rgb(29,28,28);

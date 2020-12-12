@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { actions, services } from "../../context";
-import CustomButton from '../CustomButton/CustomButton';
-import CustomFormInput from '../CustomFormInput/CustomFormInput';
-import CustomModal from '../CustomModal/CustomModal';
-import CustomForm from '../CustomForm/CustomForm';
-import './CreateChannelModal.css'
+import { actions, services } from "../../../context";
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
+import CustomModal from '../../UI/CustomModal/CustomModal';
+import CustomForm from '../../UI/CustomForm/CustomForm';
+
+import styles from './CreateChannelModal.module.css'
 
 const mapStateToProps = (state)=>{
     return { 
-        create_channel_name: state.channel.create_channel_name,
-        show_taken_msg: state.channel.show_taken_msg,
+        createChannelName: state.channel.createChannelName,
+        showTakenMsg: state.channel.showTakenMsg,
         showCreateModal: state.channel.showCreateModal,
         username: state.user.username,
         isPrivate: state.channel.isPrivate,
@@ -28,9 +29,9 @@ const mapActionsToProps = {
 
 class CreateChannelModal extends Component {
     handleSubmit = (event) => {
-        const { create_channel_name, org, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
+        const { createChannelName, org, takenChannelName, username, isPrivate, privateChannelUsers } = this.props
         event.preventDefault();
-        const name = create_channel_name;
+        const name = createChannelName;
         const members =  isPrivate ? [...privateChannelUsers,username] : [];
         const channelInfo ={
             name,
@@ -71,27 +72,28 @@ class CreateChannelModal extends Component {
     }
 
     render() {
-        const { show_taken_msg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
-        const takenMessage = show_taken_msg ? <h3>Channel Name taken</h3> : null;
-        const usernamesDisplay = privateChannelUsers.map(user => <span className="username-display">{user}</span>)
+        const { showTakenMsg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
+        const { customControlLabel, usernameDisplay } = styles
+        const takenMessage = showTakenMsg ? <h3>Channel Name taken</h3> : null;
+        const usernamesDisplay = privateChannelUsers.map(user => <span className={usernameDisplay}>{user}</span>)
         const checkbox = 
             <div class="custom-control custom-switch">
                 <input type="checkbox" className="custom-control-input custom-switch-label" id="customSwitch" />
-                <label className="custom-control-label" htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
+                <label className={customControlLabel} htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
             </div>
         const privateSection =
-                    <div id="private-section">
+                    <div>
                         <h4>Make Private</h4>
-                        <div id="private-label">
+                        <div>
                             <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
                         </div>
                     </div>
         const form = !isPrivate ?
-            <CustomForm onSubmit={this.handleSubmit} key="body">
+            <CustomForm onSubmit={this.handleSubmit}>
                     <CustomFormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required">Name</CustomFormInput>
             </CustomForm>
             :
-            <CustomForm onSubmit={this.handleSubmit} key="body">
+            <CustomForm onSubmit={this.handleSubmit}>
                     <CustomFormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required" min="1" >Name</CustomFormInput>
                     {usernamesDisplay}
                     <CustomFormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</CustomFormInput>

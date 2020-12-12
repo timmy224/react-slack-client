@@ -1,12 +1,12 @@
 
-.form-group{
+.formGroup{
 }
 
-.form-input-label {
+.formInputLabel {
 
 }
 
-.form-input {
+.formInput {
     display: block;
     width: 100%;
     height: calc(1.5em + .75rem + 2px);

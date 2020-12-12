@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { services, actions } from "../../context";
-import CustomButton from '../CustomButton/CustomButton';
-import CustomFormInput from '../CustomFormInput/CustomFormInput';
-import CustomModal from '../CustomModal/CustomModal';
-import CustomForm from '../CustomForm/CustomForm'
+import { services, actions } from "../../../context";
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
+import CustomModal from '../../UI/CustomModal/CustomModal';
+import CustomForm from '../../UI/CustomForm/CustomForm'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -17,7 +17,6 @@ const mapStateToProps = (state)=>{
 const mapActionsToProps = {
     handleInviteMembersModal: actions.invitation.showInviteMembersModal,
     setInvitedUserEmail: actions.invitation.setInvitedUserEmail,
-    handleOrgSettingsModalShow: actions.org.showOrgSettingsModal,
 }
 
 class InviteMembersModal extends Component {
@@ -49,7 +48,7 @@ class InviteMembersModal extends Component {
     }
 
     handleHide = () => {
-        const { handleInviteMembersModal, handleOrgSettingsModalShow } = this.props;
+        const { handleInviteMembersModal } = this.props;
         handleInviteMembersModal(false);
         this.resetModal();
     }

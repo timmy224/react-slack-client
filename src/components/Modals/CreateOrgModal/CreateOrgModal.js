@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { actions } from "../../context";
-import CustomModal from '../CustomModal/CustomModal';
-import CustomButton from '../CustomButton/CustomButton';
-import CustomFormInput from '../CustomFormInput/CustomFormInput';
-import CustomForm from '../CustomForm/CustomForm';
+import { actions } from "../../../context";
+import CustomModal from '../../UI/CustomModal/CustomModal';
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
+import CustomForm from '../../UI/CustomForm/CustomForm';
+
+import styles from './CreateChannelModal.module.css'
 
 const mapStateToProps = (state) => {
     return {
@@ -61,7 +63,7 @@ class CreateOrgModal extends Component {
 
     render() {
         const { newOrgUsers, showCreateOrgModal } = this.props
-        const usernamesDisplay = newOrgUsers.map(user => <span className="username-display">{user}</span>)
+        const usernamesDisplay = newOrgUsers.map(user => <span className={styles.usernameDisplay}>{user}</span>)
         const form = 
             <CustomForm onSubmit={this.handleSubmit}>
                 <CustomFormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</CustomFormInput>

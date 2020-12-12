@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './CustomForm.css'
+import styles from './CustomForm.module.css'
 
 const CustomForm = ({children, ...otherProps}) =>{
     return(
-        <form className="custom-form" {...otherProps}>
+        <form className={styles.customForm} {...otherProps}>
             {children}
         </form>
     )

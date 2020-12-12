@@ -83,9 +83,16 @@ class SideBar extends Component {
             <div id="sidebar">
                 <div className="org-name-header">
                         <h1>{org?.name}</h1>
-                        <span className="org-options" onClick={() => showOrgSettingsModal(true)}>
-                            <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
-                        </span> 
+                        <CanView
+                        resource="org-member"
+                        action="invite"
+                        yes={() => (
+                            <span className="org-options" onClick={() => showOrgSettingsModal(true)}>
+                                <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                            </span> 
+                        )}
+                        no={() => null}
+                    />
                     </div>
                 <div className="sidebar-body">
                     <div className="sidebar-section-heading">

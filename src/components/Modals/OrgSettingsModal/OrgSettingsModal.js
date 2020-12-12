@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { actions } from "../../context";
-import CustomButton from '../CustomButton/CustomButton';
-import CustomForm from '../CustomForm/CustomForm';
-import CustomModal from '../CustomModal/CustomModal';
-import CreateOrgModal from "../CreateOrgModal/CreateOrgModal";
+import { actions } from "../../../context";
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomForm from '../../UI/CustomForm/CustomForm';
+import CustomModal from '../../UI/CustomModal/CustomModal';
 import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
-import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
+import CanView from "../../CanView/CanView";
 
 const mapStateToProps = (state)=>{
     return { 
@@ -45,7 +44,12 @@ class OrgSettingsModal extends Component {
         const { showOrgSettingsModal, currentOrg, invitations } = this.props;
         const form =
                 <CustomForm>
-                    <CustomButton type="button" onClick={()=>this.handleDeleteOrg(currentOrg.name)}>Delete current Org</CustomButton>
+                    <CanView
+                        resource="org"
+                        action="delete"
+                        yes={() => <CustomButton type="button" onClick={()=>this.handleDeleteOrg(currentOrg.name)}>Delete current Org</CustomButton>}
+                        no={() => null}
+                    />
                     <CustomButton type="button" onClick={()=>this.handleInviteMembers(true)}>Invite new members to your Org</CustomButton>
                     <InviteMembersModal />
                 </CustomForm>   
@@ -61,5 +65,3 @@ class OrgSettingsModal extends Component {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(OrgSettingsModal);
-
-
