@@ -1,17 +1,19 @@
 import { Subject } from "rxjs";
+const dayjs = require("dayjs");
 
-function ChatService(userService) {
+function ChatService(dateTimeService) {
     let joinedChat$ = new Subject();
 
     const getJoinedChat$ = () => joinedChat$;
 
     // destination parameter can either be a username or channel name
     const prepareMessage = (type, content, sender, destination, orgName) => {
-        const dateOptions = { timeZone: "UTC", year: "numeric", month: "2-digit", day: "2-digit", hour: "numeric", minute: "numeric", hour12: true };
+        const date = new Date();
+        const sentDt = dateTimeService.getDtStr();
         const message = {
             type,
             sender,
-            sent_dt: new Date().toLocaleDateString("en-US", dateOptions).replace(",", ""),
+            sent_dt: sentDt,
             content,
             org_name: orgName,
         };

@@ -1,7 +1,9 @@
 import React from "react";
 import "./Message.css"
+import { services } from "../../context";
 
 function Message(props) {
+    const sentDt = services.dateTimeService.dt(props.sent_dt).format("h:mm A")
     return (
         <div className="message">
             <div className="message-left">
@@ -12,7 +14,7 @@ function Message(props) {
                     {props.sender}
                 </div>
                 <div className="message-timestamp">
-                    / {props.sent_dt} /
+                    / {sentDt} /
                 </div>
                 <br />
                 <div className="message-content">
