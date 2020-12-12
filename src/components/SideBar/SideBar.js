@@ -5,8 +5,11 @@ import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-// import NewInvitationsModal from "../NewInvitationsModal/NewInvitationsModal"
 import CanView from "../CanView/CanView";
+import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
+import CreateOrgModal from "../CreateOrgModal/CreateOrgModal";
+import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
+import OrgSettingsModal from "../OrgSettingsModal/OrgSettingsModal";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -22,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal } = this.props;
+        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
@@ -80,6 +83,9 @@ class SideBar extends Component {
             <div id="sidebar">
                 <div className="org-name-header">
                         <h1>{org?.name}</h1>
+                        <span className="org-options" onClick={() => showOrgSettingsModal(true)}>
+                            <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                        </span> 
                     </div>
                 <div className="sidebar-body">
                     <div className="sidebar-section-heading">
@@ -109,13 +115,19 @@ class SideBar extends Component {
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     </div>
-                    {orgMembersDisplay}
+                    <div className = "container">
+                        {orgMembersDisplay}
+                    </div>
                 </div>
                 <div className="sidebar-end" old_className='container text-center logout-wrapper'>
                     <button
                         type="button" className="logout-btn"
                         onClick={() => this.props.logout()}>Logout</button>
                 </div>
+                <OrgSettingsModal />
+                <PendingInvitationsModal />
+                <CreateOrgModal />
+                <InviteMembersModal />
             </div>
         );    
     };
@@ -141,6 +153,7 @@ const mapActionsToProps = {
     selectUser: actions.sidebar.selectUser,
     showCreateChannelModal: actions.channel.showCreateModal,
     logout: actions.user.logout,
+    showOrgSettingsModal: actions.org.showOrgSettingsModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
