@@ -63,17 +63,22 @@ class MainComponent extends Component {
         return (
             <div className="main">
                 {isInitialized ?                    
-                    <div className="main-wrapper">
-                        <div className="org-wrapper">
-                            <OrgsSidebar />
-                        </div>
+                    // <div className="main-wrapper">
+                    //     <div className="org-wrapper">
+                    //         <OrgsSidebar />
+                    //     </div>
                         
-                        <div className="sidebar-wrapper">
-                            {sideBar}
-                        </div>
-                        <div className="chat-wrapper">
-                            {chat} 
-                        </div> 
+                    //     <div className="sidebar-wrapper">
+                    //         {sideBar}
+                    //     </div>
+                    //     <div className="chat-wrapper">
+                    //         {chat} 
+                    //     </div> 
+                    // </div>
+                    <div className="main-wrapper">
+                        <OrgsSidebar />
+                        {sideBar}
+                        {chat} 
                     </div>
                     : null}
             </div>

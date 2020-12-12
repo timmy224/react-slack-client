@@ -109,9 +109,7 @@ class SideBar extends Component {
                         </span>                    
                         <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
                     </div>
-                    <div className = "container">
-                        {orgMembersDisplay}
-                    </div>
+                    {orgMembersDisplay}
                 </div>
                 <div className="sidebar-end" old_className='container text-center logout-wrapper'>
                     <button
