@@ -52,6 +52,7 @@ const initActions = function (orgService, utilityService) {
             await dispatch(fetchOrg(orgName));
             org = getState().org.orgs[orgName];
         }
+        dispatch(actions.chat.reset());
         dispatch(orgSelect(org));
         // fetch channels and select default channel
         await dispatch(actions.channel.fetchChannels(orgName));
