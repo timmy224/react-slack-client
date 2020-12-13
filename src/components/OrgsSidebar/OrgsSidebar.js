@@ -5,8 +5,8 @@ import Org from "../Org/Org";
 import "./OrgsSidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
-import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
-import CreateOrgModal from "../CreateOrgModal/CreateOrgModal";
+import PendingInvitationsModal from "../Modals/PendingInvitationsModal/PendingInvitationsModal";
+import CreateOrgModal from "../Modals/CreateOrgModal/CreateOrgModal";
 
 const mapStateToProps = (state) => {
     return {

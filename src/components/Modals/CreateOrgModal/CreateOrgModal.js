@@ -6,7 +6,7 @@ import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
 import CustomForm from '../../UI/CustomForm/CustomForm';
 
-import styles from './CreateChannelModal.module.css'
+import styles from '../CreateChannelModal/CreateChannelModal.module.css'
 
 const mapStateToProps = (state) => {
     return {
