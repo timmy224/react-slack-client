@@ -5,9 +5,9 @@ function ChannelChatHeader({channelName, numOfUsers}){
 	const isPlural = numOfUsers > 1
 	const { chatHeader, chatMemberDisplay } = styles
 	return(
-		<div className = "chatHeader" >
+		<div className={ chatHeader }>
 			<h1>{`# ${channelName}`}</h1>
-			<div className="chatMemberDisplay">{`${isPlural ? `${numOfUsers} members` : `${numOfUsers} member`}`}</div>
+			<div className={ chatMemberDisplay }>{`${isPlural ? `${numOfUsers} members` : `${numOfUsers} member`}`}</div>
 		</div>
 	);
 }
