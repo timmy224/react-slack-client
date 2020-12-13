@@ -1,9 +1,10 @@
 import React from "react";
-import "./ChannelChatHeader.css"
+import styles from "./ChannelChatHeader.module.css"
 
 function PrivateChatHeader(props){
+	const { chatHeader } = styles
 	return(
-		<div className = "chat-header" >
+		<div className = { chatHeader } >
 			<h1>{`# ${props.partnerUsername}`}</h1>
 		</div>
 	);

@@ -1,12 +1,13 @@
 import React from "react";
-import "./ChannelChatHeader.css";
+import styles from "./ChannelChatHeader.module.css"
 
 function ChannelChatHeader({channelName, numOfUsers}){
 	const isPlural = numOfUsers > 1
+	const { chatHeader, chatMemberDisplay } = styles
 	return(
-		<div className = "chat-header" >
+		<div className = "chatHeader" >
 			<h1>{`# ${channelName}`}</h1>
-			<div className="chat-member-display">{`${isPlural ? `${numOfUsers} members` : `${numOfUsers} member`}`}</div>
+			<div className="chatMemberDisplay">{`${isPlural ? `${numOfUsers} members` : `${numOfUsers} member`}`}</div>
 		</div>
 	);
 }
