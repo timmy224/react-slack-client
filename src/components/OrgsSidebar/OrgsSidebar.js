@@ -30,7 +30,7 @@ class OrgsSidebar extends Component {
     render() {
         const { orgs, currentOrg, invitations, handleCreateOrgModal, handlePendingInvitationsModal } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
-        const alertPendingInvitations = invitations.length ? 
+        const viewInvitationsBtn = invitations.length ? 
                 <div className="org-settings pending-invitations">
                     <div className="alert-pending">{invitations.length}</div>
                     <button onClick={() => handlePendingInvitationsModal(true)}>
@@ -53,7 +53,7 @@ class OrgsSidebar extends Component {
                                 <FontAwesomeIcon icon={faPlus} transform="grow-4" color="#99a59e" />
                             </button>
                     </div>
-                    {alertPendingInvitations}
+                    {viewInvitationsBtn}
                     <PendingInvitationsModal />
                     <CreateOrgModal />
                 </div>
