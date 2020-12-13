@@ -6,7 +6,7 @@ import {HashRouter} from "react-router-dom"
 import "../../index.css";
 import App from "../App/App";
 import AlertUser from "../AlertUser/AlertUser";
-import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
+import CreateChannelModal from "../Modals/CreateChannelModal/CreateChannelModal";
 import MainComponent from "../MainComponent/MainComponent";
 import Register from "../Register/Register";
 import Login from "../Login/Login";

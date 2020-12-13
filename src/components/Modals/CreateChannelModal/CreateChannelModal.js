@@ -79,7 +79,7 @@ class CreateChannelModal extends Component {
         const checkbox = 
             <div class="custom-control custom-switch">
                 <input type="checkbox" className="custom-control-input custom-switch-label" id="customSwitch" />
-                <label className={customControlLabel} htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
+                <label className={`${customControlLabel} custom-control-label`} htmlFor="customSwitch" onClick={() => createPrivate(!isPrivate)}><p>Make a private channel</p></label>
             </div>
         const privateSection =
                     <div>

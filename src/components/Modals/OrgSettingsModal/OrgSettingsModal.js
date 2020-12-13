@@ -41,7 +41,7 @@ class OrgSettingsModal extends Component {
     }
 
     render() {
-        const { showOrgSettingsModal, currentOrg, invitations } = this.props;
+        const { showOrgSettingsModal, currentOrg } = this.props;
         const form =
                 <CustomForm>
                     <CanView

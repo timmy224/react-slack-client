@@ -2,7 +2,6 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
-import { dispatch } from "rxjs/internal/observable/pairs";
 import { cloneDeep } from "lodash-es";
 
 const initActions = function (orgService, utilityService) {

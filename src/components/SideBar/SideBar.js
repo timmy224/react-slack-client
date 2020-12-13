@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
-import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
+import CreateChannelModal from "../Modals/CreateChannelModal/CreateChannelModal";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import CanView from "../CanView/CanView";
-import PendingInvitationsModal from "../PendingInvitationsModal/PendingInvitationsModal";
-import CreateOrgModal from "../CreateOrgModal/CreateOrgModal";
-import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
-import OrgSettingsModal from "../OrgSettingsModal/OrgSettingsModal";
+import PendingInvitationsModal from "../Modals/PendingInvitationsModal/PendingInvitationsModal";
+import CreateOrgModal from "../Modals/CreateOrgModal/CreateOrgModal";
+import InviteMembersModal from "../Modals/InviteMembersModal/InviteMembersModal";
+import OrgSettingsModal from "../Modals/OrgSettingsModal/OrgSettingsModal";
 
 class SideBar extends Component {
     selectChannel = (event) => {
