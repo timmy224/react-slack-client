@@ -75,3 +75,14 @@ body {
 	background-color: rgb(26,29,33);
 	color: rgb(204,199,192);
 }
+
+button.close {
+	color: rgb(204,199,192);
+	position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+button.close:hover {
+	color: #ebeff3
+}

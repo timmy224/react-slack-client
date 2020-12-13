@@ -73,9 +73,9 @@ class CreateChannelModal extends Component {
 
     render() {
         const { showTakenMsg, showCreateModal, isPrivate, createPrivate, privateChannelUsers } = this.props;
-        const { customControlLabel, usernameDisplay } = styles
+        const { customControlLabel, usernameDisplay, usernameDisplayWrapper } = styles
         const takenMessage = showTakenMsg ? <h3>Channel Name taken</h3> : null;
-        const usernamesDisplay = privateChannelUsers.map(user => <span className={usernameDisplay}>{user}</span>)
+        const usernamesDisplay = privateChannelUsers.map(user => <span key={user}className={usernameDisplay}>{user}</span>);
         const checkbox = 
             <div class="custom-control custom-switch">
                 <input type="checkbox" className="custom-control-input custom-switch-label" id="customSwitch" />
@@ -95,7 +95,7 @@ class CreateChannelModal extends Component {
             :
             <CustomForm onSubmit={this.handleSubmit}>
                     <CustomFormInput type="text" name="channelName" placeholder="#new channel name" onChange={this.handleChannelName} label="Name" required="required" min="1" >Name</CustomFormInput>
-                    {usernamesDisplay}
+                    <div className={usernameDisplayWrapper}>{usernamesDisplay}</div>
                     <CustomFormInput type="text" name="users" placeholder="#enter users separated by a space" onChange={this.handleUserChange} label="Users">Users</CustomFormInput>
             </CustomForm>
         return (
