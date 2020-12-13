@@ -55,7 +55,7 @@ class OrgSettingsModal extends Component {
                 </CustomForm>   
         return (
             <CustomModal
-                show={ showOrgSettingsModal } 
+                show={showOrgSettingsModal} 
                 onHide={this.handleHide} 
                 title="Org Settings"
                 form={form}
