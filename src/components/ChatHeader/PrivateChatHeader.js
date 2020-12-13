@@ -4,7 +4,7 @@ import styles from "./ChannelChatHeader.module.css"
 function PrivateChatHeader(props){
 	const { chatHeader } = styles
 	return(
-		<div className = { chatHeader } >
+		<div className={chatHeader} >
 			<h1>{`# ${props.partnerUsername}`}</h1>
 		</div>
 	);
