@@ -6,7 +6,9 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 6% 21% 73%;
+    grid-template-columns: 20% 80%;
+    padding-left: 75px;
+    position: relative;
 }
 
 .org-wrapper {
