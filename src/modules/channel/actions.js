@@ -28,16 +28,6 @@ const initActions = function (channelService) {
         }
     }
 
-    const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
-    const setCreateChannelName = (channel_name) => (dispatch) => {
-        dispatch(channelNameSet(channel_name))
-    };
-
-    const channelNameTaken = actionCreator(types.CHANNEL_NAME_TAKEN);
-    const takenChannelName = (isChannelNameTaken) => (dispatch) => {
-        dispatch(channelNameTaken(isChannelNameTaken))
-    };
-
     const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
     const addedToChannel = (orgName, channel) => dispatch => {
         dispatch(channelAddedTo({orgName, channel}))
@@ -65,27 +55,13 @@ const initActions = function (channelService) {
         dispatch(modalCreateShow(show))
     };
 
-    const privateChannel = actionCreator(types.CREATE_PRIVATE);
-    const createPrivate = (isChannelPrivate) => (dispatch) => {
-        dispatch(privateChannel(isChannelPrivate))
-    };
-
-    const usersPrivate = actionCreator(types.PRIVATE_CHANNEL_USERS);
-    const privateChannelUsers = (privateUsers) => (dispatch) => {
-        dispatch(usersPrivate(privateUsers))
-    };
-
     return {
         fetchChannels,
         setOrgChannels,
         deleteChannel,
-        setCreateChannelName,
-        takenChannelName,
         addedToChannel,
         channelDeleted,
         showCreateModal,
-        createPrivate,
-        privateChannelUsers,
     };
 };
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions, services } from "../../../context";
+
 import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
 import CustomModal from '../../UI/CustomModal/CustomModal';
@@ -26,7 +27,8 @@ class CreateChannelModal extends Component {
             channelName: '',
             takenChannelName: false,
             isPrivate: false, 
-            setPrivateUsers: [],
+            setPrivateUsers: '',
+            privateUsers:[],
         }
     }
 
@@ -38,19 +40,22 @@ class CreateChannelModal extends Component {
     handleUserChange = event => {
         const { value, name } = event.target;
         let users = value.trim().split(/[\s,]+/)
-        this.setState({[name]: users})
+        this.setState({
+            [name]: value,
+            privateUsers: users,
+        })
     }
 
-    handleIsPrivate = (isPrivate) => {
+    handleIsPrivate = isPrivate => {
         this.setState({isPrivate: isPrivate})
     }
 
-    handleSubmit = (event) => {
-        const { channelName, isPrivate, setPrivateUsers } = this.state;
-        const { org, username } = this.props;
+    handleSubmit = event => {
         event.preventDefault();
+        const { channelName, isPrivate, privateUsers } = this.state;
+        const { org, username } = this.props;
         const name = channelName;
-        const members =  isPrivate ? [...setPrivateUsers,username] : [];
+        const members =  isPrivate ? [...privateUsers,username] : [];
         const channelInfo ={
             name,
             members,
@@ -75,6 +80,7 @@ class CreateChannelModal extends Component {
             setPrivateUsers: [],
         })
     }
+
     handleHide = () => {
         const { handleShowCreateModal } = this.props
         handleShowCreateModal(false);
@@ -82,36 +88,12 @@ class CreateChannelModal extends Component {
     }
 
     render() {
-        const { takenChannelName, isPrivate, setPrivateUsers, channelName } = this.state;
+        const { takenChannelName, isPrivate, setPrivateUsers, channelName, privateUsers } = this.state;
         const { customControlLabel, usernameDisplay, usernameDisplayWrapper } = styles
         const { showCreateModal } = this.props;
         const takenMessage = takenChannelName ? <h3>Channel Name taken</h3> : null;
-        const usernamesDisplay = setPrivateUsers ? 
-                                    setPrivateUsers.map(user => (
-                                        <span className={ usernameDisplay }>{user}</span>))
-                                    : null;
-        const checkbox = (
-            <div className="custom-control custom-switch">
-                <input 
-                    type="checkbox" 
-                    className="custom-control-input custom-switch-label" 
-                    id="customSwitch" />
-                <label 
-                    className={`${ customControlLabel } custom-control-label`} 
-                    htmlFor="customSwitch" 
-                    onClick={() => this.handleIsPrivate(!isPrivate)}>
-                        <p>Make a private channel</p>
-                </label>
-            </div>
-            );
-        const privateSection = (
-                    <div>
-                        <h4>Make Private</h4>
-                        <div>
-                            <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                        </div>
-                    </div>
-                );
+        const usernamesDisplay = privateUsers.map(user => (
+                                        <span className={usernameDisplay}>{user}</span>))
         const privateForm = isPrivate ?
                     (<div>
                         <div className={usernameDisplayWrapper}>{usernamesDisplay}</div>
@@ -119,8 +101,8 @@ class CreateChannelModal extends Component {
                             type="text" 
                             name="setPrivateUsers" 
                             placeholder="#enter users separated by a space"
-                            value={ setPrivateUsers } 
-                            onChange={ this.handleUserChange } 
+                            value={setPrivateUsers} 
+                            onChange={this.handleUserChange} 
                             label="Users"
                             >Users
                         </CustomFormInput>
@@ -132,7 +114,7 @@ class CreateChannelModal extends Component {
                         type="text" 
                         name="channelName" 
                         placeholder="#new channel name" 
-                        value={ channelName }
+                        value={channelName}
                         onChange={this.handleChannelName} 
                         label="Name"
                         >Name
@@ -150,8 +132,24 @@ class CreateChannelModal extends Component {
                     form={form}
                     footer= {<CustomButton type='submit' onClick={this.handleSubmit}>Create</CustomButton>}
                     >
-                        { privateSection }
-                        { checkbox }
+                    <div>
+                        <h4>Make Private</h4>
+                        <div>
+                            <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                        </div>
+                    </div>
+                    <div className="custom-control custom-switch">
+                        <input 
+                            type="checkbox" 
+                            className="custom-control-input custom-switch-label" 
+                            id="customSwitch" />
+                        <label 
+                            className={`${ customControlLabel } custom-control-label`} 
+                            htmlFor="customSwitch" 
+                            onClick={() => this.handleIsPrivate(!isPrivate)}>
+                                <p>Make a private channel</p>
+                        </label>
+                    </div>
                 </CustomModal>    
         );
     }
