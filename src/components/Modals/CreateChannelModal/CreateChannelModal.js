@@ -96,7 +96,9 @@ class CreateChannelModal extends Component {
                                         <span className={usernameDisplay}>{user}</span>))
         const privateForm = isPrivate ?
                     (<div>
-                        <div className={usernameDisplayWrapper}>{usernamesDisplay}</div>
+                        <div className={usernameDisplayWrapper}>
+                            {usernamesDisplay}
+                        </div>
                         <CustomFormInput 
                             type="text" 
                             name="setPrivateUsers" 
