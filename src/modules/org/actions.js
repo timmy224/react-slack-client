@@ -121,16 +121,12 @@ const initActions = function (orgService, utilityService) {
     }
 
     const handleOrgDeleted = (orgName) => (dispatch, getState) => {
-        const orgs = getState().org.orgs;
-        const otherOrgsExist = Object.keys(orgs).length > 1;
-        const newSelectedOrgName = Object.keys(orgs).find(org => org !== orgName)
-        if(otherOrgsExist){
-            dispatch(selectOrg(newSelectedOrgName));
-            dispatch(removeOrg(orgName));
-        }else{
-            dispatch(setOrg(null));
-            dispatch(setOrgs({}));
-        } 
+	dispatch(removeOrg(orgName));
+	const isCurrentOrgDeleted = getState().org.org?.name === orgName;
+        if (isCurrentOrgDeleted) {
+              dispatch(setOrg(null));
+              dispatch(selectDefaultOrg())
+        }
     };
 
     const removeOrg = orgName => (dispatch, getState) => {
