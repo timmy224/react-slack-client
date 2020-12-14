@@ -49,3 +49,9 @@
 .messages-wrapper::-webkit-scrollbar-thumb:hover {
     background: transparent !important; 
 }
+
+.cta-create-channel {
+    align-self: center;
+    justify-self: center;
+    margin-top: 50px;
+}

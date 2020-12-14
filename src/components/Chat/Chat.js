@@ -61,7 +61,9 @@ class Chat extends Component {
                     </div>
             );
         } else {
-            return null;
+            return(
+                <h1 className="cta-create-channel">Create a Channel to get started!</h1>
+            )
         }
     }
 }
