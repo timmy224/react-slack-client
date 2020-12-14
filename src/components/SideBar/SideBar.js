@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
-import CreateChannel from "../CreateChannel/CreateChannel";
+import CreateChannelModal from "../Modals/CreateChannelModal/CreateChannelModal";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-import InviteModal from "../InviteModal/InviteModal"
 import CanView from "../CanView/CanView";
+import PendingInvitationsModal from "../Modals/PendingInvitationsModal/PendingInvitationsModal";
+import CreateOrgModal from "../Modals/CreateOrgModal/CreateOrgModal";
+import InviteMembersModal from "../Modals/InviteMembersModal/InviteMembersModal";
+import OrgSettingsModal from "../Modals/OrgSettingsModal/OrgSettingsModal";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -22,7 +25,7 @@ class SideBar extends Component {
     }
 
     render() {
-        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showSendInviteModal } = this.props;
+        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
@@ -80,6 +83,16 @@ class SideBar extends Component {
             <div id="sidebar">
                 <div className="org-name-header">
                         <h1>{org?.name}</h1>
+                        <CanView
+                        resource="org-member"
+                        action="invite"
+                        yes={() => (
+                            <span className="org-options" onClick={() => showOrgSettingsModal(true)}>
+                                <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
+                            </span> 
+                        )}
+                        no={() => null}
+                    />
                     </div>
                 <div className="sidebar-body">
                     <div className="sidebar-section-heading">
@@ -99,7 +112,7 @@ class SideBar extends Component {
                             no={() => null}
                         />                              
                     </div>
-                    <CreateChannel />                
+                    <CreateChannelModal />                
                     <div className="container">
                         {channelsDisplay}
                     </div>
@@ -112,18 +125,16 @@ class SideBar extends Component {
                     <div className = "container">
                         {orgMembersDisplay}
                     </div>
-                    <div className="container invite-create-wrapper">
-                        <br />
-                        <InviteModal />
-                        <button onClick={()=>showSendInviteModal(true)} type="button">Invite People</button>
-                        
-                    </div>
                 </div>
                 <div className="sidebar-end" old_className='container text-center logout-wrapper'>
                     <button
                         type="button" className="logout-btn"
                         onClick={() => this.props.logout()}>Logout</button>
                 </div>
+                <OrgSettingsModal />
+                <PendingInvitationsModal />
+                <CreateOrgModal />
+                <InviteMembersModal />
             </div>
         );    
     };
@@ -138,7 +149,7 @@ const mapStateToProps = (state) => {
     const { org } = mapping;
     if (org) {
         mapping.channels = state.channel.channels[org.name];
-        mapping.orgMembers = state.org.orgs[org.name].members
+        mapping.orgMembers = state.org.orgs[org.name]?.members
     }    
     return mapping;
 };
@@ -148,8 +159,8 @@ const mapActionsToProps = {
     deleteChannel: actions.channel.deleteChannel,
     selectUser: actions.sidebar.selectUser,
     showCreateChannelModal: actions.channel.showCreateModal,
-    showSendInviteModal: actions.invitation.showInviteModal,
     logout: actions.user.logout,
+    showOrgSettingsModal: actions.org.showOrgSettingsModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

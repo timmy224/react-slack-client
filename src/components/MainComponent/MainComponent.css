@@ -6,8 +6,9 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 6% 21% 73%;
-    grid-template-rows: 1fr 80% 1fr;
+    grid-template-columns: 20% 80%;
+    padding-left: 75px;
+    position: relative;
 }
 
 .org-wrapper {
@@ -41,3 +42,6 @@ h1 {
     font-size:1.5em !important;
 }
 
+.create-first-org-cta {
+    width:100%;
+}

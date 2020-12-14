@@ -6,8 +6,8 @@ import set from "lodash/fp/set";
 const initReducer = () => {
     const INITIAL_STATE = {
         channels: {},
-        create_channel_name: '',
-        show_taken_msg: false,
+        createChannelName: '',
+        showTakenMsg: false,
         showCreateModal: false,
         isPrivate: false,
         privateChannelUsers: [],
@@ -31,12 +31,12 @@ const initReducer = () => {
             case types.CHANNEL_NAME_TAKEN:
                 return {
                     ...state,
-                    show_taken_msg: payload,
+                    showTakenMsg: payload,
                 }
             case types.CHANNEL_NAME_SET:
                 return {
                     ...state,
-                    create_channel_name: payload,
+                    createChannelName: payload,
                 }
             case types.SHOW_CREATE_MODAL:
                 return {

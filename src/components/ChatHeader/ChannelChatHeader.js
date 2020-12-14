@@ -1,15 +1,13 @@
 import React from "react";
-import "./ChannelChatHeader.css"
+import styles from "./ChannelChatHeader.module.css"
 
-function ChannelChatHeader(props){
+function ChannelChatHeader({channelName, numUsers}){
+	const membersLabel = numUsers > 1 ? "members" : "member";
+	const { chatHeader, chatMemberDisplay } = styles
 	return(
-		<div className = "chat-header" >
-			<h1>{`# ${props.channelName}`}</h1>
-			<button 
-				type="button" 
-				className="btn btn-light custom-button">
-				{`${props.numberOfUsers} members`}
-            </button>
+		<div className={chatHeader}>
+			<h1>{`# ${channelName}`}</h1>
+			<div className={chatMemberDisplay}>{`${numUsers} ${membersLabel}`}</div>
 		</div>
 	);
 }
