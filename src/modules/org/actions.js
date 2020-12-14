@@ -124,7 +124,6 @@ const initActions = function (orgService, utilityService) {
 	dispatch(removeOrg(orgName));
 	const isCurrentOrgDeleted = getState().org.org?.name === orgName;
         if (isCurrentOrgDeleted) {
-              dispatch(setOrg(null));
               dispatch(selectDefaultOrg())
         }
     };

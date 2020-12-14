@@ -149,7 +149,7 @@ const mapStateToProps = (state) => {
     const { org } = mapping;
     if (org) {
         mapping.channels = state.channel.channels[org.name];
-        mapping.orgMembers = state.org.orgs[org.name].members
+        mapping.orgMembers = state.org.orgs[org.name]?.members
     }    
     return mapping;
 };
