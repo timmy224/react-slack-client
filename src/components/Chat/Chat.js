@@ -19,6 +19,20 @@ class Chat extends Component {
         this.props.sendMessage(message);
     }
 
+    fetchPreviousMessages = () => {
+        const { chatType, channel, partnerUsername, messages, fetchPrevChannelMessages, fetchPrevPrivateMessages } = this.props;
+        const beforeDateTime = messages[0].sent_dt;
+        switch (chatType) {
+            case "channel":                
+                fetchPrevChannelMessages(channel.name, beforeDateTime);
+                break;
+            case "private":
+                fetchPrevPrivateMessages(partnerUsername, beforeDateTime);
+                break;
+            default:
+        }
+    }
+
     render() {
         let { channel, partnerUsername } = this.props
         let messages = this.props.messages ? this.props.messages : [];
@@ -40,9 +54,9 @@ class Chat extends Component {
                         <InputMessage
                             onEnter={this.onEnterPressed}
                         />
+                        <button onClick={this.fetchPreviousMessages}>Fetch previous messages</button>
                     </div>
                 </div>
-            
         );
     }
 }
@@ -75,6 +89,8 @@ const mapStateToProps = (state) => {
 const mapActionsToProps = {
     sendMessage: actions.message.sendMessage,
     messageReceived: actions.message.messageReceived,
+    fetchPrevChannelMessages: actions.message.fetchPrevChannelMessages,
+    fetchPrevPrivateMessages: actions.message.fetchPrevPrivateMessages,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Chat);
