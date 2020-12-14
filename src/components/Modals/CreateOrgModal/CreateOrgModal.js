@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { actions } from "../../context";
-import Modal from 'react-bootstrap/Modal';
+import { actions } from "../../../context";
+import CustomModal from '../../UI/CustomModal/CustomModal';
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
+import CustomForm from '../../UI/CustomForm/CustomForm';
+
+import styles from '../CreateChannelModal/CreateChannelModal.module.css'
 
 const mapStateToProps = (state) => {
     return {
@@ -20,7 +25,7 @@ const mapActionsToProps = {
     setNewOrgUsers: actions.org.setNewOrgUsers,
 }
 
-class CreateOrg extends Component {
+class CreateOrgModal extends Component {
     handleSubmit = (event) => {
         const { createOrgName, takenOrgName, newOrgUsers, createOrg } = this.props
         event.preventDefault();
@@ -47,7 +52,7 @@ class CreateOrg extends Component {
     }
 
     handleHide = () => {
-        const { handleShowCreateOrgModal } = this.props
+        const { handleShowCreateOrgModal} = this.props
         handleShowCreateOrgModal(false);
         this.resetModal();
     }
@@ -58,29 +63,30 @@ class CreateOrg extends Component {
 
     render() {
         const { newOrgUsers, showCreateOrgModal } = this.props
-        const userButton = newOrgUsers.map(user => <button type="button" value={user} key={user}>{user}</button>)
+        const usernamesDisplay = (
+                    newOrgUsers.map(user => (
+                        <span className={styles.usernameDisplay}>{user}</span>
+                        )));
+        const form = (
+            <CustomForm onSubmit={this.handleSubmit}>
+                <CustomFormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</CustomFormInput>
+                    {usernamesDisplay}
+                <CustomFormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</CustomFormInput>
+                <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
+            </CustomForm>
+        )
         return (
-            <div>
-                <Modal show={showCreateOrgModal} onHide={this.handleHide} className="custom-modal">
-                    <Modal.Header closeButton>
-                        <Modal.Title>Create a new Org</Modal.Title>
-                    </Modal.Header>
-                    <form
-                    className="custom-form"
-                    onSubmit={this.handleSubmit}>
-                        <label htmlFor='newOrgName'>Enter Org Name</label>
-                        <input name="newOrgName" type="text" placeholder="react_slack" onChange={this.handleOrgName} className="form-control"/>
-                        {userButton}
-                        <label htmlFor="users" >Users</label>
-                        <input name="users" type="text" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} className="form-control"/>
-                        <button type='submit' onClick={this.handleSubmit} className="mt-2 btn btn-primary custom-button">Submit</button>
-                    </form>
-                </Modal>
-            </div>
+            <CustomModal 
+                show={showCreateOrgModal} 
+                onHide={this.handleHide}
+                title="Create a new Org"
+                form={form}
+                />
         );
     }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(CreateOrg);
+export default connect(mapStateToProps, mapActionsToProps)(CreateOrgModal
+    );
 
 

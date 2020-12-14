@@ -1,0 +1,19 @@
+.customControlLabel {
+    cursor: pointer;
+}
+
+.usernameDisplay {
+    background: white;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    width: auto;
+}
+
+.usernameDisplayWrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}

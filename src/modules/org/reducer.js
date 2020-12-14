@@ -10,6 +10,7 @@ const initReducer = () => {
         createOrgName: '',
         showTakenMsg: false,
         newOrgUsers: [],
+        showOrgSettingsModal: false,
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -28,7 +29,7 @@ const initReducer = () => {
                 const path = ["orgs", orgName]
                 return set(path, org, state);
             }
-            case types.SELECT_ORG:
+            case types.SET_CURRENT_ORG:
                 return {
                     ...state,
                     org: payload
@@ -65,7 +66,12 @@ const initReducer = () => {
                 return {
                     ...state,
                     newOrgUsers: payload,
-                }              
+                }    
+            case types.SHOW_ORG_SETTINGS_MODAL:
+                return {
+                    ...state,
+                    showOrgSettingsModal: payload,
+                }          
             default:
                 return state;
         }

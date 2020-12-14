@@ -59,12 +59,14 @@ const OrgService = function (apiService) {
             .then(response => response.json())
     };
 
-    const deleteOrg = org_id => {
+    const deleteOrg = orgName => {
         const url = `${config.API_URL}/org`;
+
+        const data = {org_name: orgName}
 
         const options = {
             method: "DELETE",
-            body: JSON.stringify(org_id),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
