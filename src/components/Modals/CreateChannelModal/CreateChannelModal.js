@@ -83,14 +83,14 @@ class CreateChannelModal extends Component {
 
     render() {
         const { takenChannelName, isPrivate, setPrivateUsers, channelName } = this.state;
+        const { customControlLabel, usernameDisplay, usernameDisplayWrapper } = styles
         const { showCreateModal } = this.props;
-        const { customControlLabel, usernameDisplay } = styles
         const takenMessage = takenChannelName ? <h3>Channel Name taken</h3> : null;
         const usernamesDisplay = setPrivateUsers ? 
                                     setPrivateUsers.map(user => (
                                         <span className={ usernameDisplay }>{user}</span>))
                                     : null;
-        const checkbox = 
+        const checkbox = (
             <div className="custom-control custom-switch">
                 <input 
                     type="checkbox" 
@@ -103,14 +103,30 @@ class CreateChannelModal extends Component {
                         <p>Make a private channel</p>
                 </label>
             </div>
-        const privateSection =
+            );
+        const privateSection = (
                     <div>
                         <h4>Make Private</h4>
                         <div>
                             <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
                         </div>
                     </div>
-        const form = !isPrivate ?
+                );
+        const privateForm = isPrivate ?
+                    (<div>
+                        <div className={usernameDisplayWrapper}>{usernamesDisplay}</div>
+                        <CustomFormInput 
+                            type="text" 
+                            name="setPrivateUsers" 
+                            placeholder="#enter users separated by a space"
+                            value={ setPrivateUsers } 
+                            onChange={ this.handleUserChange } 
+                            label="Users"
+                            >Users
+                        </CustomFormInput>
+                    </div>)
+                    : null;
+        const form = (
             <CustomForm onSubmit={this.handleSubmit}>
                     <CustomFormInput 
                         type="text" 
@@ -118,32 +134,12 @@ class CreateChannelModal extends Component {
                         placeholder="#new channel name" 
                         value={ channelName }
                         onChange={this.handleChannelName} 
-                        label="Name">
-                            Name
+                        label="Name"
+                        >Name
                     </CustomFormInput>
+                    {privateForm}
             </CustomForm>
-            :
-            <CustomForm onSubmit={this.handleSubmit}>
-                    <CustomFormInput 
-                        type="text" 
-                        name="channelName" 
-                        placeholder="#new channel name" 
-                        value={ channelName }
-                        onChange={this.handleChannelName} 
-                        label="Name">
-                            Name
-                    </CustomFormInput>
-                    {usernamesDisplay}
-                    <CustomFormInput 
-                        type="text" 
-                        name="setPrivateUsers" 
-                        placeholder="#enter users separated by a space"
-                        value={ setPrivateUsers } 
-                        onChange={ this.handleUserChange } 
-                        label="Users">
-                            Users
-                    </CustomFormInput>
-            </CustomForm>
+        );
         return (
                 <CustomModal 
                     show={ showCreateModal } 

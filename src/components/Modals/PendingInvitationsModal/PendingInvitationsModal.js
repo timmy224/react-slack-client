@@ -32,14 +32,14 @@ class PendingInvitationsModal extends Component {
 
     render() {
         const { showPendingInvitationsModal, invitations} = this.props;
-        console.log({showPendingInvitationsModal, invitations})
+        const { invitationDisplay } = styles
         let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
                     const {org_name, inviter} = invitation
                     return(
                         <div
-                            className={styles.invitationDisplay}
+                            className={invitationDisplay}
                             key={org_name + inviter}>
                             <div>
                                 <p>Organization Name : {org_name}</p>
@@ -48,16 +48,15 @@ class PendingInvitationsModal extends Component {
                             <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, true)}>Accept</CustomButton>
                             <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, false)}>Decline</CustomButton>
                         </div>
-                        )
-                });
-        const form =
+                    )});
+        const form = (
                 <CustomForm >
                     {invitationsDisplay}
                 </CustomForm>
+            );
         return (
             <CustomModal
-                // show={showPendingInvitationsModal && invitations.length > 0} 
-                show={showPendingInvitationsModal } 
+                show={showPendingInvitationsModal && invitations.length > 0} 
                 onHide={this.handleHide} 
                 title="Invitations Pending"
                 form={form}

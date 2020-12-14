@@ -5,7 +5,7 @@ import Org from "../Org/Org";
 import "./OrgsSidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
-import PendingInvitationsModal from "../Modals/PendingInvitationsModal/PendingInvitationsModal";
+import PendingInvitationsModal from "../Modals//PendingInvitationsModal/PendingInvitationsModal";
 import CreateOrgModal from "../Modals/CreateOrgModal/CreateOrgModal";
 
 const mapStateToProps = (state) => {
@@ -30,8 +30,8 @@ class OrgsSidebar extends Component {
     render() {
         const { orgs, currentOrg, invitations, handleCreateOrgModal, handlePendingInvitationsModal } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
-        const alertPendingInvitations = invitations.length ? 
-                <div className="org-settings">
+        const viewInvitationsBtn = invitations.length ? 
+                <div className="org-settings pending-invitations">
                     <div className="alert-pending">{invitations.length}</div>
                     <button onClick={() => handlePendingInvitationsModal(true)}>
                         <FontAwesomeIcon icon={faUsers} transform="grow-4" color="#99a59e" />
@@ -53,9 +53,7 @@ class OrgsSidebar extends Component {
                                 <FontAwesomeIcon icon={faPlus} transform="grow-4" color="#99a59e" />
                             </button>
                     </div>
-                    <div className="org-settings pending-invitations">
-                        {alertPendingInvitations}
-                    </div>
+                    {viewInvitationsBtn}
                     <PendingInvitationsModal />
                     <CreateOrgModal />
                 </div>

@@ -41,7 +41,7 @@ class OrgSettingsModal extends Component {
     }
 
     render() {
-        const { showOrgSettingsModal, currentOrg, invitations } = this.props;
+        const { showOrgSettingsModal, currentOrg } = this.props;
         const form =
                 <CustomForm>
                     <CanView
@@ -55,7 +55,7 @@ class OrgSettingsModal extends Component {
                 </CustomForm>   
         return (
             <CustomModal
-                show={ showOrgSettingsModal } 
+                show={showOrgSettingsModal} 
                 onHide={this.handleHide} 
                 title="Org Settings"
                 form={form}

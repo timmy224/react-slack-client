@@ -25,19 +25,3 @@
 	width: 100%;
 	font-size: 2rem;
 }
-
-button.close {
-	color: rgb(204,199,192);
-	position: absolute;
-    top: 0;
-    right: 10px;
-}
-
-button.close:hover {
-	color: #ebeff3
-}
-
-/* .custom {
-	top: 10px;
-	left: 200px;
-} */

@@ -63,14 +63,18 @@ class CreateOrgModal extends Component {
 
     render() {
         const { newOrgUsers, showCreateOrgModal } = this.props
-        const usernamesDisplay = newOrgUsers.map(user => <span className={styles.usernameDisplay}>{user}</span>)
-        const form = 
+        const usernamesDisplay = (
+                    newOrgUsers.map(user => (
+                        <span className={styles.usernameDisplay}>{user}</span>
+                        )));
+        const form = (
             <CustomForm onSubmit={this.handleSubmit}>
                 <CustomFormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</CustomFormInput>
                     {usernamesDisplay}
                 <CustomFormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</CustomFormInput>
                 <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
             </CustomForm>
+        )
         return (
             <CustomModal 
                 show={showCreateOrgModal} 
