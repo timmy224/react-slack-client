@@ -1,15 +1,15 @@
 import { Subject } from "rxjs";
-const dayjs = require("dayjs");
 
 function ChatService(dateTimeService) {
     let joinedChat$ = new Subject();
 
     const getJoinedChat$ = () => joinedChat$;
 
+    const MESSAGE_DT_FORMAT = "YYYY/MM/DD HH:mm:ss:SSS";
+
     // destination parameter can either be a username or channel name
     const prepareMessage = (type, content, sender, destination, orgName) => {
-        const date = new Date();
-        const sentDt = dateTimeService.getDtStr();
+        const sentDt = dateTimeService.str(dateTimeService.now(), MESSAGE_DT_FORMAT);
         const message = {
             type,
             sender,
@@ -29,6 +29,7 @@ function ChatService(dateTimeService) {
 
     return Object.freeze({
         getJoinedChat$,
+        MESSAGE_DT_FORMAT,
         prepareMessage,
         onUserJoinedChat,
     });
