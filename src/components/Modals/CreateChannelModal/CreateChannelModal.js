@@ -11,13 +11,13 @@ import styles from './CreateChannelModal.module.css'
 
 const mapStateToProps = (state)=>{
     return { 
-        showCreateModal: state.channel.showCreateModal,
+        showCreateChannelModal: state.channel.showCreateChannelModal,
         username: state.user.username,
         org: state.org.org,
     }
 }
 const mapActionsToProps = {
-    handleShowCreateModal: actions.channel.showCreateModal,
+    handleCreateChannelModal: actions.channel.showCreateChannelModal,
 }
 
 class CreateChannelModal extends Component {
@@ -82,15 +82,15 @@ class CreateChannelModal extends Component {
     }
 
     handleHide = () => {
-        const { handleShowCreateModal } = this.props
-        handleShowCreateModal(false);
+        const { handleCreateChannelModal } = this.props
+        handleCreateChannelModal(false);
         this.resetModal();
     }
 
     render() {
         const { takenChannelName, isPrivate, setPrivateUsers, channelName, privateUsers } = this.state;
         const { customControlLabel, usernameDisplay, usernameDisplayWrapper } = styles
-        const { showCreateModal } = this.props;
+        const { showCreateChannelModal } = this.props;
         const takenMessage = takenChannelName ? <h3>Channel Name taken</h3> : null;
         const usernamesDisplay = privateUsers.map(user => (
                                         <span className={usernameDisplay}>{user}</span>))
@@ -124,7 +124,7 @@ class CreateChannelModal extends Component {
         );
         return (
                 <CustomModal 
-                    show={ showCreateModal } 
+                    show={ showCreateChannelModal } 
                     onHide={this.handleHide} 
                     errorMsg={ takenMessage }
                     title="Create a channel"

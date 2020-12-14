@@ -50,8 +50,8 @@ const initActions = function (channelService) {
         }
     }
 
-    const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
-    const showCreateModal = (show) => (dispatch) => {
+    const modalCreateShow = actionCreator(types.SHOW_CREATE_CHANNEL_MODAL);
+    const showCreateChannelModal = (show) => (dispatch) => {
         dispatch(modalCreateShow(show))
     };
 
@@ -61,7 +61,7 @@ const initActions = function (channelService) {
         deleteChannel,
         addedToChannel,
         channelDeleted,
-        showCreateModal,
+        showCreateChannelModal,
     };
 };
 

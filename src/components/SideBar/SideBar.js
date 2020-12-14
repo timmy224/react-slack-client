@@ -158,7 +158,7 @@ const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     deleteChannel: actions.channel.deleteChannel,
     selectUser: actions.sidebar.selectUser,
-    showCreateChannelModal: actions.channel.showCreateModal,
+    showCreateChannelModal: actions.channel.showCreateChannelModal,
     logout: actions.user.logout,
     showOrgSettingsModal: actions.org.showOrgSettingsModal,
 };

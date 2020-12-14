@@ -6,7 +6,7 @@ import set from "lodash/fp/set";
 const initReducer = () => {
     const INITIAL_STATE = {
         channels: {},
-        showCreateModal: false,
+        showCreateChannelModal: false,
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -24,10 +24,10 @@ const initReducer = () => {
                 const path = ["channels", orgName, channel.name]
                 return set(path, channel, state);
             }
-            case types.SHOW_CREATE_MODAL:
+            case types.SHOW_CREATE_CHANNEL_MODAL:
                 return {
                     ...state,
-                    showCreateModal: payload,
+                    showCreateChannelModal: payload,
                 }
             default:
                 return state;
