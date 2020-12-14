@@ -4,7 +4,7 @@ import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
-import "./Chat.css"
+import styles from "./Chat.module.css"
 // Depends on chatService, socketService
 import { actions, services } from "../../context";
 
@@ -34,7 +34,8 @@ class Chat extends Component {
     }
 
     render() {
-        let { chatType, channel, partnerUsername } = this.props
+        let { chatType, channel, partnerUsername } = this.props;
+        const { messagesWrapper, ctaCreateChannel, chat, boxFirst, boxFill, boxEnd } = styles;
         const canDisplay = (chatType === "channel" && channel) || (chatType === "private" && partnerUsername);
         if (canDisplay) {
             let messages = this.props.messages ? this.props.messages : [];
@@ -42,17 +43,17 @@ class Chat extends Component {
                 ? <ChannelChatHeader numUsers={channel.members.length} channelName={channel.name} />
                 : <PrivateChatHeader partnerUsername={partnerUsername}/>
             return (
-                <div id="chat">
-                        <div id="box-first">
+                <div className={chat}>
+                        <div className={boxFirst}>
                             {chatHeader}
                         </div>
-                        <div className="messages-wrapper" id="box-fill">
+                        <div className={messagesWrapper} className={boxFill}>
                             {messages.map((message) => {
                                 return (<Message key={message.sender + message.content}
                                     sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
                             })}
                         </div>
-                        <div id="box-end">
+                        <div classNAame={boxEnd}>
                             <InputMessage
                                 onEnter={this.onEnterPressed}
                             />
@@ -62,7 +63,7 @@ class Chat extends Component {
             );
         } else {
             return(
-                <h1 className="cta-create-channel">Create a Channel to get started!</h1>
+                <h1 className={ctaCreateChannel}>Create a Channel to get started!</h1>
             )
         }
     }

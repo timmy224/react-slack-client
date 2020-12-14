@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import "./App.css";
 // Depends on storageService, userService, socketService
 import { services } from "../../context";
 import { actions } from "../../context";
