@@ -46,14 +46,14 @@ const initActions = function (orgService, utilityService) {
         dispatch(orgSet({ orgName, org }));
     }
 
-    const orgSelect = actionCreator(types.SELECT_ORG);
+    const setCurrentOrg = actionCreator(types.SET_CURRENT_ORG);
     const selectOrg = orgName => async (dispatch, getState) => {
         let org = getState().org.orgs[orgName];
         if (!org) {
             await dispatch(fetchOrg(orgName));
             org = getState().org.orgs[orgName];
         }
-        dispatch(orgSelect(org));
+        dispatch(setCurrentOrg(org));
         // fetch channels and select default channel
         await dispatch(actions.channel.fetchChannels(orgName));
         dispatch(actions.sidebar.selectDefaultChannel());
@@ -124,7 +124,8 @@ const initActions = function (orgService, utilityService) {
 	dispatch(removeOrg(orgName));
 	const isCurrentOrgDeleted = getState().org.org?.name === orgName;
         if (isCurrentOrgDeleted) {
-              dispatch(selectDefaultOrg())
+            dispatch(setCurrentOrg(null));
+            dispatch(selectDefaultOrg());
         }
     };
 

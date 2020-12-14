@@ -29,7 +29,7 @@ const initReducer = () => {
                 const path = ["orgs", orgName]
                 return set(path, org, state);
             }
-            case types.SELECT_ORG:
+            case types.SET_CURRENT_ORG:
                 return {
                     ...state,
                     org: payload
