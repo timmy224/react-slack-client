@@ -16,10 +16,8 @@ const mapStateToProps = (state)=>{
 }
 const mapActionsToProps = {
     handleOrgSettingsModalShow: actions.org.showOrgSettingsModal,
-    showCreateOrgModal: actions.org.showCreateOrgModal,
     handleDeleteOrg: actions.org.deleteOrg,
     handleInviteMembersModal: actions.invitation.showInviteMembersModal,
-    handlePendingInvitationsModal: actions.invitation.showPendingInvitationsModal,
 }
 
 class OrgSettingsModal extends Component {
@@ -50,7 +48,11 @@ class OrgSettingsModal extends Component {
                         yes={() => <CustomButton type="button" onClick={()=>this.handleDeleteOrg(currentOrg.name)}>Delete current Org</CustomButton>}
                         no={() => null}
                     />
-                    <CustomButton type="button" onClick={()=>this.handleInviteMembers(true)}>Invite new members to your Org</CustomButton>
+                    <CustomButton 
+                        type="button" 
+                        onClick={()=>this.handleInviteMembers(true)}
+                        >Invite new members to your Org
+                    </CustomButton>
                     <InviteMembersModal />
                 </CustomForm>   
         return (

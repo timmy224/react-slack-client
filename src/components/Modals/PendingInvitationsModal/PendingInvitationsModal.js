@@ -45,8 +45,16 @@ class PendingInvitationsModal extends Component {
                                 <p>Organization Name : {org_name}</p>
                                 <p>User : {inviter}</p>
                             </div>
-                            <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, true)}>Accept</CustomButton>
-                            <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, false)}>Decline</CustomButton>
+                            <CustomButton 
+                                type='submit' 
+                                onClick={event => this.handleResponse(event, invitation, true)}
+                                >Accept
+                            </CustomButton>
+                            <CustomButton 
+                                type='submit' 
+                                onClick={event => this.handleResponse(event, invitation, false)}
+                                >Decline
+                            </CustomButton>
                         </div>
                     )});
         const form = (

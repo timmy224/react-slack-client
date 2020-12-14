@@ -11,19 +11,13 @@ import styles from '../CreateChannelModal/CreateChannelModal.module.css'
 
 const mapStateToProps = (state) => {
     return {
-        // createOrgName: state.org.createOrgName,
-        // showTakenNameMsg: state.org.showTakenNameMsg,
         showCreateOrgModal: state.org.showCreateOrgModal,
         username: state.user.username,
-        // newOrgUsers: state.org.newOrgUsers,
     }
 }
 const mapActionsToProps = {
     createOrg: actions.org.createOrg,
-    // setCreateOrgName: actions.org.setCreateOrgName,
-    // takenOrgName: actions.org.takenOrgName,
     handleShowCreateOrgModal: actions.org.showCreateOrgModal,
-    // setNewOrgUsers: actions.org.setNewOrgUsers,
 }
 
 class CreateOrgModal extends Component {
@@ -79,23 +73,6 @@ class CreateOrgModal extends Component {
                 } 
             });
     }
-
-    // resetModal = () => {
-    //     const { setNewOrgUsers, takenOrgName, setCreateOrgName } = this.props
-    //     setCreateOrgName('')
-    //     setNewOrgUsers([]);
-    //     takenOrgName(false);
-    // }
-
-    // handleOrgName = event => {
-    //     let newOrgName = event.target.value;
-    //     return this.props.setCreateOrgName(newOrgName)
-    // }
-
-    // handleUserChange = event => {
-    //     let users = event.target.value;
-    //     return this.props.setNewOrgUsers(users.trim().split(/[\s,]+/))
-    // }
 
     render() {
         const { showCreateOrgModal } = this.props;

@@ -17,19 +17,14 @@ const initActions = function (invitationService) {
         
     };
 
-    const modalInviteShow = actionCreator(types.SHOW_INVITE_MODAL);
+    const modalInviteShow = actionCreator(types.SHOW_INVITE_MEMBERS_MODAL);
     const showInviteMembersModal = (show) => (dispatch) => {
         dispatch(modalInviteShow(show))
     };
 
-    const modalInvitationsShow = actionCreator(types.SHOW_INVITATIONS_MODAL);
+    const modalInvitationsShow = actionCreator(types.SHOW_PENDING_INVITATIONS_MODAL);
     const showPendingInvitationsModal = (show) => (dispatch) => {
         dispatch(modalInvitationsShow(show))
-    };
-
-    const invitedUserEmailSet = actionCreator(types.SET_INVITED_USER_EMAIL);
-    const setInvitedUserEmail = (email) => (dispatch) => {
-        dispatch(invitedUserEmailSet(email))
     };
 
     const respondToInvitation = (invitation, isAccepted) => async dispatch => {
@@ -50,7 +45,6 @@ const initActions = function (invitationService) {
     	fetchInvitations,
         showInviteMembersModal,
         showPendingInvitationsModal,
-        setInvitedUserEmail,
         respondToInvitation,
         removeInvitation,
     };
