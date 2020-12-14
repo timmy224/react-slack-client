@@ -21,9 +21,9 @@ const initActions = function(permissionService) {
             if (orgPerms) {
                 permissions.push(...orgPerms);
             }
-            if (getState().chat.type === "channel") {
-                const channelName = getState().chat.channel.name;
-                const selectedChannelPerms = getState().permission.channelMemberPerms[orgName]?.[channelName];
+            const channel = getState().chat.channel;
+            if (getState().chat.type === "channel" && channel) {
+                const selectedChannelPerms = getState().permission.channelMemberPerms[orgName]?.[channel.name];
                 if (selectedChannelPerms) {
                     permissions.push(...selectedChannelPerms);
                 }

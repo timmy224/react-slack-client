@@ -48,6 +48,7 @@ const initActions = function (orgService, utilityService) {
 
     const setCurrentOrg = actionCreator(types.SET_CURRENT_ORG);
     const selectOrg = orgName => async (dispatch, getState) => {
+        dispatch(actions.chat.reset());
         let org = getState().org.orgs[orgName];
         if (!org) {
             await dispatch(fetchOrg(orgName));
@@ -60,6 +61,7 @@ const initActions = function (orgService, utilityService) {
     }
 
     const selectDefaultOrg = () => (dispatch, getState) => {
+        dispatch(actions.chat.reset());
         const orgs = getState().org.orgs;
         const orgsExist = orgs && !utilityService.isEmpty(orgs);
         if (orgsExist) {
