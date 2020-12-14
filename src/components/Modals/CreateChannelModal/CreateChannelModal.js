@@ -70,7 +70,8 @@ class CreateChannelModal extends Component {
                 alert(`users_not_found: ${response.users_not_found}`)
             }
             this.setState({takenChannelName:true})
-    })}
+        })
+    }
 
     resetModal = () => {
         this.setState({
@@ -94,36 +95,37 @@ class CreateChannelModal extends Component {
         const takenMessage = takenChannelName ? <h3>Channel Name taken</h3> : null;
         const usernamesDisplay = privateUsers.map(user => (
                                         <span className={usernameDisplay}>{user}</span>))
-        const privateForm = isPrivate ?
-                    (<div>
-                        <div className={usernameDisplayWrapper}>
-                            {usernamesDisplay}
-                        </div>
-                        <CustomFormInput 
-                            type="text" 
-                            name="setPrivateUsers" 
-                            placeholder="#enter users separated by a space"
-                            value={setPrivateUsers} 
-                            onChange={this.handleUserChange} 
-                            label="Users"
-                            >Users
-                        </CustomFormInput>
-                    </div>)
-                    : null;
-        const form = (
-            <CustomForm onSubmit={this.handleSubmit}>
+        const privateForm = isPrivate ? (
+                <div>
+                    <div className={usernameDisplayWrapper}>
+                        {usernamesDisplay}
+                    </div>
                     <CustomFormInput 
                         type="text" 
-                        name="channelName" 
-                        placeholder="#new channel name" 
-                        value={channelName}
-                        onChange={this.handleChannelName} 
-                        label="Name"
-                        >Name
+                        name="setPrivateUsers" 
+                        placeholder="#enter users separated by a space"
+                        value={setPrivateUsers} 
+                        onChange={this.handleUserChange} 
+                        label="Users"
+                        >Users
                     </CustomFormInput>
-                    {privateForm}
-            </CustomForm>
-        );
+                </div>
+            )
+            : null;
+        const form = (
+                <CustomForm onSubmit={this.handleSubmit}>
+                        <CustomFormInput 
+                            type="text" 
+                            name="channelName" 
+                            placeholder="#new channel name" 
+                            value={channelName}
+                            onChange={this.handleChannelName} 
+                            label="Name"
+                            >Name
+                        </CustomFormInput>
+                        {privateForm}
+                </CustomForm>
+            );
         return (
                 <CustomModal 
                     show={ showCreateChannelModal } 
