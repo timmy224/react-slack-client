@@ -34,30 +34,35 @@ class Chat extends Component {
     }
 
     render() {
-        let { channel, partnerUsername } = this.props
-        let messages = this.props.messages ? this.props.messages : [];
-        let chatHeader = this.props.chatType === "channel"
-            ? <ChannelChatHeader numUsers={channel.members.length} channelName={channel.name} />
-            : <PrivateChatHeader partnerUsername={partnerUsername}/>
-        return (
-            <div id="chat">
-                    <div id="box-first">
-                        {chatHeader}
+        let { chatType, channel, partnerUsername } = this.props
+        const canDisplay = (chatType === "channel" && channel) || (chatType === "private" && partnerUsername);
+        if (canDisplay) {
+            let messages = this.props.messages ? this.props.messages : [];
+            let chatHeader = this.props.chatType === "channel"
+                ? <ChannelChatHeader numUsers={channel.members.length} channelName={channel.name} />
+                : <PrivateChatHeader partnerUsername={partnerUsername}/>
+            return (
+                <div id="chat">
+                        <div id="box-first">
+                            {chatHeader}
+                        </div>
+                        <div className="messages-wrapper" id="box-fill">
+                            {messages.map((message) => {
+                                return (<Message key={message.sender + message.content}
+                                    sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
+                            })}
+                        </div>
+                        <div id="box-end">
+                            <InputMessage
+                                onEnter={this.onEnterPressed}
+                            />
+                            <button onClick={this.fetchPreviousMessages}>Fetch previous messages</button>
+                        </div>
                     </div>
-                    <div className="messages-wrapper" id="box-fill">
-                        {messages.map((message) => {
-                            return (<Message key={message.sender + message.content}
-                                sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
-                        })}
-                    </div>
-                    <div id="box-end">
-                        <InputMessage
-                            onEnter={this.onEnterPressed}
-                        />
-                        <button onClick={this.fetchPreviousMessages}>Fetch previous messages</button>
-                    </div>
-                </div>
-        );
+            );
+        } else {
+            return null;
+        }
     }
 }
 
@@ -74,8 +79,10 @@ const mapStateToProps = (state) => {
     const orgName = mapping.org?.name;
     switch (chatType) {
         case "channel":
-            const channelName = channel.name;
-            mapping.messages = state.message.messages[orgName]?.channel?.[channelName];
+            if (channel) {
+                const channelName = channel.name;
+                mapping.messages = state.message.messages[orgName]?.channel?.[channelName];
+            }            
             break;
         case "private":
             mapping.messages = state.message.messages[orgName]?.private?.[partnerUsername];

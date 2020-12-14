@@ -1,4 +1,3 @@
 export default {
-    CHANNEL_SELECT: "CHANNEL_SELECT",
     USER_SELECT: "USER_SELECT",
 };

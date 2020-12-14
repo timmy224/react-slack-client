@@ -45,9 +45,13 @@ const initActions = function (channelService) {
 
     const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
         dispatch(removeChannel(orgName, channelName));
-        const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel.name === channelName;        
-        if (isCurrentChannelDeleted) {
-            dispatch(actions.sidebar.selectDefaultChannel());
+        const isCurrentOrg = getState().org.org?.name === orgName;
+        if (isCurrentOrg) {
+            const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel?.name === channelName;
+            if (isCurrentChannelDeleted) {
+                dispatch(actions.chat.setChannel(null));
+                dispatch(actions.sidebar.selectDefaultChannel());
+            }
         }
     };
 

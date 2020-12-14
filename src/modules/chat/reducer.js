@@ -19,7 +19,9 @@ const initReducer = () => {
         switch (type) {
             case userTypes.LOGOUT: 
                 return INITIAL_STATE;
-            case sidebarTypes.CHANNEL_SELECT:
+            case types.RESET: 
+                return INITIAL_STATE;
+            case types.SET_CHANNEL:
                 return {
                     ...state,                    
                     type: "channel",
