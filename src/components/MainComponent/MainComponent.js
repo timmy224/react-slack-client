@@ -6,7 +6,7 @@ import SideBar from "../SideBar/SideBar";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
 
-import  styles from "./MainComponent.module.css"
+import styles from "./MainComponent.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -54,16 +54,18 @@ class MainComponent extends Component {
     }
 
     render() {
-        const { createFirstOrgCta, ctaHeader, ctaIcon, main, mainWrapper } = styles;
+        const { createFirstOrgCta, ctaHeader, ctaIcon, main, mainWrapper, sidebar, tempChat } = styles;
         const { isInitialized, orgs } = this.props;
         const { isEmpty } = services.utilityService;
         const sideBar = !isEmpty(orgs) ? <SideBar /> : (
-            <div className={createFirstOrgCta}>
-                <p className={ctaHeader}>Create an org to get started!</p>
-                <p className={ctaIcon}><FontAwesomeIcon icon={faArrowLeft} transform="grow-20" color="#40e0d0" /></p>
+            <div className={sidebar}>
+                <div className={createFirstOrgCta}>
+                    <p className={ctaHeader}>Create an org to get started!</p>
+                    <p className={ctaIcon}><FontAwesomeIcon icon={faArrowLeft} transform="grow-20" color="#40e0d0" /></p>
+                </div>
             </div>
         );
-        const chat = !isEmpty(orgs) ? <Chat /> : null;
+        const chat = !isEmpty(orgs) ? <Chat /> : <div className={tempChat}></div>;
         return (
             <div className={main}>
                 {isInitialized ? 
