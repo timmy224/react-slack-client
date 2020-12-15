@@ -67,8 +67,9 @@ class PendingInvitationsModal extends Component {
                 show={showPendingInvitationsModal && invitations.length > 0} 
                 onHide={this.handleHide} 
                 title="Invitations Pending"
-                form={form}
-            />     
+                >
+                    {form}
+            </CustomModal> 
         );
     }
 }

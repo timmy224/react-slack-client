@@ -21,6 +21,7 @@
     grid-row-start: 2;
     grid-row-end:3;
     height: 87vh;
+    padding: 10px;
 }
 
 .sidebarSectionHeading {

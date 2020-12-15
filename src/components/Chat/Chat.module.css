@@ -2,7 +2,6 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     background-color: rgb(26,29,33);
-    padding-bottom: 1vh;
 }
 
 .boxFirst{
@@ -25,9 +24,6 @@
 
 .boxEnd {
     display: flex;
-    align-items: flex-end;
-    grid-row-start: 3;
-    grid-row-end: 4; 
 }
 
 .messagesWrapper::-webkit-scrollbar {

@@ -47,7 +47,7 @@ class Chat extends Component {
                         <div className={boxFirst}>
                             {chatHeader}
                         </div>
-                        <div className={messagesWrapper} className={boxFill}>
+                        <div className={`${messagesWrapper} ${boxFill}`}>
                             {messages.map((message) => {
                                 return (<Message key={message.sender + message.content}
                                     sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);

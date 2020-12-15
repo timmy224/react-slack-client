@@ -26,7 +26,7 @@ class SideBar extends Component {
     render() {
         const { sidebarChannel, unstyledButton, channelDelete, userIcon, sidebarUser, orgNameHeader, sidebar,
                 orgOptions, sidebarBody, sidebarSectionHeading, sidebarSectionHeadingExpand, sidebarSectionHeadingLabel, 
-                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName } = styles;
+                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName, loginCircle, loggedIn } = styles;
         const { org, channels, orgMembers, selectedChannel, selectedPartner, handleCreateChannelModal, handleOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
@@ -77,7 +77,7 @@ class SideBar extends Component {
                         >
                             {username}
                         </button>
-                        <div className={`login-circle ${logged_in ? "logged-in" : null}`}></div>
+                        <div className={`${loginCircle} ${logged_in ? loggedIn : null}`}></div>
                     </div>
                 ))
         return (

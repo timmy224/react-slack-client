@@ -88,8 +88,9 @@ class InviteMembersModal extends Component {
                 show={showInviteMembersModal} 
                 onHide={this.handleHide} 
                 title="Invite users to your org"
-                form={form}
-                />      
+                >
+                    {form}
+            </CustomModal>      
         );
     }
 }

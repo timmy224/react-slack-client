@@ -111,14 +111,15 @@ class CreateOrgModal extends Component {
                     >Submit
                 </CustomButton>
             </CustomForm>
-        )
+        );
         return (
             <CustomModal 
                 show={showCreateOrgModal} 
                 onHide={this.handleHide}
                 title="Create a new Org"
-                form={form}
-                />
+                >
+                    {form}
+            </CustomModal>
         );
     }
 }

@@ -90,9 +90,9 @@ class CreateChannelModal extends Component {
 
     render() {
         const { takenChannelName, isPrivate, setPrivateUsers, channelName, privateUsers } = this.state;
-        const { customControlLabel, usernameDisplay, usernameDisplayWrapper } = styles
+        const { customControlLabel, usernameDisplay, usernameDisplayWrapper, descriptions, errorMsg } = styles
         const { showCreateChannelModal } = this.props;
-        const takenMessage = takenChannelName ? <h3>Channel Name taken</h3> : null;
+        const takenMessage = takenChannelName ? <h3 className={errorMsg}>Channel Name taken</h3> : null;
         const usernamesDisplay = privateUsers.map(user => (
                                         <span className={usernameDisplay}>{user}</span>))
         const privateForm = isPrivate ? (
@@ -114,6 +114,8 @@ class CreateChannelModal extends Component {
             : null;
         const form = (
                 <CustomForm onSubmit={this.handleSubmit}>
+                        {takenMessage}
+                        <p className={descriptions}>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
                         <CustomFormInput 
                             type="text" 
                             name="channelName" 
@@ -128,32 +130,34 @@ class CreateChannelModal extends Component {
             );
         return (
                 <CustomModal 
-                    show={ showCreateChannelModal } 
+                    show={showCreateChannelModal} 
                     onHide={this.handleHide} 
-                    errorMsg={ takenMessage }
                     title="Create a channel"
-                    subtitle="Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example."
-                    form={form}
-                    footer= {<CustomButton type='submit' onClick={this.handleSubmit}>Create</CustomButton>}
                     >
-                    <div>
-                        <h4>Make Private</h4>
+                        {form}
                         <div>
-                            <p>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                            <h4>Make Private</h4>
+                            <div>
+                                <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="custom-control custom-switch">
-                        <input 
-                            type="checkbox" 
-                            className="custom-control-input custom-switch-label" 
-                            id="customSwitch" />
-                        <label 
-                            className={`${ customControlLabel } custom-control-label`} 
-                            htmlFor="customSwitch" 
-                            onClick={() => this.handleIsPrivate(!isPrivate)}>
-                                <p>Make a private channel</p>
-                        </label>
-                    </div>
+                        <div className="custom-control custom-switch">
+                            <input 
+                                type="checkbox" 
+                                className="custom-control-input custom-switch-label" 
+                                id="customSwitch" />
+                            <label 
+                                className={`${ customControlLabel } custom-control-label`} 
+                                htmlFor="customSwitch" 
+                                onClick={() => this.handleIsPrivate(!isPrivate)}>
+                                    <p>Make a private channel</p>
+                            </label>
+                        </div>
+                        <CustomButton 
+                            type='submit' 
+                            onClick={this.handleSubmit}
+                            >Create
+                        </CustomButton>
                 </CustomModal>    
         );
     }
