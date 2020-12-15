@@ -31,8 +31,8 @@ class Register extends Component {
     }
 
     handleSubmit = (event) => {
-        console.log('click')
-        event.preventDefault();
+        event.preventDefault()
+        this.reset();
         const { username, changeRoute } = this.props
         const { password } = this.state
         services.registerService.registerUser(username, password)
@@ -41,19 +41,23 @@ class Register extends Component {
                     services.storageService.set("username", username);
                     this.reset()
                     return changeRoute({path:"/login"})
-                }else if (data.ERROR !== "Username is taken"){
+                }else if (data.ERROR === "Missing username in route"){
                     this.setState({showMissingCredMsg: true})
-                }else{
+                }
+                else if (data.ERROR === "Missing password in route"){
+                    this.setState({showMissingCredMsg: true})
+                }
+                else if (data.ERROR === "Username is taken"){
                     this.setState({showTakenUsernameMsg: true})
                 } 
-                this.reset()
             })
             .catch(err => console.log(err));
     }
 
     handleChangeUser = (event) => {
+        const { setUsername } = this.props
         let username = event.target.value
-        return this.props.setUsername(username)
+        setUsername(username)
     }
 
     handleInputChange = event => {
