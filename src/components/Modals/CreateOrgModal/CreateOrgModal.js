@@ -62,22 +62,23 @@ class CreateOrgModal extends Component {
 
     handleSubmit = event => {
         const { createOrg } = this.props;
-        const { orgName, takenOrgName, orgUsers } = this.state;
+        const { orgName,  orgUsers } = this.state;
         event.preventDefault();
         createOrg(orgName, orgUsers)
             .then(response => {
                 if (response.successful) {
                     this.handleHide()
                 } else {
-                    takenOrgName(true)
+                    this.setState({takenOrgName:true})
                 } 
             });
     }
 
     render() {
         const { showCreateOrgModal } = this.props;
-        const { orgUsers, orgName, setOrgUsers } = this.state;
+        const { orgUsers, orgName, setOrgUsers, takenOrgName } = this.state;
         const { usernameDisplay, usernameDisplayWrapper } = styles;
+        const orgNameTakenMsg = takenOrgName ? <h3>Org name taken, Try another</h3> : null;
         const usernamesDisplay = (
                     orgUsers.map(user => (
                         <span className={usernameDisplay}>{user}</span>
@@ -118,6 +119,7 @@ class CreateOrgModal extends Component {
                 onHide={this.handleHide}
                 title="Create a new Org"
                 >
+                    {orgNameTakenMsg}
                     {form}
             </CustomModal>
         );

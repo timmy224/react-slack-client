@@ -74,9 +74,9 @@ class Register extends Component {
     }
 
     render() {
-        const { register, create, signInReg } = styles
+        const { register, create, signInReg, customInput } = styles
         const { password, showMissingCredMsg, showTakenUsernameMsg } = this.state
-        const { changeRoute,customInput } = this.props
+        const { changeRoute} = this.props
         const takenMessage = showTakenUsernameMsg ? <h3>Username taken, Try another</h3> : null;
         const missingCred = showMissingCredMsg ?  <h3>Either password or username are missing.</h3> : null;
         return (
