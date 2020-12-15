@@ -28,6 +28,7 @@ class PendingInvitationsModal extends Component {
         event.preventDefault();
         const { respondToInvitation } = this.props;
         respondToInvitation(invitation, isAccepted);
+        this.handleHide()
     }
 
     render() {
@@ -64,7 +65,7 @@ class PendingInvitationsModal extends Component {
             );
         return (
             <CustomModal
-                show={showPendingInvitationsModal && invitations.length > 0} 
+                show={showPendingInvitationsModal && invitations.length > 0}
                 onHide={this.handleHide} 
                 title="Invitations Pending"
                 >

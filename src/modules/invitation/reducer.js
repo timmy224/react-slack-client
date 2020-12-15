@@ -19,7 +19,7 @@ const initReducer = () => {
                     ...state,
                     showInviteMembersModal: payload,
                 }
-            case types.SHOW_PENDING_NVITATIONS_MODAL:
+            case types.SHOW_PENDING_INVITATIONS_MODAL:
                 return{
                     ...state,
                     showPendingInvitationsModal: payload,
