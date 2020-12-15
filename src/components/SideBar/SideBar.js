@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
 import CreateChannelModal from "../Modals/CreateChannelModal/CreateChannelModal";
-import "./Sidebar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import CanView from "../CanView/CanView";
-import PendingInvitationsModal from "../Modals/PendingInvitationsModal/PendingInvitationsModal";
-import CreateOrgModal from "../Modals/CreateOrgModal/CreateOrgModal";
 import InviteMembersModal from "../Modals/InviteMembersModal/InviteMembersModal";
 import OrgSettingsModal from "../Modals/OrgSettingsModal/OrgSettingsModal";
+
+import styles from "./Sidebar.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 
 class SideBar extends Component {
     selectChannel = (event) => {
@@ -25,15 +24,17 @@ class SideBar extends Component {
     }
 
     render() {
-        const { org, channels, orgMembers, selectedChannel, selectedPartner, showCreateChannelModal, showOrgSettingsModal } = this.props;
+        const { sidebarChannel, unstyledButton, channelDelete, userIcon, sidebarUser, orgNameHeader, sidebar,
+                orgOptions, sidebarBody, sidebarSectionHeading, sidebarSectionHeadingExpand, sidebarSectionHeadingLabel, 
+                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName } = styles;
+        const { org, channels, orgMembers, selectedChannel, selectedPartner, handleCreateChannelModal, handleOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
-        const sidebarItemHighlightClass = "sidebar-item-highlight";
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.values(channels).map(channel => 
-                <div key={channel.name} className={selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : "sidebar-item"}>
+                <div key={channel.name} className={`${selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : null} ${sidebarItem}`}>
                     <button
-                        className="sidebar-channel unstyled-button"
+                        className={`${sidebarChannel} ${unstyledButton}`}
                         type="button"
                         value={channel.name}
                         onClick={this.selectChannel}>
@@ -46,7 +47,7 @@ class SideBar extends Component {
                             return (
                                 <button
                                     type="button"
-                                    className="channel-delete unstyled-button"
+                                    className={`${channelDelete} ${unstyledButton}`}
                                     value={channel.name}
                                     onClick={() => this.deleteChannel(channel.name)}>
                                     <FontAwesomeIcon icon={faTrashAlt} transform="grow-3" color="red" />
@@ -60,17 +61,17 @@ class SideBar extends Component {
         let orgMembersDisplay = services.utilityService.isEmpty(orgMembers) ?
                 <h2>Loading users...</h2>
                 : (Object.values(orgMembers).map(({ username, logged_in }) => 
-                    <div key={username} className={selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : "sidebar-item"}>
+                    <div key={username} className={`${selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : null} ${sidebarItem}`}>
                         <button
                             type="button" 
-                            className="user-icon unstyled-button"
+                            className={`${userIcon} ${unstyledButton}`}
                             value={username}
                             onClick={this.selectUser}>
                             <FontAwesomeIcon icon={faUser} transform="grow-3" color="#c3c3c3" />
                         </button>
                         <button
                             type="button"
-                            className= "sidebar-user unstyled-button"
+                            className= {`${sidebarUser} ${unstyledButton}`}
                             value={username}
                             onClick={this.selectUser}
                         >
@@ -80,32 +81,32 @@ class SideBar extends Component {
                     </div>
                 ))
         return (
-            <div id="sidebar">
-                <div className="org-name-header">
-                        <h1>{org?.name}</h1>
+            <div className={sidebar}>
+                <div className={orgNameHeader}>
+                        <h1 className={orgName}>{org?.name}</h1>
                         <CanView
                         resource="org-member"
                         action="invite"
                         yes={() => (
-                            <span className="org-options" onClick={() => showOrgSettingsModal(true)}>
+                            <span className={orgOptions} onClick={() => handleOrgSettingsModal(true)}>
                                 <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                             </span> 
                         )}
                         no={() => null}
                     />
                     </div>
-                <div className="sidebar-body">
-                    <div className="sidebar-section-heading">
-                        <span className="sidebar-section-heading-expand">
+                <div className={sidebarBody}>
+                    <div className={sidebarSectionHeading}>
+                        <span className={sidebarSectionHeadingExpand}>
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
-                        <button className="sidebar-section-heading-label unstyled-button">Channels</button>
+                        <button className={`${sidebarSectionHeadingLabel} ${unstyledButton}`}>Channels</button>
                         <CanView
                             resource="channel"
                             action="create"
                             yes={() => {
-                                return (<div className="sidebar-section-heading-right">
-                                            <button className="unstyled-button" onClick={() => showCreateChannelModal(true)}>
+                                return (<div className={sidebarSectionHeadingRight}>
+                                            <button className={unstyledButton} onClick={() => handleCreateChannelModal(true)}>
                                                 <FontAwesomeIcon icon={faPlus} transform="grow-6" color="#99a59e" />
                                             </button>
                                         </div>)}}
@@ -113,27 +114,26 @@ class SideBar extends Component {
                         />                              
                     </div>
                     <CreateChannelModal />                
-                    <div className="container">
+                    <div className={container}>
                         {channelsDisplay}
                     </div>
-                    <div className="sidebar-section-heading">
-                        <span className="sidebar-section-heading-expand">
+                    <div className={sidebarSectionHeading}>
+                        <span className={sidebarSectionHeadingExpand}>
                             <FontAwesomeIcon icon={faCaretDown} transform="grow-4" color="#99a59e" />
                         </span>                    
-                        <button className="sidebar-section-heading-label unstyled-button">Direct messages</button>
+                        <button className={`${sidebarSectionHeadingLabel} ${unstyledButton}`}>Direct messages</button>
                     </div>
-                    <div className = "container">
+                    <div className={container}>
                         {orgMembersDisplay}
                     </div>
                 </div>
-                <div className="sidebar-end" old_className='container text-center logout-wrapper'>
+                <div className={sidebarEnd} old_className='container text-center logout-wrapper'>
                     <button
-                        type="button" className="logout-btn"
+                        type="button" 
+                        className={logoutBtn}
                         onClick={() => this.props.logout()}>Logout</button>
                 </div>
                 <OrgSettingsModal />
-                <PendingInvitationsModal />
-                <CreateOrgModal />
                 <InviteMembersModal />
             </div>
         );    
@@ -158,9 +158,9 @@ const mapActionsToProps = {
     selectChannel: actions.sidebar.selectChannel,
     deleteChannel: actions.channel.deleteChannel,
     selectUser: actions.sidebar.selectUser,
-    showCreateChannelModal: actions.channel.showCreateChannelModal,
+    handleCreateChannelModal: actions.channel.showCreateChannelModal,
     logout: actions.user.logout,
-    showOrgSettingsModal: actions.org.showOrgSettingsModal,
+    handleOrgSettingsModal: actions.org.showOrgSettingsModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

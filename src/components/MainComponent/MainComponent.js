@@ -5,9 +5,12 @@ import OrgsSidebar from "../OrgsSidebar/OrgsSidebar";
 import SideBar from "../SideBar/SideBar";
 import { actions, services } from "../../context";
 import { take } from "rxjs/operators";
-import "./MainComponent.css"
+
+import  styles from "./MainComponent.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+
 
 const mapStateToProps = (state) => ({
     routePath: state.route.routePath,
@@ -51,19 +54,20 @@ class MainComponent extends Component {
     }
 
     render() {
-        const { isInitialized, orgs } = this.props
+        const { createFirstOrgCta, ctaHeader, ctaIcon, main, mainWrapper } = styles;
+        const { isInitialized, orgs } = this.props;
         const { isEmpty } = services.utilityService;
         const sideBar = !isEmpty(orgs) ? <SideBar /> : (
-            <div id="create-first-org-cta">
-                <p id="cta-header">Create an org to get started!</p>
-                <p id="cta-icon"><FontAwesomeIcon icon={faArrowLeft} transform="grow-20" color="#40e0d0" /></p>
+            <div className={createFirstOrgCta}>
+                <p className={ctaHeader}>Create an org to get started!</p>
+                <p className={ctaIcon}><FontAwesomeIcon icon={faArrowLeft} transform="grow-20" color="#40e0d0" /></p>
             </div>
         );
         const chat = !isEmpty(orgs) ? <Chat /> : null;
         return (
-            <div className="main">
+            <div className={main}>
                 {isInitialized ? 
-                    <div className="main-wrapper">
+                    <div className={mainWrapper}>
                         <OrgsSidebar />
                         {sideBar}
                         {chat} 

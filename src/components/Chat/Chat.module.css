@@ -1,6 +1,8 @@
 .chat {
     display: grid;
     grid-template-rows: auto 1fr auto;
+    background-color: rgb(26,29,33);
+    padding-bottom: 1vh;
 }
 
 .boxFirst{

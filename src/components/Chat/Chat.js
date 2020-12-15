@@ -53,7 +53,7 @@ class Chat extends Component {
                                     sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
                             })}
                         </div>
-                        <div classNAame={boxEnd}>
+                        <div className={boxEnd}>
                             <InputMessage
                                 onEnter={this.onEnterPressed}
                             />

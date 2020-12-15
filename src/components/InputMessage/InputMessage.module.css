@@ -1,34 +1,34 @@
-.input-outer {
+.inputOuter {
     padding-left: 15px;
     padding-right: 15px;
     background-color: #1A1D21;
     width: 100%;
 }
 
-textarea {
+.customTextarea {
     background-color: #1A1D21 !important;
 }
 
-textarea[type=text]:focus{
+.customTextarea[type=text]:focus{
     background-color: #1A1D21;
 }
 
-textarea::-webkit-input-placeholder {
+.customTextarea::-webkit-input-placeholder {
     color: #c3c3c3 !important;
 }
 
-textarea:-moz-placeholder { /* Firefox 18- */
+.customTextarea:-moz-placeholder { /* Firefox 18- */
     color: #c3c3c3 !important;
 }
 
-textarea::-moz-placeholder {  /* Firefox 19+ */
+.customTextarea::-moz-placeholder {  /* Firefox 19+ */
     color: #c3c3c3 !important;
 }
 
-textarea:-ms-input-placeholder {
+.customTextarea:-ms-input-placeholder {
     color: #c3c3c3 !important;
 }
 
-textarea::placeholder {
+.customTextarea::placeholder {
     color: #c3c3c3 !important;
 }

@@ -1,27 +1,4 @@
-body {
-    font-family: sans-serif;
-    height: 100%;
-    font-size: 15px;
-    line-height: 1.46668;
-    font-weight: initial;
-    color: #1d1c1d;
-    font-variant-ligatures: common-ligatures;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: block;
-}
-
-h1 {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-
-input {
+.customInput {
     -webkit-writing-mode: horizontal-tb !important;
     text-rendering: auto;
     color: -internal-light-dark(black, white);
@@ -43,6 +20,13 @@ input {
     border-style: inset;
     border-color: -internal-light-dark(rgb(118, 118, 118), rgb(195, 195, 195));
     border-image: initial;
+    padding: 11px 12px 13px;
+    height: 44px;
+    font-size: 18px;
+    line-height: 1.33333333;
+    display:block;
+    margin:auto;
+    margin-bottom: 10px; 
 }
 
 .logo {
@@ -65,6 +49,13 @@ input {
     margin: auto;
     margin-bottom: 10px;
     padding:0;
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
 }
 
 .create {
@@ -77,17 +68,7 @@ input {
     margin-bottom: 32px;
 }
 
-.login-input {
-    padding: 11px 12px 13px;
-    height: 44px;
-    font-size: 18px;
-    line-height: 1.33333333;
-    display:block;
-    margin:auto;
-    margin-bottom: 10px; 
-}
-
-.sign-in-reg {
+.signInReg {
     color: #fff;
     background-color: #4a154b;
     border: none;

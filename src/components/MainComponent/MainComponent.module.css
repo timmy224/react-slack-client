@@ -1,0 +1,16 @@
+.main {
+    height: 100vh;
+}
+
+.mainWrapper {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    padding-left: 75px;
+    position: relative;
+}
+
+.createFirsOorgCta {
+    width:100%;
+}

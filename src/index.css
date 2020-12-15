@@ -86,3 +86,20 @@ button.close {
 button.close:hover {
 	color: #ebeff3
 }
+
+h1 {
+    font-size:1.5em !important;
+}
+
+/* body {
+    font-family: sans-serif;
+    height: 100%;
+    font-size: 15px;
+    line-height: 1.46668;
+    font-weight: initial;
+    color: #1d1c1d;
+    font-variant-ligatures: common-ligatures;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: block;
+} */

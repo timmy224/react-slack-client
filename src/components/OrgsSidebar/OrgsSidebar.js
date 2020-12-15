@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { actions, services } from "../../context";
 import { connect } from "react-redux";
 import Org from "../Org/Org";
-import "./OrgsSidebar.css";
+
+import styles from "./OrgsSidebar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
 import PendingInvitationsModal from "../Modals//PendingInvitationsModal/PendingInvitationsModal";
@@ -28,11 +29,12 @@ class OrgsSidebar extends Component {
     }
 
     render() {
+        const { orgSettings, pendingInvitations, alertPending, orgsSidebar, orgsHeader, orgsBtns } = styles
         const { orgs, currentOrg, invitations, handleCreateOrgModal, handlePendingInvitationsModal } = this.props;
         const isOrgsEmpty = services.utilityService.isEmpty(orgs);
         const viewInvitationsBtn = invitations.length ? 
-                <div className="org-settings pending-invitations">
-                    <div className="alert-pending">{invitations.length}</div>
+                <div className={`${orgSettings} ${pendingInvitations}`}>
+                    <div className={alertPending}>{invitations.length}</div>
                     <button onClick={() => handlePendingInvitationsModal(true)}>
                         <FontAwesomeIcon icon={faUsers} transform="grow-4" color="#99a59e" />
                     </button>
@@ -41,14 +43,14 @@ class OrgsSidebar extends Component {
         const orgsDisplay = !isOrgsEmpty ?
             (Object.keys(orgs).map(orgName => {
                 const isSelected = orgName === currentOrg?.name;
-                return <Org name={orgName} key={orgName} className={isSelected ? "selected-org" : ""} onClickHandler={this.selectOrg} />;
+                return <Org name={orgName} key={orgName} className={isSelected ? "selectedOrg" : ""} onClickHandler={this.selectOrg} />;
             })) : null;
         return (
-            <div id="orgs">
-                <h1 id="orgs-header">Orgs</h1>
-                <div id="orgs-btns">
+            <div className={orgsSidebar}>
+                <h1 className={orgsHeader}>Orgs</h1>
+                <div className={orgsBtns}>
                     {orgsDisplay}
-                    <div className="org-settings">
+                    <div className={orgSettings}>
                             <button onClick={() => handleCreateOrgModal(true)}>
                                 <FontAwesomeIcon icon={faPlus} transform="grow-4" color="#99a59e" />
                             </button>
