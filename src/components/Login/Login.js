@@ -19,6 +19,7 @@ const mapActionsToProps = {
     changeRoute: actions.route.changeRoute,
     wrongCredentials: actions.user.wrongCredentials,
     login: actions.user.login,
+    googleLogin: actions.user.googleLogin
 }
     
 class Login extends Component {
@@ -59,7 +60,7 @@ class Login extends Component {
     };
 
     render() {
-        const { wrongCredentialsMsg } = this.props;  
+        const { wrongCredentialsMsg, googleLogin } = this.props;  
         const { password }  = this.state;  
         const { main, logoCol, greenColor, logo, formCol, formWrapper, login, next, btnCol } = styles 
         const { customInput, signInReg } = classes  
@@ -108,6 +109,11 @@ class Login extends Component {
                                     value="Sign in" 
                                     required="required"
                                     >Sign In
+                                </button>
+                                <button 
+                                    className={signInReg} 
+                                    onClick={googleLogin} 
+                                    >Sign In with Google
                                 </button>
                                 <button 
                                     className={signInReg} 

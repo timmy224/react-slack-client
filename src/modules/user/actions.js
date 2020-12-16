@@ -55,12 +55,25 @@ const initActions = function(userService, socketService, storageService, authSer
 		dispatch(actions.route.changeRoute({path: "/login"}));
 	};
 
+	const googleLogin = () => async (dispatch) => {
+		const [err, data] = await to(authService.loginWithGoogle())
+		if (err) {
+			throw new Error("Could not log in with google");
+		}
+		if (data.isAuthenticated) {
+			storageService.set("username", data.username);
+			await dispatch(fetchLoginBundle());
+			dispatch(actions.route.changeRoute({path: "/main"}));
+		}
+	};
+
 	return { 
 		setUsername,
 		wrongCredentials,
 		login,
 		fetchLoginBundle,
 		logout,
+		googleLogin,
 	};
 }
 
