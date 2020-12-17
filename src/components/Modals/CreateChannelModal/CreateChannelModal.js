@@ -21,16 +21,13 @@ const mapActionsToProps = {
 }
 
 class CreateChannelModal extends Component {
-    constructor(){
-        super();
-        this.state={
+    state = { 
             channelName: '',
             takenChannelName: false,
             isPrivate: false, 
             setPrivateUsers: '',
             privateUsers:[],
         }
-    }
 
     handleChannelName = event => {
         const { value, name } = event.target;

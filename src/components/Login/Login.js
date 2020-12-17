@@ -22,12 +22,9 @@ const mapActionsToProps = {
 }
     
 class Login extends Component {
-    constructor(){
-        super();
-        this.state={
+    state = {
             password: '',
-        }
-    }
+        };
 
     componentDidMount() {
         services.authService.getCSRFToken()

@@ -21,14 +21,11 @@ const mapActionsToProps = {
 }
 
 class Register extends Component {
-    constructor(){
-        super();
-        this.state={
+    state = {
             password: '',
             showMissingCredMsg: false,
             showTakenUsernameMsg: false,
-        }
-    }
+        };
 
     handleSubmit = (event) => {
         event.preventDefault()

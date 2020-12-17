@@ -21,15 +21,12 @@ const mapActionsToProps = {
 }
 
 class CreateOrgModal extends Component {
-    constructor(){
-        super();
-        this.state={
+    state = {
             orgName: '',
             takenOrgName: false, 
             setOrgUsers: '',
             orgUsers:[],
-        }
-    }
+        };
 
     handleOrgName = event => {
         const { value, name } = event.target;

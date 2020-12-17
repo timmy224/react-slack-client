@@ -18,12 +18,10 @@ const mapActionsToProps = {
 }
 
 class InviteMembersModal extends Component {
-    constructor(){
-        super();
-        this.state={
+    state = {
             invitedUserEmail: '',
         }
-    }
+        
     handleSubmit = (event) => {
         const { org } = this.props
         const { invitedUserEmail } = this.state
