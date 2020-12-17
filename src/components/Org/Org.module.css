@@ -7,7 +7,7 @@
     border: 1px solid white; */
 }
 
-.orgs-header1 {
+.orgsHeader1 {
     grid-row-start: 1;
     grid-row-end: 2;
     background-color: white;
@@ -26,10 +26,6 @@
     /* background-color: rgb(26,29,33); */
 }
 
-.orgs-body {
-
-}
-
 .org button {
     display: block;
     text-align: center;
@@ -42,10 +38,6 @@
     border: none;
     border-radius: 4px;
     margin: 0px auto 20px auto;
-}
-
-.orgs-footer {
-
 }
 
 /* .orgs-header {
@@ -84,11 +76,11 @@
     color: #000000;
 }
 
-.selected-org button {
+.selectedOrg button {
     background-color: rgb(174, 15, 223);
 }
 
-.selected-org button:hover {
+.selectedOrg button:hover {
     background-color: rgb(145, 12, 185);
     color: #ffffff;
 }

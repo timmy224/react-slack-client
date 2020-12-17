@@ -95,21 +95,6 @@ const initActions = function (orgService, utilityService) {
         dispatch(modalCreateOrgShow(show))
     };
 
-    const createOrgNameSet = actionCreator(types.SET_CREATE_ORG_NAME);
-    const setCreateOrgName = (orgName) => (dispatch) => {
-        dispatch(createOrgNameSet(orgName))
-    };
-
-    const orgNameTaken = actionCreator(types.ORG_NAME_TAKEN);
-    const takenOrgName = (isOrgNameTaken) => (dispatch) => {
-        dispatch(orgNameTaken(isOrgNameTaken))
-    };
-
-    const newOrgUserSet = actionCreator(types.SET_NEW_ORG_USERS);
-    const setNewOrgUsers = (newOrgUsers) => (dispatch) => {
-        dispatch(newOrgUserSet(newOrgUsers))
-    };
-
     const orgSettingsModalShow = actionCreator(types.SHOW_ORG_SETTINGS_MODAL);
     const showOrgSettingsModal = (show) => (dispatch) => {
         dispatch(orgSettingsModalShow(show))
@@ -123,8 +108,8 @@ const initActions = function (orgService, utilityService) {
     }
 
     const handleOrgDeleted = (orgName) => (dispatch, getState) => {
-	dispatch(removeOrg(orgName));
-	const isCurrentOrgDeleted = getState().org.org?.name === orgName;
+    const isCurrentOrgDeleted = getState().org.org?.name === orgName;
+    dispatch(removeOrg(orgName));
         if (isCurrentOrgDeleted) {
             dispatch(setCurrentOrg(null));
             dispatch(selectDefaultOrg());
@@ -138,6 +123,7 @@ const initActions = function (orgService, utilityService) {
         dispatch(setOrgs(orgs));
     }
 
+
     return {
         createOrg,
         fetchOrgs,
@@ -149,9 +135,6 @@ const initActions = function (orgService, utilityService) {
         addOrgMember,
         setOrgMemberOnlineStatus,
         showCreateOrgModal,
-        setCreateOrgName,
-        takenOrgName,
-        setNewOrgUsers,
         showOrgSettingsModal,
         deleteOrg,
         handleOrgDeleted,

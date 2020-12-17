@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
+
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
@@ -10,45 +11,44 @@ import styles from '../CreateChannelModal/CreateChannelModal.module.css'
 
 const mapStateToProps = (state) => {
     return {
-        createOrgName: state.org.createOrgName,
-        showTakenNameMsg: state.org.showTakenNameMsg,
         showCreateOrgModal: state.org.showCreateOrgModal,
         username: state.user.username,
-        newOrgUsers: state.org.newOrgUsers,
     }
 }
 const mapActionsToProps = {
     createOrg: actions.org.createOrg,
-    setCreateOrgName: actions.org.setCreateOrgName,
-    takenOrgName: actions.org.takenOrgName,
     handleShowCreateOrgModal: actions.org.showCreateOrgModal,
-    setNewOrgUsers: actions.org.setNewOrgUsers,
 }
 
 class CreateOrgModal extends Component {
-    handleSubmit = (event) => {
-        const { createOrgName, takenOrgName, newOrgUsers, createOrg } = this.props
-        event.preventDefault();
-        createOrg(createOrgName, newOrgUsers)
-            .then(response => {
-                if (response.successful) {
-                    this.handleHide()
-                } else {
-                    takenOrgName(true)
-                } 
-            });
+    state = {
+            orgName: '',
+            takenOrgName: false, 
+            setOrgUsers: '',
+            orgUsers:[],
+        };
+
+    handleOrgName = event => {
+        const { value, name } = event.target;
+        this.setState({[name]: value})
+    }
+
+    handleUserChange = event => {
+        const { value, name } = event.target;
+        let users = value.trim().split(/[\s,]+/)
+        this.setState({
+            [name]: value,
+            orgUsers: users,
+        })
     }
 
     resetModal = () => {
-        const { setNewOrgUsers, takenOrgName, setCreateOrgName } = this.props
-        setCreateOrgName('')
-        setNewOrgUsers([]);
-        takenOrgName(false);
-    }
-
-    handleOrgName = (event) => {
-        let newOrgName = event.target.value;
-        return this.props.setCreateOrgName(newOrgName)
+        this.setState({
+            orgName: '',
+            takenOrgName: false, 
+            setOrgUsers: '',
+            orgUsers:[],
+        })
     }
 
     handleHide = () => {
@@ -56,32 +56,69 @@ class CreateOrgModal extends Component {
         handleShowCreateOrgModal(false);
         this.resetModal();
     }
-    handleUserChange = (event) => {
-        let users = event.target.value;
-        return this.props.setNewOrgUsers(users.trim().split(/[\s,]+/))
+
+    handleSubmit = event => {
+        const { createOrg } = this.props;
+        const { orgName,  orgUsers } = this.state;
+        event.preventDefault();
+        createOrg(orgName, orgUsers)
+            .then(response => {
+                if (response.successful) {
+                    this.handleHide()
+                } else {
+                    this.setState({takenOrgName:true})
+                } 
+            });
     }
 
     render() {
-        const { newOrgUsers, showCreateOrgModal } = this.props
+        const { showCreateOrgModal } = this.props;
+        const { orgUsers, orgName, setOrgUsers, takenOrgName } = this.state;
+        const { usernameDisplay, usernameDisplayWrapper } = styles;
+        const orgNameTakenMsg = takenOrgName ? <h3>Org name taken, Try another</h3> : null;
         const usernamesDisplay = (
-                    newOrgUsers.map(user => (
-                        <span className={styles.usernameDisplay}>{user}</span>
+                    orgUsers.map(user => (
+                        <span className={usernameDisplay}>{user}</span>
                         )));
         const form = (
             <CustomForm onSubmit={this.handleSubmit}>
-                <CustomFormInput type="text" name="newOrgName" placeholder="react_slack" onChange={this.handleOrgName} label="newOrgName">Enter Org Name</CustomFormInput>
+                <CustomFormInput 
+                    type="text" 
+                    name="orgName" 
+                    placeholder="react_slack" 
+                    value={orgName}
+                    onChange={this.handleOrgName} 
+                    label="New Org Name"
+                    >Enter Org Name
+                </CustomFormInput>
+                <div className={usernameDisplayWrapper}>
                     {usernamesDisplay}
-                <CustomFormInput type="text" name="newOrgName" placeholder="#enter users seperated by a space" onChange={this.handleUserChange} label="users">Users</CustomFormInput>
-                <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
+                </div>
+                <CustomFormInput 
+                    type="text" 
+                    name="setOrgUsers" 
+                    placeholder="#enter users seperated by a space" 
+                    value={setOrgUsers}
+                    onChange={this.handleUserChange} 
+                    label="Users"
+                    >Users
+                </CustomFormInput>
+                <CustomButton 
+                    type='submit' 
+                    onClick={this.handleSubmit}
+                    >Submit
+                </CustomButton>
             </CustomForm>
-        )
+        );
         return (
             <CustomModal 
                 show={showCreateOrgModal} 
                 onHide={this.handleHide}
                 title="Create a new Org"
-                form={form}
-                />
+                >
+                    {orgNameTakenMsg}
+                    {form}
+            </CustomModal>
         );
     }
 }

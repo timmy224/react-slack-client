@@ -6,7 +6,6 @@ const initReducer = () => {
         showInviteMembersModal: false,
         showPendingInvitationsModal: false,
         pendingInvitations:[],
-        invitedUserEmail:'',
     };
 
   const reducer = (state = INITIAL_STATE, action) => {
@@ -15,12 +14,12 @@ const initReducer = () => {
         switch (type) {
             case userTypes.LOGOUT: 
                 return INITIAL_STATE;
-            case types.SHOW_INVITE_MODAL:
+            case types.SHOW_INVITE_MEMBERS_MODAL:
                 return{
                     ...state,
                     showInviteMembersModal: payload,
                 }
-            case types.SHOW_INVITATIONS_MODAL:
+            case types.SHOW_PENDING_INVITATIONS_MODAL:
                 return{
                     ...state,
                     showPendingInvitationsModal: payload,
@@ -29,11 +28,6 @@ const initReducer = () => {
                 return {
                     ...state,
                     pendingInvitations: payload,
-                };
-            case types.SET_INVITED_USER_EMAIL:
-                return {
-                    ...state,
-                    invitedUserEmail: payload,
                 };
             case types.REMOVE_INVITATION:
                 return{

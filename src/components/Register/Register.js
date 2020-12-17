@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 // Depends on userService, storageService, socketService, registerService
 import { services } from "../../context";
 import { actions } from "../../context";
-import "./Register.css"
+
+import styles from "./Register.module.css"
 
 const mapStateToProps = (state)=>{
     return { 
@@ -11,89 +12,99 @@ const mapStateToProps = (state)=>{
         showTakenMsg: state.user.showTakenMsg,
         routePath: state.route.routePath,
         routeState: state.route.routeState,
-        password:state.user.password,
-        showMissingCred: state.user.showMissingCred
     }
 }
 const mapActionsToProps = {
     setUsername: actions.user.setUsername,
     takenUsername: actions.user.takenUsername,
     changeRoute: actions.route.changeRoute,
-    setPassword: actions.user.setPassword,
-    missingCredentials: actions.user.missingCredentials,
 }
 
 class Register extends Component {
-    handleSubmit = (event) => {
-        const { username, takenUsername, password, changeRoute, setPassword,setUsername, missingCredentials } = this.props
+    state = {
+            password: '',
+            showMissingCredMsg: false,
+            showTakenUsernameMsg: false,
+        };
 
-        event.preventDefault();
-        setUsername(username)
-        setPassword(password)
-        missingCredentials(false)
-        takenUsername(false)
+    handleSubmit = (event) => {
+        event.preventDefault()
+        this.reset();
+        const { username, changeRoute } = this.props
+        const { password } = this.state
         services.registerService.registerUser(username, password)
             .then(data => {
                 if (data.successful) {
                     services.storageService.set("username", username);
-                    setPassword("")
-                    changeRoute({path:"/login"})
-                }
-                else if (data.ERROR === "Missing username in route"){
-                    return missingCredentials(true)
+                    this.reset()
+                    return changeRoute({path:"/login"})
+                }else if (data.ERROR === "Missing username in route"){
+                    this.setState({showMissingCredMsg: true})
                 }
                 else if (data.ERROR === "Missing password in route"){
-                    return missingCredentials(true)
+                    this.setState({showMissingCredMsg: true})
                 }
                 else if (data.ERROR === "Username is taken"){
-                    return takenUsername(true)
-                }  
+                    this.setState({showTakenUsernameMsg: true})
+                } 
             })
             .catch(err => console.log(err));
     }
 
     handleChangeUser = (event) => {
+        const { setUsername } = this.props
         let username = event.target.value
-        return this.props.setUsername(username)
+        setUsername(username)
     }
-    handleChangePassword = (event) => {
-        let password = event.target.value
-        return this.props.setPassword(password)
-    }
-    render() {
-        const {showTakenMsg, changeRoute, showMissingCred} = this.props
 
-        const takenMessage = showTakenMsg ? <h3>Username taken, Try another</h3> : null;
-        const missingCred = showMissingCred ?  <h3>Either password or username are missing.</h3> : null;
+    handleInputChange = event => {
+        const { value, name } = event.target;
+        this.setState({[name]: value})
+    }
+
+    reset = () => {
+        this.setState({
+            password: '',
+            showMissingCredMsg: false,
+            showTakenUsernameMsg: false,
+        });
+    }
+
+    render() {
+        const { register, create, signInReg, customInput } = styles
+        const { password, showMissingCredMsg, showTakenUsernameMsg } = this.state
+        const { changeRoute} = this.props
+        const takenMessage = showTakenUsernameMsg ? <h3>Username taken, Try another</h3> : null;
+        const missingCred = showMissingCredMsg ?  <h3>Either password or username are missing.</h3> : null;
         return (
             <Fragment>
-                <h1 className="register">Register for a new account</h1>
-                <h6 className="create">Create an account with the username and password you will use to sign in.</h6>
+                <h1 className={register}>Register for a new account</h1>
+                <h6 className={create}>Create an account with the username and password you will use to sign in.</h6>
                 {takenMessage}
                 {missingCred}
                 <input
-                    className="login-input"
+                    className={`login-input ${customInput}`}
                     onChange={this.handleChangeUser}
                     type="text"
                     placeholder="Username"
                 />
                 <input 
-                    className="login-input"
-                     onChange={this.handleChangePassword} 
-                     type="password"
-                     placeholder="Password"
-                />
+                    type="password" 
+                    name="password"
+                    placeholder="Enter Password" 
+                    value={password}
+                    onChange={this.handleInputChange}
+                    className={`login-input ${customInput}`} 
+                    required="required" />
                 <input
-                className="sign-in-reg"
-                 onClick={this.handleSubmit}
-                  type="submit"
-                  value="Register" />
-                
+                    className={signInReg}
+                    onClick={this.handleSubmit}
+                    type="submit"
+                    value="Register" />
                 <button
-                className="sign-in-reg"
-                 onClick = {()=> changeRoute({path:"/login"})}>Login Form
-                 </button>      
-            
+                    className={signInReg}
+                    onClick = {()=> changeRoute({path:"/login"})}>Login Form
+                </button> 
             </Fragment>            
         );
     }

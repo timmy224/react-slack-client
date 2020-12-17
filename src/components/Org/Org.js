@@ -1,12 +1,12 @@
 import React from "react";
-import "./Org.css";
+import styles from "./Org.module.css";
 
 function Org(props) {
+    const { org } = styles
     const { name, className, onClickHandler } = props;
     const firstLetter = name[0].toUpperCase();
-    const classes = className ? `org ${className}` : "org";
     return (
-        <div className={classes}>
+        <div className={`${className} ${org}`}>
             <button onClick={() => onClickHandler(name)}>{firstLetter}</button>
         </div>
     );

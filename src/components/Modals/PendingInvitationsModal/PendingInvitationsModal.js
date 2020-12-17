@@ -28,6 +28,7 @@ class PendingInvitationsModal extends Component {
         event.preventDefault();
         const { respondToInvitation } = this.props;
         respondToInvitation(invitation, isAccepted);
+        this.handleHide()
     }
 
     render() {
@@ -45,8 +46,16 @@ class PendingInvitationsModal extends Component {
                                 <p>Organization Name : {org_name}</p>
                                 <p>User : {inviter}</p>
                             </div>
-                            <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, true)}>Accept</CustomButton>
-                            <CustomButton type='submit' onClick={event => this.handleResponse(event, invitation, false)}>Decline</CustomButton>
+                            <CustomButton 
+                                type='submit' 
+                                onClick={event => this.handleResponse(event, invitation, true)}
+                                >Accept
+                            </CustomButton>
+                            <CustomButton 
+                                type='submit' 
+                                onClick={event => this.handleResponse(event, invitation, false)}
+                                >Decline
+                            </CustomButton>
                         </div>
                     )});
         const form = (
@@ -56,11 +65,12 @@ class PendingInvitationsModal extends Component {
             );
         return (
             <CustomModal
-                show={showPendingInvitationsModal && invitations.length > 0} 
+                show={showPendingInvitationsModal && invitations.length > 0}
                 onHide={this.handleHide} 
                 title="Invitations Pending"
-                form={form}
-            />     
+                >
+                    {form}
+            </CustomModal> 
         );
     }
 }

@@ -9,28 +9,12 @@ const initActions = function(userService, socketService, storageService, authSer
 	const setUsername = (username) => (dispatch) => {
 		dispatch(settingUsername(username))
 	};
-	
-	const usernameTaken = actionCreator(types.TAKEN_USERNAME);
-	const takenUsername = (isUsernameTaken) => (dispatch) => {
-		dispatch(usernameTaken(isUsernameTaken))
-	};
-
-	const settingPassword = actionCreator(types.SET_PASSWORD);
-	const setPassword = (password) => (dispatch) => {
-		dispatch(settingPassword(password))
-	}
-
-	const credentialsMissing = actionCreator(types.MISSING_CREDENTIALS);
-	const missingCredentials = (isCredentialMissing) => (dispatch) => {
-		dispatch(credentialsMissing(isCredentialMissing))
-	}
   
 	const credentialsWrong = actionCreator(types.INCORRECT_CREDENTIALS);
 	const wrongCredentials = (areCredentialsIncorrect) => (dispatch) => {
 		dispatch(credentialsWrong(areCredentialsIncorrect))
 	};
 
-	const loginActionCreator = actionCreator(types.LOGIN);
 	const login = (username, password) => async (dispatch, getState) => {
 		const [err, data] = await to(authService.loginUser(username, password))
 		if (err) {
@@ -38,7 +22,6 @@ const initActions = function(userService, socketService, storageService, authSer
 		}
 		if (data.isAuthenticated) {
 			storageService.set("username", username);
-			dispatch(loginActionCreator());
 			await dispatch(fetchLoginBundle());
 			dispatch(actions.route.changeRoute({path: "/main"}));
 		} else {
@@ -74,10 +57,7 @@ const initActions = function(userService, socketService, storageService, authSer
 
 	return { 
 		setUsername,
-		takenUsername,
 		wrongCredentials,
-		setPassword,
-		missingCredentials,
 		login,
 		fetchLoginBundle,
 		logout,

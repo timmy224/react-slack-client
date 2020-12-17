@@ -10,18 +10,21 @@ const mapStateToProps = (state)=>{
     return { 
         showInviteMembersModal: state.invitation.showInviteMembersModal,
         username: state.user.username,
-        invitedUserEmail: state.invitation.invitedUserEmail,
         org: state.org.org,
     }
 }
 const mapActionsToProps = {
     handleInviteMembersModal: actions.invitation.showInviteMembersModal,
-    setInvitedUserEmail: actions.invitation.setInvitedUserEmail,
 }
 
 class InviteMembersModal extends Component {
+    state = {
+            invitedUserEmail: '',
+        }
+        
     handleSubmit = (event) => {
-        const { invitedUserEmail, org } = this.props
+        const { org } = this.props
+        const { invitedUserEmail } = this.state
         event.preventDefault();
         const inviteInfo = {
             orgName: org.name,
@@ -39,12 +42,16 @@ class InviteMembersModal extends Component {
     }
 
     resetModal = () => {
-        this.props.setInvitedUserEmail('')
+        this.setState({
+            invitedUserEmail: '',
+        })
     }
 
-    handleInputChange = (event) => {
-        let invitedUserEmail = event.target.value;
-        return this.props.setInvitedUserEmail(invitedUserEmail)
+    handleInputChange = event => {
+        const { value, name } = event.target
+        this.setState({
+            [name]: value,
+        })
     }
 
     handleHide = () => {
@@ -55,18 +62,33 @@ class InviteMembersModal extends Component {
 
     render() {
         const { showInviteMembersModal } = this.props;
-        const form = 
+        const { invitedUserEmail } = this.state;
+        const form = (
                 <CustomForm onSubmit={this.handleSubmit}>
-                    <CustomFormInput type="email" placeholder="react.slack2020@gmail.com" onChange={this.handleInputChange} label="email">Enter Email adress</CustomFormInput>
-                    <CustomButton type='submit' onClick={this.handleSubmit}>Submit</CustomButton>
+                    <CustomFormInput 
+                        type="email" 
+                        name="invitedUserEmail"
+                        placeholder="react.slack2020@gmail.com" 
+                        value={invitedUserEmail}
+                        onChange={this.handleInputChange} 
+                        label="email"
+                        >Enter Email address
+                    </CustomFormInput>
+                    <CustomButton 
+                        type='submit' 
+                        onClick={this.handleSubmit}
+                        >Submit
+                    </CustomButton>
                 </CustomForm>
+        );
         return (
             <CustomModal 
                 show={showInviteMembersModal} 
                 onHide={this.handleHide} 
                 title="Invite users to your org"
-                form={form}
-                />      
+                >
+                    {form}
+            </CustomModal>      
         );
     }
 }

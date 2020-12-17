@@ -1,51 +1,52 @@
-/* body {
-    height: 100%;
-} */
-#chat {
+.chat {
     display: grid;
     grid-template-rows: auto 1fr auto;
+    background-color: rgb(26,29,33);
 }
 
-#box-first{
+.boxFirst{
     grid-row-start: 1;
     grid-row-end: 2; 
     margin: 0;
 }
 
-#box-fill {
+.boxFill {
     height: 86vh;
     grid-row-start: 2;
     grid-row-end: 3; 
 }
 
-.messages-wrapper {
+.messagesWrapper {
     display: flex;
     overflow: auto;
     scrollbar-color: #c3c3c3 #1A1D21;
 }
 
-#box-end {
+.boxEnd {
     display: flex;
-    align-items: flex-end;
-    grid-row-start: 3;
-    grid-row-end: 4; 
 }
 
-.messages-wrapper::-webkit-scrollbar {
+.messagesWrapper::-webkit-scrollbar {
     width: 0.1px !important;
 }
 
 /* Track */
-.messages-wrapper::-webkit-scrollbar-track {
+.messagesWrapper::-webkit-scrollbar-track {
     background: transparent !important; 
 }
 
 /* Handle */
-.messages-wrapper::-webkit-scrollbar-thumb {
+.messagesWrapper::-webkit-scrollbar-thumb {
     background: transparent !important; 
 }
 
 /* Handle on hover */
 .messages-wrapper::-webkit-scrollbar-thumb:hover {
     background: transparent !important; 
+}
+
+.ctaCreateChannel {
+    align-self: center;
+    justify-self: center;
+    margin-top: 50px;
 }

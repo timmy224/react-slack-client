@@ -3,11 +3,8 @@ import types from "./types";
 const initReducer = () => {
     const INITIAL_STATE = {
         username: '',
-        showTakenMsg: false,
-        showMissingCred: false,
         wrongCredentialsMsg: false,
         isLoginBundleFetched: false,
-        password: '',
     };
 
     const reducer = (state=INITIAL_STATE, action={}) => {
@@ -18,30 +15,10 @@ const initReducer = () => {
                     ...state, 
                     username: payload
                 }; 
-            case types.TAKEN_USERNAME:
-                return {
-                    ...state, 
-                    showTakenMsg: payload
-                };
-            case types.SET_PASSWORD:
-                return {
-                    ...state,
-                    password: payload
-                }
-            case types.MISSING_CREDENTIALS:
-                return {
-                    ...state,
-                    showMissingCred: payload
-                }
             case types.INCORRECT_CREDENTIALS:
                 return {
                     ...state, 
                     wrongCredentialsMsg: payload
-                };
-            case types.LOGIN:
-                return {
-                    ...state,
-                    password: ""
                 };
             case types.FETCH_LOGIN_BUNDLE:
                 return {
