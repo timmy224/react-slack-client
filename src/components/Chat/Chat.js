@@ -32,20 +32,10 @@ class Chat extends Component {
         }
     }
 
-    createChatItems = (messages) => {
+    createChatItems(messages) {
         const chatItems = []
-        const { dateTimeService, chatService }  = services;
-        const messageMap = messages
-            .map(message => ({ type: "message", ...message, key: message.sender + message.content}))
-            .reduce((acc, messageChatItem) => {
-                const sentDt = dateTimeService.dt(messageChatItem.sent_dt, chatService.MESSAGE_DT_FORMAT);
-                const key = dateTimeService.str(sentDt, "YYYY/MM/DD");
-                if (!acc[key]) {
-                    acc[key] = [];
-                }
-                acc[key].push(messageChatItem);
-                return acc;
-            }, {});
+        const { dateTimeService }  = services;
+        const messageMap = this.createMessageChatItemMap(messages);
         Object.entries(messageMap).forEach(entry => {
             const [dateKey, messageChatItems] = entry;
             const dateStr = dateTimeService.str(dateTimeService.dt(dateKey, "YYYY/MM/DD"), "dddd, MMMM Do");            
@@ -58,6 +48,22 @@ class Chat extends Component {
             chatItems.push(...messageChatItems);
         });
         return chatItems;
+    }
+
+    createMessageChatItemMap(messages) {
+        const { dateTimeService, chatService } = services;
+        const messageMap = messages
+        .map(message => ({ type: "message", ...message, key: message.sender + message.content}))
+        .reduce((acc, messageChatItem) => {
+            const sentDt = dateTimeService.dt(messageChatItem.sent_dt, chatService.MESSAGE_DT_FORMAT);
+            const key = dateTimeService.str(sentDt, "YYYY/MM/DD");
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(messageChatItem);
+            return acc;
+        }, {});
+        return messageMap;
     }
 
     render() {
