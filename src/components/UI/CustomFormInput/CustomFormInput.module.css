@@ -20,12 +20,20 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-	margin: 0 0 20px;
 	align-items: center;
 	justify-content: space-between;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+}
+
+.nameDisplay{
+    width: 70%;
+    margin: 0;
+}
+
+.error{
+    color: red;
 }
 
 

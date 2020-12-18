@@ -21,3 +21,19 @@
 .errorMsg {
 	color: red;
 }
+
+.newUserInput {
+    display: flex;
+    flex-direction: column;
+}
+
+.newUserDisplay {
+    position: relative;
+    display: flex;
+    margin-top: 10px;
+    flex-direction: column;
+}
+
+.inviteMembersDisplay {
+    margin-top: 10px;
+}
