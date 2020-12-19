@@ -8,10 +8,8 @@ import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 import Checkbox from '../../UI/CustomFormInput/Checkbox';
 import CustomModal from '../../UI/CustomModal/CustomModal';
-import CustomForm from '../../UI/CustomForm/CustomForm';
 
-import styles from './CreateChannelModal.module.css'
-import formStyles from '../../UI/CustomForm/CustomForm.module.css'
+import styles from '../../UI/CustomModal/CustomModal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
@@ -39,8 +37,7 @@ class CreateChannelModal extends Component {
 
     render() {
         const { takenChannelName} = this.state;
-        const { descriptions, errorMsg } = styles
-        const { newUserInput, newUserDisplay, inviteMembersDisplay } = styles;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg } = styles;
         const { showCreateChannelModal } = this.props;
         const takenMessage = takenChannelName ? <h3 className={errorMsg}>Channel Name taken</h3> : null;
         const form = (
@@ -100,7 +97,7 @@ class CreateChannelModal extends Component {
                                         <div className={inviteMembersDisplay}>
                                             {values.isPrivate && values.privateUsers && values.privateUsers.length > 0 ? (
                                                 <div className={newUserInput}>
-                                                    <h1>Private Channel Members Invite</h1>
+                                                    <p class={modalSubheader}>Private Channel Members Invite</p>
                                                     {values.privateUsers.map((user, index) =>(
                                                         <div key={index} className={newUserDisplay}>
                                                             <CustomFormInput 
@@ -125,11 +122,9 @@ class CreateChannelModal extends Component {
                                                     </CustomButton>
                                                 </div>
                                             ) : values.isPrivate = values.privateUsers.length > 0 ? true : false}
-                                        <div>
-                                            <h4>Make Private</h4>
-                                            <div>
-                                                <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                                            </div>
+                                        <div className={privateSection}>
+                                            <p className={subheader}>Make Private</p>
+                                            <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
                                             <Checkbox
                                             name="isPrivate" 
                                             label="Make a private Channel"

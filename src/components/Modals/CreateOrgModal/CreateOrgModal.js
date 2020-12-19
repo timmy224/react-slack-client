@@ -8,8 +8,7 @@ import CustomModal from '../../UI/CustomModal/CustomModal';
 import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 
-import styles from '../CreateChannelModal/CreateChannelModal.module.css'
-import formStyles from '../../UI/CustomForm/CustomForm.module.css'
+import styles from '../../UI/CustomModal/CustomModal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
@@ -36,7 +35,7 @@ class CreateOrgModal extends Component {
     render() {
         const { showCreateOrgModal } = this.props;
         const {  takenOrgName } = this.state;
-        const { newUserInput, newUserDisplay, inviteMembersDisplay } = styles;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader } = styles;
         const orgNameTakenMsg = takenOrgName ? <h3>Org name taken, Try another</h3> : null;
         const form = (
             <>
@@ -83,7 +82,7 @@ class CreateOrgModal extends Component {
                                         <div className={inviteMembersDisplay}>
                                             {values.invitedUsers && values.invitedUsers.length > 0 ? (
                                                 <div className={newUserInput}>
-                                                    <h1>New Members Invite</h1>
+                                                    <p className={modalSubheader}>New Members Invite</p>
                                                     {values.invitedUsers.map((user, index) =>(
                                                         <div key={index} className={newUserDisplay}>
                                                             <CustomFormInput 

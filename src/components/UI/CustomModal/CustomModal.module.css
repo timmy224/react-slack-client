@@ -23,5 +23,83 @@
 
 .title {
 	width: 100%;
-	font-size: 2rem;
+	font-size: 1.5rem;
+}
+
+.border {
+	border: 1px solid white;
+    margin: 0 20px 30px 20px;
+}
+
+.customForm {
+	background-color: rgb(26,29,33);
+    color: rgb(209,210,211);
+	display: flex;
+	flex-direction: column;
+	min-height: 70px;
+	width: 100%;
+}
+
+.invitationDisplay {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.usernameDisplay {
+    background: white;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    width: auto;
+}
+
+.usernameDisplayWrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.errorMsg {
+	color: red;
+}
+
+.newUserInput {
+    display: flex;
+    flex-direction: column;
+}
+
+.newUserDisplay {
+    position: relative;
+    display: flex;
+    margin: 10px 0;
+    flex-direction: column;
+}
+
+.inviteMembersDisplay {
+    margin-top: 10px;
+}
+
+.subheader {
+    font-size: 1.25rem;
+}
+
+.descriptions {
+    font-size: .9rem;
+}
+
+.modalSubheader {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.privateSection {
+    border: 1px solid white;
+    padding: 15px;
+    margin-top: 2rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
 }

@@ -7,8 +7,7 @@ import CustomModal from '../../UI/CustomModal/CustomModal';
 import * as Yup from 'yup';
 import { Formik, Form, FieldArray} from "formik";
 
-import styles from '../CreateChannelModal/CreateChannelModal.module.css'
-import formStyles from '../../UI/CustomForm/CustomForm.module.css'
+import styles from '../../UI/CustomModal/CustomModal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
@@ -49,19 +48,18 @@ class InviteMembersModal extends Component {
                             const { org } = this.props
                             const { invitedUsers } = values
                             sendInvites(org.name, invitedUsers)
-                                .then(this.handleHide())
-                            setSubmitting(false)
+                                .then(this.handlehide());
+                            setSubmitting(false);
                         }}
                         >
                         {({ values }) => (
-                            <Form className={formStyles.CustomForm}>
+                            <Form className={customForm}>
                                 <FieldArray
                                     name="invitedUsers"
                                     >
                                     {({insert, remove }) =>(
                                         <div className={inviteMembersDisplay}>
                                                 <div className={newUserInput}>
-                                                    <h1>New Members Invite</h1>
                                                     {values.invitedUsers.map((user, index) =>(
                                                         <div key={index} className={newUserDisplay}>
                                                             <CustomFormInput 

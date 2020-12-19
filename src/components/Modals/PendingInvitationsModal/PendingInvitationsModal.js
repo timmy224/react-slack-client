@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
+
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomForm from '../../UI/CustomForm/CustomForm';
 import CustomModal from '../../UI/CustomModal/CustomModal';
 
 import styles from './PendingInvitationsModal.module.css'
+import formStyles from '../../UI/CustomModal/CustomModal.module.css'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -59,9 +60,9 @@ class PendingInvitationsModal extends Component {
                         </div>
                     )});
         const form = (
-                <CustomForm >
+                <form className={formStyles.customForm}>
                     {invitationsDisplay}
-                </CustomForm>
+                </form>
             );
         return (
             <CustomModal
