@@ -1,0 +1,21 @@
+.chatHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 0px 15px 15px;
+	border-bottom: 2px solid #02313C;
+}
+
+.chatMemberDisplay{
+	border: white solid 1px;
+    border-radius: 25px;
+    padding: 5px;
+	margin-right: 10px;
+    font-size: 1em;
+    position: absolute;
+    right: 0;
+}
+
+.nameDisplay {
+	margin: 0;
+}

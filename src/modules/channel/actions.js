@@ -59,6 +59,22 @@ const initActions = function (channelService) {
 			dispatch(actions.sidebar.selectDefaultChannel());
 		}
 	};
+    const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
+    const addedToChannel = (orgName, channel) => dispatch => {
+        dispatch(channelAddedTo({orgName, channel}))
+    };
+
+    const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
+        dispatch(removeChannel(orgName, channelName));
+        const isCurrentOrg = getState().org.org?.name === orgName;
+        if (isCurrentOrg) {
+            const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel?.name === channelName;
+            if (isCurrentChannelDeleted) {
+                dispatch(actions.chat.setChannel(null));
+                dispatch(actions.sidebar.selectDefaultChannel());
+            }
+        }
+    };
 
 	const removeChannel = (orgName, channelName) => (dispatch, getState) => {
 		const allOrgChannels = getState().channel.channels[orgName];
@@ -132,6 +148,10 @@ const initActions = function (channelService) {
 	const updateAddMember = (addMember) => (dispatch) => {
 		dispatch(addMemberUpdate(addMember));
 	};
+	const modalCreateShow = actionCreator(types.SHOW_CREATE_CHANNEL_MODAL);
+    const showCreateChannelModal = (show) => (dispatch) => {
+        dispatch(modalCreateShow(show))
+    };
 	return {
 		fetchChannels,
 		setCreateChannelName,
@@ -147,6 +167,8 @@ const initActions = function (channelService) {
 		updateAddMember,
 		addedToChannel,
 		channelDeleted,
+		setOrgChannels,
+		showCreateChannelModal,
 	};
 };
 //  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display

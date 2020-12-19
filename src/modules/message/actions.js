@@ -36,6 +36,16 @@ const initActions = function(messageService, socketService) {
         dispatch(setChannelMessages(orgName, channelName, messages));   
     };
 
+    const addPrevChannelMessages = actionCreator(types.ADD_PREV_CHANNEL_MESSAGES);
+    const fetchPrevChannelMessages = (channelName, beforeDateTime) => async (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        const [err, messages] = await to(messageService.fetchChannelMessages(orgName, channelName, beforeDateTime));
+        if (err) {
+            throw new Error("Could not fetch previous channel messages");
+        }
+        dispatch(addPrevChannelMessages({orgName, channelName, messages}));        
+    }
+ 
     const fetchPrivateMessages = partnerUsername => async (dispatch, getState) => {
         const orgName = getState().org.org.name;
         const [err, messages] = await to(messageService.fetchPrivateMessages(orgName, partnerUsername));
@@ -43,6 +53,16 @@ const initActions = function(messageService, socketService) {
             throw new Error("Could not fetch private messages");
         }
         dispatch(setPrivateMessages(orgName, partnerUsername, messages));   
+    };
+    
+    const addPrevPrivateMessages = actionCreator(types.ADD_PREV_PRIVATE_MESSAGES);
+    const fetchPrevPrivateMessages = (partnerUsername, beforeDateTime) => async (dispatch, getState) => {
+        const orgName = getState().org.org.name;
+        const [err, messages] = await to(messageService.fetchPrivateMessages(orgName, partnerUsername, beforeDateTime));
+        if (err) {
+            throw new Error("Could not fetch previous private messages");
+        }
+        dispatch(addPrevPrivateMessages({orgName, partnerUsername, messages}));   
     };
 
     const channelMessagesSet = actionCreator(types.SET_CHANNEL_MESSAGES);
@@ -62,7 +82,9 @@ const initActions = function(messageService, socketService) {
     return { 
         messageReceived, 
         fetchChannelMessages, 
+        fetchPrevChannelMessages,
         fetchPrivateMessages,
+        fetchPrevPrivateMessages,
         sendMessage,
     };
 }

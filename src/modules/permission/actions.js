@@ -4,9 +4,8 @@ import { actionCreator } from "../utils";
 
 const initActions = function(permissionService) {
     const permissionsFetch = actionCreator(types.FETCH_PERMISSIONS);
-    const fetchPermissions = () => async (dispatch, getState) => {
-        const username = getState().user.username;
-        const [err, data] = await to(permissionService.fetchPermissions(username));
+    const fetchPermissions = () => async dispatch => {
+        const [err, data] = await to(permissionService.fetchPermissions());
         if (err) {
             throw new Error("Could not fetch permissions");
         }
@@ -22,14 +21,11 @@ const initActions = function(permissionService) {
             if (orgPerms) {
                 permissions.push(...orgPerms);
             }
-            if (getState().chat.type === "channel") {
-                const allChannelPerms = getState().permission.channelMemberPerms[orgName]
-                if (allChannelPerms) {
-                    const channelName = getState().chat.channel.name;
-                    const selectedChannelPerms = allChannelPerms[channelName];
-                    if (selectedChannelPerms) {
-                        permissions.push(...selectedChannelPerms);
-                    }
+            const channel = getState().chat.channel;
+            if (getState().chat.type === "channel" && channel) {
+                const selectedChannelPerms = getState().permission.channelMemberPerms[orgName]?.[channel.name];
+                if (selectedChannelPerms) {
+                    permissions.push(...selectedChannelPerms);
                 }
             }
         }

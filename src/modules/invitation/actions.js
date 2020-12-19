@@ -11,25 +11,20 @@ const initActions = function (invitationService) {
             throw new Error("Could not fetch invitations");
         }
         if(invitations.length > 0){
-            dispatch(actions.invitation.showInvitationsModal(true));
+            dispatch(actions.invitation.showPendingInvitationsModal(true));
             dispatch(invitationsFetch(invitations));
         }
         
     };
 
-    const modalInviteShow = actionCreator(types.SHOW_INVITE_MODAL);
-    const showInviteModal = (show) => (dispatch) => {
+    const modalInviteShow = actionCreator(types.SHOW_INVITE_MEMBERS_MODAL);
+    const showInviteMembersModal = (show) => (dispatch) => {
         dispatch(modalInviteShow(show))
     };
 
-    const modalInvitationsShow = actionCreator(types.SHOW_INVITATIONS_MODAL);
-    const showInvitationsModal = (show) => (dispatch) => {
+    const modalInvitationsShow = actionCreator(types.SHOW_PENDING_INVITATIONS_MODAL);
+    const showPendingInvitationsModal = (show) => (dispatch) => {
         dispatch(modalInvitationsShow(show))
-    };
-
-    const invitedUserEmailSet = actionCreator(types.SET_INVITED_USER_EMAIL);
-    const setInvitedUserEmail = (email) => (dispatch) => {
-        dispatch(invitedUserEmailSet(email))
     };
 
     const respondToInvitation = (invitation, isAccepted) => async dispatch => {
@@ -48,9 +43,8 @@ const initActions = function (invitationService) {
 
     return {
     	fetchInvitations,
-        showInviteModal,
-        showInvitationsModal,
-        setInvitedUserEmail,
+        showInviteMembersModal,
+        showPendingInvitationsModal,
         respondToInvitation,
         removeInvitation,
     };

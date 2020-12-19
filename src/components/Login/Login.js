@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services} from "../../context";
-import "./Login.css";
+
+import styles from "./Login.module.css";
+import classes from "../Register/Register.module.css"
+import { Container, Row, Col } from 'react-bootstrap'
 
 const mapStateToProps = (state)=>{
     return { 
         username:state.user.username,
         routePath: state.route.routePath,
         wrongCredentialsMsg: state.user.wrongCredentialsMsg,
-        password: state.user.password,
     }
 }
 
@@ -16,11 +18,14 @@ const mapActionsToProps = {
     setUsername: actions.user.setUsername,
     changeRoute: actions.route.changeRoute,
     wrongCredentials: actions.user.wrongCredentials,
-    setPassword: actions.user.setPassword,
     login: actions.user.login,
 }
     
 class Login extends Component {
+    state = {
+            password: '',
+        };
+
     componentDidMount() {
         services.authService.getCSRFToken()
             .then(response => {
@@ -29,20 +34,21 @@ class Login extends Component {
             .catch(err => console.log(err));
     }
 
-    handleSubmit = (event) => {
-        const { username, password } = this.props
+    handleSubmit = event => {
         event.preventDefault();
-        this.props.login(username, password);
+        const { password } = this.state
+        const { username, login } = this.props
+        login(username, password);
+    }
+
+    handleInputChange = event => {
+        const { value, name } = event.target;
+        this.setState({[name]: value})
     }
 
     onUsernameChange = (event) =>{
-        let username = event.target.value
+        const username = event.target.value
         return this.props.setUsername(username)
-    };
-
-    onPasswordChange = (event) =>{
-        let password = event.target.value
-        return this.props.setPassword(password)
     };
 
     handleClick = ()=>{
@@ -50,23 +56,67 @@ class Login extends Component {
     };
 
     render() {
-        const { wrongCredentialsMsg } = this.props;         
+        const { wrongCredentialsMsg } = this.props;  
+        const { password }  = this.state;  
+        const { main, logoCol, greenColor, logo, formCol, formWrapper, login, next, btnCol } = styles 
+        const { customInput, signInReg } = classes  
         const credentialsIncorrect = wrongCredentialsMsg ? <h3>Wrong Username or Password</h3> : null;
 	        return(
-	        	<div>
-	        		{credentialsIncorrect}
-                    <form>
-    	      			<h1 className= "login">Sign in</h1>
-                        <h6 className="continue">Continue with the username and password you use to sign in.</h6>
-            			<input className ="login-input" onChange={this.onUsernameChange} type="text" placeholder="Enter Username" required="required" />
-    			        <input className="login-input" onChange={this.onPasswordChange} type="password" placeholder="Enter Password" required="required" />
-    			      	<input className= "sign-in-reg"onClick={this.handleSubmit} type="submit" value="Sign in" required="required"/>
-                    </form>
-                    <button className ="sign-in-reg"onClick={this.handleClick}>Register</button>
-				</div>
+	        	<div className={main}>
+                    <Container>
+                        <Row className="justify-content-md-center">
+                            <Col md lg="6" className={`${logoCol} ${greenColor}`}>
+                                <img 
+                                    className={logo}
+                                    alt="logo"
+                                    src="https://www.sblack.online/img/icon.png">
+                                </img>
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <Col md lg="6" className={`${formCol} ${greenColor}`}>
+                                <form className={formWrapper}>
+                                    <h2 className={login}>Sign in to Kcals</h2>
+                                    <h6 className={next}>Continue with the username and password you use to sign in.</h6>
+                                    <input className={`${customInput} login-input`} 
+                                        type="text" 
+                                        name="username"
+                                        placeholder="Enter Username" 
+                                        onChange={this.onUsernameChange} 
+                                        required="required" />
+                                    <input 
+                                        type="password" 
+                                        name="password"
+                                        placeholder="Enter Password" 
+                                        value={password}
+                                        onChange={this.handleInputChange}
+                                        className={`${customInput} login-input`}  
+                                        required="required" />
+                                </form>
+                                {credentialsIncorrect}
+                            </Col> 
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <Col md lg="6" className={`${btnCol} ${greenColor}`}>
+                                <button 
+                                    className={signInReg} 
+                                    onClick={this.handleSubmit} 
+                                    type="submit" 
+                                    value="Sign in" 
+                                    required="required"
+                                    >Sign In
+                                </button>
+                                <button 
+                                    className={signInReg} 
+                                    onClick={this.handleClick}
+                                    >Register
+                                </button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
         	)
         }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Login);
-

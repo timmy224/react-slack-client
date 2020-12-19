@@ -2,6 +2,7 @@ import to from "await-to-js";
 import types from "./types";
 import { actionCreator } from "../utils";
 import { actions } from "../../context";
+import { cloneDeep } from "lodash-es";
 
 const initActions = function (orgService, utilityService) {
     const createOrg = (orgName, invitedEmails) => (dispatch, getState) => {
@@ -45,20 +46,22 @@ const initActions = function (orgService, utilityService) {
         dispatch(orgSet({ orgName, org }));
     }
 
-    const orgSelect = actionCreator(types.SELECT_ORG);
+    const setCurrentOrg = actionCreator(types.SET_CURRENT_ORG);
     const selectOrg = orgName => async (dispatch, getState) => {
+        dispatch(actions.chat.reset());
         let org = getState().org.orgs[orgName];
         if (!org) {
             await dispatch(fetchOrg(orgName));
             org = getState().org.orgs[orgName];
         }
-        dispatch(orgSelect(org));
+        dispatch(setCurrentOrg(org));
         // fetch channels and select default channel
         await dispatch(actions.channel.fetchChannels(orgName));
         dispatch(actions.sidebar.selectDefaultChannel());
     }
 
     const selectDefaultOrg = () => (dispatch, getState) => {
+        dispatch(actions.chat.reset());
         const orgs = getState().org.orgs;
         const orgsExist = orgs && !utilityService.isEmpty(orgs);
         if (orgsExist) {
@@ -92,20 +95,34 @@ const initActions = function (orgService, utilityService) {
         dispatch(modalCreateOrgShow(show))
     };
 
-    const createOrgNameSet = actionCreator(types.SET_CREATE_ORG_NAME);
-    const setCreateOrgName = (orgName) => (dispatch) => {
-        dispatch(createOrgNameSet(orgName))
+    const orgSettingsModalShow = actionCreator(types.SHOW_ORG_SETTINGS_MODAL);
+    const showOrgSettingsModal = (show) => (dispatch) => {
+        dispatch(orgSettingsModalShow(show))
     };
 
-    const orgNameTaken = actionCreator(types.ORG_NAME_TAKEN);
-    const takenOrgName = (isOrgNameTaken) => (dispatch) => {
-        dispatch(orgNameTaken(isOrgNameTaken))
+    const deleteOrg = orgName => async () => {
+        const [err, _] = await to(orgService.deleteOrg(orgName));
+        if (err) {
+            throw new Error("Could not delete org");
+        }
+    }
+
+    const handleOrgDeleted = (orgName) => (dispatch, getState) => {
+    const isCurrentOrgDeleted = getState().org.org?.name === orgName;
+    dispatch(removeOrg(orgName));
+        if (isCurrentOrgDeleted) {
+            dispatch(setCurrentOrg(null));
+            dispatch(selectDefaultOrg());
+        }
     };
 
-    const newOrgUserSet = actionCreator(types.SET_NEW_ORG_USERS);
-    const setNewOrgUsers = (newOrgUsers) => (dispatch) => {
-        dispatch(newOrgUserSet(newOrgUsers))
-    };
+    const removeOrg = orgName => (dispatch, getState) => {
+        const allOrgs = getState().org.orgs
+        const orgs = cloneDeep(allOrgs);
+        delete orgs[orgName]
+        dispatch(setOrgs(orgs));
+    }
+
 
     return {
         createOrg,
@@ -118,9 +135,10 @@ const initActions = function (orgService, utilityService) {
         addOrgMember,
         setOrgMemberOnlineStatus,
         showCreateOrgModal,
-        setCreateOrgName,
-        takenOrgName,
-        setNewOrgUsers,
+        showOrgSettingsModal,
+        deleteOrg,
+        handleOrgDeleted,
+        removeOrg,
     };
 };
 

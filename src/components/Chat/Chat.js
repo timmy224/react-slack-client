@@ -4,7 +4,7 @@ import InputMessage from "../InputMessage/InputMessage";
 import Message from "../Message/Message";
 import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
-import "./Chat.css";
+import styles from "./Chat.module.css"
 // Depends on chatService, socketService
 import {actions, services} from "../../context";
 
@@ -32,81 +32,94 @@ class Chat extends Component {
 		this.props.sendMessage(message);
 	};
 
-	render() {
-		let {
-			showChannelSideBar,
-			toggleChannelSideBar,
-			partnerUsername,
-			channel,
-		} = this.props;
+    fetchPreviousMessages = () => {
+        const { chatType, channel, partnerUsername, messages, fetchPrevChannelMessages, fetchPrevPrivateMessages } = this.props;
+        const beforeDateTime = messages[0].sent_dt;
+        switch (chatType) {
+            case "channel":                
+                fetchPrevChannelMessages(channel.name, beforeDateTime);
+                break;
+            case "private":
+                fetchPrevPrivateMessages(partnerUsername, beforeDateTime);
+                break;
+            default:
+        }
+    }
 
-		let messages = this.props.messages ? this.props.messages : [];
-		let chatHeader =
-			this.props.chatType === "channel" ? (
-				<ChannelChatHeader
+    render() {
+        let { chatType, channel, partnerUsername, toggleChannelSideBar, showChannelSideBar } = this.props;
+        const { messagesWrapper, ctaCreateChannel, chat, boxFirst, boxFill, boxEnd } = styles;
+        const canDisplay = (chatType === "channel" && channel) || (chatType === "private" && partnerUsername);
+        if (canDisplay) {
+            let messages = this.props.messages ? this.props.messages : [];
+            let chatHeader = this.props.chatType === "channel"
+                ? <ChannelChatHeader
 					numberOfUsers={channel.members.length}
 					channelName={channel.name}
 					showChannelSideBar={showChannelSideBar}
-					toggleChannelSideBar={toggleChannelSideBar}
-				/>
-			) : (
-				<PrivateChatHeader partnerUsername={partnerUsername} />
-			);
-		return (
-			<div className="col-12" id="box-wrapper">
-				<div id="box-first">{chatHeader}</div>
-				<div className="messages-wrapper" id="box-fill">
-					{messages.map((message) => {
-						return (
-							<Message
-								key={message.sender + message.content}
-								sender={message.sender}
-								content={message.content}
-								sent_dt={message.sent_dt}
-							/>
-						);
-					})}
-				</div>
-				<div id="box-end">
-					<InputMessage onEnter={this.onEnterPressed} />
-				</div>
-			</div>
-		);
-	}
+					toggleChannelSideBar={toggleChannelSideBar} />
+                : <PrivateChatHeader partnerUsername={partnerUsername}/>
+            return (
+                <div className={chat}>
+                        <div className={boxFirst}>
+                            {chatHeader}
+                        </div>
+                        <div className={`${messagesWrapper} ${boxFill}`}>
+                            {messages.map((message) => {
+                                return (<Message key={message.sender + message.content}
+                                    sender={message.sender} content={message.content} sent_dt={message.sent_dt} />);
+                            })}
+                        </div>
+                        <div className={boxEnd}>
+                            <InputMessage
+                                onEnter={this.onEnterPressed}
+                            />
+                            <button onClick={this.fetchPreviousMessages}>Fetch previous messages</button>
+                        </div>
+                    </div>
+            );
+        } else {
+            return(
+                <h1 className={ctaCreateChannel}>Create a Channel to get started!</h1>
+            )
+        }
+    }
 }
 
 const mapStateToProps = (state) => {
-	const mapping = {
-		username: state.user.username,
-		chatType: state.chat.type,
-		partnerUsername: state.chat.partnerUsername,
-		channel: state.chat.channel,
-		currentInput: state.chat.currentInput,
-		showChannelSideBar: state.channel.showChannelSideBar,
+    const mapping = {
+        username: state.user.username,
+        chatType: state.chat.type,
+        partnerUsername: state.chat.partnerUsername,
+        channel: state.chat.channel,
+        currentInput: state.chat.currentInput,
 		org: state.org.org,
-	};
-	const {chatType, channel, partnerUsername} = mapping;
-	const orgName = mapping.org?.name;
-	switch (chatType) {
-		case "channel":
-			const channelName = channel.name;
-			mapping.messages =
-				state.message.messages[orgName]?.channel?.[channelName];
-			break;
-		case "private":
-			mapping.messages =
-				state.message.messages[orgName]?.private?.[partnerUsername];
-			break;
-		default:
-			break;
-	}
-	return mapping;
-};
+		showChannelSideBar: state.channel.showChannelSideBar,
+    }
+    const { chatType, channel, partnerUsername } = mapping;
+    const orgName = mapping.org?.name;
+    switch (chatType) {
+        case "channel":
+            if (channel) {
+                const channelName = channel.name;
+                mapping.messages = state.message.messages[orgName]?.channel?.[channelName];
+            }            
+            break;
+        case "private":
+            mapping.messages = state.message.messages[orgName]?.private?.[partnerUsername];
+            break;
+        default:
+            break;
+    }
+    return mapping;
+}
 
 const mapActionsToProps = {
-	messageReceived: actions.message.messageReceived,
+    sendMessage: actions.message.sendMessage,
+    messageReceived: actions.message.messageReceived,
+    fetchPrevChannelMessages: actions.message.fetchPrevChannelMessages,
+	fetchPrevPrivateMessages: actions.message.fetchPrevPrivateMessages,
 	toggleChannelSideBar: actions.channel.toggleChannelSideBar,
-	sendMessage: actions.message.sendMessage,
-};
+}
 
 export default connect(mapStateToProps, mapActionsToProps)(Chat);

@@ -16,7 +16,7 @@
     display: flex;
 }
 
-.message-left .avatar {
+.messageLeft .avatar {
     text-align: center;
     font-size: 30px;
     font-weight: 500;
@@ -27,24 +27,24 @@
     border-radius: 4px;
 }
 
-.message-right {
+.messageRight {
     flex: 1 1 0;
     padding-left: 10px;
 }
 
-.message-right .message-sender {
+.messageRight .messageSender {
     font-size: 17px;
     font-weight: 900;
     display: inline-flex;
 }
 
-.message-right .message-timestamp {
+.messageRight .messageTimestamp {
     color: rgb(187, 187, 187);
     font-size: 16px;
     margin-left: 9px;
     display: inline-flex;
 }
 
-.message-right .message-content {
+.messageRight .messageContent {
     font-size: 17px;
 }

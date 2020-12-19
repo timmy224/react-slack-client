@@ -3,12 +3,14 @@ import {connect} from "react-redux";
 import Chat from "../Chat/Chat";
 import OrgsSidebar from "../OrgsSidebar/OrgsSidebar";
 import SideBar from "../SideBar/SideBar";
-import {actions, services} from "../../context";
-import {take} from "rxjs/operators";
+import { actions, services } from "../../context";
+import { take } from "rxjs/operators";
 import ChannelSideBar from "../ChannelSideBar/ChannelSideBar";
-import "./MainComponent.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import styles from "./MainComponent.module.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+
 
 const mapStateToProps = (state) => ({
 	routePath: state.route.routePath,
@@ -58,43 +60,34 @@ class MainComponent extends Component {
 			});
 	}
 
-	render() {
-		const {isInitialized, orgs, showChannelSideBar, org} = this.props;
-		const {isEmpty} = services.utilityService;
-		const sideBar = !isEmpty(orgs) ? (
-			<SideBar />
-		) : (
-			<div id="create-first-org-cta">
-				<p id="cta-header">Create an org to get started!</p>
-				<p id="cta-icon">
-					<FontAwesomeIcon
-						icon={faArrowLeft}
-						transform="grow-20"
-						color="#40e0d0"
-					/>
-				</p>
-			</div>
-		);
-		const chat = !isEmpty(orgs) ? <Chat /> : null;
-		return (
-			<div className="main">
-				{isInitialized ? (
-					<div className="container-fluid px-0 background-view">
-						<div className="row main-wrapper">
-							<div>
-								<OrgsSidebar />
-							</div>
-							<div className="sidebar-wrapper">{sideBar}</div>
-							<div className="chat-wrapper">{chat}</div>
-							{showChannelSideBar ? (
+    render() {
+        const { createFirstOrgCta, ctaHeader, ctaIcon, main, mainWrapper, sidebar, tempChat } = styles;
+        const { isInitialized, orgs,showChannelSideBar, org } = this.props;
+        const { isEmpty } = services.utilityService;
+        const sideBar = !isEmpty(orgs) ? <SideBar /> : (
+            <div className={sidebar}>
+                <div className={createFirstOrgCta}>
+                    <p className={ctaHeader}>Create an org to get started!</p>
+                    <p className={ctaIcon}><FontAwesomeIcon icon={faArrowLeft} transform="grow-20" color="#40e0d0" /></p>
+                </div>
+            </div>
+        );
+        const chat = !isEmpty(orgs) ? <Chat /> : <div className={tempChat}></div>;
+        return (
+            <div className={main}>
+                {isInitialized ? 
+                    <div className={mainWrapper}>
+                        <OrgsSidebar />
+                        {sideBar}
+                        {chat}
+						{showChannelSideBar ? (
 								<ChannelSideBar orgName={org.name} />
 							) : null}
-						</div>
-					</div>
-				) : null}
-			</div>
-		);
-	}
+                    </div>
+                    : null}
+            </div>
+        );
+    }
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(MainComponent);

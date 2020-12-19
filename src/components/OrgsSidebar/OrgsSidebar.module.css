@@ -1,0 +1,87 @@
+.orgsSidebar {
+    display: grid;
+    height: 100%;
+    grid-template-rows: auto 1fr auto;
+    background-color: #011F26;
+    border-right: 2px solid #02313C;
+    position: absolute;
+    width: 75px;
+    left: 0;
+}
+
+.orgsHeader {
+    margin: 0;
+    padding: 15px 0px 15px 0px;
+    text-align: center;
+    border-bottom: 2px solid #02313C;
+}
+
+.orgsBtns {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.orgSettings button {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    height: 54px;
+    width: 54px;
+    background-color: rgb(120, 221, 111);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    margin: 0px auto 20px auto;
+}
+
+.orgSettings button:hover {
+    background-color: rgb(133, 245, 123);
+    color: #000000;
+}
+
+.orgSettings button {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    height: 54px;
+    width: 54px;
+    background-color: rgb(84, 255, 226);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    margin: 0px auto 20px auto;
+}
+
+.orgInvites button:hover {
+    background-color: rgb(73, 224, 199);
+    color: #000000;
+}
+
+.pendingInvitations {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+.alertPending {
+    height: 12px;
+    width: 12px;
+    border: 1px solid white;
+    border-radius: 50%;
+    position: absolute;
+    left: 58px;
+    top: -6px;
+    border: 1px solid white;
+    background: red;
+    box-shadow: 0px 0px 20px 1px white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 10px;
+    font-weight: bolder;
+}

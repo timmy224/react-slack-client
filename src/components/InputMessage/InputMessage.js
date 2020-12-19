@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {actions} from "../../context";
-import "./InputMessage.css";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { actions } from "../../context";
+import styles from "./InputMessage.module.css"
 
 const mapStateToProps = (state) => {
 	return {
@@ -30,13 +30,14 @@ class InputMessage extends Component {
 		}
 	};
 
-	render() {
-		return (
-			<div className="text-center mt-3 rounded input-outer">
+	render(){
+		const { inputOuter, customTextarea } = styles
+		return(
+			<div className={inputOuter}>
 				<textarea
-					placeholder="Enter a message"
-					className="form-control form-control-lg"
-					style={{resize: "none"}}
+					placeholder='Enter a message'
+					className= {`form-control ${customTextarea}`}
+					style={{resize:'none', color: "white"}}
 					value={this.props.currentInput}
 					onChange={this.handleChange}
 					onKeyPress={this.handleKeyPressed}

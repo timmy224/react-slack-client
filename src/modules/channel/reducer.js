@@ -4,6 +4,7 @@ import userTypes from "../user/types";
 import set from "lodash/fp/set";
 
 const initReducer = () => {
+
 	const INITIAL_STATE = {
 		channels: {},
 		create_channel_name: "",
@@ -14,13 +15,30 @@ const initReducer = () => {
 		showChannelSideBar: false,
 		channelMemberNames: [],
 		addMember: "",
+		showCreateChannelModal: false,
 	};
 
-	const reducer = (state = INITIAL_STATE, action) => {
-		const {type, payload} = action;
-
-		switch (type) {
-			case userTypes.LOGOUT:
+    const reducer = (state = INITIAL_STATE, action) => {
+        const { type, payload } = action;
+        switch (type) {
+            case userTypes.LOGOUT: 
+                return INITIAL_STATE;
+            case types.SET_ORG_CHANNELS: {
+                const { orgName, channels } = payload;
+                const path = ["channels", orgName]
+                return set(path, channels, state);
+            }
+            case types.ADDED_TO_CHANNEL: {
+                const { orgName, channel } = payload;
+                const path = ["channels", orgName, channel.name]
+                return set(path, channel, state);
+            }
+            case types.SHOW_CREATE_CHANNEL_MODAL:
+                return {
+                    ...state,
+                    showCreateChannelModal: payload,
+                }
+            case userTypes.LOGOUT:
 				return INITIAL_STATE;
 			case types.SET_ORG_CHANNELS: {
 				const {orgName, channels} = payload;
@@ -81,8 +99,8 @@ const initReducer = () => {
 
 			default:
 				return state;
-		}
-	};
+        }
+    };
 
 	return reducer;
 };

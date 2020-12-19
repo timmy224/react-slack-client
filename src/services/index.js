@@ -5,6 +5,7 @@ import MessageService from "./message-service";
 import StorageService from "./storage-service";
 import UserService from "./user-service";
 import PermissionService from "./permission-service";
+import DateTimeService from "./datetime-service";
 import ChatService from "./chat-service";
 import SocketService from "./socket-service";
 import UtilityService from "./utility-service";
@@ -24,7 +25,8 @@ const configureServices = () => {
     const messageService = MessageService(apiService);
     const permissionService = PermissionService(apiService);
     const userService = UserService(apiService);
-    const chatService = ChatService(userService);
+    const dateTimeService = DateTimeService();
+    const chatService = ChatService(dateTimeService);
     const socketService = SocketService(chatService);
     const utilityService = UtilityService();
     const demoService = DemoService();
@@ -40,6 +42,7 @@ const configureServices = () => {
         messageService,
         permissionService,
         userService,
+        dateTimeService,
         chatService,
         socketService,
         utilityService,

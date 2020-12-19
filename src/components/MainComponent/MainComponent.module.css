@@ -1,0 +1,29 @@
+.main {
+    height: 100vh;
+}
+
+.mainWrapper {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    padding-left: 75px;
+    position: relative;
+}
+
+.createFirstOrgCta {
+    padding: 30px;
+    text-align: center;
+}
+
+.sidebar {
+    background-color: #011F26;
+    border-right: 2px solid #02313C; 
+    height: 100vh;
+    
+}
+
+.tempChat {
+    height: 100vh;
+    background-color: #1d1c1d;
+}

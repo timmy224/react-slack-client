@@ -1,0 +1,34 @@
+.inputOuter {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #1A1D21;
+    width: 100%;
+}
+
+.customTextarea {
+    background-color: #1A1D21 !important;
+}
+
+.customTextarea[type=text]:focus{
+    background-color: #1A1D21;
+}
+
+.customTextarea::-webkit-input-placeholder {
+    color: #c3c3c3 !important;
+}
+
+.customTextarea:-moz-placeholder { /* Firefox 18- */
+    color: #c3c3c3 !important;
+}
+
+.customTextarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #c3c3c3 !important;
+}
+
+.customTextarea:-ms-input-placeholder {
+    color: #c3c3c3 !important;
+}
+
+.customTextarea::placeholder {
+    color: #c3c3c3 !important;
+}

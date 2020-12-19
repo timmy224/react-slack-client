@@ -7,9 +7,7 @@ const initReducer = () => {
         orgs: {},
         org: null,
         showCreateOrgModal: false,
-        createOrgName: '',
-        showTakenMsg: false,
-        newOrgUsers: [],
+        showOrgSettingsModal: false,
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -28,7 +26,7 @@ const initReducer = () => {
                 const path = ["orgs", orgName]
                 return set(path, org, state);
             }
-            case types.SELECT_ORG:
+            case types.SET_CURRENT_ORG:
                 return {
                     ...state,
                     org: payload
@@ -50,22 +48,12 @@ const initReducer = () => {
                 return {
                     ...state,
                     showCreateOrgModal: payload,
-                }
-            case types.SET_CREATE_ORG_NAME:
+                }  
+            case types.SHOW_ORG_SETTINGS_MODAL:
                 return {
                     ...state,
-                    createOrgName: payload,
-                }
-            case types.ORG_NAME_TAKEN:
-                return {
-                    ...state,
-                    showTakenMsg: payload,
-                }
-            case types.SET_NEW_ORG_USERS:
-                return {
-                    ...state,
-                    newOrgUsers: payload,
-                }              
+                    showOrgSettingsModal: payload,
+                }          
             default:
                 return state;
         }

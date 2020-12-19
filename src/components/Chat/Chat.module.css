@@ -1,0 +1,52 @@
+.chat {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background-color: rgb(26,29,33);
+}
+
+.boxFirst{
+    grid-row-start: 1;
+    grid-row-end: 2; 
+    margin: 0;
+}
+
+.boxFill {
+    height: 86vh;
+    grid-row-start: 2;
+    grid-row-end: 3; 
+}
+
+.messagesWrapper {
+    display: flex;
+    overflow: auto;
+    scrollbar-color: #c3c3c3 #1A1D21;
+}
+
+.boxEnd {
+    display: flex;
+}
+
+.messagesWrapper::-webkit-scrollbar {
+    width: 0.1px !important;
+}
+
+/* Track */
+.messagesWrapper::-webkit-scrollbar-track {
+    background: transparent !important; 
+}
+
+/* Handle */
+.messagesWrapper::-webkit-scrollbar-thumb {
+    background: transparent !important; 
+}
+
+/* Handle on hover */
+.messages-wrapper::-webkit-scrollbar-thumb:hover {
+    background: transparent !important; 
+}
+
+.ctaCreateChannel {
+    align-self: center;
+    justify-self: center;
+    margin-top: 50px;
+}

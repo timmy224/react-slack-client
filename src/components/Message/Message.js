@@ -1,22 +1,30 @@
 import React from "react";
-import "./Message.css"
+import { services } from "../../context";
 
-function Message(props) {
+import styles from "./Message.module.css"
+
+const RAW_MESSAGE_DT_FORMAT = services.chatService.MESSAGE_DT_FORMAT;
+const DISPLAY_MESSAGE_DT_FORMAT = "h:mm A";
+
+function Message({sent_dt, sender, content}) {
+    const { message, messageLeft, avatar, messageRight, messageSender, messageTimestamp, messageContent } = styles;
+    const dateTime = services.dateTimeService.dt(sent_dt, RAW_MESSAGE_DT_FORMAT);
+    const sentDt = services.dateTimeService.str(dateTime, DISPLAY_MESSAGE_DT_FORMAT);
     return (
-        <div className="message">
-            <div className="message-left">
-                <div className="avatar">{props.sender[0].toUpperCase()}</div>
+        <div className={message}>
+            <div className={messageLeft}>
+                <div className={avatar}>{sender[0].toUpperCase()}</div>
             </div>
-            <div className="message-right">
-                <div className="message-sender">
-                    {props.sender}
+            <div className={messageRight}>
+                <div className={messageSender}>
+                    {sender}
                 </div>
-                <div className="message-timestamp">
-                    / {props.sent_dt} /
+                <div className={messageTimestamp}>
+                    / {sentDt} /
                 </div>
                 <br />
-                <div className="message-content">
-                    {props.content}
+                <div className={messageContent}>
+                    {content}
                 </div>
             </div>
         </div>
