@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../CustomFormInput/CustomFormInput.module.css'
+import styles from './FormInput.module.css'
 
 import { useField } from 'formik';
 

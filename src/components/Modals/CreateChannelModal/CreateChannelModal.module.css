@@ -1,7 +1,3 @@
-.customControlLabel {
-    cursor: pointer;
-}
-
 .usernameDisplay {
     background: white;
     color: black;
@@ -25,12 +21,13 @@
 .newUserInput {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 .newUserDisplay {
     position: relative;
     display: flex;
-    margin-top: 10px;
+    margin: 10px 0;
     flex-direction: column;
 }
 

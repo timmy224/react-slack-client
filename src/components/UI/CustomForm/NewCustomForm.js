@@ -1,65 +1,53 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
-import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomFormInput from '../../UI/CustomFormInput/FormInput';
-import CustomModal from '../../UI/CustomModal/CustomModal';
 import * as Yup from 'yup';
 import { Formik, Form, FieldArray} from "formik";
+
+import CustomModal from '../../UI/CustomModal/CustomModal';
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomFormInput from '../../UI/CustomFormInput/NewCustomFormInput';
 
 import styles from '../CreateChannelModal/CreateChannelModal.module.css'
 import formStyles from '../../UI/CustomForm/CustomForm.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
-const mapStateToProps = (state)=>{
-    return { 
-        showInviteMembersModal: state.invitation.showInviteMembersModal,
-        username: state.user.username,
-        org: state.org.org,
-    }
-}
-const mapActionsToProps = {
-    handleInviteMembersModal: actions.invitation.showInviteMembersModal,
-    sendInvites: actions.invitation.sendInvites,
-}
-
-class InviteMembersModal extends Component {
-    handleHide = () => {
-        const { handleInviteMembersModal } = this.props;
-        handleInviteMembersModal(false);
-    }
-
-    render() {
-        const { showInviteMembersModal, sendInvites } = this.props;
-        const { newUserInput, newUserDisplay, inviteMembersDisplay } = styles;
-        const form = (
+const form = (props) =>(
             <>
                 <Formik
                         initialValues={{
-                        invitedUsers: ['',],
+                        orgName: '',
+                        invitedUsers: [],
                         }}
                         validationSchema={Yup.object({
+                        orgName: Yup.string()
+                            .max(15, 'Must be 15 characters or less')
+                            .required('Required'),
                         invitedUsers: Yup.array()
                             .of(Yup.string()
                                 .email('Invalid Email Address')
-                                .required('Required'))
-                        })}
+                                .required('Required')
+                        )})}
                         onSubmit={(values, { setSubmitting}) =>{
-                            const { org } = this.props
-                            const { invitedUsers } = values
-                            sendInvites(org.name, invitedUsers)
-                                .then(this.handleHide())
+                            props.handleSubmit(values)
                             setSubmitting(false)
                         }}
                         >
                         {({ values }) => (
                             <Form className={formStyles.CustomForm}>
+                                <CustomFormInput
+                                    label="Org Name"
+                                    name="orgName"
+                                    type="text"
+                                    placeholder="react_slack"
+                                />
                                 <FieldArray
                                     name="invitedUsers"
                                     >
-                                    {({insert, remove }) =>(
+                                    {({insert, remove, push}) =>(
                                         <div className={inviteMembersDisplay}>
+                                            {values.invitedUsers && values.invitedUsers.length > 0 ? (
                                                 <div className={newUserInput}>
                                                     <h1>New Members Invite</h1>
                                                     {values.invitedUsers.map((user, index) =>(
@@ -85,13 +73,19 @@ class InviteMembersModal extends Component {
                                                         <FontAwesomeIcon icon={faPlus} />
                                                     </CustomButton>
                                                 </div>
+                                            ) :  (
+                                                <CustomButton 
+                                                    type="button" 
+                                                    onClick={() => push('')}
+                                                    >Invite new members
+                                                </CustomButton>
+                                            )}
                                         </div>
                                     )}
                                 </FieldArray>
                                 <CustomButton 
                                     type='submit'
                                     btnType="enter" 
-                                    disabled={values.invitedUsers.length > 0 ? false : true}
                                     >Submit
                                 </CustomButton>
                             </Form>
@@ -99,22 +93,5 @@ class InviteMembersModal extends Component {
                 </Formik>
             </>
         );
-        return (
-            <CustomModal 
-                show={showInviteMembersModal} 
-                onHide={this.handleHide} 
-                title="Invite users to your org"
-                >
-                    {form}
-            </CustomModal>      
-        );
-    }
-}
 
-export default connect(mapStateToProps, mapActionsToProps)(InviteMembersModal);
-
-
-
-
-
-
+export default form;

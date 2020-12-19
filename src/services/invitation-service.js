@@ -21,12 +21,17 @@ const InvitationService = function(apiService) {
             .then(data => JSON.parse(data.org_invites));
     }
 
-    const sendInvite = (inviteInfo) => {
+    const sendInvites = (orgName, invitedEmails) => {
         const url = `${config.API_URL}/org/invite`;
+        const data = {
+            action: "STORE",
+            org_name: orgName,
+            invited_emails: invitedEmails
+        };
 
         const options = {
             method: "POST",
-            body: JSON.stringify(inviteInfo),
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -58,7 +63,7 @@ const InvitationService = function(apiService) {
 
     return Object.freeze({
         fetchInvitations,
-        sendInvite,
+        sendInvites,
         respondToInvite,
     });
 };

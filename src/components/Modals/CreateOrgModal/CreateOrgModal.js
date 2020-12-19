@@ -6,7 +6,7 @@ import { Formik, Form, FieldArray} from "formik";
 
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomFormInput from '../../UI/CustomFormInput/NewCustomFormInput';
+import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 
 import styles from '../CreateChannelModal/CreateChannelModal.module.css'
 import formStyles from '../../UI/CustomForm/CustomForm.module.css'
@@ -26,17 +26,11 @@ const mapActionsToProps = {
 
 class CreateOrgModal extends Component {
     state = {takenOrgName: false};
-
-    resetModal = () => {
-        this.setState({
-            takenOrgName: false, 
-        })
-    }
-
+    
     handleHide = () => {
         const { handleShowCreateOrgModal} = this.props
         handleShowCreateOrgModal(false);
-        this.resetModal();
+        this.setState({takenOrgName: false})
     }
 
     render() {
@@ -117,14 +111,15 @@ class CreateOrgModal extends Component {
                                                 <CustomButton 
                                                     type="button" 
                                                     onClick={() => push('')}
-                                                    >Invite members to your org
+                                                    >Invite new members
                                                 </CustomButton>
                                             )}
                                         </div>
                                     )}
                                 </FieldArray>
                                 <CustomButton 
-                                    type='submit' 
+                                    type='submit'
+                                    btnType="enter" 
                                     >Submit
                                 </CustomButton>
                             </Form>
