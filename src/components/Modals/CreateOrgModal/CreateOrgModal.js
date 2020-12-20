@@ -40,88 +40,88 @@ class CreateOrgModal extends Component {
         const form = (
             <>
                 <Formik
-                        initialValues={{
-                        orgName: '',
-                        invitedUsers: [],
-                        }}
-                        validationSchema={Yup.object({
-                        orgName: Yup.string()
-                            .max(15, 'Must be 15 characters or less')
-                            .required('Required'),
-                        invitedUsers: Yup.array()
-                            .of(Yup.string()
-                                .email('Invalid Email Address')
-                                .required('Required')
-                        )})}
-                        onSubmit={(values, { setSubmitting}) =>{
-                            const { createOrg } = this.props;
-                            const { orgName, invitedUsers } = values;
-                            createOrg(orgName, invitedUsers)
-                                .then(response => {
-                                    if (response.successful) {
-                                        this.handleHide()
-                                    } else {
-                                        this.setState({takenOrgName:true})
-                                    } 
-                                });
-                            setSubmitting(false)
-                        }}
-                        >
-                        {({ values }) => (
-                            <Form className={customForm}>
-                                <CustomFormInput
-                                    label="Org Name"
-                                    name="orgName"
-                                    type="text"
-                                    placeholder="react_slack"
-                                />
-                                <FieldArray
-                                    name="invitedUsers"
-                                    >
-                                    {({insert, remove, push}) =>(
-                                        <div className={inviteMembersDisplay}>
-                                            {values.invitedUsers && values.invitedUsers.length > 0 ? (
-                                                <div className={newUserInput}>
-                                                    <p className={modalSubheader}>New Members Invite</p>
-                                                    {values.invitedUsers.map((user, index) =>(
-                                                        <div key={index} className={newUserDisplay}>
-                                                            <CustomFormInput 
-                                                                fieldType="nameDisplay" 
-                                                                name={`invitedUsers.${index}`} 
-                                                                placeholder="react_slack@gmail.com"
-                                                                />
-                                                            <CustomButton
-                                                                btnType="delete"
-                                                                type="button"
-                                                                onClick={() => remove(index)}
-                                                            > 
-                                                                <FontAwesomeIcon icon={faTimes} />
-                                                            </CustomButton>
-                                                        </div>
-                                                    ))}
-                                                    <CustomButton
-                                                        type="button"
-                                                        onClick={() => insert(values.invitedUsers.length, '')}
-                                                    >  
-                                                        <FontAwesomeIcon icon={faPlus} />
-                                                    </CustomButton>
-                                                </div>
-                                            ) :  (
-                                                <CustomButton 
-                                                    type="button" 
-                                                    onClick={() => push('')}
-                                                    >Invite new members
+                    initialValues={{
+                    orgName: '',
+                    invitedUsers: [],
+                    }}
+                    validationSchema={Yup.object({
+                    orgName: Yup.string()
+                        .max(15, 'Must be 15 characters or less')
+                        .required('Required'),
+                    invitedUsers: Yup.array()
+                        .of(Yup.string()
+                            .email('Invalid Email Address')
+                            .required('Required')
+                    )})}
+                    onSubmit={(values, {setSubmitting}) =>{
+                        const { createOrg } = this.props;
+                        const { orgName, invitedUsers } = values;
+                        createOrg(orgName, invitedUsers)
+                            .then(response => {
+                                if (response.successful) {
+                                    this.handleHide()
+                                } else {
+                                    this.setState({takenOrgName:true})
+                                } 
+                            });
+                        setSubmitting(false)
+                    }}
+                    >
+                    {({ values }) => (
+                        <Form className={customForm}>
+                            <CustomFormInput
+                                label="Org Name"
+                                name="orgName"
+                                type="text"
+                                placeholder="react_slack"
+                            />
+                            <FieldArray
+                                name="invitedUsers"
+                                >
+                                {({insert, remove, push}) =>(
+                                    <div className={inviteMembersDisplay}>
+                                        {values.invitedUsers && values.invitedUsers.length > 0 ? (
+                                            <div className={newUserInput}>
+                                                <p className={modalSubheader}>New Members Invite</p>
+                                                {values.invitedUsers.map((user, index) =>(
+                                                    <div key={index} className={newUserDisplay}>
+                                                        <CustomFormInput 
+                                                            fieldType="nameDisplay" 
+                                                            name={`invitedUsers.${index}`} 
+                                                            placeholder="react_slack@gmail.com"
+                                                            />
+                                                        <CustomButton
+                                                            btnType="delete"
+                                                            type="button"
+                                                            onClick={() => remove(index)}
+                                                        > 
+                                                        <FontAwesomeIcon icon={faTimes} />
+                                                        </CustomButton>
+                                                    </div>
+                                                ))}
+                                                <CustomButton
+                                                    type="button"
+                                                    onClick={() => insert(values.invitedUsers.length, '')}
+                                                >  
+                                                <FontAwesomeIcon icon={faPlus} />
                                                 </CustomButton>
-                                            )}
-                                        </div>
-                                    )}
-                                </FieldArray>
-                                <CustomButton 
-                                    type='submit'
-                                    btnType="enter" 
-                                    >Submit
-                                </CustomButton>
-                            </Form>
+                                            </div>
+                                        ) :  (
+                                            <CustomButton 
+                                                type="button" 
+                                                onClick={() => push('')}
+                                            >Invite new members
+                                            </CustomButton>
+                                        )}
+                                    </div>
+                                )}
+                            </FieldArray>
+                            <CustomButton 
+                                type='submit'
+                                btnType="enter" 
+                            >Submit
+                            </CustomButton>
+                        </Form>
                     )}
                 </Formik>
             </>

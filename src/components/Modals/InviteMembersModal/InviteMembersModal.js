@@ -35,64 +35,64 @@ class InviteMembersModal extends Component {
         const form = (
             <>
                 <Formik
-                        initialValues={{
-                        invitedUsers: ['',],
-                        }}
-                        validationSchema={Yup.object({
-                        invitedUsers: Yup.array()
-                            .of(Yup.string()
-                                .email('Invalid Email Address')
-                                .required('Required'))
-                        })}
-                        onSubmit={(values, { setSubmitting}) =>{
-                            const { org } = this.props
-                            const { invitedUsers } = values
-                            sendInvites(org.name, invitedUsers)
-                                .then(this.handlehide());
-                            setSubmitting(false);
-                        }}
-                        >
-                        {({ values }) => (
-                            <Form className={customForm}>
-                                <FieldArray
-                                    name="invitedUsers"
-                                    >
-                                    {({insert, remove }) =>(
-                                        <div className={inviteMembersDisplay}>
-                                                <div className={newUserInput}>
-                                                    {values.invitedUsers.map((user, index) =>(
-                                                        <div key={index} className={newUserDisplay}>
-                                                            <CustomFormInput 
-                                                                fieldType="nameDisplay" 
-                                                                name={`invitedUsers.${index}`} 
-                                                                placeholder="react_slack@gmail.com"
-                                                                />
-                                                            <CustomButton
-                                                                btnType="delete"
-                                                                type="button"
-                                                                onClick={() => remove(index)}
-                                                            > 
-                                                                <FontAwesomeIcon icon={faTimes} />
-                                                            </CustomButton>
-                                                        </div>
-                                                    ))}
+                    initialValues={{
+                    invitedUsers: ['']
+                    }}
+                    validationSchema={Yup.object({
+                    invitedUsers: Yup.array()
+                        .of(Yup.string()
+                            .email('Invalid Email Address')
+                            .required('Required'))
+                    })}
+                    onSubmit={(values, { setSubmitting}) =>{
+                        const { org } = this.props
+                        const { invitedUsers } = values
+                        sendInvites(org.name, invitedUsers)
+                            .then(this.handlehide());
+                        setSubmitting(false);
+                    }}
+                    >
+                    {({ values }) => (
+                        <Form className={customForm}>
+                            <FieldArray
+                                name="invitedUsers"
+                                >
+                                {({insert, remove}) =>(
+                                    <div className={inviteMembersDisplay}>
+                                        <div className={newUserInput}>
+                                            {values.invitedUsers.map((user, index) =>(
+                                                <div key={index} className={newUserDisplay}>
+                                                    <CustomFormInput 
+                                                        fieldType="nameDisplay" 
+                                                        name={`invitedUsers.${index}`} 
+                                                        placeholder="react_slack@gmail.com"
+                                                        />
                                                     <CustomButton
+                                                        btnType="delete"
                                                         type="button"
-                                                        onClick={() => insert(values.invitedUsers.length, '')}
-                                                    >  
-                                                        <FontAwesomeIcon icon={faPlus} />
+                                                        onClick={() => remove(index)}
+                                                        > 
+                                                    <FontAwesomeIcon icon={faTimes} />
                                                     </CustomButton>
                                                 </div>
+                                            ))}
+                                            <CustomButton
+                                                type="button"
+                                                onClick={() => insert(values.invitedUsers.length, '')}
+                                            >  
+                                            <FontAwesomeIcon icon={faPlus} />
+                                            </CustomButton>
                                         </div>
-                                    )}
-                                </FieldArray>
-                                <CustomButton 
-                                    type='submit'
-                                    btnType="enter" 
-                                    disabled={values.invitedUsers.length > 0 ? false : true}
-                                    >Submit
-                                </CustomButton>
-                            </Form>
+                                    </div>
+                                )}
+                            </FieldArray>
+                            <CustomButton 
+                                type='submit'
+                                btnType="enter" 
+                                disabled={values.invitedUsers.length > 0 ? false : true}
+                                >Submit
+                            </CustomButton>
+                        </Form>
                     )}
                 </Formik>
             </>

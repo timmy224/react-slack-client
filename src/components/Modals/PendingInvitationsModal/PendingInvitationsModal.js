@@ -33,7 +33,7 @@ class PendingInvitationsModal extends Component {
 
     render() {
         const { showPendingInvitationsModal, invitations} = this.props;
-        const { invitationDisplay, customForm } = styles
+        const { invitationDisplay, customForm, inviteInfo } = styles
         let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
@@ -42,7 +42,7 @@ class PendingInvitationsModal extends Component {
                         <div
                             className={invitationDisplay}
                             key={org_name + inviter}>
-                            <div>
+                            <div className={inviteInfo}>
                                 <p>Organization Name : {org_name}</p>
                                 <p>User : {inviter}</p>
                             </div>

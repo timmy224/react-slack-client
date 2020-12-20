@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions, services } from "../../context";
+
 import CreateChannelModal from "../Modals/CreateChannelModal/CreateChannelModal";
 import CanView from "../CanView/CanView";
 import InviteMembersModal from "../Modals/InviteMembersModal/InviteMembersModal";
 import OrgSettingsModal from "../Modals/OrgSettingsModal/OrgSettingsModal";
+import CustomButton from '../UI/CustomButton/CustomButton';
 
 import styles from "./Sidebar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -128,10 +130,10 @@ class SideBar extends Component {
                     </div>
                 </div>
                 <div className={sidebarEnd} old_className='container text-center logout-wrapper'>
-                    <button
+                    <CustomButton
                         type="button" 
-                        className={logoutBtn}
-                        onClick={() => this.props.logout()}>Logout</button>
+                        onClick={() => this.props.logout()}>Logout
+                    </CustomButton>
                 </div>
                 <OrgSettingsModal />
                 <InviteMembersModal />
