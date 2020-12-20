@@ -37,7 +37,7 @@ class CreateChannelModal extends Component {
 
     render() {
         const { takenChannelName} = this.state;
-        const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg } = styles;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg, customForm } = styles;
         const { showCreateChannelModal } = this.props;
         const takenMessage = takenChannelName ? <h3 className={errorMsg}>Channel Name taken</h3> : null;
         const form = (
@@ -83,7 +83,7 @@ class CreateChannelModal extends Component {
                         }}
                         >
                         {({ values }) => (
-                            <Form className={formStyles.CustomForm}>
+                            <Form className={customForm}>
                                 <CustomFormInput
                                     label="Channel Name"
                                     name="channelName"

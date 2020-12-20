@@ -40,6 +40,7 @@
 .enter {
     float: right;
     background-color: rgb(78, 25, 84);
+    margin-left: auto;
 }
 
 .enter:hover {

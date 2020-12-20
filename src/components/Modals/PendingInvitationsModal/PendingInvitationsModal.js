@@ -5,8 +5,7 @@ import { actions } from "../../../context";
 import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomModal from '../../UI/CustomModal/CustomModal';
 
-import styles from './PendingInvitationsModal.module.css'
-import formStyles from '../../UI/CustomModal/CustomModal.module.css'
+import styles from '../../UI/CustomModal/CustomModal.module.css'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -34,7 +33,7 @@ class PendingInvitationsModal extends Component {
 
     render() {
         const { showPendingInvitationsModal, invitations} = this.props;
-        const { invitationDisplay } = styles
+        const { invitationDisplay, customForm } = styles
         let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
@@ -60,7 +59,7 @@ class PendingInvitationsModal extends Component {
                         </div>
                     )});
         const form = (
-                <form className={formStyles.customForm}>
+                <form className={customForm}>
                     {invitationsDisplay}
                 </form>
             );

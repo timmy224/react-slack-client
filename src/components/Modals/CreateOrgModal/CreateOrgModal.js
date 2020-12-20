@@ -35,7 +35,7 @@ class CreateOrgModal extends Component {
     render() {
         const { showCreateOrgModal } = this.props;
         const {  takenOrgName } = this.state;
-        const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader } = styles;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm } = styles;
         const orgNameTakenMsg = takenOrgName ? <h3>Org name taken, Try another</h3> : null;
         const form = (
             <>
@@ -68,7 +68,7 @@ class CreateOrgModal extends Component {
                         }}
                         >
                         {({ values }) => (
-                            <Form className={formStyles.CustomForm}>
+                            <Form className={customForm}>
                                 <CustomFormInput
                                     label="Org Name"
                                     name="orgName"

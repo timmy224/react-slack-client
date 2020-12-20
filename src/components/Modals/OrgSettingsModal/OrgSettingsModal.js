@@ -7,6 +7,8 @@ import CustomModal from '../../UI/CustomModal/CustomModal';
 import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
 import CanView from "../../CanView/CanView";
 
+import styles from '../../UI/CustomModal/CustomModal.module.css'
+
 const mapStateToProps = (state)=>{
     return { 
         showOrgSettingsModal: state.org.showOrgSettingsModal,
@@ -41,7 +43,7 @@ class OrgSettingsModal extends Component {
     render() {
         const { showOrgSettingsModal, currentOrg } = this.props;
         const form = (
-                <CustomForm>
+                <form class={styles.customForm}>
                     <CanView
                         resource="org"
                         action="delete"
@@ -54,7 +56,7 @@ class OrgSettingsModal extends Component {
                         >Invite new members to your Org
                     </CustomButton>
                     <InviteMembersModal />
-                </CustomForm> 
+                </form> 
             );  
         return (
             <CustomModal

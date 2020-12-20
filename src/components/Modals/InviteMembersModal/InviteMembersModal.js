@@ -31,7 +31,7 @@ class InviteMembersModal extends Component {
 
     render() {
         const { showInviteMembersModal, sendInvites } = this.props;
-        const { newUserInput, newUserDisplay, inviteMembersDisplay } = styles;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, customForm } = styles;
         const form = (
             <>
                 <Formik
