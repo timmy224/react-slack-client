@@ -1,10 +1,16 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from "react-redux";
-// Depends on userService, storageService, socketService, registerService
-import { services } from "../../context";
-import { actions } from "../../context";
+import { services, actions } from "../../context";
+import * as Yup from 'yup';
+import { Formik, Form } from "formik";
 
-import styles from "./Register.module.css"
+import CustomButton from '../UI/CustomButton/CustomButton';
+import CustomFormInput from '../UI/CustomFormInput/FormInput';
+
+import formStyles from '../UI/CustomModal/CustomModal.module.css'
+import registerStyles from "./Register.module.css"
+import loginStyles from "../Login/Login.module.css";
+import { Container} from 'react-bootstrap'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -21,91 +27,103 @@ const mapActionsToProps = {
 }
 
 class Register extends Component {
-    state = {
-            password: '',
-            showMissingCredMsg: false,
-            showTakenUsernameMsg: false,
-        };
-
-    handleSubmit = (event) => {
-        event.preventDefault()
-        this.reset();
-        const { username, changeRoute } = this.props
-        const { password } = this.state
-        services.registerService.registerUser(username, password)
-            .then(data => {
-                if (data.successful) {
-                    services.storageService.set("username", username);
-                    this.reset()
-                    return changeRoute({path:"/login"})
-                }else if (data.ERROR === "Missing username in route"){
-                    this.setState({showMissingCredMsg: true})
-                }
-                else if (data.ERROR === "Missing password in route"){
-                    this.setState({showMissingCredMsg: true})
-                }
-                else if (data.ERROR === "Username is taken"){
-                    this.setState({showTakenUsernameMsg: true})
-                } 
-            })
-            .catch(err => console.log(err));
-    }
-
-    handleChangeUser = (event) => {
-        const { setUsername } = this.props
-        let username = event.target.value
-        setUsername(username)
-    }
-
-    handleInputChange = event => {
-        const { value, name } = event.target;
-        this.setState({[name]: value})
-    }
-
-    reset = () => {
-        this.setState({
-            password: '',
-            showMissingCredMsg: false,
-            showTakenUsernameMsg: false,
-        });
-    }
+    state = {showTakenUsernameMsg: false};
 
     render() {
-        const { register, create, signInReg, customInput } = styles
-        const { password, showMissingCredMsg, showTakenUsernameMsg } = this.state
+        const {  logoCol, greenColor, logo, formCol, btnCol } = loginStyles 
+        const { register, create, main, registerForm, content, btns, bottomBorder } = registerStyles
+        const { showTakenUsernameMsg } = this.state
         const { changeRoute} = this.props
         const takenMessage = showTakenUsernameMsg ? <h3>Username taken, Try another</h3> : null;
-        const missingCred = showMissingCredMsg ?  <h3>Either password or username are missing.</h3> : null;
+        const form = (
+            <>
+                <Formik
+                    initialValues={{
+                    username: '',
+                    password: '',
+                    confirmPassword: '',
+                    }}
+                    validationSchema={Yup.object({
+                    email: Yup.string()
+                            .email('Invalid Email Address')
+                            .required('Required'),
+                    password: Yup.string()
+                        .required('No password provided.') 
+                        .min(8, 'Password is too short - should be 8 characters minimum.')
+                        .matches(/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/, 'Password must be at least one letter, one number and one special character'),
+                    confirmPassword: Yup.string()
+                        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                    })}
+                    onSubmit={(values, {setSubmitting}) =>{
+                        const { setUsername, changeRoute } = this.props
+                        const { username, password } = values
+                        services.registerService.registerUser(username, password)
+                            .then(response => {
+                                if (response.successful) {
+                                    services.storageService.set("username", username);
+                                    setUsername(username)
+                                    this.setState({showTakenUsernameMsg: false})
+                                    changeRoute({path:"/login"})
+                                }else if (response.ERROR){
+                                    this.setState({showTakenUsernameMsg: true})
+                                } 
+                            })
+                        setSubmitting(false)
+                    }}
+                    >
+                    {({ values }) => (
+                        <Form className={`${formStyles.customForm} ${greenColor} ${registerForm}`}>
+                            <CustomFormInput
+                                label="Enter Email Address"
+                                name="email"
+                                type="text"
+                                placeholder="react_slack2020@gmail.com"
+                            />
+                            <CustomFormInput
+                                label="Enter Password"
+                                name="password"
+                                type="text"
+                                placeholder="*******"
+                            />
+                            <CustomFormInput
+                                label="Confirm Password"
+                                name="confirmPassword"
+                                type="text"
+                                placeholder="*******"
+                            />
+                            <div className={btns}>
+                                <CustomButton 
+                                type='submit'
+                                >Submit
+                                </CustomButton>
+                                <CustomButton
+                                type="button"
+                                onClick = {()=> changeRoute({path:"/login"})}>Login
+                                </CustomButton>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+            </>
+        );
         return (
-            <Fragment>
-                <h1 className={register}>Register for a new account</h1>
-                <h6 className={create}>Create an account with the username and password you will use to sign in.</h6>
-                {takenMessage}
-                {missingCred}
-                <input
-                    className={`login-input ${customInput}`}
-                    onChange={this.handleChangeUser}
-                    type="text"
-                    placeholder="Username"
-                />
-                <input 
-                    type="password" 
-                    name="password"
-                    placeholder="Enter Password" 
-                    value={password}
-                    onChange={this.handleInputChange}
-                    className={`login-input ${customInput}`} 
-                    required="required" />
-                <input
-                    className={signInReg}
-                    onClick={this.handleSubmit}
-                    type="submit"
-                    value="Register" />
-                <button
-                    className={signInReg}
-                    onClick = {()=> changeRoute({path:"/login"})}>Login Form
-                </button> 
-            </Fragment>            
+            <div className={main}>
+                <Container className={content}>
+                    <div className={`${logoCol} ${greenColor}`}>
+                    <img 
+                        className={logo}
+                        alt="logo"
+                        src="https://www.sblack.online/img/icon.png">
+                    </img>
+                    </div>
+                    <div className={`${formCol} ${greenColor}`}>
+                            <h1 className={register}>Register a new account</h1>
+                            <h6 className={create}>Create an account with the username and password you will use to sign in.</h6>
+                            {form}
+                    </div> 
+                    <div className={bottomBorder}></div>
+                </Container>
+            </div>          
         );
     }
 }

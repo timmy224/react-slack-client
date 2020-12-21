@@ -43,19 +43,21 @@ class OrgSettingsModal extends Component {
     render() {
         const { showOrgSettingsModal, currentOrg } = this.props;
         const form = (
-                <form class={styles.customForm}>
-                    <CanView
+                <form className={styles.customForm}>
+                    <div class={styles.btns}>
+                        <CanView
                         resource="org"
                         action="delete"
                         yes={() => <CustomButton type="button" onClick={()=>this.handleDeleteOrg(currentOrg.name)}>Delete current Org</CustomButton>}
                         no={() => null}
-                    />
-                    <CustomButton 
-                        type="button" 
-                        onClick={()=>this.handleInviteMembers(true)}
-                        >Invite new members to your Org
-                    </CustomButton>
-                    <InviteMembersModal />
+                        />
+                        <CustomButton 
+                            type="button" 
+                            onClick={()=>this.handleInviteMembers(true)}
+                            >Invite new members to your Org
+                        </CustomButton>
+                        <InviteMembersModal />
+                    </div>
                 </form> 
             );  
         return (

@@ -97,7 +97,7 @@ class CreateChannelModal extends Component {
                                     <div className={inviteMembersDisplay}>
                                         {values.isPrivate && values.privateUsers && values.privateUsers.length > 0 ? (
                                             <div className={newUserInput}>
-                                                <p class={modalSubheader}>Private Channel Members Invite</p>
+                                                <p className={modalSubheader}>Private Channel Members Invite</p>
                                                 {values.privateUsers.map((user, index) =>(
                                                     <div key={index} className={newUserDisplay}>
                                                         <CustomFormInput 

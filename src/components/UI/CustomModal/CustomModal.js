@@ -10,7 +10,7 @@ const CustomModal = ({children,  title, ...otherProps}) => {
             <Modal.Header  className={modalHeader} closeButton>
                 <div className={styles.title}>{title}</div>
             </Modal.Header>
-            <div class={border}></div>
+            <div className={border}></div>
             <Modal.Body className={modalBody}>
                 <div className={childrenContainer}>{children}</div>
             </Modal.Body>

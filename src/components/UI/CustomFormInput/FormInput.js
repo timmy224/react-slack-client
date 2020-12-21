@@ -9,7 +9,7 @@ const CustomFormInput = ({label, fieldType, ...props}) => {
     const [field, meta] = useField(props);
     return(
         <>
-            <label className={formInputLabel} htmlFor={props.id || props.name}>{label}</label>
+            {label ? <label className={formInputLabel} htmlFor={props.id || props.name}>{label}</label> : null}
             <input className={`${formInput} ${styles[fieldType]}`} {...field} {...props} />
             {meta.touched && meta.error ? <div className={error}>{meta.error}</div> : null}
         </>
