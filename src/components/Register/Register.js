@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { services, actions } from "../../context";
 import * as Yup from 'yup';
@@ -6,7 +6,6 @@ import { Formik, Form } from "formik";
 
 import CustomButton from '../UI/CustomButton/CustomButton';
 import CustomFormInput from '../UI/CustomFormInput/FormInput';
-
 
 import formStyles from '../UI/CustomModal/CustomModal.module.css'
 import registerStyles from "./Register.module.css"
