@@ -7,6 +7,7 @@ import { Formik, Form } from "formik";
 import CustomButton from '../UI/CustomButton/CustomButton';
 import CustomFormInput from '../UI/CustomFormInput/FormInput';
 
+
 import formStyles from '../UI/CustomModal/CustomModal.module.css'
 import registerStyles from "./Register.module.css"
 import loginStyles from "../Login/Login.module.css";
@@ -32,9 +33,10 @@ class Register extends Component {
     render() {
         const {  logoCol, greenColor, logo, formCol, btnCol } = loginStyles 
         const { register, create, main, registerForm, content, btns, bottomBorder } = registerStyles
+        const { errorMsg } = formStyles
         const { showTakenUsernameMsg } = this.state
         const { changeRoute} = this.props
-        const takenMessage = showTakenUsernameMsg ? <h3>Username taken, Try another</h3> : null;
+        const takenMessage = showTakenUsernameMsg ? <p className={errorMsg}>Username taken, try another</p> : null;
         const form = (
             <>
                 <Formik
@@ -56,12 +58,12 @@ class Register extends Component {
                     })}
                     onSubmit={(values, {setSubmitting}) =>{
                         const { setUsername, changeRoute } = this.props
-                        const { username, password } = values
-                        services.registerService.registerUser(username, password)
+                        const { email, password } = values
+                        services.registerService.registerUser(email, password)
                             .then(response => {
                                 if (response.successful) {
-                                    services.storageService.set("username", username);
-                                    setUsername(username)
+                                    services.storageService.set("username", email);
+                                    setUsername(email)
                                     this.setState({showTakenUsernameMsg: false})
                                     changeRoute({path:"/login"})
                                 }else if (response.ERROR){
@@ -82,14 +84,14 @@ class Register extends Component {
                             <CustomFormInput
                                 label="Enter Password"
                                 name="password"
-                                type="text"
-                                placeholder="*******"
+                                type="password"
+                                placeholder="password"
                             />
                             <CustomFormInput
                                 label="Confirm Password"
                                 name="confirmPassword"
-                                type="text"
-                                placeholder="*******"
+                                type="password"
+                                placeholder="confirm password"
                             />
                             <div className={btns}>
                                 <CustomButton 
@@ -119,6 +121,7 @@ class Register extends Component {
                     <div className={`${formCol} ${greenColor}`}>
                             <h1 className={register}>Register a new account</h1>
                             <h6 className={create}>Create an account with the username and password you will use to sign in.</h6>
+                            {takenMessage}
                             {form}
                     </div> 
                     <div className={bottomBorder}></div>

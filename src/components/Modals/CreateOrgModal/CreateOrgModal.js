@@ -35,8 +35,8 @@ class CreateOrgModal extends Component {
     render() {
         const { showCreateOrgModal } = this.props;
         const {  takenOrgName } = this.state;
-        const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm } = styles;
-        const orgNameTakenMsg = takenOrgName ? <h3>Org name taken, Try another</h3> : null;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm, errorMsg } = styles;
+        const orgNameTakenMsg = takenOrgName ? <p className={errorMsg}>Org name taken, Try another</p> : null;
         const form = (
             <>
                 <Formik

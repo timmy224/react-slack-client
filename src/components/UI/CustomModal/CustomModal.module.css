@@ -63,7 +63,8 @@
 }
 
 .errorMsg {
-	color: red;
+    color: red;
+    font-size: 1.5rem;
 }
 
 .newUserInput {
