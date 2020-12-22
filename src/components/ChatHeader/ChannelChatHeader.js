@@ -1,5 +1,5 @@
 import React from "react";
-import "./ChannelChatHeader.css";
+import "./ChannelChatHeader.module.css";
 
 function ChannelChatHeader(props) {
 	let {

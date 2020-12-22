@@ -115,7 +115,8 @@ function SocketService(chatService) {
 			let channelId = data.channel_id;
 			let orgName = data.org_name;
 			store.dispatch(actions.channel.fetchMemberNames(orgName, channelName));
-			send("leave-channel", data);
+            send("leave-channel", data);
+            
 		});
 		socket.on("removed-from-channel", (data) => {
 			let channelName = data.channel_name;
@@ -123,21 +124,17 @@ function SocketService(chatService) {
 			let channelId = data.channel_id;
 			let orgName = data.org_name;
 			console.log(
-				`User ${removedUsername} removed from channel ${channelName}  with ID ${channelId} in org ${orgName}`
-			);
-			store.dispatch(actions.channel.fetchChannels(orgName));
-
-			// this line isnt working to reload messages for removed user
-
-			// store.dispatch(actions.message.fetchChannelMessages(channelName))
+                `User ${removedUsername} removed from channel ${channelName}  with ID ${channelId} in org ${orgName} `
+            );
+             store.dispatch(actions.channel.channelDeleted(orgName, channelName))
 		});
-		socket.on("added-to-channel", (data) => {
+		socket.on("member-added-to-channel", (data) => {
 			let addedUsername = data.added_username;
 			let channelName = data.channel_name;
 			let orgName = data.org_name;			
 			console.log(`User ${addedUsername} has been added to channel ${channelName}`);
 			store.dispatch(actions.channel.fetchChannels(orgName));
-			// store.dispatch(actions.channel.fetchMemberNames(orgName, channelName));
+			
 		});
 		
 		

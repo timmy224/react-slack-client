@@ -47,23 +47,6 @@ const initActions = function (channelService) {
 		dispatch(channelAddedTo({orgName, channel}));
 	};
 
-	const channelDeleted = (orgName, channelName) => async (
-		dispatch,
-		getState
-	) => {
-		dispatch(removeChannel(orgName, channelName));
-		const isCurrentChannelDeleted =
-			getState().chat.type === "channel" &&
-			getState().chat.channel.name === channelName;
-		if (isCurrentChannelDeleted) {
-			dispatch(actions.sidebar.selectDefaultChannel());
-		}
-	};
-    const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
-    const addedToChannel = (orgName, channel) => dispatch => {
-        dispatch(channelAddedTo({orgName, channel}))
-    };
-
     const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
         dispatch(removeChannel(orgName, channelName));
         const isCurrentOrg = getState().org.org?.name === orgName;
@@ -85,10 +68,10 @@ const initActions = function (channelService) {
 		}
 	};
 
-	const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
-	const showCreateModal = (show) => (dispatch) => {
-		dispatch(modalCreateShow(show));
-	};
+	// const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
+	// const showCreateModal = (show) => (dispatch) => {
+	// 	dispatch(modalCreateShow(show));
+	// };
 
 	const channelSideBarShow = actionCreator(types.SHOW_CHANNEL_SIDE_BAR);
 	const toggleChannelSideBar = (show) => (dispatch) => {
@@ -149,15 +132,16 @@ const initActions = function (channelService) {
 		dispatch(addMemberUpdate(addMember));
 	};
 	const modalCreateShow = actionCreator(types.SHOW_CREATE_CHANNEL_MODAL);
-    const showCreateChannelModal = (show) => (dispatch) => {
-        dispatch(modalCreateShow(show))
-    };
+	const showCreateChannelModal = (show) => (dispatch) => {
+		dispatch(modalCreateShow(show));
+	};
+	
 	return {
 		fetchChannels,
 		setCreateChannelName,
 		takenChannelName,
 		deleteChannel,
-		showCreateModal,
+		// showCreateModal,
 		createPrivate,
 		privateChannelUsers,
 		toggleChannelSideBar,

@@ -17,7 +17,7 @@ const mapActionsToProps = {
 	addChannelMember: actions.channel.addChannelMember,
 	removeChannelMember: actions.channel.removeChannelMember,
 	updateAddMember: actions.channel.updateAddMember,
-	clearAddMember: actions.channel.clearAddMember,
+	// clearAddMember: actions.channel.clearAddMember,
 };
 class ChannelSideBar extends Component {
 	componentDidMount() {
@@ -30,7 +30,7 @@ class ChannelSideBar extends Component {
 			addChannelMember,
 			addMember,
 			channelName,
-			clearAddMember,
+			// clearAddMember,
 			orgName,
 		} = this.props;
 		addChannelMember(orgName, channelName, addMember);
