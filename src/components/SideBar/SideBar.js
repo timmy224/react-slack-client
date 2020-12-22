@@ -10,15 +10,15 @@ import CustomButton from '../UI/CustomButton/CustomButton';
 
 import styles from "./Sidebar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCaretDown, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCaretDown, faTrashAlt, faHashtag } from "@fortawesome/free-solid-svg-icons";
 
 class SideBar extends Component {
-    selectChannel = (event) => {
-        this.props.selectChannel(event.target.value);
+    selectChannel = (channelName) => {
+        this.props.selectChannel(channelName);
     }
 
-    selectUser = (event) => {
-        this.props.selectUser(event.target.value);
+    selectUser = (username) => {
+        this.props.selectUser(username);
     }
 
     deleteChannel = channelName => {
@@ -26,22 +26,22 @@ class SideBar extends Component {
     }
 
     render() {
-        const { sidebarChannel, unstyledButton, channelDelete, userIcon, sidebarUser, orgNameHeader, sidebar,
+        const { sidebarChannel, unstyledButton, channelDelete, sidebarUser, orgNameHeader, sidebar,
                 orgOptions, sidebarBody, sidebarSectionHeading, sidebarSectionHeadingExpand, sidebarSectionHeadingLabel, 
-                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName, loginCircle, loggedIn } = styles;
+                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName, loginCircle, loggedIn, channelIcon } = styles;
         const { org, channels, orgMembers, selectedChannel, selectedPartner, handleCreateChannelModal, handleOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.values(channels).map(channel => 
-                <div key={channel.name} className={`${selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : null} ${sidebarItem}`}>
-                    <button
-                        className={`${sidebarChannel} ${unstyledButton}`}
-                        type="button"
-                        value={channel.name}
-                        onClick={this.selectChannel}>
-                        {"# " + channel.name}
-                    </button>
+                <div 
+                    key={channel.name} 
+                    className={`${selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : null} ${sidebarItem}`}
+                    onClick={() => this.selectChannel(channel.name)}>
+                    <div className={channelIcon}>
+                        <FontAwesomeIcon icon={faHashtag} transform="grow-1" color="#99a59e" />
+                    </div>                    
+                    <p className={sidebarChannel}>{channel.name.toLowerCase()}</p>
                     <CanView
                         resource="channel"
                         action="delete"
@@ -63,23 +63,12 @@ class SideBar extends Component {
         let orgMembersDisplay = services.utilityService.isEmpty(orgMembers) ?
                 <h2>Loading users...</h2>
                 : (Object.values(orgMembers).map(({ username, logged_in }) => 
-                    <div key={username} className={`${selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : null} ${sidebarItem}`}>
-                        <button
-                            type="button" 
-                            className={`${userIcon} ${unstyledButton}`}
-                            value={username}
-                            onClick={this.selectUser}>
-                            <FontAwesomeIcon icon={faUser} transform="grow-3" color="#c3c3c3" />
-                        </button>
-                        <button
-                            type="button"
-                            className= {`${sidebarUser} ${unstyledButton}`}
-                            value={username}
-                            onClick={this.selectUser}
-                        >
-                            {username}
-                        </button>
+                    <div 
+                        key={username} 
+                        className={`${selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : null} ${sidebarItem}`}
+                        onClick={() => this.selectUser(username)}>
                         <div className={`${loginCircle} ${logged_in ? loggedIn : null}`}></div>
+                        <p className={sidebarUser}>{username}</p>                        
                     </div>
                 ))
         return (
