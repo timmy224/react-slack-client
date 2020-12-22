@@ -6,7 +6,7 @@ import {actions, services, store} from "../../context";
 const mapStateToProps = (state) => {
 	return {
 		channelMemberNames: state.channel.channelMemberNames,
-		channel: state.chat.channel,
+		channelName: state.chat.channel?.name,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
 	};
@@ -17,26 +17,23 @@ const mapActionsToProps = {
 	addChannelMember: actions.channel.addChannelMember,
 	removeChannelMember: actions.channel.removeChannelMember,
 	updateAddMember: actions.channel.updateAddMember,
-	clearAddMember: actions.channel.clearAddMember,
+	// clearAddMember: actions.channel.clearAddMember,
 };
 class ChannelSideBar extends Component {
 	componentDidMount() {
-		const {fetchMemberNames, channel, orgName} = this.props;
-		if (channel != null){
-		fetchMemberNames(orgName, channel.name);
-		}
+		const {fetchMemberNames, channelName, orgName} = this.props;
+		fetchMemberNames(orgName, channelName);
 	}
 
 	handleAddMemberSubmit = (event) => {
 		const {
 			addChannelMember,
 			addMember,
-			channel,
+			channelName,
 			// clearAddMember,
 			orgName,
 		} = this.props;
-		if (channel != null)
-		addChannelMember(orgName, channel.name, addMember);
+		addChannelMember(orgName, channelName, addMember);
 	};
 
 	handleMemberAdd = (event) => {
@@ -47,7 +44,7 @@ class ChannelSideBar extends Component {
 	render() {
 		let {
 			channelMemberNames,
-			channel,
+			channelName,
 			channelMember,
 			removeChannelMember,
 			channelId,
@@ -66,7 +63,7 @@ class ChannelSideBar extends Component {
 						onClick={() =>
 							removeChannelMember(
 								orgName,
-								channel.name,
+								channelName,
 								channelMember.username
 							)
 						}
