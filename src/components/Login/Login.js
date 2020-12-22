@@ -50,10 +50,10 @@ class Login extends Component {
                     password: '',
                     }}
                     validationSchema={Yup.object({
-                    email: Yup.string()
+                    username: Yup.string()
                         .required('Required'),
                     password: Yup.string()
-                        .required('No password provided.') 
+                        .required('No password provided') ,
                     })}
                     onSubmit={(values, {setSubmitting}) =>{
                         const { login, setUsername } = this.props
@@ -87,7 +87,6 @@ class Login extends Component {
                                 onClick = {()=> changeRoute({path:"/register"})}
                                 >Register
                                 </CustomButton>
-                                <button type="button" onClick={()=>console.log(this.props)}>Props</button>
                             </div>
                         </Form>
                     )}

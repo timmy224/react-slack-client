@@ -28,8 +28,8 @@ class CreateOrgModal extends Component {
     
     handleHide = () => {
         const { handleShowCreateOrgModal} = this.props
-        handleShowCreateOrgModal(false);
         this.setState({takenOrgName: false})
+        handleShowCreateOrgModal(false);
     }
 
     render() {
