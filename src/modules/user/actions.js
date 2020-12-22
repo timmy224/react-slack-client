@@ -16,6 +16,7 @@ const initActions = function(userService, socketService, storageService, authSer
 	};
 
 	const login = (username, password) => async (dispatch, getState) => {
+		console.log("iNNNNN")
 		const [err, data] = await to(authService.loginUser(username, password))
 		if (err) {
 			throw new Error("Could not log in");

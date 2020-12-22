@@ -24,7 +24,7 @@ const mapActionsToProps = {
     setUsername: actions.user.setUsername,
     changeRoute: actions.route.changeRoute,
     wrongCredentials: actions.user.wrongCredentials,
-    loginUser: actions.user.login,
+    login: actions.user.login,
 }
     
 class Login extends Component {
@@ -38,7 +38,7 @@ class Login extends Component {
     }
 
     render() {
-        const { wrongCredentialsMsg, loginUser, changeRoute  } = this.props;
+        const { wrongCredentialsMsg, changeRoute } = this.props;
         const {  logoCol, greenColor, logo, formCol } = loginStyles 
         const { register, create, main, registerForm, content, btns, bottomBorder } = registerStyles 
         const credentialsIncorrect = wrongCredentialsMsg ? <h3>Wrong Username or Password</h3> : null;
@@ -56,16 +56,18 @@ class Login extends Component {
                         .required('No password provided.') 
                     })}
                     onSubmit={(values, {setSubmitting}) =>{
+                        const { login, setUsername } = this.props
                         const { username, password } = values
-                        loginUser(username, password);
+                        setUsername(username)
+                        login(username, password);
                         setSubmitting(false)
                     }}
                     >
-                    {({ values }) => (
+                    {() => (
                         <Form className={`${formStyles.customForm} ${greenColor} ${registerForm}`}>
                             <CustomFormInput
                                 label="Enter Email Address"
-                                name="email"
+                                name="username"
                                 type="text"
                                 placeholder="react_slack2020@gmail.com"
                             />
@@ -82,8 +84,10 @@ class Login extends Component {
                                 </CustomButton>
                                 <CustomButton
                                 type="button"
-                                onClick = {()=> changeRoute({path:"/register"})}>Register
+                                onClick = {()=> changeRoute({path:"/register"})}
+                                >Register
                                 </CustomButton>
+                                <button type="button" onClick={()=>console.log(this.props)}>Props</button>
                             </div>
                         </Form>
                     )}
@@ -101,8 +105,8 @@ class Login extends Component {
                     </img>
                     </div>
                     <div className={`${formCol} ${greenColor}`}>
-                            <h1 className={register}>Register a new account</h1>
-                            <h6 className={create}>Create an account with the username and password you will use to sign in.</h6>
+                            <h2 className={register}>Sign in to Kcals</h2>
+                            <h6 className={create}>Continue with the username and password you use to sign in.</h6>
                             {credentialsIncorrect}
                             {form}
                     </div> 

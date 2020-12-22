@@ -46,12 +46,12 @@ class Register extends Component {
                     }}
                     validationSchema={Yup.object({
                     email: Yup.string()
-                            .email('Invalid Email Address')
+                            // .email('Invalid Email Address')
                             .required('Required'),
                     password: Yup.string()
-                        .required('No password provided.') 
-                        .min(8, 'Password is too short - should be 8 characters minimum.')
-                        .matches(/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/, 'Password must be at least one letter, one number and one special character'),
+                        .required('No password provided') ,
+                        // .min(8, 'Password is too short - should be 8 characters minimum.')
+                        // .matches(/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/, 'Password must be at least one letter, one number and one special character'),
                     confirmPassword: Yup.string()
                         .oneOf([Yup.ref('password'), null], 'Passwords must match')
                     })}
@@ -72,7 +72,7 @@ class Register extends Component {
                         setSubmitting(false)
                     }}
                     >
-                    {({ values }) => (
+                    {() => (
                         <Form className={`${formStyles.customForm} ${greenColor} ${registerForm}`}>
                             <CustomFormInput
                                 label="Enter Email Address"
@@ -99,7 +99,8 @@ class Register extends Component {
                                 </CustomButton>
                                 <CustomButton
                                 type="button"
-                                onClick = {()=> changeRoute({path:"/login"})}>Login
+                                onClick = {()=> changeRoute({path:"/login"})}
+                                >Login
                                 </CustomButton>
                             </div>
                         </Form>
