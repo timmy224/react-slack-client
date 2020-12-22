@@ -32,7 +32,7 @@ class PendingInvitationsModal extends Component {
     }
 
     render() {
-        const { showPendingInvitationsModal, invitations} = this.props;
+        const { showPendingInvitationsModal, invitations, handlePendingInvitationsModal} = this.props;
         const { invitationDisplay, customForm, inviteInfo } = styles
         let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>

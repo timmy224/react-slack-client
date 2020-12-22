@@ -8,22 +8,19 @@ import CustomButton from '../UI/CustomButton/CustomButton';
 import CustomFormInput from '../UI/CustomFormInput/FormInput';
 
 import formStyles from '../UI/CustomModal/CustomModal.module.css'
-import loginStyles from "./Login.module.css";
-import registerStyles from "../Register/Register.module.css"
+import styles from "../Register/Register.module.css"
 import { Container, } from 'react-bootstrap'
 
 const mapStateToProps = (state)=>{
     return { 
         username:state.user.username,
         routePath: state.route.routePath,
-        wrongCredentialsMsg: state.user.wrongCredentialsMsg,
     }
 }
 
 const mapActionsToProps = {
     setUsername: actions.user.setUsername,
     changeRoute: actions.route.changeRoute,
-    wrongCredentials: actions.user.wrongCredentials,
     login: actions.user.login,
 }
     
@@ -38,10 +35,9 @@ class Login extends Component {
     }
 
     render() {
-        const { wrongCredentialsMsg, changeRoute } = this.props;
-        const {  logoCol, greenColor, logo, formCol } = loginStyles 
-        const { register, create, main, registerForm, content, btns, bottomBorder } = registerStyles 
-        const credentialsIncorrect = wrongCredentialsMsg ? <h3>Wrong Username or Password</h3> : null;
+        const { changeRoute } = this.props;
+        const { register, create, main, registerForm, content, btns, bottomBorder, logoCol, greenColor, logo, formCol } = styles;
+        const {errorMsg, customForm } = formStyles 
         const form = (
             <>
                 <Formik
@@ -55,16 +51,18 @@ class Login extends Component {
                     password: Yup.string()
                         .required('No password provided') ,
                     })}
-                    onSubmit={(values, {setSubmitting}) =>{
+                    onSubmit={(values, {setSubmitting, setStatus}) =>{
                         const { login, setUsername } = this.props
                         const { username, password } = values
                         setUsername(username)
-                        login(username, password);
+                        login(username, password)
+                            .then(response => response ? setStatus(`${response}`) : null)
                         setSubmitting(false)
                     }}
                     >
-                    {() => (
-                        <Form className={`${formStyles.customForm} ${greenColor} ${registerForm}`}>
+                    {({status}) => (
+                        <Form className={`${customForm} ${greenColor} ${registerForm}`}>
+                            {status ? <p className={errorMsg}>{status}</p> : null}
                             <CustomFormInput
                                 label="Enter Email Address"
                                 name="username"
@@ -106,7 +104,6 @@ class Login extends Component {
                     <div className={`${formCol} ${greenColor}`}>
                             <h2 className={register}>Sign in to Kcals</h2>
                             <h6 className={create}>Continue with the username and password you use to sign in.</h6>
-                            {credentialsIncorrect}
                             {form}
                     </div> 
                     <div className={bottomBorder}></div>

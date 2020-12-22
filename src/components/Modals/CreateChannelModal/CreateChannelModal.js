@@ -36,10 +36,8 @@ class CreateChannelModal extends Component {
     }
 
     render() {
-        const { takenChannelName} = this.state;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg, customForm } = styles;
-        const { showCreateChannelModal } = this.props;
-        const takenMessage = takenChannelName ? <p className={errorMsg}>Channel Name taken</p> : null;
+        const { showCreateChannelModal, handleCreateChannelModal } = this.props;
         const form = (
              <>
                 <Formik
@@ -58,7 +56,7 @@ class CreateChannelModal extends Component {
                             .required('Required')),
                     isPrivate: Yup.boolean()
                     })}
-                    onSubmit={(values, { setSubmitting}) =>{
+                    onSubmit={(values, { setSubmitting, setStatus }) =>{
                         const { channelName, isPrivate, privateUsers } = values;
                         const { org, username } = this.props;
                         const name = channelName;
@@ -72,18 +70,19 @@ class CreateChannelModal extends Component {
                         services.channelService.createChannel(channelInfo)
                         .then(response => {
                             if(response.successful){
-                                this.handleHide()
+                                handleCreateChannelModal(false);
                             }else if(response.users_not_found){
-                                alert(`users_not_found: ${response.users_not_found}`)
+                                setStatus(`users not found: ${response.users_not_found}`)
                             }else if (response.ERROR){
-                                this.setState({takenChannelName:true})
+                                setStatus('channel name is already in use')
                             }
                         })
                         setSubmitting(false)
                     }}
                     >
-                    {({ values }) => (
+                    {({ values, status }) => (
                         <Form className={customForm}>
+                            {status ? <p className={errorMsg}>{status}</p> : null}
                             <CustomFormInput
                                 label="Channel Name"
                                 name="channelName"
@@ -149,10 +148,9 @@ class CreateChannelModal extends Component {
         return (
                 <CustomModal 
                     show={showCreateChannelModal} 
-                    onHide={this.handleHide} 
+                    onHide={()=>handleCreateChannelModal(false)} 
                     title="Create a channel"
                     >
-                        {takenMessage}
                         {form}
                 </CustomModal>    
         );

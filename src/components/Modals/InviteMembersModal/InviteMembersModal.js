@@ -24,13 +24,9 @@ const mapActionsToProps = {
 }
 
 class InviteMembersModal extends Component {
-    handleHide = () => {
-        const { handleInviteMembersModal } = this.props;
-        handleInviteMembersModal(false);
-    }
 
     render() {
-        const { showInviteMembersModal, sendInvites } = this.props;
+        const { showInviteMembersModal, sendInvites, handleInviteMembersModal } = this.props;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, customForm } = styles;
         const form = (
             <>
@@ -49,7 +45,9 @@ class InviteMembersModal extends Component {
                         const { invitedUsers } = values
                         sendInvites(org.name, invitedUsers)
                             .then(this.handlehide());
-                        setSubmitting(false);
+                        setSubmitting(false)
+                        handleInviteMembersModal(false)
+                        
                     }}
                     >
                     {({ values }) => (
@@ -100,7 +98,7 @@ class InviteMembersModal extends Component {
         return (
             <CustomModal 
                 show={showInviteMembersModal} 
-                onHide={this.handleHide} 
+                onHide={()=>handleInviteMembersModal(false)} 
                 title="Invite users to your org"
                 >
                     {form}

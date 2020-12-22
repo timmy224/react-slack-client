@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
 import * as Yup from 'yup';
-import { Formik, Form, FieldArray} from "formik";
+import { Formik, Form, FieldArray } from "formik";
 
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import CustomButton from '../../UI/CustomButton/CustomButton';
@@ -24,19 +24,10 @@ const mapActionsToProps = {
 }
 
 class CreateOrgModal extends Component {
-    state = {takenOrgName: false};
-    
-    handleHide = () => {
-        const { handleShowCreateOrgModal} = this.props
-        this.setState({takenOrgName: false})
-        handleShowCreateOrgModal(false);
-    }
 
     render() {
-        const { showCreateOrgModal } = this.props;
-        const {  takenOrgName } = this.state;
+        const { showCreateOrgModal, handleShowCreateOrgModal } = this.props;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm, errorMsg } = styles;
-        const orgNameTakenMsg = takenOrgName ? <p className={errorMsg}>Org name taken, Try another</p> : null;
         const form = (
             <>
                 <Formik
@@ -53,22 +44,23 @@ class CreateOrgModal extends Component {
                             .email('Invalid Email Address')
                             .required('Required')
                     )})}
-                    onSubmit={(values, {setSubmitting}) =>{
+                    onSubmit={(values, {setSubmitting, setStatus }) =>{
                         const { createOrg } = this.props;
                         const { orgName, invitedUsers } = values;
                         createOrg(orgName, invitedUsers)
                             .then(response => {
                                 if (response.successful) {
-                                    this.handleHide()
-                                } else {
-                                    this.setState({takenOrgName:true})
+                                    return handleShowCreateOrgModal(false);
+                                }else if (response.ERROR) {
+                                    setStatus('org name is already in use')
                                 } 
                             });
                         setSubmitting(false)
                     }}
                     >
-                    {({ values }) => (
+                    {({ values, status }) => (
                         <Form className={customForm}>
+                            {status ? <p className={errorMsg}>{status}</p> : null}
                             <CustomFormInput
                                 label="Org Name"
                                 name="orgName"
@@ -129,10 +121,9 @@ class CreateOrgModal extends Component {
         return (
             <CustomModal 
                 show={showCreateOrgModal} 
-                onHide={this.handleHide}
                 title="Create a new Org"
+                onHide={()=>handleShowCreateOrgModal(false)}
                 >
-                    {orgNameTakenMsg}
                     {form}
                 </CustomModal>
         );
