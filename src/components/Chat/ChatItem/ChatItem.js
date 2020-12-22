@@ -3,7 +3,7 @@ import Message from "./Message/Message";
 import DateSeparator from "./DateSeparator/DateSeparator";
 
 function ChatItem({item}) {
-    switch (item.type) {
+    switch (item.itemType) {
         case "message":
             const message = item;
             return (

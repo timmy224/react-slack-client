@@ -40,7 +40,7 @@ class Chat extends Component {
             const [dateKey, messageChatItems] = entry;
             const dateStr = dateTimeService.str(dateTimeService.dt(dateKey, "YYYY/MM/DD"), "dddd, MMMM Do");            
             const dateSeparatorChatItem = {
-                type: "date-separator",
+                itemType: "date-separator",
                 dateStr,
                 key: dateStr
             };
@@ -53,7 +53,7 @@ class Chat extends Component {
     createMessageChatItemMap(messages) {
         const { dateTimeService, chatService } = services;
         const messageMap = messages
-        .map(message => ({ type: "message", ...message, key: message.sender + message.content}))
+        .map(message => ({ itemType: "message", ...message, key: message.sender + message.content}))
         .reduce((acc, messageChatItem) => {
             const sentDt = dateTimeService.dt(messageChatItem.sent_dt, chatService.MESSAGE_DT_FORMAT);
             const key = dateTimeService.str(sentDt, "YYYY/MM/DD");
@@ -69,7 +69,7 @@ class Chat extends Component {
     render() {
         let { chatType, channel, partnerUsername } = this.props;
         const { messagesWrapper, ctaCreateChannel, chat, boxFirst, boxFill, boxEnd } = styles;
-        const canDisplay = (chatType === "channel" && channel) || (chatType === "private" && partnerUsername);
+        const canDisplay = (chatType === "channel" && channel !== null) || (chatType === "private" && partnerUsername);
         if (canDisplay) {
             let messages = this.props.messages ? this.props.messages : [];
             let chatHeader = this.props.chatType === "channel"
