@@ -114,6 +114,10 @@
     background-color: #424242;
 }
 
+.sidebarItem p {
+    cursor: default;
+}
+
 .inviteCreateWrapper {
     display: flex;
     flex-direction: column;
