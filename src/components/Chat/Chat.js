@@ -69,7 +69,7 @@ class Chat extends Component {
     render() {
         let { chatType, channel, partnerUsername } = this.props;
         const { messagesWrapper, ctaCreateChannel, chat, boxFirst, boxFill, boxEnd } = styles;
-        const canDisplay = (chatType === "channel" && channel !== null) || (chatType === "private" && partnerUsername);
+        const canDisplay = (chatType === "channel" && channel !== null) || (chatType === "private" && partnerUsername !== null);
         if (canDisplay) {
             let messages = this.props.messages ? this.props.messages : [];
             let chatHeader = this.props.chatType === "channel"
