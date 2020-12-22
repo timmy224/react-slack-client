@@ -19,10 +19,6 @@ const mapActionsToProps = {
 }
 
 class PendingInvitationsModal extends Component {
-    handleHide = () => {
-        const { handlePendingInvitationsModal } = this.props
-        handlePendingInvitationsModal(false);
-    }
 
     handleResponse = (event, invitation, isAccepted) => {
         event.preventDefault();
@@ -66,7 +62,7 @@ class PendingInvitationsModal extends Component {
         return (
             <CustomModal
                 show={showPendingInvitationsModal && invitations.length > 0}
-                onHide={this.handleHide} 
+                onHide={()=>handlePendingInvitationsModal(false)} 
                 title="Invitations Pending"
                 >
                     {form}
