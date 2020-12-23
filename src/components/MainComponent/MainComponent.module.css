@@ -6,7 +6,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 10vw 20vw 1fr;
+    grid-template-columns: 75px 200px 1fr;
     position: relative;
 }
 
