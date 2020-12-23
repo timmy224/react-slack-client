@@ -53,7 +53,7 @@ class Chat extends Component {
     createMessageChatItemMap(messages) {
         const { dateTimeService, chatService } = services;
         const messageMap = messages
-        .map(message => ({ itemType: "message", ...message, key: message.sender + message.content}))
+        .map(message => ({ itemType: "message", ...message, key: message.sender + message.sent_dt}))
         .reduce((acc, messageChatItem) => {
             const sentDt = dateTimeService.dt(messageChatItem.sent_dt, chatService.MESSAGE_DT_FORMAT);
             const key = dateTimeService.str(sentDt, "YYYY/MM/DD");
@@ -107,7 +107,7 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
-        org: state.org.org,        
+        org: state.org.org,   
     }
     const { chatType, channel, partnerUsername } = mapping;
     const orgName = mapping.org?.name;
