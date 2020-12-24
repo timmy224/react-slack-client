@@ -37,6 +37,20 @@ class CreateOrgModal extends Component {
             )})
     );
 
+    handleSubmit = (values, {setSubmitting, setStatus }) => {  
+        const { createOrg } = this.props;
+        const { orgName, invitedUsers } = values;
+        createOrg(orgName, invitedUsers)
+            .then(response => {
+                if (response.successful) {
+                    this.props.handleShowCreateOrgModal(false);
+                }else if (response.ERROR) {
+                    setStatus('org name is already in use')
+                } 
+            });
+        setSubmitting(false)
+    };
+
     render() {
         const { showCreateOrgModal, handleShowCreateOrgModal } = this.props;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm, errorMsg } = styles;
@@ -48,19 +62,7 @@ class CreateOrgModal extends Component {
                     invitedUsers: [],
                     }}
                     validationSchema={this.validationSchema}
-                    onSubmit={(values, {setSubmitting, setStatus }) =>{
-                        const { createOrg } = this.props;
-                        const { orgName, invitedUsers } = values;
-                        createOrg(orgName, invitedUsers)
-                            .then(response => {
-                                if (response.successful) {
-                                    return handleShowCreateOrgModal(false);
-                                }else if (response.ERROR) {
-                                    setStatus('org name is already in use')
-                                } 
-                            });
-                        setSubmitting(false)
-                    }}
+                    onSubmit={this.handleSubmit}
                     >
                     {({ values, status }) => (
                         <Form className={customForm}>

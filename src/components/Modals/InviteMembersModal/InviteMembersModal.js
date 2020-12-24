@@ -34,8 +34,18 @@ class InviteMembersModal extends Component {
             })
     );
 
+    handleSubmit= (values, { setSubmitting}) =>{
+        const { org, sendInvites, handleInviteMembersModal } = this.props
+        const { invitedUsers } = values
+        sendInvites(org.name, invitedUsers)
+            .then(this.handlehide());
+        setSubmitting(false)
+        handleInviteMembersModal(false)
+        
+    };
+
     render() {
-        const { showInviteMembersModal, sendInvites, handleInviteMembersModal } = this.props;
+        const { showInviteMembersModal, handleInviteMembersModal } = this.props;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, customForm } = styles;
         const form = (
             <>
@@ -44,15 +54,7 @@ class InviteMembersModal extends Component {
                     invitedUsers: ['']
                     }}
                     validationSchema={this.validationSchema}
-                    onSubmit={(values, { setSubmitting}) =>{
-                        const { org } = this.props
-                        const { invitedUsers } = values
-                        sendInvites(org.name, invitedUsers)
-                            .then(this.handlehide());
-                        setSubmitting(false)
-                        handleInviteMembersModal(false)
-                        
-                    }}
+                    onSubmit={this.handleSubmit}
                     >
                     {({ values }) => (
                         <Form className={customForm}>

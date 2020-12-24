@@ -43,6 +43,15 @@ class Login extends Component {
             })
     );
 
+    handleSubmit = (values, {setSubmitting, setStatus}) => {
+        const { login, setUsername } = this.props
+        const { username, password } = values
+        setUsername(username)
+        login(username, password)
+            .then(response => response ? setStatus(`${response}`) : null)
+        setSubmitting(false)
+    };  
+
     render() {
         const { changeRoute } = this.props;
         const { register, create, main, registerForm, content, btns, bottomBorder, logoCol, greenColor, logo, formCol } = styles;
@@ -55,14 +64,7 @@ class Login extends Component {
                     password: '',
                     }}
                     validationSchema={this.validationSchema}
-                    onSubmit={(values, {setSubmitting, setStatus}) =>{
-                        const { login, setUsername } = this.props
-                        const { username, password } = values
-                        setUsername(username)
-                        login(username, password)
-                            .then(response => response ? setStatus(`${response}`) : null)
-                        setSubmitting(false)
-                    }}
+                    onSubmit={this.handleSubmit}
                     >
                     {({status}) => (
                         <Form className={`${customForm} ${greenColor} ${registerForm}`}>

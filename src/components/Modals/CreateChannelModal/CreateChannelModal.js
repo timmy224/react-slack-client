@@ -48,6 +48,30 @@ class CreateChannelModal extends Component {
             })
     );
 
+    handleSubmit= (values, { setSubmitting, setStatus }) => {
+        const { channelName, isPrivate, privateUsers } = values;
+        const { org, username } = this.props;
+        const name = channelName;
+        const members =  isPrivate ? [...privateUsers,username] : [];
+        const channelInfo ={
+            name,
+            members,
+            isPrivate,
+            orgName: org.name, 
+        }
+        services.channelService.createChannel(channelInfo)
+        .then(response => {
+            if(response.successful){
+                this.props.handleCreateChannelModal(false);
+            }else if(response.users_not_found){
+                setStatus(`users not found: ${response.users_not_found}`)
+            }else if (response.ERROR){
+                setStatus('channel name is already in use')
+            }
+        })
+        setSubmitting(false)
+    };
+
     render() {
         const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg, customForm } = styles;
         const { showCreateChannelModal, handleCreateChannelModal } = this.props;
@@ -60,29 +84,7 @@ class CreateChannelModal extends Component {
                     isPrivate:false,
                     }}
                     validationSchema={this.validationSchema}
-                    onSubmit={(values, { setSubmitting, setStatus }) =>{
-                        const { channelName, isPrivate, privateUsers } = values;
-                        const { org, username } = this.props;
-                        const name = channelName;
-                        const members =  isPrivate ? [...privateUsers,username] : [];
-                        const channelInfo ={
-                            name,
-                            members,
-                            isPrivate,
-                            orgName: org.name, 
-                        }
-                        services.channelService.createChannel(channelInfo)
-                        .then(response => {
-                            if(response.successful){
-                                handleCreateChannelModal(false);
-                            }else if(response.users_not_found){
-                                setStatus(`users not found: ${response.users_not_found}`)
-                            }else if (response.ERROR){
-                                setStatus('channel name is already in use')
-                            }
-                        })
-                        setSubmitting(false)
-                    }}
+                    onSubmit={this.handleSubmit}
                     >
                     {({ values, status }) => (
                         <Form className={customForm}>

@@ -39,6 +39,23 @@ class Register extends Component {
             })
     );
 
+    handleSubmit = (values, {setSubmitting, setStatus}) => {
+        const { setUsername, changeRoute } = this.props
+        const { email, password } = values
+        services.registerService.registerUser(email, password)
+            .then(response => {
+                if (response.successful) {
+                    services.storageService.set("username", email);
+                    setUsername(email)
+                    changeRoute({path:"/login"})
+                }else if (response.ERROR){
+                    setStatus('username is already in use')
+                } 
+            })
+        setSubmitting(false)
+    };
+
+
     render() {
         const { register, create, main, registerForm, content, btns, bottomBorder, logoCol, greenColor, logo, formCol } = styles 
         const { errorMsg, customForm } = formStyles
@@ -52,22 +69,7 @@ class Register extends Component {
                     confirmPassword: '',
                     }}
                     validationSchema={this.validationSchema}
-                    onSubmit={(values, {setSubmitting, setStatus}) =>{
-                        const { setUsername, changeRoute } = this.props
-                        const { email, password } = values
-                        services.registerService.registerUser(email, password)
-                            .then(response => {
-                                if (response.successful) {
-                                    services.storageService.set("username", email);
-                                    setUsername(email)
-                                    this.setState({showTakenUsernameMsg: false})
-                                    changeRoute({path:"/login"})
-                                }else if (response.ERROR){
-                                    setStatus('username is already in use')
-                                } 
-                            })
-                        setSubmitting(false)
-                    }}
+                    onSubmit={this.handleSubmit}
                     >
                     {({status}) => (
                         <Form className={`${customForm} ${greenColor} ${registerForm}`}>
