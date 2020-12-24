@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions, services} from "../../context";
+import { actions, services} from "../../../context";
 import * as Yup from 'yup';
 import { Formik, Form } from "formik";
 
-import CustomButton from '../UI/CustomButton/CustomButton';
-import CustomFormInput from '../UI/CustomFormInput/FormInput';
+import CustomButton from '../../UI/CustomButton/CustomButton';
+import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 
 import formStyles from '../UI/CustomModal/CustomModal.module.css'
-import styles from "../Register/Register.module.css"
+import styles from "../Entry.module.css"
 import { Container, } from 'react-bootstrap'
 
 const mapStateToProps = (state)=>{
