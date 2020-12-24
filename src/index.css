@@ -15,7 +15,7 @@ body {
   font-weight: 200;
   color: #3e5869;
   font-family: 'Roboto', sans-serif;
-
+  background-color: rgb(26,29,33);
 }
 
 #root {
