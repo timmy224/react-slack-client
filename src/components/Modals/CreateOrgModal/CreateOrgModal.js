@@ -78,7 +78,7 @@ class CreateOrgModal extends Component {
                                 >
                                 {({insert, remove, push}) =>(
                                     <div className={inviteMembersDisplay}>
-                                        {values.invitedUsers && values.invitedUsers.length > 0 ? (
+                                        {values.invitedUsers?.length > 0 ? (
                                             <div className={newUserInput}>
                                                 <p className={modalSubheader}>New Members Invite</p>
                                                 {values.invitedUsers.map((user, index) =>(

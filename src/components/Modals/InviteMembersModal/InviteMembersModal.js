@@ -64,8 +64,8 @@ class InviteMembersModal extends Component {
                                 {({insert, remove}) =>(
                                     <div className={inviteMembersDisplay}>
                                         <div className={newUserInput}>
-                                            {values.invitedUsers.map((user, index) =>(
-                                                <div key={index} className={newUserDisplay}>
+                                            {values.invitedUsers.map((email, index) =>(
+                                                <div key={email} className={newUserDisplay}>
                                                     <CustomFormInput 
                                                         fieldType="nameDisplay" 
                                                         name={`invitedUsers.${index}`} 
@@ -93,7 +93,7 @@ class InviteMembersModal extends Component {
                             <CustomButton 
                                 type='submit'
                                 btnType="enter" 
-                                disabled={values.invitedUsers.length > 0 ? false : true}
+                                disabled={values.invitedUsers.length === 0 ? true : false}
                                 >Submit
                             </CustomButton>
                         </Form>

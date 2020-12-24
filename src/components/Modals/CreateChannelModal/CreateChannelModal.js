@@ -93,48 +93,50 @@ class CreateChannelModal extends Component {
                             <FieldArray
                                 name="privateUsers"
                                 >
-                                {({insert, remove, push}) =>(
-                                    <div className={inviteMembersDisplay}>
-                                        {values.isPrivate && values.privateUsers && values.privateUsers.length > 0 ? (
-                                            <div className={newUserInput}>
-                                                <p className={modalSubheader}>Private Channel Members Invite</p>
-                                                {values.privateUsers.map((user, index) =>(
-                                                    <div key={index} className={newUserDisplay}>
-                                                        <CustomFormInput 
-                                                            fieldType="nameDisplay" 
-                                                            name={`privateUsers.${index}`} 
-                                                            placeholder="react_slack@gmail.com"
-                                                            />
-                                                        <CustomButton
-                                                            btnType="delete"
-                                                            type="button"
-                                                            onClick={() => remove(index)}
-                                                        > 
-                                                            <FontAwesomeIcon icon={faTimes} />
-                                                        </CustomButton>
-                                                    </div>
-                                                ))}
-                                                <CustomButton
-                                                    type="button"
-                                                    onClick={() => insert(values.privateUsers.length, '')}
-                                                >  
-                                                    <FontAwesomeIcon icon={faPlus} />
-                                                </CustomButton>
+                                {({insert, remove, push}) => {
+                                    values.isPrivate = values.privateUsers.length > 0 ? true : false;
+                                    return(
+                                        <div className={inviteMembersDisplay}>
+                                            {values.isPrivate ? (
+                                                <div className={newUserInput}>
+                                                    <p className={modalSubheader}>Private Channel Members Invite</p>
+                                                    {values.privateUsers.map((user, index) =>(
+                                                        <div key={index} className={newUserDisplay}>
+                                                            <CustomFormInput 
+                                                                fieldType="nameDisplay" 
+                                                                name={`privateUsers.${index}`} 
+                                                                placeholder="react_slack@gmail.com"
+                                                                />
+                                                            <CustomButton
+                                                                btnType="delete"
+                                                                type="button"
+                                                                onClick={() => remove(index)}
+                                                            > 
+                                                                <FontAwesomeIcon icon={faTimes} />
+                                                            </CustomButton>
+                                                        </div>
+                                                    ))}
+                                                    <CustomButton
+                                                        type="button"
+                                                        onClick={() => insert(values.privateUsers.length, '')}
+                                                    >  
+                                                        <FontAwesomeIcon icon={faPlus} />
+                                                    </CustomButton>
+                                                </div>
+                                            ) : null}
+                                            <div className={privateSection}>
+                                                <p className={subheader}>Make Private</p>
+                                                <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                                                <Checkbox
+                                                name="isPrivate" 
+                                                label="Make a private Channel"
+                                                onClick={() => !values.isPrivate ? push('') : values.privateUsers.forEach((user, index) => remove(index))} 
+                                                disabled={values.privateUsers.length > 0 ? true : false}
+                                                checked={values.privateUsers.length === 0 ? '': 'checked' }
+                                                />
                                             </div>
-                                        ) : values.isPrivate = values.privateUsers.length > 0 ? true : false}
-                                        <div className={privateSection}>
-                                            <p className={subheader}>Make Private</p>
-                                            <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                                            <Checkbox
-                                            name="isPrivate" 
-                                            label="Make a private Channel"
-                                            onClick={() => !values.isPrivate ? push('') : values.privateUsers.forEach((user, index) => remove(index))} 
-                                            disabled={values.privateUsers.length > 0 ? true : false}
-                                            checked={values.privateUsers.length === 0 ? '': 'checked' }
-                                            />
                                         </div>
-                                    </div>
-                                )}
+                                )}}
                             </FieldArray>
                             <CustomButton 
                                 type='submit'
