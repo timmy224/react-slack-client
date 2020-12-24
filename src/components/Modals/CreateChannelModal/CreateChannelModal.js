@@ -35,6 +35,19 @@ class CreateChannelModal extends Component {
         this.setState({takenChannelName: false})
     }
 
+    validationSchema = () => (
+        Yup.object().shape({
+            channelName: Yup.string()
+                .max(15, 'Must be 15 characters or less')
+                .required('Required'),
+            privateUsers: Yup.array()
+                .of(Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required')),
+            isPrivate: Yup.boolean()
+            })
+    );
+
     render() {
         const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg, customForm } = styles;
         const { showCreateChannelModal, handleCreateChannelModal } = this.props;
@@ -46,16 +59,7 @@ class CreateChannelModal extends Component {
                     privateUsers: [],
                     isPrivate:false,
                     }}
-                    validationSchema={Yup.object({
-                    channelName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    privateUsers: Yup.array()
-                        .of(Yup.string()
-                            .email('Invalid Email Address')
-                            .required('Required')),
-                    isPrivate: Yup.boolean()
-                    })}
+                    validationSchema={this.validationSchema}
                     onSubmit={(values, { setSubmitting, setStatus }) =>{
                         const { channelName, isPrivate, privateUsers } = values;
                         const { org, username } = this.props;

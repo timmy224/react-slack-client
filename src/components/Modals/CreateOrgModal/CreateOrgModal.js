@@ -25,6 +25,18 @@ const mapActionsToProps = {
 
 class CreateOrgModal extends Component {
 
+    validationSchema = () => (
+        Yup.object().shape({
+            orgName: Yup.string()
+                .max(15, 'Must be 15 characters or less')
+                .required('Required'),
+            invitedUsers: Yup.array()
+                .of(Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required')
+            )})
+    );
+
     render() {
         const { showCreateOrgModal, handleShowCreateOrgModal } = this.props;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm, errorMsg } = styles;
@@ -35,15 +47,7 @@ class CreateOrgModal extends Component {
                     orgName: '',
                     invitedUsers: [],
                     }}
-                    validationSchema={Yup.object({
-                    orgName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    invitedUsers: Yup.array()
-                        .of(Yup.string()
-                            .email('Invalid Email Address')
-                            .required('Required')
-                    )})}
+                    validationSchema={this.validationSchema}
                     onSubmit={(values, {setSubmitting, setStatus }) =>{
                         const { createOrg } = this.props;
                         const { orgName, invitedUsers } = values;

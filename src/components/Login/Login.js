@@ -34,6 +34,15 @@ class Login extends Component {
             .catch(err => console.log(err));
     }
 
+    validationSchema = () => (
+        Yup.object().shape({
+            username: Yup.string()
+                .required('Required'),
+            password: Yup.string()
+                .required('No password provided') ,
+            })
+    );
+
     render() {
         const { changeRoute } = this.props;
         const { register, create, main, registerForm, content, btns, bottomBorder, logoCol, greenColor, logo, formCol } = styles;
@@ -45,12 +54,7 @@ class Login extends Component {
                     username: '',
                     password: '',
                     }}
-                    validationSchema={Yup.object({
-                    username: Yup.string()
-                        .required('Required'),
-                    password: Yup.string()
-                        .required('No password provided') ,
-                    })}
+                    validationSchema={this.validationSchema}
                     onSubmit={(values, {setSubmitting, setStatus}) =>{
                         const { login, setUsername } = this.props
                         const { username, password } = values

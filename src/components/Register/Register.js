@@ -25,6 +25,20 @@ const mapActionsToProps = {
 
 class Register extends Component {
 
+    validationSchema = () => (
+        Yup.object().shape({
+            email: Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required'),
+            password: Yup.string()
+                .required('No password provided')
+                .min(8, 'Password is too short - should be 8 characters minimum.')
+                .matches(/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/, 'Password must be at least one letter, one number and one special character'),
+            confirmPassword: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            })
+    );
+
     render() {
         const { register, create, main, registerForm, content, btns, bottomBorder, logoCol, greenColor, logo, formCol } = styles 
         const { errorMsg, customForm } = formStyles
@@ -33,21 +47,11 @@ class Register extends Component {
             <>
                 <Formik
                     initialValues={{
-                    username: '',
+                    email: '',
                     password: '',
                     confirmPassword: '',
                     }}
-                    validationSchema={Yup.object({
-                    email: Yup.string()
-                            .email('Invalid Email Address')
-                            .required('Required'),
-                    password: Yup.string()
-                        .required('No password provided')
-                        .min(8, 'Password is too short - should be 8 characters minimum.')
-                        .matches(/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/, 'Password must be at least one letter, one number and one special character'),
-                    confirmPassword: Yup.string()
-                        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-                    })}
+                    validationSchema={this.validationSchema}
                     onSubmit={(values, {setSubmitting, setStatus}) =>{
                         const { setUsername, changeRoute } = this.props
                         const { email, password } = values

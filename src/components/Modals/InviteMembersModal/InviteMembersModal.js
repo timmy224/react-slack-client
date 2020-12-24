@@ -25,6 +25,15 @@ const mapActionsToProps = {
 
 class InviteMembersModal extends Component {
 
+    validationSchema = () =>(
+        Yup.object().shape({
+            invitedUsers: Yup.array()
+                .of(Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required'))
+            })
+    );
+
     render() {
         const { showInviteMembersModal, sendInvites, handleInviteMembersModal } = this.props;
         const { newUserInput, newUserDisplay, inviteMembersDisplay, customForm } = styles;
@@ -34,12 +43,7 @@ class InviteMembersModal extends Component {
                     initialValues={{
                     invitedUsers: ['']
                     }}
-                    validationSchema={Yup.object({
-                    invitedUsers: Yup.array()
-                        .of(Yup.string()
-                            .email('Invalid Email Address')
-                            .required('Required'))
-                    })}
+                    validationSchema={this.validationSchema}
                     onSubmit={(values, { setSubmitting}) =>{
                         const { org } = this.props
                         const { invitedUsers } = values
