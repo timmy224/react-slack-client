@@ -128,7 +128,7 @@ class CreateOrgModal extends Component {
             <CustomModal 
                 show={showCreateOrgModal} 
                 title="Create a new Org"
-                onHide={()=>handleShowCreateOrgModal(false)}
+                onHide={() => handleShowCreateOrgModal(false)}
                 >
                     {form}
                 </CustomModal>

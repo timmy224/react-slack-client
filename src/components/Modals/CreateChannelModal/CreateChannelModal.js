@@ -27,13 +27,6 @@ const mapActionsToProps = {
 }
 
 class CreateChannelModal extends Component {
-    state = { takenChannelName: false }
-
-    handleHide = () => {
-        const { handleCreateChannelModal } = this.props
-        handleCreateChannelModal(false);
-        this.setState({takenChannelName: false})
-    }
 
     validationSchema = () => (
         Yup.object().shape({
@@ -154,7 +147,7 @@ class CreateChannelModal extends Component {
         return (
                 <CustomModal 
                     show={showCreateChannelModal} 
-                    onHide={()=>handleCreateChannelModal(false)} 
+                    onHide={() => handleCreateChannelModal(false)} 
                     title="Create a channel"
                     >
                         {form}

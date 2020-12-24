@@ -88,7 +88,7 @@ class Login extends Component {
                                 </CustomButton>
                                 <CustomButton
                                 type="button"
-                                onClick = {()=> changeRoute({path:"/register"})}
+                                onClick = {() => changeRoute({path:"/register"})}
                                 >Register
                                 </CustomButton>
                             </div>

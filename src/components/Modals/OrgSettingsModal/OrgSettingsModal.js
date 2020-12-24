@@ -23,10 +23,6 @@ const mapActionsToProps = {
 }
 
 class OrgSettingsModal extends Component {
-    handleHide = () => {
-        const { handleOrgSettingsModalShow } = this.props
-        handleOrgSettingsModalShow(false);
-    }
 
     handleDeleteOrg = (orgName) => {
         const { handleDeleteOrg, handleOrgSettingsModalShow } = this.props;
@@ -53,7 +49,7 @@ class OrgSettingsModal extends Component {
                         />
                         <CustomButton 
                             type="button" 
-                            onClick={()=>this.handleInviteMembers(true)}
+                            onClick={() => this.handleInviteMembers(true)}
                             >Invite new members to your Org
                         </CustomButton>
                         <InviteMembersModal />
@@ -63,7 +59,7 @@ class OrgSettingsModal extends Component {
         return (
             <CustomModal
                 show={showOrgSettingsModal} 
-                onHide={this.handleHide} 
+                onHide={() => this.props.handleOrgSettingsModalShow(false)} 
                 title="Org Settings"
                 >
                     {form}

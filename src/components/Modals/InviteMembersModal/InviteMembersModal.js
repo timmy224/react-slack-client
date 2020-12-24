@@ -104,7 +104,7 @@ class InviteMembersModal extends Component {
         return (
             <CustomModal 
                 show={showInviteMembersModal} 
-                onHide={()=>handleInviteMembersModal(false)} 
+                onHide={() => handleInviteMembersModal(false)} 
                 title="Invite users to your org"
                 >
                     {form}

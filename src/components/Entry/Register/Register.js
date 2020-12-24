@@ -99,7 +99,7 @@ class Register extends Component {
                                 </CustomButton>
                                 <CustomButton
                                 type="button"
-                                onClick = {()=> changeRoute({path:"/login"})}
+                                onClick = {() => changeRoute({path:"/login"})}
                                 >Login
                                 </CustomButton>
                             </div>
