@@ -7,7 +7,7 @@ import CustomModal from '../../UI/CustomModal/CustomModal';
 import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
 import CanView from "../../CanView/CanView";
 
-import styles from '../../UI/CustomModal/CustomModal.module.css'
+import styles from './OrgSettingsModal.module.css'
 
 const mapStateToProps = (state)=>{
     return { 

@@ -9,7 +9,8 @@ import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 import Checkbox from '../../UI/CustomFormInput/Checkbox';
 import CustomModal from '../../UI/CustomModal/CustomModal';
 
-import styles from '../../UI/CustomModal/CustomModal.module.css'
+import modalStyles from '../../UI/CustomModal/CustomModal.module.css'
+import styles from './CreateChannelModal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
@@ -66,7 +67,8 @@ class CreateChannelModal extends Component {
     };
 
     render() {
-        const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, privateSection, descriptions, errorMsg, customForm } = styles;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, errorMsg, customForm } = modalStyles;
+        const { descriptions, privateSection } = styles
         const { showCreateChannelModal, handleCreateChannelModal } = this.props;
         const form = (
              <>

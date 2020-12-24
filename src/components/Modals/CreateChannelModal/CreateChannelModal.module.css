@@ -1,0 +1,11 @@
+.descriptions {
+    font-size: .9rem;
+}
+
+.privateSection {
+    border: 1px solid white;
+    padding: 15px;
+    margin-top: 2rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
