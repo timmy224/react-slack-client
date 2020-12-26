@@ -20,7 +20,7 @@
 .sidebarBody {
     grid-row-start: 2;
     grid-row-end:3;
-    height: 87vh;
+    height: 83vh;
 }
 
 .sidebarSectionHeading {
@@ -122,9 +122,8 @@
 
 .sidebarEnd {
     display: flex;
-    align-items: flex-end;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    justify-content: center;
+    align-items: center;
 }
 
 .logoutWrapper {

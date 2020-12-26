@@ -9,11 +9,6 @@ const initActions = function(userService, socketService, storageService, authSer
 	const setUsername = (username) => (dispatch) => {
 		dispatch(settingUsername(username))
 	};
-  
-	const credentialsWrong = actionCreator(types.INCORRECT_CREDENTIALS);
-	const wrongCredentials = (areCredentialsIncorrect) => (dispatch) => {
-		dispatch(credentialsWrong(areCredentialsIncorrect))
-	};
 
 	const login = (username, password) => async (dispatch, getState) => {
 		const [err, data] = await to(authService.loginUser(username, password))
@@ -24,8 +19,8 @@ const initActions = function(userService, socketService, storageService, authSer
 			storageService.set("username", username);
 			await dispatch(fetchLoginBundle());
 			dispatch(actions.route.changeRoute({path: "/main"}));
-		} else {
-			dispatch(actions.user.wrongCredentials(true));
+		} else if (data.ERROR) {
+			return data.ERROR
 		}
 	};
 
@@ -57,7 +52,6 @@ const initActions = function(userService, socketService, storageService, authSer
 
 	return { 
 		setUsername,
-		wrongCredentials,
 		login,
 		fetchLoginBundle,
 		logout,

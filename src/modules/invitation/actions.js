@@ -16,6 +16,10 @@ const initActions = function (invitationService) {
         }
         
     };
+    const sendInvites = (orgName, invitedEmails) => async (dispatch) => {
+        const [err, _] =  await to(invitationService.sendInvites(orgName, invitedEmails));
+        if (err) throw new Error("Could not send org invitations")
+    } 
 
     const modalInviteShow = actionCreator(types.SHOW_INVITE_MEMBERS_MODAL);
     const showInviteMembersModal = (show) => (dispatch) => {
@@ -42,7 +46,8 @@ const initActions = function (invitationService) {
     };  
 
     return {
-    	fetchInvitations,
+        fetchInvitations,
+        sendInvites,
         showInviteMembersModal,
         showPendingInvitationsModal,
         respondToInvitation,

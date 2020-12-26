@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
+
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomForm from '../../UI/CustomForm/CustomForm';
 import CustomModal from '../../UI/CustomModal/CustomModal';
 
+import modalStyles from '../../UI/CustomModal/CustomModal.module.css'
 import styles from './PendingInvitationsModal.module.css'
 
 const mapStateToProps = (state)=>{
@@ -19,10 +20,6 @@ const mapActionsToProps = {
 }
 
 class PendingInvitationsModal extends Component {
-    handleHide = () => {
-        const { handlePendingInvitationsModal } = this.props
-        handlePendingInvitationsModal(false);
-    }
 
     handleResponse = (event, invitation, isAccepted) => {
         event.preventDefault();
@@ -32,8 +29,9 @@ class PendingInvitationsModal extends Component {
     }
 
     render() {
-        const { showPendingInvitationsModal, invitations} = this.props;
-        const { invitationDisplay } = styles
+        const { showPendingInvitationsModal, invitations, handlePendingInvitationsModal} = this.props;
+        const { customForm } = modalStyles
+        const { invitationDisplay, inviteInfo } = styles
         let invitationsDisplay = !invitations.length ?
             <h2>Loading invitations...</h2>
             : invitations.map(invitation=>{
@@ -42,7 +40,7 @@ class PendingInvitationsModal extends Component {
                         <div
                             className={invitationDisplay}
                             key={org_name + inviter}>
-                            <div>
+                            <div className={inviteInfo}>
                                 <p>Organization Name : {org_name}</p>
                                 <p>User : {inviter}</p>
                             </div>
@@ -59,14 +57,14 @@ class PendingInvitationsModal extends Component {
                         </div>
                     )});
         const form = (
-                <CustomForm >
+                <form className={customForm}>
                     {invitationsDisplay}
-                </CustomForm>
+                </form>
             );
         return (
             <CustomModal
                 show={showPendingInvitationsModal && invitations.length > 0}
-                onHide={this.handleHide} 
+                onHide={() => handlePendingInvitationsModal(false)} 
                 title="Invitations Pending"
                 >
                     {form}

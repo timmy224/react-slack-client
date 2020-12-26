@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { services, actions } from "../../../context";
+import { actions } from "../../../context";
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
+import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 import CustomModal from '../../UI/CustomModal/CustomModal';
-import CustomForm from '../../UI/CustomForm/CustomForm'
+import * as Yup from 'yup';
+import { Formik, Form, FieldArray} from "formik";
+
+import styles from '../../UI/CustomModal/CustomModal.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state)=>{
     return { 
@@ -15,76 +20,91 @@ const mapStateToProps = (state)=>{
 }
 const mapActionsToProps = {
     handleInviteMembersModal: actions.invitation.showInviteMembersModal,
+    sendInvites: actions.invitation.sendInvites,
 }
 
 class InviteMembersModal extends Component {
-    state = {
-            invitedUserEmail: '',
-        }
-        
-    handleSubmit = (event) => {
-        const { org } = this.props
-        const { invitedUserEmail } = this.state
-        event.preventDefault();
-        const inviteInfo = {
-            orgName: org.name,
-            email: invitedUserEmail,
-            action: "STORE",
-        }
-        services.invitationService.sendInvite(inviteInfo)
-            .then(response => {
-                if (response.successful) {
-                    this.handleHide();
-                } else if (response.ERROR) {
-                    alert('User already has an active invite to this org');
-                }
+
+    validationSchema = () =>(
+        Yup.object().shape({
+            invitedUsers: Yup.array()
+                .of(Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required'))
             })
-    }
+    );
 
-    resetModal = () => {
-        this.setState({
-            invitedUserEmail: '',
-        })
-    }
-
-    handleInputChange = event => {
-        const { value, name } = event.target
-        this.setState({
-            [name]: value,
-        })
-    }
-
-    handleHide = () => {
-        const { handleInviteMembersModal } = this.props;
-        handleInviteMembersModal(false);
-        this.resetModal();
-    }
+    handleSubmit= (values, { setSubmitting}) =>{
+        const { org, sendInvites, handleInviteMembersModal } = this.props
+        const { invitedUsers } = values
+        sendInvites(org.name, invitedUsers)
+            .then(this.handlehide());
+        setSubmitting(false)
+        handleInviteMembersModal(false)
+        
+    };
 
     render() {
-        const { showInviteMembersModal } = this.props;
-        const { invitedUserEmail } = this.state;
+        const { showInviteMembersModal, handleInviteMembersModal } = this.props;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, customForm } = styles;
         const form = (
-                <CustomForm onSubmit={this.handleSubmit}>
-                    <CustomFormInput 
-                        type="email" 
-                        name="invitedUserEmail"
-                        placeholder="react.slack2020@gmail.com" 
-                        value={invitedUserEmail}
-                        onChange={this.handleInputChange} 
-                        label="email"
-                        >Enter Email address
-                    </CustomFormInput>
-                    <CustomButton 
-                        type='submit' 
-                        onClick={this.handleSubmit}
-                        >Submit
-                    </CustomButton>
-                </CustomForm>
+            <>
+                <Formik
+                    initialValues={{
+                    invitedUsers: ['']
+                    }}
+                    validationSchema={this.validationSchema}
+                    onSubmit={this.handleSubmit}
+                    >
+                    {({ values }) => (
+                        <Form className={customForm}>
+                            <FieldArray
+                                name="invitedUsers"
+                                >
+                                {({insert, remove}) =>(
+                                    <div className={inviteMembersDisplay}>
+                                        <div className={newUserInput}>
+                                            {values.invitedUsers.map((email, index) =>(
+                                                <div key={email} className={newUserDisplay}>
+                                                    <CustomFormInput 
+                                                        fieldType="nameDisplay" 
+                                                        name={`invitedUsers.${index}`} 
+                                                        placeholder="react_slack@gmail.com"
+                                                        />
+                                                    <CustomButton
+                                                        btnType="delete"
+                                                        type="button"
+                                                        onClick={() => remove(index)}
+                                                        > 
+                                                    <FontAwesomeIcon icon={faTimes} />
+                                                    </CustomButton>
+                                                </div>
+                                            ))}
+                                            <CustomButton
+                                                type="button"
+                                                onClick={() => insert(values.invitedUsers.length, '')}
+                                            >  
+                                            <FontAwesomeIcon icon={faPlus} />
+                                            </CustomButton>
+                                        </div>
+                                    </div>
+                                )}
+                            </FieldArray>
+                            <CustomButton 
+                                type='submit'
+                                btnType="enter" 
+                                disabled={values.invitedUsers.length === 0 ? true : false}
+                                >Submit
+                            </CustomButton>
+                        </Form>
+                    )}
+                </Formik>
+            </>
         );
         return (
             <CustomModal 
                 show={showInviteMembersModal} 
-                onHide={this.handleHide} 
+                onHide={() => handleInviteMembersModal(false)} 
                 title="Invite users to your org"
                 >
                     {form}
