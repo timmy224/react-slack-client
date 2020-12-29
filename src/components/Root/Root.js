@@ -8,8 +8,8 @@ import App from "../App/App";
 import AlertUser from "../AlertUser/AlertUser";
 import CreateChannelModal from "../Modals/CreateChannelModal/CreateChannelModal";
 import MainComponent from "../MainComponent/MainComponent";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
+import Register from "../Entry/Register/Register";
+import Login from "../Entry/Login/Login";
 import CookieDemo from "../Demos/CookieDemo/CookieDemo";
 
 const Root = ({ store }) => (

@@ -7,7 +7,7 @@ import { Formik, Form } from "formik";
 import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 
-import formStyles from '../UI/CustomModal/CustomModal.module.css'
+import formStyles from '../../UI/CustomModal/CustomModal.module.css'
 import styles from "../Entry.module.css"
 import { Container, } from 'react-bootstrap'
 
