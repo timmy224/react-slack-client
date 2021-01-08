@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import InputMessage from "../InputMessage/InputMessage";
+import InputMessage from "./InputMessage/InputMessage";
 import ChatItem from "./ChatItem/ChatItem";
-import Message from "../Message/Message";
-import ChannelChatHeader from "../ChatHeader/ChannelChatHeader.js";
-import PrivateChatHeader from "../ChatHeader/PrivateChatHeader.js";
+import ChannelChatHeader from "./ChatHeader/ChannelChatHeader.js";
+import PrivateChatHeader from "./ChatHeader/PrivateChatHeader.js";
 import styles from "./Chat.module.css"
 // Depends on chatService, socketService
 import {actions, services} from "../../context";
