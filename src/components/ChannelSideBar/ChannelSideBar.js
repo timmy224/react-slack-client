@@ -2,14 +2,27 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import CanView from "../CanView/CanView";
 import {actions, services, store} from "../../context";
+import styles from "./ChannelSideBar.module.css"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes,faPlus} from "@fortawesome/free-solid-svg-icons";
+import * as Yup from "yup";
+import {Formik, Form, FieldArray} from "formik";
+import CustomButton from "../UI/CustomButton/CustomButton";
+import CustomFormInput from "../UI/CustomFormInput/FormInput";
+import formStyles from "../UI/CustomModal/CustomModal.module.css";
 
 const mapStateToProps = (state) => {
-	return {
-		channelMemberNames: state.channel.channelMemberNames,
+	const mapping = {
+		org: state.org.org,
 		channelName: state.chat.channel?.name,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
-	};
+  	};
+	const { org, channelName } = mapping;
+	if (org) {
+		mapping.channelMembers = state.channel.channels[org.name]?.[channelName]?.members
+	}
+  	return mapping;
 };
 
 const mapActionsToProps = {
@@ -17,22 +30,22 @@ const mapActionsToProps = {
 	addChannelMember: actions.channel.addChannelMember,
 	removeChannelMember: actions.channel.removeChannelMember,
 	updateAddMember: actions.channel.updateAddMember,
-	// clearAddMember: actions.channel.clearAddMember,
+	
 };
 class ChannelSideBar extends Component {
 	componentDidMount() {
-		const {fetchMemberNames, channelName, orgName} = this.props;
-		fetchMemberNames(orgName, channelName);
+		const {fetchMemberNames, channelName, org} = this.props;
+		fetchMemberNames(org.name, channelName);
 	}
+	validationSchema = () =>
+		Yup.object().shape({
+			invitedUsers: Yup.array().of(
+				Yup.string().email("Invalid Email Address").required("Required")
+			),
+		});
 
 	handleAddMemberSubmit = (event) => {
-		const {
-			addChannelMember,
-			addMember,
-			channelName,
-			// clearAddMember,
-			orgName,
-		} = this.props;
+		const {addChannelMember, addMember, channelName, orgName} = this.props;
 		addChannelMember(orgName, channelName, addMember);
 	};
 
@@ -42,61 +55,143 @@ class ChannelSideBar extends Component {
 	};
 
 	render() {
+		const {channelSideBar, header, body, sidebarItem, sidebarUser,} = styles;
+		const {newUserDisplay, newUserInput, inviteMembersDisplay, customForm} = formStyles;
 		let {
-			channelMemberNames,
+			// channelMemberNames,
 			channelName,
-			channelMember,
+			channelMembers,
 			removeChannelMember,
 			channelId,
 			orgName,
 		} = this.props;
-		let listOfMembers = channelMemberNames.map((channelMember) => (
-			<p>{channelMember.username}</p>
-		));
-		let listOfMembersAdmin = channelMemberNames.map((channelMember) => {
-			return (
-				<div>
-					<button
-						text="remove"
-						type="button"
-						value={channelMember}
-						onClick={() =>
-							removeChannelMember(
-								orgName,
-								channelName,
-								channelMember.username
-							)
-						}
-					></button>
-					<p>{channelMember.username}</p>
+
+		// let listOfMembers = channelMemberNames.map((channelMember) => (
+		//   <p>{channelMember.username}</p>
+		// ));
+
+		let channelMembersDisplay = services.utilityService.isEmpty(
+			channelMembers
+		) ? (
+			<h2>Loading users...</h2>
+		) : (
+			channelMembers.map(({username}) => (
+				<div key={username} className={sidebarItem}>
+					<p className={sidebarUser}>{username}</p>
+					<CanView
+						resource="channel-member"
+						action="add"
+						yes={() => (
+							<button
+								text="remove"
+								type="button"
+								value={username}
+								onClick={() =>
+									removeChannelMember(
+										orgName,
+										channelName,
+										username
+									)
+								}
+							>
+								<FontAwesomeIcon icon={faTimes} />
+							</button>
+						)}
+						no={() => <p></p>}
+					/>
 				</div>
-			);
-		});
-		return (
-			<div>
-				<h3>Channel Members</h3>
-				<CanView
-					resource="channel-member"
-					action="add"
-					yes={() => <p>{listOfMembersAdmin}</p>}
-					no={() => <p>{listOfMembers}</p>}
-				/>
-				<CanView
-					resource="channel-member"
-					action="add"
-					yes={() => (
-						<form onSubmit={this.handleAddMemberSubmit}>
-							<label>Add Member</label>
-							<input
-								type="text"
-								value={this.addMember}
-								placeholder="Adding member"
-								onChange={this.handleMemberAdd}
-							/>
-						</form>
+			))
+		);
+		const form = (
+			<>
+				<Formik
+					initialValues={{
+						invitedUsers: [""],
+					}}
+					validationSchema={this.validationSchema}
+					onSubmit={this.handleAddMemberSubmit}
+				>
+					{({values}) => (
+						<Form className={customForm}>
+							<FieldArray name="invitedUsers">
+								{({insert, remove}) => (
+									<div className={inviteMembersDisplay}>
+										<div className={newUserInput}>
+											{values.invitedUsers.map(
+												(email, index) => (
+													<div
+														key={email}
+														className={
+															newUserDisplay
+														}
+													>
+														<CustomFormInput
+															fieldType="nameDisplay"
+															name={`invitedUsers.${index}`}
+															placeholder="react_slack@gmail.com"
+														/>
+														<CustomButton
+															btnType="delete"
+															type="button"
+															onClick={() =>
+																remove(index)
+															}
+														>
+															<FontAwesomeIcon
+																icon={faTimes}
+															/>
+														</CustomButton>
+													</div>
+												)
+											)}
+											<CustomButton
+												type="button"
+												onClick={() =>
+													insert(
+														values.invitedUsers
+															.length,
+														""
+													)
+												}
+											>
+												<FontAwesomeIcon
+													icon={faPlus}
+												/>
+											</CustomButton>
+										</div>
+									</div>
+								)}
+							</FieldArray>
+							<CustomButton
+								type="submit"
+								btnType="enter"
+								disabled={
+									values.invitedUsers.length === 0
+										? true
+										: false
+								}
+							>
+								Submit
+							</CustomButton>
+						</Form>
 					)}
-					no={() => <p></p>}
-				/>
+				</Formik>
+			</>
+		);
+		return (
+			<div className={channelSideBar}>
+				<div className={header}>
+					<h3>Channel Members</h3>
+				</div>
+				<div className={body}>
+					{channelMembersDisplay}
+					<CanView
+						resource="channel-member"
+						action="add"
+						yes={() => <>{form}</>}
+						no={() => null}
+					/>
+				</div>
 			</div>
 		);
 	}

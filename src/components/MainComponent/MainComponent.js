@@ -81,8 +81,9 @@ class MainComponent extends Component {
                         {sideBar}
                         {chat}
 						{showChannelSideBar ? (
-								<ChannelSideBar orgName={org.name} />
+								<ChannelSideBar />
 							) : null}
+							{/* <ChannelSideBar orgName={org.name} /> */}
                     </div>
                     : null}
             </div>
