@@ -1,0 +1,75 @@
+.register {
+    font-weight: 700;
+}
+
+.create {
+    font-size: 18px;
+    line-height: 27px;
+    color: #454245;
+    max-width: 700px;
+    text-align: center;
+    margin:auto;
+    margin-bottom: 32px;
+}
+
+.main {
+    background-color: rgb(22, 24, 25);
+    color: rgb(232, 230, 227);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.content {
+    max-width: 720px; 
+    margin: auto;
+}
+
+.registerForm {
+    padding: 0px 7rem;
+}
+
+.btns {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.bottomBorder {
+    width: 100%;
+    height: 3px;
+    background-color: #02313C;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1A1D21;
+    color: white;
+    height: 100vh;
+}
+
+.logo {
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.greenColor {
+    background-color: #011F26;
+    text-align: center;
+}
+
+.logoCol {
+    border-top: 3px solid#02313C;
+    border-left: 3px solid#02313C;
+    border-right: 3px solid#02313C;
+}
+
+.formCol {
+    border-left: 3px solid#02313C;
+    border-right: 3px solid#02313C;
+}

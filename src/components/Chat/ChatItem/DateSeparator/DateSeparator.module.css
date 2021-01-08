@@ -1,0 +1,23 @@
+.dateSeparator {
+    display: flex;
+    align-items: center;    
+    color: rgb(216, 216, 216);
+    text-align: center;
+    font-size: 15px;
+}
+
+.dateSeparator span {
+    border: 1px solid rgb(90, 90, 90);
+    padding: 5px 20px 5px 20px;
+    border-radius: 15px;
+}
+
+.dateSeparator::before, 
+.dateSeparator::after {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    content: " ";
+    height: 0px;
+    border-bottom: 1px solid rgb(90, 90, 90);
+}

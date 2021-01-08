@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions, services } from "../../../context";
+import * as Yup from 'yup';
+import { Formik, Form, FieldArray } from "formik";
 
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
+import CustomFormInput from '../../UI/CustomFormInput/FormInput';
+import Checkbox from '../../UI/CustomFormInput/Checkbox';
 import CustomModal from '../../UI/CustomModal/CustomModal';
-import CustomForm from '../../UI/CustomForm/CustomForm';
 
+import modalStyles from '../../UI/CustomModal/CustomModal.module.css'
 import styles from './CreateChannelModal.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
+
+
 
 const mapStateToProps = (state)=>{
     return { 
@@ -21,35 +28,22 @@ const mapActionsToProps = {
 }
 
 class CreateChannelModal extends Component {
-    state = { 
-            channelName: '',
-            takenChannelName: false,
-            isPrivate: false, 
-            setPrivateUsers: '',
-            privateUsers:[],
-        }
 
-    handleChannelName = event => {
-        const { value, name } = event.target;
-        this.setState({[name]: value})
-    }
+    validationSchema = () => (
+        Yup.object().shape({
+            channelName: Yup.string()
+                .max(15, 'Must be 15 characters or less')
+                .required('Required'),
+            privateUsers: Yup.array()
+                .of(Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required')),
+            isPrivate: Yup.boolean()
+            })
+    );
 
-    handleUserChange = event => {
-        const { value, name } = event.target;
-        let users = value.trim().split(/[\s,]+/)
-        this.setState({
-            [name]: value,
-            privateUsers: users,
-        })
-    }
-
-    handleIsPrivate = isPrivate => {
-        this.setState({isPrivate: isPrivate})
-    }
-
-    handleSubmit = event => {
-        event.preventDefault();
-        const { channelName, isPrivate, privateUsers } = this.state;
+    handleSubmit= (values, { setSubmitting, setStatus }) => {
+        const { channelName, isPrivate, privateUsers } = values;
         const { org, username } = this.props;
         const name = channelName;
         const members =  isPrivate ? [...privateUsers,username] : [];
@@ -62,99 +56,105 @@ class CreateChannelModal extends Component {
         services.channelService.createChannel(channelInfo)
         .then(response => {
             if(response.successful){
-                this.handleHide()
+                this.props.handleCreateChannelModal(false);
             }else if(response.users_not_found){
-                alert(`users_not_found: ${response.users_not_found}`)
+                setStatus(`users not found: ${response.users_not_found}`)
+            }else if (response.ERROR){
+                setStatus('channel name is already in use')
             }
-            this.setState({takenChannelName:true})
         })
-    }
-
-    resetModal = () => {
-        this.setState({
-            channelName: '',
-            takenChannelName: false,
-            isPrivate: false,
-            setPrivateUsers: [],
-        })
-    }
-
-    handleHide = () => {
-        const { handleCreateChannelModal } = this.props
-        handleCreateChannelModal(false);
-        this.resetModal();
-    }
+        setSubmitting(false)
+    };
 
     render() {
-        const { takenChannelName, isPrivate, setPrivateUsers, channelName, privateUsers } = this.state;
-        const { customControlLabel, usernameDisplay, usernameDisplayWrapper, descriptions, errorMsg } = styles
-        const { showCreateChannelModal } = this.props;
-        const takenMessage = takenChannelName ? <h3 className={errorMsg}>Channel Name taken</h3> : null;
-        const usernamesDisplay = privateUsers.map(user => (
-                                        <span className={usernameDisplay}>{user}</span>))
-        const privateForm = isPrivate ? (
-                <div>
-                    <div className={usernameDisplayWrapper}>
-                        {usernamesDisplay}
-                    </div>
-                    <CustomFormInput 
-                        type="text" 
-                        name="setPrivateUsers" 
-                        placeholder="#enter users separated by a space"
-                        value={setPrivateUsers} 
-                        onChange={this.handleUserChange} 
-                        label="Users"
-                        >Users
-                    </CustomFormInput>
-                </div>
-            )
-            : null;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, subheader, modalSubheader, errorMsg, customForm } = modalStyles;
+        const { descriptions, privateSection } = styles
+        const { showCreateChannelModal, handleCreateChannelModal } = this.props;
         const form = (
-                <CustomForm onSubmit={this.handleSubmit}>
-                        {takenMessage}
-                        <p className={descriptions}>Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example.</p>
-                        <CustomFormInput 
-                            type="text" 
-                            name="channelName" 
-                            placeholder="#new channel name" 
-                            value={channelName}
-                            onChange={this.handleChannelName} 
-                            label="Name"
-                            >Name
-                        </CustomFormInput>
-                        {privateForm}
-                </CustomForm>
-            );
+             <>
+                <Formik
+                    initialValues={{
+                    channelName: '',
+                    privateUsers: [],
+                    isPrivate:false,
+                    }}
+                    validationSchema={this.validationSchema}
+                    onSubmit={this.handleSubmit}
+                    >
+                    {({ values, status }) => (
+                        <Form className={customForm}>
+                            {status ? <p className={errorMsg}>{status}</p> : null}
+                            <CustomFormInput
+                                label="Channel Name"
+                                name="channelName"
+                                type="text"
+                                placeholder="#programming"
+                            />
+                            <FieldArray
+                                name="privateUsers"
+                                >
+                                {({insert, remove, push}) => {
+                                    values.isPrivate = values.privateUsers.length > 0 ? true : false;
+                                    return(
+                                        <div className={inviteMembersDisplay}>
+                                            {values.isPrivate ? (
+                                                <div className={newUserInput}>
+                                                    <p className={modalSubheader}>Private Channel Members Invite</p>
+                                                    {values.privateUsers.map((user, index) =>(
+                                                        <div key={index} className={newUserDisplay}>
+                                                            <CustomFormInput 
+                                                                fieldType="nameDisplay" 
+                                                                name={`privateUsers.${index}`} 
+                                                                placeholder="react_slack@gmail.com"
+                                                                />
+                                                            <CustomButton
+                                                                btnType="delete"
+                                                                type="button"
+                                                                onClick={() => remove(index)}
+                                                            > 
+                                                                <FontAwesomeIcon icon={faTimes} />
+                                                            </CustomButton>
+                                                        </div>
+                                                    ))}
+                                                    <CustomButton
+                                                        type="button"
+                                                        onClick={() => insert(values.privateUsers.length, '')}
+                                                    >  
+                                                        <FontAwesomeIcon icon={faPlus} />
+                                                    </CustomButton>
+                                                </div>
+                                            ) : null}
+                                            <div className={privateSection}>
+                                                <p className={subheader}>Make Private</p>
+                                                <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
+                                                <Checkbox
+                                                name="isPrivate" 
+                                                label="Make a private Channel"
+                                                onClick={() => !values.isPrivate ? push('') : values.privateUsers.forEach((user, index) => remove(index))} 
+                                                disabled={values.privateUsers.length > 0 ? true : false}
+                                                checked={values.privateUsers.length === 0 ? '': 'checked' }
+                                                />
+                                            </div>
+                                        </div>
+                                )}}
+                            </FieldArray>
+                            <CustomButton 
+                                type='submit'
+                                btnType="enter" 
+                            >Submit
+                            </CustomButton>
+                        </Form>
+                    )}
+                </Formik>
+            </>
+        )
         return (
                 <CustomModal 
                     show={showCreateChannelModal} 
-                    onHide={this.handleHide} 
+                    onHide={() => handleCreateChannelModal(false)} 
                     title="Create a channel"
                     >
                         {form}
-                        <div>
-                            <h4>Make Private</h4>
-                            <div>
-                                <p className={descriptions}>When a channel is set to private, it can only be viewed or joined by invitation.</p>
-                            </div>
-                        </div>
-                        <div className="custom-control custom-switch">
-                            <input 
-                                type="checkbox" 
-                                className="custom-control-input custom-switch-label" 
-                                id="customSwitch" />
-                            <label 
-                                className={`${ customControlLabel } custom-control-label`} 
-                                htmlFor="customSwitch" 
-                                onClick={() => this.handleIsPrivate(!isPrivate)}>
-                                    <p>Make a private channel</p>
-                            </label>
-                        </div>
-                        <CustomButton 
-                            type='submit' 
-                            onClick={this.handleSubmit}
-                            >Create
-                        </CustomButton>
                 </CustomModal>    
         );
     }

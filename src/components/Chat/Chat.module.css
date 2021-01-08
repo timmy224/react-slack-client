@@ -17,9 +17,7 @@
 }
 
 .messagesWrapper {
-    /*
-    display: flex;
-    */
+    /* display: flex; */ /* Removed this to fix messages display */ 
     overflow: auto;
     scrollbar-color: #c3c3c3 #1A1D21;
 }

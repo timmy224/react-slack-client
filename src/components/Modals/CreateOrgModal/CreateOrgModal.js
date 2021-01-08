@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
+import * as Yup from 'yup';
+import { Formik, Form, FieldArray } from "formik";
 
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomFormInput from '../../UI/CustomFormInput/CustomFormInput';
-import CustomForm from '../../UI/CustomForm/CustomForm';
+import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 
-import styles from '../CreateChannelModal/CreateChannelModal.module.css'
+import styles from '../../UI/CustomModal/CustomModal.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state) => {
     return {
@@ -21,104 +24,114 @@ const mapActionsToProps = {
 }
 
 class CreateOrgModal extends Component {
-    state = {
-            orgName: '',
-            takenOrgName: false, 
-            setOrgUsers: '',
-            orgUsers:[],
-        };
 
-    handleOrgName = event => {
-        const { value, name } = event.target;
-        this.setState({[name]: value})
-    }
+    validationSchema = () => (
+        Yup.object().shape({
+            orgName: Yup.string()
+                .max(15, 'Must be 15 characters or less')
+                .required('Required'),
+            invitedUsers: Yup.array()
+                .of(Yup.string()
+                    .email('Invalid Email Address')
+                    .required('Required')
+            )})
+    );
 
-    handleUserChange = event => {
-        const { value, name } = event.target;
-        let users = value.trim().split(/[\s,]+/)
-        this.setState({
-            [name]: value,
-            orgUsers: users,
-        })
-    }
-
-    resetModal = () => {
-        this.setState({
-            orgName: '',
-            takenOrgName: false, 
-            setOrgUsers: '',
-            orgUsers:[],
-        })
-    }
-
-    handleHide = () => {
-        const { handleShowCreateOrgModal} = this.props
-        handleShowCreateOrgModal(false);
-        this.resetModal();
-    }
-
-    handleSubmit = event => {
+    handleSubmit = (values, {setSubmitting, setStatus }) => {  
         const { createOrg } = this.props;
-        const { orgName,  orgUsers } = this.state;
-        event.preventDefault();
-        createOrg(orgName, orgUsers)
+        const { orgName, invitedUsers } = values;
+        createOrg(orgName, invitedUsers)
             .then(response => {
                 if (response.successful) {
-                    this.handleHide()
-                } else {
-                    this.setState({takenOrgName:true})
+                    this.props.handleShowCreateOrgModal(false);
+                }else if (response.ERROR) {
+                    setStatus('org name is already in use')
                 } 
             });
-    }
+        setSubmitting(false)
+    };
 
     render() {
-        const { showCreateOrgModal } = this.props;
-        const { orgUsers, orgName, setOrgUsers, takenOrgName } = this.state;
-        const { usernameDisplay, usernameDisplayWrapper } = styles;
-        const orgNameTakenMsg = takenOrgName ? <h3>Org name taken, Try another</h3> : null;
-        const usernamesDisplay = (
-                    orgUsers.map(user => (
-                        <span className={usernameDisplay}>{user}</span>
-                        )));
+        const { showCreateOrgModal, handleShowCreateOrgModal } = this.props;
+        const { newUserInput, newUserDisplay, inviteMembersDisplay, modalSubheader, customForm, errorMsg } = styles;
         const form = (
-            <CustomForm onSubmit={this.handleSubmit}>
-                <CustomFormInput 
-                    type="text" 
-                    name="orgName" 
-                    placeholder="react_slack" 
-                    value={orgName}
-                    onChange={this.handleOrgName} 
-                    label="New Org Name"
-                    >Enter Org Name
-                </CustomFormInput>
-                <div className={usernameDisplayWrapper}>
-                    {usernamesDisplay}
-                </div>
-                <CustomFormInput 
-                    type="text" 
-                    name="setOrgUsers" 
-                    placeholder="#enter users seperated by a space" 
-                    value={setOrgUsers}
-                    onChange={this.handleUserChange} 
-                    label="Users"
-                    >Users
-                </CustomFormInput>
-                <CustomButton 
-                    type='submit' 
-                    onClick={this.handleSubmit}
-                    >Submit
-                </CustomButton>
-            </CustomForm>
+            <>
+                <Formik
+                    initialValues={{
+                    orgName: '',
+                    invitedUsers: [],
+                    }}
+                    validationSchema={this.validationSchema}
+                    onSubmit={this.handleSubmit}
+                    >
+                    {({ values, status }) => (
+                        <Form className={customForm}>
+                            {status ? <p className={errorMsg}>{status}</p> : null}
+                            <CustomFormInput
+                                label="Org Name"
+                                name="orgName"
+                                type="text"
+                                placeholder="react_slack"
+                            />
+                            <FieldArray
+                                name="invitedUsers"
+                                >
+                                {({insert, remove, push}) =>(
+                                    <div className={inviteMembersDisplay}>
+                                        {values.invitedUsers?.length > 0 ? (
+                                            <div className={newUserInput}>
+                                                <p className={modalSubheader}>New Members Invite</p>
+                                                {values.invitedUsers.map((user, index) =>(
+                                                    <div key={index} className={newUserDisplay}>
+                                                        <CustomFormInput 
+                                                            fieldType="nameDisplay" 
+                                                            name={`invitedUsers.${index}`} 
+                                                            placeholder="react_slack@gmail.com"
+                                                            />
+                                                        <CustomButton
+                                                            btnType="delete"
+                                                            type="button"
+                                                            onClick={() => remove(index)}
+                                                        > 
+                                                        <FontAwesomeIcon icon={faTimes} />
+                                                        </CustomButton>
+                                                    </div>
+                                                ))}
+                                                <CustomButton
+                                                    type="button"
+                                                    onClick={() => insert(values.invitedUsers.length, '')}
+                                                >  
+                                                <FontAwesomeIcon icon={faPlus} />
+                                                </CustomButton>
+                                            </div>
+                                        ) :  (
+                                            <CustomButton 
+                                                type="button" 
+                                                onClick={() => push('')}
+                                            >Invite new members
+                                            </CustomButton>
+                                        )}
+                                    </div>
+                                )}
+                            </FieldArray>
+                            <CustomButton 
+                                type='submit'
+                                btnType="enter" 
+                            >Submit
+                            </CustomButton>
+                        </Form>
+                    )}
+                </Formik>
+            </>
         );
         return (
             <CustomModal 
                 show={showCreateOrgModal} 
-                onHide={this.handleHide}
                 title="Create a new Org"
+                onHide={() => handleShowCreateOrgModal(false)}
                 >
-                    {orgNameTakenMsg}
                     {form}
-            </CustomModal>
+                </CustomModal>
         );
     }
 }

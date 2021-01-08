@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { actions } from "../../../context";
+
 import CustomButton from '../../UI/CustomButton/CustomButton';
-import CustomForm from '../../UI/CustomForm/CustomForm';
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import InviteMembersModal from "../InviteMembersModal/InviteMembersModal";
 import CanView from "../../CanView/CanView";
+
+import styles from './OrgSettingsModal.module.css'
 
 const mapStateToProps = (state)=>{
     return { 
@@ -21,10 +23,6 @@ const mapActionsToProps = {
 }
 
 class OrgSettingsModal extends Component {
-    handleHide = () => {
-        const { handleOrgSettingsModalShow } = this.props
-        handleOrgSettingsModalShow(false);
-    }
 
     handleDeleteOrg = (orgName) => {
         const { handleDeleteOrg, handleOrgSettingsModalShow } = this.props;
@@ -41,25 +39,27 @@ class OrgSettingsModal extends Component {
     render() {
         const { showOrgSettingsModal, currentOrg } = this.props;
         const form = (
-                <CustomForm>
-                    <CanView
+                <form className={styles.customForm}>
+                    <div class={styles.btns}>
+                        <CanView
                         resource="org"
                         action="delete"
                         yes={() => <CustomButton type="button" onClick={()=>this.handleDeleteOrg(currentOrg.name)}>Delete current Org</CustomButton>}
                         no={() => null}
-                    />
-                    <CustomButton 
-                        type="button" 
-                        onClick={()=>this.handleInviteMembers(true)}
-                        >Invite new members to your Org
-                    </CustomButton>
-                    <InviteMembersModal />
-                </CustomForm> 
+                        />
+                        <CustomButton 
+                            type="button" 
+                            onClick={() => this.handleInviteMembers(true)}
+                            >Invite new members to your Org
+                        </CustomButton>
+                        <InviteMembersModal />
+                    </div>
+                </form> 
             );  
         return (
             <CustomModal
                 show={showOrgSettingsModal} 
-                onHide={this.handleHide} 
+                onHide={() => this.props.handleOrgSettingsModalShow(false)} 
                 title="Org Settings"
                 >
                     {form}

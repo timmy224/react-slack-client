@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "../../context";
+import { actions } from "../../../context";
 import styles from "./InputMessage.module.css"
 
 const mapStateToProps = (state) => {

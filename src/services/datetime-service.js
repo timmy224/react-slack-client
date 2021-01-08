@@ -1,6 +1,9 @@
-const dayjs = require("dayjs");
-const customParseFormat = require("dayjs/plugin/customParseFormat");
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+
 dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
 
 function dateTimeService() {
     const now = () => dayjs();
