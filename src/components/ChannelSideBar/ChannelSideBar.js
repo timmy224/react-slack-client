@@ -4,7 +4,7 @@ import CanView from "../CanView/CanView";
 import {actions, services, store} from "../../context";
 import styles from "./ChannelSideBar.module.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes,faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faTimes,faPlus, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 import * as Yup from "yup";
 import {Formik, Form, FieldArray} from "formik";
 import CustomButton from "../UI/CustomButton/CustomButton";
@@ -55,8 +55,8 @@ class ChannelSideBar extends Component {
 	};
 
 	render() {
-		const {channelSideBar, header, body, sidebarItem, sidebarUser,} = styles;
-		const {newUserDisplay, newUserInput, inviteMembersDisplay, customForm} = formStyles;
+		const {channelSideBar, header, body, sidebarItem, sidebarUser, customForm, removeButton} = styles;
+		const {userDisplay, newUserInput, inviteMembersDisplay } = formStyles;
 		let {
 			// channelMemberNames,
 			channelName,
@@ -83,6 +83,7 @@ class ChannelSideBar extends Component {
 						action="add"
 						yes={() => (
 							<button
+								className={removeButton}
 								text="remove"
 								type="button"
 								value={username}
@@ -94,7 +95,8 @@ class ChannelSideBar extends Component {
 									)
 								}
 							>
-								<FontAwesomeIcon icon={faTimes} />
+								<FontAwesomeIcon
+								 icon={faUserMinus} />
 							</button>
 						)}
 						no={() => <p></p>}
@@ -122,7 +124,7 @@ class ChannelSideBar extends Component {
 													<div
 														key={email}
 														className={
-															newUserDisplay
+															userDisplay
 														}
 													>
 														<CustomFormInput
@@ -131,6 +133,7 @@ class ChannelSideBar extends Component {
 															placeholder="react_slack@gmail.com"
 														/>
 														<CustomButton
+														
 															btnType="delete"
 															type="button"
 															onClick={() =>
@@ -171,7 +174,7 @@ class ChannelSideBar extends Component {
 										: false
 								}
 							>
-								Submit
+								Add
 							</CustomButton>
 						</Form>
 					)}

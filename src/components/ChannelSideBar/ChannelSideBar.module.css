@@ -3,6 +3,7 @@
     border-left: 2px solid #02313C; 
     grid-template-rows: auto 1fr;
 }
+
 .header{
     display: flex;
     justify-content: center;
@@ -10,19 +11,39 @@
     border-bottom: 2px solid #02313C;
     padding: 15px 0px;
 }
-.body{}
+.body{
+    height: 100%;
+    padding: 10px;
+}
 
 .sidebarUser {
     line-height: 0.87;
     padding-bottom: 3px;
     margin-left: 1px;
 }
+
 .sidebarItem {
     display: flex;
     align-items: center;
-    padding-left: 0px;
-    position: relative;
-    bottom: 12px;
-    width: 100%;
     padding: 1px 5px 1px 19px;
+}
+
+.customForm {
+    color: rgb(209,210,211);
+	display: flex;
+	flex-direction: column;
+	min-height: 70px;
+	width: 100%;
+}
+.userDisplay{
+    
+}
+.removeButton{
+    margin-left: 10px;
+    background-color: #011f26;
+    color: gray;
+    border: none;
+    position: absolute;
+    right: 10px;
+
 }
