@@ -79,7 +79,7 @@ class CreateOrgModal extends Component {
                                         {values.invitedUsers?.length > 0 ? (
                                             <div className={newUserInput}>
                                                 <p className={modalSubheader}>New Members Invite</p>
-                                                {values.invitedUsers.map((user, index) =>(
+                                                {values.invitedUsers.map((_user, index) =>(
                                                     <div key={index} className={newUserDisplay}>
                                                         <CustomFormInput 
                                                             fieldType="nameDisplay" 

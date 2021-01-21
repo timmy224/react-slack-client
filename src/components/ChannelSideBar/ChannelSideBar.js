@@ -45,8 +45,8 @@ class ChannelSideBar extends Component {
 		});
 
 	handleAddMemberSubmit = (event) => {
-		const {addChannelMember, addMember, channelName, orgName} = this.props;
-		addChannelMember(orgName, channelName, addMember);
+		const {addChannelMember, addMember, channelName, org} = this.props;
+		addChannelMember(org.name, channelName, addMember);
 	};
 
 	handleMemberAdd = (event) => {
@@ -55,15 +55,14 @@ class ChannelSideBar extends Component {
 	};
 
 	render() {
-		const {channelSideBar, header, body, sidebarItem, sidebarUser, customForm, removeButton} = styles;
-		const {userDisplay, newUserInput, inviteMembersDisplay } = formStyles;
+		const {emailInput, channelSideBar, header, body, sidebarItem, sidebarUser, customForm, removeButton, userDisplay} = styles;
+		const {newUserDisplay, newUserInput, inviteMembersDisplay } = formStyles;
 		let {
-			// channelMemberNames,
 			channelName,
 			channelMembers,
 			removeChannelMember,
 			channelId,
-			orgName,
+			org,
 		} = this.props;
 
 		// let listOfMembers = channelMemberNames.map((channelMember) => (
@@ -89,7 +88,7 @@ class ChannelSideBar extends Component {
 								value={username}
 								onClick={() =>
 									removeChannelMember(
-										orgName,
+										org.name,
 										channelName,
 										username
 									)
@@ -120,20 +119,19 @@ class ChannelSideBar extends Component {
 									<div className={inviteMembersDisplay}>
 										<div className={newUserInput}>
 											{values.invitedUsers.map(
-												(email, index) => (
+												(_email, index) => (
 													<div
-														key={email}
-														className={
-															userDisplay
-														}
+														key={index}
+														className={userDisplay}
 													>
 														<CustomFormInput
+														className={emailInput}
 															fieldType="nameDisplay"
 															name={`invitedUsers.${index}`}
 															placeholder="react_slack@gmail.com"
 														/>
 														<CustomButton
-														
+														className={removeButton}
 															btnType="delete"
 															type="button"
 															onClick={() =>
@@ -159,7 +157,7 @@ class ChannelSideBar extends Component {
 											>
 												<FontAwesomeIcon
 													icon={faPlus}
-												/>
+												/> Add Another Member
 											</CustomButton>
 										</div>
 									</div>
@@ -174,7 +172,7 @@ class ChannelSideBar extends Component {
 										: false
 								}
 							>
-								Add
+								Add All Members
 							</CustomButton>
 						</Form>
 					)}
