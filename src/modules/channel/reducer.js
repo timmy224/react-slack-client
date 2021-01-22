@@ -45,12 +45,6 @@ const initReducer = () => {
 				const path = ["channels", orgName];
 				return set(path, channels, state);
 			}
-			case types.ADDED_TO_CHANNEL: {
-				const {orgName, channel} = payload;
-				const path = ["channels", orgName, channel.name];
-				return set(path, channel, state);
-			}
-
 			case types.FETCH_CHANNELS:
 				return {
 					...state,

@@ -108,16 +108,18 @@ function SocketService(chatService) {
         socket.on("org-deleted", orgName => {
             console.log("org-deleted", orgName);
             store.dispatch(actions.org.handleOrgDeleted(orgName));
-		});
+        });
+        //TO ALL IN CHANNEL with a removed member 
 			socket.on("channel-member-removed", (data) => {
 			let channelName = data.channel_name;
 			let removedUsername = data.removed_username;
 			let channelId = data.channel_id;
-			let orgName = data.org_name;
-			store.dispatch(actions.channel.fetchMemberNames(orgName, channelName));
+            let orgName = data.org_name;
+            console.log('Should be sending data back to server', data);
             send("leave-channel", data);
             
-		});
+        });
+        //TO Removed member
 		socket.on("removed-from-channel", (data) => {
 			let channelName = data.channel_name;
 			let removedUsername = data.removed_username;
@@ -126,7 +128,7 @@ function SocketService(chatService) {
 			console.log(
                 `User ${removedUsername} removed from channel ${channelName}  with ID ${channelId} in org ${orgName} `
             );
-             store.dispatch(actions.channel.channelDeleted(orgName, channelName))
+            store.dispatch(actions.channel.channelDeleted(orgName, channelName))
 		});
 		socket.on("member-added-to-channel", (data) => {
 			let addedUsername = data.added_username;

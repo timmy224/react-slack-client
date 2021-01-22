@@ -45,8 +45,10 @@ class ChannelSideBar extends Component {
 		});
 
 	handleAddMemberSubmit = (event) => {
-		const {addChannelMember, addMember, channelName, org} = this.props;
-		addChannelMember(org.name, channelName, addMember);
+		if (event.invitedUsers)
+		{let addMember = event.invitedUsers[0]
+		const {addChannelMember, channelName, org} = this.props;
+		addChannelMember(org.name, channelName, addMember);}
 	};
 
 	handleMemberAdd = (event) => {
@@ -171,6 +173,7 @@ class ChannelSideBar extends Component {
 										? true
 										: false
 								}
+								onClick={this.handleAddMemberSubmit}
 							>
 								Add All Members
 							</CustomButton>
