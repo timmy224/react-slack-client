@@ -124,7 +124,6 @@ function SocketService(chatService) {
 				)
             );
             store.dispatch(actions.sidebar.selectChannel(channelName))
-            console.log('SHOULD BE REMOVING CHANNEL MEMBER');
             send("leave-channel", data);
             
             
@@ -135,9 +134,6 @@ function SocketService(chatService) {
 			let removedUsername = data.removed_username;
 			let channelId = data.channel_id;
 			let orgName = data.org_name;
-			console.log(
-                `User ${removedUsername} removed from channel ${channelName}  with ID ${channelId} in org ${orgName} `
-            );
             store.dispatch(actions.channel.channelDeleted(orgName, channelName))
 		});
 		socket.on("member-added-to-channel", (data) => {
@@ -145,7 +141,8 @@ function SocketService(chatService) {
 			let channelName = data.channel_name;
 			let orgName = data.org_name;			
 			console.log(`User ${addedUsername} has been added to channel ${channelName}`);
-			store.dispatch(actions.channel.fetchChannels(orgName));
+            store.dispatch(actions.channel.fetchChannels(orgName));
+            store.dispatch(actions.sidebar.selectChannel(channelName));
 			
 		});
 		
