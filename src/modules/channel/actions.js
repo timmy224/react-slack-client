@@ -21,7 +21,13 @@ const initActions = function (channelService) {
 		);
 		dispatch(orgChannelsSet({orgName, channels}));
 	};
-
+	const channelMemberSet = actionCreator(types.SET_CHANNEL_MEMBERS);
+	const setChannelMembers = (orgName, channelName, members) => (dispatch) =>{
+		members = Object.fromEntries(
+			members.map((member) => [member.username, member])
+		);
+		dispatch(channelMemberSet({orgName, channelName, members}))
+	};
 	const deleteChannel = (channelName) => async (dispatch, getState) => {
 		const orgName = getState().org.org.name;
 		const [err, _] = await to(
@@ -67,7 +73,14 @@ const initActions = function (channelService) {
 			dispatch(orgChannelsSet({orgName, channels}));
 		}
 	};
-
+	const removedChannelMember =  (orgName, channelName, removedMember) => (dispatch, getState) => {
+		const allChannelMembers = getState().channel.channels[orgName][channelName].members;
+		if(allChannelMembers){
+			let members = cloneDeep(allChannelMembers)
+			members = members.filter(member => member.username !== removedMember)
+			dispatch(channelMemberSet({orgName, channelName, members}));
+		}
+	}
 	// const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
 	// const showCreateModal = (show) => (dispatch) => {
 	// 	dispatch(modalCreateShow(show));
@@ -127,10 +140,10 @@ const initActions = function (channelService) {
 		dispatch(channelMemberRemove(memberRemoved));
 		dispatch(fetchMemberNames(orgName, channelName));
 	};
-	const addMemberUpdate = actionCreator(types.UPDATE_ADD_MEMBER);
-	const updateAddMember = (addMember) => (dispatch) => {
-		dispatch(addMemberUpdate(addMember));
-	};
+	// const addMemberUpdate = actionCreator(types.UPDATE_ADD_MEMBER);
+	// const updateAddMember = (addMember) => (dispatch) => {
+	// 	dispatch(addMemberUpdate(addMember));
+	// };
 	const modalCreateShow = actionCreator(types.SHOW_CREATE_CHANNEL_MODAL);
 	const showCreateChannelModal = (show) => (dispatch) => {
 		dispatch(modalCreateShow(show));
@@ -148,11 +161,12 @@ const initActions = function (channelService) {
 		fetchMemberNames,
 		addChannelMember,
 		removeChannelMember,
-		updateAddMember,
+		// updateAddMember,
 		addedToChannel,
 		channelDeleted,
 		setOrgChannels,
 		showCreateChannelModal,
+		removedChannelMember,
 	};
 };
 //  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display

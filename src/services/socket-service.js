@@ -115,8 +115,18 @@ function SocketService(chatService) {
 			let removedUsername = data.removed_username;
 			let channelId = data.channel_id;
             let orgName = data.org_name;
-            console.log('Should be sending data back to server', data);
+            //SETS CHANNEL MEMBERS
+            store.dispatch(
+				actions.channel.removedChannelMember(
+					orgName,
+					channelName,
+					removedUsername
+				)
+            );
+            store.dispatch(actions.sidebar.selectChannel(channelName))
+            console.log('SHOULD BE REMOVING CHANNEL MEMBER');
             send("leave-channel", data);
+            
             
         });
         //TO Removed member
