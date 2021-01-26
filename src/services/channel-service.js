@@ -79,13 +79,14 @@ const ChannelService = function (apiService) {
 			.then((data) => JSON.parse(data.channel_members));
 	};
 
-	const addChannelMember = (orgName, channelName, addMember) => {
+	const addChannelMember = (orgName, channelName, addMember, channel) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
 			action: "STORE",
 			channel_name: channelName,
 			new_member_username: addMember,
 			org_name: orgName,
+			channel: channel,
 		};
 		const options = {
 			method: "POST",

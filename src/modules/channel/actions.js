@@ -111,11 +111,11 @@ const initActions = function (channelService) {
 		dispatch(nameOfMembersFetch(nameMembers));
 	};
 	const channelMemberAdd = actionCreator(types.ADD_CHANNEL_MEMBER);
-	const addChannelMember = (orgName, channelName, addMember) => async (
+	const addChannelMember = (orgName, channelName, addMember, channel) => async (
 		dispatch
 	) => {
 		const [err, memberAdded] = await to(
-			channelService.addChannelMember(orgName, channelName, addMember)
+			channelService.addChannelMember(orgName, channelName, addMember, channel)
 		);
 		if (err) {
 			throw new Error("Could not add member to channel");

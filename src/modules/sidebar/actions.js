@@ -7,7 +7,10 @@ const initActions = function (utilityService) {
     const selectChannel = channelName => (dispatch, getState) => {
         const orgName = getState().org.org.name;
         const channels = getState().channel.channels[orgName];
-        const channel = channels[channelName];
+		const channel = channels[channelName];
+		console.log('orgname:', orgName)
+		console.log('channels: ',channels)
+		console.log('channel: ',channel)
         dispatch(actions.chat.setChannel(channel));
         const isMessagesExist = getState().message.messages[orgName]?.channel[channelName]?.length > 0;
         if (!isMessagesExist) {

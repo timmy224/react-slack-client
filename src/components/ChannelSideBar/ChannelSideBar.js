@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
 	const mapping = {
 		org: state.org.org,
 		channelName: state.chat.channel?.name,
+		channel: state.chat.channel,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
   	};
@@ -47,8 +48,8 @@ class ChannelSideBar extends Component {
 	handleAddMemberSubmit = (event) => {
 		if (event.invitedUsers)
 		{let addMember = event.invitedUsers[0]
-		const {addChannelMember, channelName, org} = this.props;
-		addChannelMember(org.name, channelName, addMember);}
+		const {addChannelMember, channelName, org, channel} = this.props;
+		addChannelMember(org.name, channelName, addMember, channel);}
 	};
 
 	handleMemberAdd = (event) => {

@@ -125,8 +125,6 @@ function SocketService(chatService) {
             );
             store.dispatch(actions.sidebar.selectChannel(channelName))
             send("leave-channel", data);
-            
-            
         });
         //TO Removed member
 		socket.on("removed-from-channel", (data) => {
@@ -139,13 +137,24 @@ function SocketService(chatService) {
 		socket.on("member-added-to-channel", (data) => {
 			let addedUsername = data.added_username;
 			let channelName = data.channel_name;
-			let orgName = data.org_name;			
-			console.log(`User ${addedUsername} has been added to channel ${channelName}`);
-            store.dispatch(actions.channel.fetchChannels(orgName));
-            store.dispatch(actions.sidebar.selectChannel(channelName));
-			
+            let orgName = data.org_name;
+            let channel = data.channel			
+            console.log(`User ${addedUsername} has been added to channel ${channelName}`);
+            //allows refresh for new added member
+           store.dispatch(actions.channel.addedToChannel(orgName, channel));			
 		});
-		
+		socket.on("new-member-added-to-channel", (data) => {
+			let addedUsername = data.added_username;
+			let channelName = data.channel_name;
+			let orgName = data.org_name;
+			let channel = data.channel;
+			console.log(
+				`User ${addedUsername} has been added to channel ${channelName}`
+			);
+			//Allows reload of channelmembers on the channel sidebar for entire channel
+			store.dispatch(actions.channel.fetchChannels(orgName));
+			store.dispatch(actions.sidebar.selectChannel(channelName));
+		});
 		
     };
 
