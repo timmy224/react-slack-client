@@ -30,6 +30,7 @@ const initActions = function(userService, socketService, storageService, authSer
 			dispatch(actions.permission.fetchPermissions()),
 			dispatch(actions.invitation.fetchInvitations()),
 			dispatch(actions.org.fetchOrgs()),
+			dispatch(actions.readStatus.fetchStatuses()),
 		]);
 		dispatch(loginBundleFetch());
 	};

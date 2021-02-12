@@ -5,16 +5,56 @@ import ChatItem from "./ChatItem/ChatItem";
 import ChannelChatHeader from "./ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "./ChatHeader/PrivateChatHeader.js";
 import styles from "./Chat.module.css"
-// Depends on chatService, socketService, dateTimeService
 import { actions, services } from "../../context";
 
 class Chat extends Component {
+    pageVisibility = () => {
+        let hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") {
+          hidden = "hidden";
+          visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+          hidden = "msHidden";
+          visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+          hidden = "webkitHidden";
+          visibilityChange = "webkitvisibilitychange";
+        }
+        return { hidden, visibilityChange };
+    }
+
+    /* 
+    ### Pseudo for page visiblity
+    type = this.state.type
+    if pageVisible:
+        if type == 'channel':
+            if this.state.readStatus[type][channelName] == last message's read dt:
+                no new messages have arrived when page was inactive
+                pass - > no need to change
+            else:
+                new message arrived when page was inactive
+                change state to match last read message read dt
+
+        if type == 'private':   
+            if this.state.readStatus[type][partnerUsername] == last message's read dt:
+                no new messages have arrived when page was inactive
+                pass - > no need to change
+            else:
+                new message arrived when page was inactive
+                change state to match last read message read dt
+
+    ### Pseudo for Read status prep -> fire when visibility change
+    last chat item's date time= chatItems[chatItems.length - 1].readDt
+    const prepareReadStatus = (type, orgName, destination, readDt)
+    */
+
     onEnterPressed = () => {
         let { currentInput, chatType, channel, partnerUsername, username, org } = this.props;
         const messageType = chatType;
         const messageContent = currentInput;
         const destination = chatType === "channel" ? channel.name : partnerUsername;
         const message = services.chatService.prepareMessage(messageType, messageContent, username, destination, org.name);
+        
         this.props.sendMessage(message);
     }
 
@@ -36,6 +76,7 @@ class Chat extends Component {
         const chatItems = []
         const { dateTimeService }  = services;
         const messageMap = this.createMessageChatItemMap(messages);
+        // NOTE add unread message HTML element here 
         Object.entries(messageMap).forEach(entry => {
             const [dateKey, messageChatItems] = entry;
             const dateStr = dateTimeService.str(dateTimeService.dt(dateKey, "YYYY/MM/DD"), "dddd, MMMM Do");            
@@ -132,6 +173,7 @@ const mapActionsToProps = {
     messageReceived: actions.message.messageReceived,
     fetchPrevChannelMessages: actions.message.fetchPrevChannelMessages,
     fetchPrevPrivateMessages: actions.message.fetchPrevPrivateMessages,
+    sendReadStatus: actions.readStatus.sendReadStatus,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Chat);
