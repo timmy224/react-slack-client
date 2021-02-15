@@ -38,7 +38,7 @@ const mapActionsToProps = {
 };
 class ChannelSideBar extends Component {
 	componentDidMount() {
-		const {fetchMemberNames, channelName, org} = this.props;
+		const { fetchMemberNames, channelName, org } = this.props;
 		fetchMemberNames(org.name, channelName);
 	}
 	validationSchema = () =>
@@ -48,28 +48,46 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleAddMemberSubmit = (event) => {
-		if (event.invitedUsers)
-		{let addMember = event.invitedUsers[0]
-		const {addChannelMember, channelName, org, channel} = this.props;
-		addChannelMember(org.name, channelName, addMember, channel);}
-	};
-
-	handleMemberAdd = (event) => {
-		let {updateAddMember} = this.props;
-		updateAddMember(event.target.value);
+	handleAddMemberSubmit = (values, {setSubmitting}) => {
+		const { addChannelMember, channelName, org, channel } = this.props;
+		const { invitedUsers } = values;
+		for (let member of invitedUsers) {
+			addChannelMember(org.name, channelName, member, channel);
+		}
+		setSubmitting(false);
 	};
 
 	render() {
-		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel} = styles;
-		const { newUserInput, inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelName, channelMembers, removeChannelMember, org, user} = this.props;
-		const nonUserMembers = channelMembers.filter(member => member.username !== user)
+		const {
+			channelSideBar,
+			header,
+			body,
+			sidebarItem,
+			sidebarUser,
+			customForm,
+			remove,
+			disable,
+			customButton,
+			cancel,
+		} = styles;
+		const { inviteMembersDisplay, newUserDisplay } = formStyles;
+		const {
+			channelName,
+			channelMembers,
+			removeChannelMember,
+			org,
+			user,
+		} = this.props;
+		const nonUserMembers = channelMembers.filter(
+			(member) => member.username !== user
+		);
 
-		const channelMembersDisplay = services.utilityService.isEmpty(channelMembers)
-			? <h2>Loading users...</h2>
-			: (
-			nonUserMembers.map(({username}) => (
+		const channelMembersDisplay = services.utilityService.isEmpty(
+			channelMembers
+		) ? (
+			<h2>Loading users...</h2>
+		) : (
+			nonUserMembers.map(({ username }) => (
 				<div key={username} className={sidebarItem}>
 					<p className={sidebarUser}>{username}</p>
 					<CanView
@@ -88,8 +106,7 @@ class ChannelSideBar extends Component {
 									)
 								}
 							>
-								<FontAwesomeIcon
-								 icon={faUserMinus} />
+								<FontAwesomeIcon icon={faUserMinus} />
 							</button>
 						)}
 						no={() => <p></p>}
@@ -111,49 +128,49 @@ class ChannelSideBar extends Component {
 							<FieldArray name="invitedUsers">
 								{({ insert, remove, push }) => (
 									<div className={inviteMembersDisplay}>
-											{values.invitedUsers.map(
-												(_email, index) => (
-													<div
-														key={index}
-														className={newUserDisplay}
+										{values.invitedUsers.map(
+											(_email, index) => (
+												<div
+													key={index}
+													className={newUserDisplay}
+												>
+													<CustomFormInput
+														fieldType="nameDisplay"
+														name={`invitedUsers.${index}`}
+														placeholder="react_slack@gmail.com"
+													/>
+													<button
+														className={cancel}
+														type="button"
+														onClick={() =>
+															remove(index)
+														}
 													>
-														<CustomFormInput
-															fieldType="nameDisplay"
-															name={`invitedUsers.${index}`}
-															placeholder="react_slack@gmail.com"
+														<FontAwesomeIcon
+															icon={faTimes}
 														/>
-														<button
-															className={cancel}
-															type="button"
-															onClick={() =>
-																remove(index)
-															}
-														>
-															<FontAwesomeIcon
-																icon={faTimes}
-															/>
-														</button>
-													</div>
-												)
-											)}
-											<CustomButton
-												type="button"
-												onClick={() => push("")}
-											>
-												{" "}
-												Add Member
-											</CustomButton>
-										</div>
+													</button>
+												</div>
+											)
+										)}
+										<CustomButton
+											type="button"
+											onClick={() => push("")}
+										>
+											{" "}
+											Add Member
+										</CustomButton>
+									</div>
 								)}
 							</FieldArray>
 							<button
 								type="submit"
 								btnType="enter"
-								className={`${values.invitedUsers.length === 0
+								className={`${
+									values.invitedUsers.length === 0
 										? disable
 										: null
-									} ${customButton}`}
-								onClick={this.handleAddMemberSubmit}
+								} ${customButton}`}
 							>
 								Submit
 							</button>
