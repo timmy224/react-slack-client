@@ -58,29 +58,10 @@ class ChannelSideBar extends Component {
 	};
 
 	render() {
-		const {
-			channelSideBar,
-			header,
-			body,
-			sidebarItem,
-			sidebarUser,
-			customForm,
-			remove,
-			disable,
-			customButton,
-			cancel,
-		} = styles;
+		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const {
-			channelName,
-			channelMembers,
-			removeChannelMember,
-			org,
-			user,
-		} = this.props;
-		const nonUserMembers = channelMembers.filter(
-			(member) => member.username !== user
-		);
+		const { channelName, channelMembers, removeChannelMember, org, user,} = this.props;
+		const nonUserMembers = channelMembers.filter( member => member.username !== user);
 
 		const channelMembersDisplay = services.utilityService.isEmpty(
 			channelMembers
@@ -142,9 +123,7 @@ class ChannelSideBar extends Component {
 													<button
 														className={cancel}
 														type="button"
-														onClick={() =>
-															remove(index)
-														}
+														onClick={() =>remove(index)}
 													>
 														<FontAwesomeIcon
 															icon={faTimes}
@@ -156,9 +135,7 @@ class ChannelSideBar extends Component {
 										<CustomButton
 											type="button"
 											onClick={() => push("")}
-										>
-											{" "}
-											Add Member
+										>Add Member
 										</CustomButton>
 									</div>
 								)}
@@ -167,10 +144,7 @@ class ChannelSideBar extends Component {
 								type="submit"
 								btnType="enter"
 								className={`${
-									values.invitedUsers.length === 0
-										? disable
-										: null
-								} ${customButton}`}
+									values.invitedUsers.length === 0 ? disable: null} ${customButton}`}
 							>
 								Submit
 							</button>
