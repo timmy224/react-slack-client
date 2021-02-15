@@ -18,6 +18,7 @@ const mapStateToProps = (state) => {
 		channel: state.chat.channel,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
+		user: state.user.username,
   	};
 	const { org, channelName } = mapping;
 	if (org) {
@@ -59,15 +60,9 @@ class ChannelSideBar extends Component {
 
 	render() {
 		const {emailInput, channelSideBar, header, body, sidebarItem, sidebarUser, customForm, removeButton, userDisplay} = styles;
-		const {newUserDisplay, newUserInput, inviteMembersDisplay } = formStyles;
-		let {
-			channelName,
-			channelMembers,
-			removeChannelMember,
-			channelId,
-			org,
-		} = this.props;
-
+		const { newUserInput, inviteMembersDisplay } = formStyles;
+		const { channelName, channelMembers, removeChannelMember, org, user} = this.props;
+		const nonUserMembers = channelMembers.filter(member => member.username !== user)
 		// let listOfMembers = channelMemberNames.map((channelMember) => (
 		//   <p>{channelMember.username}</p>
 		// ));
@@ -77,7 +72,7 @@ class ChannelSideBar extends Component {
 		) ? (
 			<h2>Loading users...</h2>
 		) : (
-			channelMembers.map(({username}) => (
+			nonUserMembers.map(({username}) => (
 				<div key={username} className={sidebarItem}>
 					<p className={sidebarUser}>{username}</p>
 					<CanView

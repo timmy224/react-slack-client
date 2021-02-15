@@ -2,26 +2,15 @@ import React from "react";
 import "./ChannelChatHeader.module.css";
 
 function ChannelChatHeader(props) {
-	let {
-		showChannelSideBar,
-		toggleChannelSideBar,
-		channelName,
-		numberOfUsers,
-	} = props;
-	let toggleButton = true;
-
-	const handleClick = (event) => {
-		showChannelSideBar = !showChannelSideBar;
-		toggleChannelSideBar(event);
-	};
-
+	const { showChannelSideBar, toggleChannelSideBar, channelName, numberOfUsers } = props;
+	
 	return (
 		<div className="chat-header">
 			<h1>{`# ${channelName}`}</h1>
 			<button
 				type="button"
 				className="btn btn-light custom-button"
-				onClick={() => handleClick(showChannelSideBar)}
+				onClick={() => toggleChannelSideBar(!showChannelSideBar)}
 			>
 				{`${numberOfUsers} members`}
 			</button>
