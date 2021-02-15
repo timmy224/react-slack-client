@@ -92,7 +92,6 @@ class InviteMembersModal extends Component {
                             <CustomButton 
                                 type='submit'
                                 btnType="enter" 
-                                disabled={values.invitedUsers.length === 0 ? true : false}
                                 >Submit
                             </CustomButton>
                         </Form>

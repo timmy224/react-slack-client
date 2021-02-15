@@ -59,19 +59,14 @@ class ChannelSideBar extends Component {
 	};
 
 	render() {
-		const {emailInput, channelSideBar, header, body, sidebarItem, sidebarUser, customForm, removeButton, userDisplay} = styles;
-		const { newUserInput, inviteMembersDisplay } = formStyles;
+		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel} = styles;
+		const { newUserInput, inviteMembersDisplay, newUserDisplay } = formStyles;
 		const { channelName, channelMembers, removeChannelMember, org, user} = this.props;
 		const nonUserMembers = channelMembers.filter(member => member.username !== user)
-		// let listOfMembers = channelMemberNames.map((channelMember) => (
-		//   <p>{channelMember.username}</p>
-		// ));
 
-		let channelMembersDisplay = services.utilityService.isEmpty(
-			channelMembers
-		) ? (
-			<h2>Loading users...</h2>
-		) : (
+		const channelMembersDisplay = services.utilityService.isEmpty(channelMembers)
+			? <h2>Loading users...</h2>
+			: (
 			nonUserMembers.map(({username}) => (
 				<div key={username} className={sidebarItem}>
 					<p className={sidebarUser}>{username}</p>
@@ -80,8 +75,7 @@ class ChannelSideBar extends Component {
 						action="add"
 						yes={() => (
 							<button
-								className={removeButton}
-								text="remove"
+								className={remove}
 								type="button"
 								value={username}
 								onClick={() =>
@@ -105,32 +99,30 @@ class ChannelSideBar extends Component {
 			<>
 				<Formik
 					initialValues={{
-						invitedUsers: [""],
+						invitedUsers: [],
 					}}
 					validationSchema={this.validationSchema}
 					onSubmit={this.handleAddMemberSubmit}
 				>
-					{({values}) => (
+					{({ values }) => (
 						<Form className={customForm}>
 							<FieldArray name="invitedUsers">
-								{({insert, remove}) => (
+								{({ insert, remove, push }) => (
 									<div className={inviteMembersDisplay}>
 										<div className={newUserInput}>
 											{values.invitedUsers.map(
 												(_email, index) => (
 													<div
 														key={index}
-														className={userDisplay}
+														className={newUserDisplay}
 													>
 														<CustomFormInput
-														className={emailInput}
 															fieldType="nameDisplay"
 															name={`invitedUsers.${index}`}
 															placeholder="react_slack@gmail.com"
 														/>
-														<CustomButton
-														className={removeButton}
-															btnType="delete"
+														<button
+															className={cancel}
 															type="button"
 															onClick={() =>
 																remove(index)
@@ -139,40 +131,32 @@ class ChannelSideBar extends Component {
 															<FontAwesomeIcon
 																icon={faTimes}
 															/>
-														</CustomButton>
+														</button>
 													</div>
 												)
 											)}
 											<CustomButton
 												type="button"
-												onClick={() =>
-													insert(
-														values.invitedUsers
-															.length,
-														""
-													)
-												}
+												onClick={() => push("")}
 											>
-												<FontAwesomeIcon
-													icon={faPlus}
-												/> Add Another Member
+												{" "}
+												Add Member
 											</CustomButton>
 										</div>
 									</div>
 								)}
 							</FieldArray>
-							<CustomButton
+							<button
 								type="submit"
 								btnType="enter"
-								disabled={
-									values.invitedUsers.length === 0
-										? true
-										: false
-								}
+								className={`${values.invitedUsers.length === 0
+										? disable
+										: null
+									} ${customButton}`}
 								onClick={this.handleAddMemberSubmit}
 							>
-								Add All Members
-							</CustomButton>
+								Submit
+							</button>
 						</Form>
 					)}
 				</Formik>
