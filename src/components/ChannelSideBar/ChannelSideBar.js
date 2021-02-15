@@ -1,15 +1,17 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import CanView from "../CanView/CanView";
-import {actions, services, store} from "../../context";
-import styles from "./ChannelSideBar.module.css"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes,faPlus, faUserMinus } from "@fortawesome/free-solid-svg-icons";
+import {actions, services} from "../../context";
+
 import * as Yup from "yup";
-import {Formik, Form, FieldArray} from "formik";
+import { Formik, Form, FieldArray } from "formik";
+import CanView from "../CanView/CanView";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes,faPlus, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 import formStyles from "../UI/CustomModal/CustomModal.module.css";
+import styles from "./ChannelSideBar.module.css";
 
 const mapStateToProps = (state) => {
 	const mapping = {
@@ -109,7 +111,6 @@ class ChannelSideBar extends Component {
 							<FieldArray name="invitedUsers">
 								{({ insert, remove, push }) => (
 									<div className={inviteMembersDisplay}>
-										<div className={newUserInput}>
 											{values.invitedUsers.map(
 												(_email, index) => (
 													<div
@@ -143,7 +144,6 @@ class ChannelSideBar extends Component {
 												Add Member
 											</CustomButton>
 										</div>
-									</div>
 								)}
 							</FieldArray>
 							<button
@@ -165,7 +165,7 @@ class ChannelSideBar extends Component {
 		return (
 			<div className={channelSideBar}>
 				<div className={header}>
-					<h3>Channel Members</h3>
+					<h1>Channel Members</h1>
 				</div>
 				<div className={body}>
 					{channelMembersDisplay}
