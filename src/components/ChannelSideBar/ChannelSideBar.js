@@ -61,7 +61,7 @@ class ChannelSideBar extends Component {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
 		const { channelName, channelMembers, removeChannelMember, org, user,} = this.props;
-		const nonUserMembers = channelMembers.filter( member => member.username !== user);
+		const nonUserMembers = channelMembers?.filter( member => member.username !== user);
 
 		const channelMembersDisplay = services.utilityService.isEmpty(
 			channelMembers
