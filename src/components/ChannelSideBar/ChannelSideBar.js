@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {actions, services} from "../../context";
+import { actions } from "../../context";
+import { partition } from "lodash-es";
 
 import * as Yup from "yup";
 import { Formik, Form, FieldArray } from "formik";
@@ -20,7 +21,8 @@ const mapStateToProps = (state) => {
 		channel: state.chat.channel,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
-		currentUser: state.user.username
+		currentUser: state.user.username,
+		orgMembers: Object.keys(state.org.org.members)
   	};
 	const { orgName, channelName } = mapping;
 	if (orgName) {
@@ -34,14 +36,9 @@ const mapActionsToProps = {
 };
 
 //TODO
-//Filter out user so he is not allowed to delete himself
-//Make a dropdown menu so we can assign members new roles
-//Make a button so user can delete himself and assign admin 
-//role to a different user if channel is left without admin
-//Confirm that you want to remove a member
 //Have field input and enter button removed once entered
 //Check if Invited Users are part of org if not ask if you 
-//should send an org invite if permission allow
+	//should send an org invite if permission allow
 //Test code and ensure everything works as expected
 
 class ChannelSideBar extends Component {
@@ -52,11 +49,15 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = (values, {setSubmitting}) => {
-		const { updateMembersCall, channelName, orgName } = this.props;
+	handleSubmit = (values, { setSubmitting, setStatus }) => {
+		debugger;
+		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
 		const { invitedUsers } = values;
+		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
+		console.log({usersPartition})
+		const validUsers = usersPartition[1]
 		const method = "POST", action = "STORE"
-		updateMembersCall(orgName, channelName, invitedUsers, method, action );
+		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
 	};
 
@@ -71,13 +72,8 @@ class ChannelSideBar extends Component {
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
 		const { channelMembers, currentUser } = this.props;
 		const nonUserMembers = channelMembers.filter(({username}) => username !== currentUser)
-		const channelMembersDisplay = services.utilityService.isEmpty(nonUserMembers )
-			? <h2>Loading users...</h2>
-			: (<>
-				<div key={currentUser} className={sidebarItem}>
-					<p className={sidebarUser}>{currentUser}</p>
-				</div>
-				{nonUserMembers .map(({ username }) => (
+		const channelMembersDisplay = (
+			nonUserMembers.map(({ username }) => (
 					<div key={username} className={sidebarItem}>
 						<p className={sidebarUser}>{username}</p>
 						<CanView
@@ -97,8 +93,7 @@ class ChannelSideBar extends Component {
 							no={() => <p></p>}
 						/>
 					</div>
-				))}
-			</>
+				))
 		);
 		const form = (
 			<>
@@ -164,6 +159,9 @@ class ChannelSideBar extends Component {
 					<h1>Channel Members</h1>
 				</div>
 				<div className={body}>
+					<div key={currentUser} className={sidebarItem}>
+						<p className={sidebarUser}>{currentUser}</p>
+					</div>
 					{channelMembersDisplay}
 					<CanView
 						resource="channel-member"
