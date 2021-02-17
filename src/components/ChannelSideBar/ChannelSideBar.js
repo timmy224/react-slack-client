@@ -52,9 +52,7 @@ class ChannelSideBar extends Component {
 	handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
 		let { invitedUsers } = values;
-		console.log("invited users:",invitedUsers )
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
-		console.log({usersPartition})
 		const validUsers = usersPartition[0]
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
