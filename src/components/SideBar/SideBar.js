@@ -28,20 +28,24 @@ class SideBar extends Component {
     render() {
         const { sidebarChannel, unstyledButton, channelDelete, sidebarUser, orgNameHeader, sidebar,
                 orgOptions, sidebarBody, sidebarSectionHeading, sidebarSectionHeadingExpand, sidebarSectionHeadingLabel, 
-                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName, loginCircle, loggedIn, channelIcon } = styles;
+                sidebarSectionHeadingRight, container, sidebarEnd, nameHighlight, sidebarItem, orgName, loginCircle, loggedIn, channelIcon, channelName } = styles;
         const { org, channels, orgMembers, selectedChannel, selectedPartner, handleCreateChannelModal, handleOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
             <h2>Loading channels...</h2>
             : (Object.values(channels).map(channel => 
-                <div 
+                <div
+                className={sidebarItem}
+                >
+                    <div 
                     key={channel.name} 
-                    className={`${selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : null} ${sidebarItem}`}
+                    className={`${selectedChannel && selectedChannel.name === channel.name ? nameHighlight : null} ${channelName}`}
                     onClick={() => this.selectChannel(channel.name)}>
-                    <div className={channelIcon}>
-                        <FontAwesomeIcon icon={faHashtag} transform="grow-1" color="#99a59e" />
-                    </div>                    
-                    <p className={sidebarChannel}>{channel.name.toLowerCase()}</p>
+                        <div className={channelIcon}>
+                            <FontAwesomeIcon icon={faHashtag} transform="grow-1" color="#99a59e" />
+                        </div>                    
+                        <p className={sidebarChannel}>{channel.name.toLowerCase()}</p>
+                    </div>
                     <CanView
                         resource="channel"
                         action="delete"
@@ -65,7 +69,7 @@ class SideBar extends Component {
                 : (Object.values(orgMembers).map(({ username, logged_in }) => 
                     <div 
                         key={username} 
-                        className={`${selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : null} ${sidebarItem}`}
+                        className={`${selectedPartner && selectedPartner === username ? nameHighlight : null} ${sidebarItem}`}
                         onClick={() => this.selectUser(username)}>
                         <div className={`${loginCircle} ${logged_in ? loggedIn : null}`}></div>
                         <p className={sidebarUser}>{username}</p>                        
