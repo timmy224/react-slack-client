@@ -65,14 +65,11 @@ const initActions = function (channelService) {
 		dispatch(modalCreateShow(show));
 	};
 
-	// BELOW ARE NEW CHANNEL ACTIONS
-
 	const channelSideBarShow = actionCreator(types.SHOW_CHANNEL_SIDE_BAR);
 	const toggleChannelSideBar = (show) => (dispatch) => {
 		dispatch(channelSideBarShow(show));
 	};
 
-	//JUST API CALL TO SEND NEW CHANNEL MEMBER INFO TO SERVER
 	const updateMembersCall = (orgName, channelName, members, method, action) => async () => {
 		const [err, _] = await to(
 			channelService.updateMembers(orgName, channelName, members, method, action)
@@ -82,7 +79,6 @@ const initActions = function (channelService) {
 		}
 	};
 
-	// Action to add new members to a channel
 	const setChannelMembers = actionCreator(types.SET_CHANNEL_MEMBERS);
 	const addMembersToChannel = (orgName, channelName, newMembers) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
@@ -93,67 +89,11 @@ const initActions = function (channelService) {
 		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
 	};
 
-	// Action to remove one member from a channel list
 	const removeChannelMember = (orgName, channelName, removedMember) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
 		const updatedMembers = cloneDeep(currentMembers).filter(({username})=>username !== removedMember)
 		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
 	};
-
-	//Actions above here have been tested and work as expected
-
-	// const channelMembersSet = actionCreator(types.SET_CHANNEL_MEMBERS);
-	// const setChannelMembers = (orgName, channelName, members) => (dispatch) => {
-	// 	members = Object.fromEntries(
-	// 		members.map((member) => [member.username, member])
-	// 	);
-	// 	dispatch(channelMembersSet({ orgName, channelName, members }));
-	// };
-
-	// const removedChannelMember = (orgName, channelName, removedMember) => (
-	// 	dispatch,
-	// 	getState
-	// ) => {
-	// 	const allChannelMembers = getState().channel.channels[orgName][
-	// 		channelName
-	// 	].members;
-	// 	if (allChannelMembers) {
-	// 		let members = cloneDeep(allChannelMembers);
-	// 		members = members.filter(
-	// 			(member) => member.username !== removedMember
-	// 		);
-	// 		dispatch(channelMembersSet({ orgName, channelName, members }));
-	// 	}
-	// };
-
-	// const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);
-	// const fetchMemberNames = (orgName, channelName) => async (dispatch) => {
-	// 	const [err, nameMembers] = await to(
-	// 		channelService.fetchMemberNames(orgName, channelName)
-	// 	);
-	// 	if (err) {
-	// 		throw new Error("Could not fetch names of channel members");
-	// 	}
-	// 	dispatch(nameOfMembersFetch(nameMembers));
-	// };
-
-	// const channelMemberRemove = actionCreator(types.REMOVE_CHANNEL_MEMBER);
-	// const removeChannelMember = (orgName, channelName, removeMember) => async (
-	// 	dispatch
-	// ) => {
-	// 	const [err, memberRemoved] = await to(
-	// 		channelService.removeChannelMember(
-	// 			orgName,
-	// 			channelName,
-	// 			removeMember
-	// 		)
-	// 	);
-	// 	if (err) {
-	// 		throw new Error("Could not remove member from channel");
-	// 	}
-	// 	dispatch(channelMemberRemove(memberRemoved));
-	// 	dispatch(fetchMemberNames(orgName, channelName));
-	// };
 
 	return {
 		fetchChannels,
@@ -162,17 +102,11 @@ const initActions = function (channelService) {
 		addedToChannel,
 		showCreateChannelModal,
 		channelDeleted,
-
 		toggleChannelSideBar,
 		updateMembersCall,
 		addMembersToChannel,
 		removeChannelMember,
-
-		// fetchMemberNames,
-
-		// removedChannelMember,
 	};
 };
-//  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display
 
 export default initActions;
