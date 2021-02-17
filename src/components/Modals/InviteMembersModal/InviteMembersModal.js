@@ -62,7 +62,7 @@ class InviteMembersModal extends Component {
                                 {({insert, remove}) =>(
                                     <div className={inviteMembersDisplay}>
                                         <div className={newUserInput}>
-                                            {values.invitedUsers.map((_email, index) =>(
+                                            {values.invitedUsers.map((email, index) =>(
                                                 <div key={index} className={newUserDisplay}>
                                                     <CustomFormInput 
                                                         fieldType="nameDisplay" 

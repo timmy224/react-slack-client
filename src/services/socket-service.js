@@ -95,9 +95,7 @@ function SocketService(chatService) {
         socket.on("channel-deleted", (info) => {
 			console.log("channel-deleted", info);
 			const { org_name: orgName, channel_name: channelName } = info;
-			store.dispatch(
-				actions.channel.channelDeleted(orgName, channelName)
-            );
+			store.dispatch(actions.channel.channelDeleted(orgName, channelName));
             const leaveInfo = { org_name: orgName, channel_name: channelName };
 			send("leave-channel", leaveInfo);
         });

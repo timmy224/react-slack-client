@@ -10,27 +10,13 @@ import {actions, services} from "../../context";
 
 class Chat extends Component {
 	onEnterPressed = () => {
-		let {
-			currentInput,
-			chatType,
-			channel,
-			partnerUsername,
-			username,
-			org,
-		} = this.props;
-		const messageType = chatType;
-		const messageContent = currentInput;
-		const destination =
-			chatType === "channel" ? channel.name : partnerUsername;
-		const message = services.chatService.prepareMessage(
-			messageType,
-			messageContent,
-			username,
-			destination,
-			org.name
-		);
-		this.props.sendMessage(message);
-	};
+        let { currentInput, chatType, channel, partnerUsername, username, org } = this.props;
+        const messageType = chatType;			
+        const messageContent = currentInput;	
+        const destination = chatType === "channel" ? channel.name : partnerUsername;	
+        const message = services.chatService.prepareMessage(messageType, messageContent, username, destination, org.name);
+        this.props.sendMessage(message);
+    }
 
     fetchPreviousMessages = () => {
         const { chatType, channel, partnerUsername, messages, fetchPrevChannelMessages, fetchPrevPrivateMessages } = this.props;
