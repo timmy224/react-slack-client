@@ -32,6 +32,17 @@ const mapActionsToProps = {
 	updateMembersCall: actions.channel.updateMembersCall,
 };
 
+//TODO
+//Filter out user so he is not allowed to delete himself
+//Make a dropdown menu so we can assign members new roles
+//Make a button so user can delete himself and assign admin 
+//role to a different user if channel is left without admin
+//Confirm that you want to remove a member
+//Have field input and enter button removed once entered
+//Check if Invited Users are part of org if not ask if you 
+//should send an org invite if permission allow
+//Test code and ensure everything works as expected
+
 class ChannelSideBar extends Component {
 	validationSchema = () =>
 		Yup.object().shape({
