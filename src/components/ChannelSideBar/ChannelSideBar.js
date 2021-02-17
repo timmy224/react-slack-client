@@ -20,6 +20,7 @@ const mapStateToProps = (state) => {
 		channel: state.chat.channel,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
+		currentUser: state.user.username
   	};
 	const { orgName, channelName } = mapping;
 	if (orgName) {
@@ -68,29 +69,36 @@ class ChannelSideBar extends Component {
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelMembers } = this.props;
-		const channelMembersDisplay = services.utilityService.isEmpty(channelMembers)
+		const { channelMembers, currentUser } = this.props;
+		const nonUserMembers = channelMembers.filter(({username}) => username !== currentUser)
+		const channelMembersDisplay = services.utilityService.isEmpty(nonUserMembers )
 			? <h2>Loading users...</h2>
-			: ( channelMembers.map(({ username }) => (
-				<div key={username} className={sidebarItem}>
-					<p className={sidebarUser}>{username}</p>
-					<CanView
-						resource="channel-member"
-						action="add"
-						yes={() => (
-							<button
-								className={remove}
-								type="button"
-								value={username}
-								onClick={() => this.handleRemoveMember(username)}
-							>
-								<FontAwesomeIcon icon={faUserMinus} />
-							</button>
-						)}
-						no={() => <p></p>}
-					/>
+			: (<>
+				<div key={currentUser} className={sidebarItem}>
+					<p className={sidebarUser}>{currentUser}</p>
 				</div>
-			))
+				{nonUserMembers .map(({ username }) => (
+					<div key={username} className={sidebarItem}>
+						<p className={sidebarUser}>{username}</p>
+						<CanView
+							resource="channel-member"
+							action="add"
+							yes={() => (
+
+								<button
+									className={remove}
+									type="button"
+									value={username}
+									onClick={() => this.handleRemoveMember(username)}
+								>
+									<FontAwesomeIcon icon={faUserMinus} />
+								</button>
+							)}
+							no={() => <p></p>}
+						/>
+					</div>
+				))}
+			</>
 		);
 		const form = (
 			<>
