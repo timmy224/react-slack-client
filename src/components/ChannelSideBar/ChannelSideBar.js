@@ -43,22 +43,21 @@ class ChannelSideBar extends Component {
 	handleSubmit = (values, {setSubmitting}) => {
 		const { updateMembersCall, channelName, orgName } = this.props;
 		const { invitedUsers } = values;
-		const action = "POST"
-		updateMembersCall(orgName, channelName, invitedUsers, action );
+		const method = "POST", action = "STORE"
+		updateMembersCall(orgName, channelName, invitedUsers, method, action );
 		setSubmitting(false);
 	};
 
 	handleRemoveMember = username => {
 		const { orgName, channelName, updateMembersCall } = this.props
-		const action = "DELETE"
-		updateMembersCall(orgName, channelName, username, action)
+		const method = "DELETE"
+		updateMembersCall(orgName, channelName, [username], method)
 	}
 
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelMembers, updateMembersCall } = this.props;
-		console.log({channelMembers})
+		const { channelMembers } = this.props;
 		const channelMembersDisplay = services.utilityService.isEmpty(channelMembers)
 			? <h2>Loading users...</h2>
 			: ( channelMembers.map(({ username }) => (
@@ -72,7 +71,7 @@ class ChannelSideBar extends Component {
 								className={remove}
 								type="button"
 								value={username}
-								onClick={() => updateMembersCall(username)}
+								onClick={() => this.handleRemoveMember(username)}
 							>
 								<FontAwesomeIcon icon={faUserMinus} />
 							</button>

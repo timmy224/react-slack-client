@@ -112,7 +112,7 @@ function SocketService(chatService) {
 
         //BELOW ARE NEW CHANNEL EVENTS
 
-        //// Event to add one new member to a channel
+        //// Event to notify channel of a new member
 		socket.on("new-channel-members", info => {
 			const { org_name: orgName, channel_name: channelName, new_members:newMembers } = info;		
             console.log(`${newMembers} have been added to channel ${channelName}`);
@@ -121,45 +121,59 @@ function SocketService(chatService) {
 
         //EVENTS above here have been tested and work as expected
 
-        //TO ALL IN CHANNEL with a removed member 
-			socket.on("channel-member-removed", (data) => {
-			let channelName = data.channel_name;
-			let removedUsername = data.removed_username;
-			let channelId = data.channel_id;
-            let orgName = data.org_name;
-            //SETS CHANNEL MEMBERS
-            store.dispatch(
-				actions.channel.removedChannelMember(
-					orgName,
-					channelName,
-					removedUsername
-				)
-            );
-            store.dispatch(actions.sidebar.selectChannel(channelName))
-            send("leave-channel", data);
-            });
-        
-        //TO Removed member
-		socket.on("removed-from-channel", (data) => {
-			let channelName = data.channel_name;
-			let removedUsername = data.removed_username;
-			let channelId = data.channel_id;
-			let orgName = data.org_name;
-            store.dispatch(actions.channel.channelDeleted(orgName, channelName))
+        // Event to notify user he was deleted from a channel
+        // socket.on("removed-from-channel", info => {
+		// 	const { org_name: orgName, channel_name: channelName, new_members:newMembers } = info;		
+        //     console.log(`${newMembers} have been added to channel ${channelName}`);
+        //     store.dispatch(actions.channel.addMembersToChannel(orgName, channelName, newMembers));			
+        // });
+
+        // Event to notify channel of a deleted member
+        socket.on("channel-member-removed", info => {
+			const { org_name: orgName, channel_name: channelName, username } = info;		
+            console.log(`${username} has been deleted from channel ${channelName}`);
+            store.dispatch(actions.channel.removeChannelMember(orgName, channelName, username));			
         });
+
+        // //TO ALL IN CHANNEL with a removed member 
+		// 	socket.on("channel-member-removed", (data) => {
+		// 	let channelName = data.channel_name;
+		// 	let removedUsername = data.removed_username;
+		// 	let channelId = data.channel_id;
+        //     let orgName = data.org_name;
+        //     //SETS CHANNEL MEMBERS
+        //     store.dispatch(
+		// 		actions.channel.removedChannelMember(
+		// 			orgName,
+		// 			channelName,
+		// 			removedUsername
+		// 		)
+        //     );
+        //     store.dispatch(actions.sidebar.selectChannel(channelName))
+        //     send("leave-channel", data);
+        //     });
         
-		socket.on("new-member-added-to-channel", (data) => {
-			let addedUsername = data.added_username;
-			let channelName = data.channel_name;
-			let orgName = data.org_name;
-			let channel = data.channel;
-			console.log(
-				`User ${addedUsername} has been added to channel ${channelName}`
-			);
-			//Allows reload of channelmembers on the channel sidebar for entire channel
-			store.dispatch(actions.channel.fetchChannels(orgName));
-			store.dispatch(actions.sidebar.selectChannel(channelName));
-		});
+        // //TO Removed member
+		// socket.on("removed-from-channel", (data) => {
+		// 	let channelName = data.channel_name;
+		// 	let removedUsername = data.removed_username;
+		// 	let channelId = data.channel_id;
+		// 	let orgName = data.org_name;
+        //     store.dispatch(actions.channel.channelDeleted(orgName, channelName))
+        // });
+        
+		// socket.on("new-member-added-to-channel", (data) => {
+		// 	let addedUsername = data.added_username;
+		// 	let channelName = data.channel_name;
+		// 	let orgName = data.org_name;
+		// 	let channel = data.channel;
+		// 	console.log(
+		// 		`User ${addedUsername} has been added to channel ${channelName}`
+		// 	);
+		// 	//Allows reload of channelmembers on the channel sidebar for entire channel
+		// 	store.dispatch(actions.channel.fetchChannels(orgName));
+		// 	store.dispatch(actions.sidebar.selectChannel(channelName));
+		// });
 		
     };
 
