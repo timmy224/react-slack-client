@@ -145,7 +145,7 @@ class ChannelSideBar extends Component {
 							</FieldArray>
 							<button
 								type="submit"
-								btnType="enter"
+								btnype="enter"
 								className={`${
 									values.invitedUsers.length === 0 ? disable: null} ${customButton}`}
 							>
