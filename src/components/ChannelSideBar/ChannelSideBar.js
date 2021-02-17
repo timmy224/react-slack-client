@@ -50,7 +50,6 @@ class ChannelSideBar extends Component {
 		});
 
 	handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
-		// debugger;
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
 		let { invitedUsers } = values;
 		console.log("invited users:",invitedUsers )
@@ -61,7 +60,6 @@ class ChannelSideBar extends Component {
 		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
 		resetForm()
-		// invitedUsers =[]
 	};
 
 	handleRemoveMember = username => {
@@ -74,8 +72,10 @@ class ChannelSideBar extends Component {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
 		const { channelMembers, currentUser } = this.props;
+		let channelMembersDisplay = <div></div>
+		if (channelMembers){ 
 		const nonUserMembers = channelMembers.filter(({username}) => username !== currentUser)
-		const channelMembersDisplay = (
+		channelMembersDisplay = (
 			nonUserMembers.map(({ username }) => (
 					<div key={username} className={sidebarItem}>
 						<p className={sidebarUser}>{username}</p>
@@ -97,7 +97,7 @@ class ChannelSideBar extends Component {
 						/>
 					</div>
 				))
-		);
+		)}
 		const form = (
 			<>
 				<Formik
