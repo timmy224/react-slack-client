@@ -43,13 +43,15 @@ const initReducer = () => {
 					showChannelSideBar: payload,
 				};
 
-			case types.ADD_A_MEMBER_TO_CHANNEL: {
-				const { orgName, channelName, username } = payload;
+			case types.ADD_MEMBERS_TO_CHANNEL: {
+				const { orgName, channelName, newMembers } = payload;
 				const path = ["channels", orgName, channelName, "members"];
 				const members = state.channels[orgName]?.[channelName]?.members
 					? [...state.channels[orgName]?.[channelName]?.members]
 					: [];
-				members.push({ username: username });
+				for (let member of newMembers) {
+					members.push({ username: member });
+				}
 				return set(path, members, state);
 			}
 

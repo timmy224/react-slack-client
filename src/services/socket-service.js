@@ -113,10 +113,10 @@ function SocketService(chatService) {
         //BELOW ARE NEW CHANNEL EVENTS
 
         //// Event to add one new member to a channel
-		socket.on("new-channel-member", info => {
-			const { org_name: orgName, channel_name: channelName, new_member:username } = info;		
-            console.log(`User ${username} has been added to channel ${channelName}`);
-            store.dispatch(actions.channel.addAMemberToChannel(orgName, channelName, username));			
+		socket.on("new-channel-members", info => {
+			const { org_name: orgName, channel_name: channelName, new_members:newMembers } = info;		
+            console.log(`${newMembers} have been added to channel ${channelName}`);
+            store.dispatch(actions.channel.addMembersToChannel(orgName, channelName, newMembers));			
         });
 
         //EVENTS above here have been tested and work as expected

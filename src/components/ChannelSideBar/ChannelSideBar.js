@@ -9,7 +9,7 @@ import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes,faPlus, faUserMinus } from "@fortawesome/free-solid-svg-icons";
+import {faTimes,faUserMinus } from "@fortawesome/free-solid-svg-icons";
 import formStyles from "../UI/CustomModal/CustomModal.module.css";
 import styles from "./ChannelSideBar.module.css";
 
@@ -29,17 +29,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = {
-	fetchMemberNames: actions.channel.fetchMemberNames,
-	addChannelMember: actions.channel.addChannelMember,
-	removeChannelMember: actions.channel.removeChannelMember,
-	updateAddMember: actions.channel.updateAddMember,
-	
+	updateMembersCall: actions.channel.updateMembersCall,
 };
+
 class ChannelSideBar extends Component {
-	// componentDidMount() {
-	// 	const { fetchMemberNames, channelName, orgName} = this.props;
-	// 	fetchMemberNames(orgName, channelName);
-	// }
 	validationSchema = () =>
 		Yup.object().shape({
 			invitedUsers: Yup.array().of(
@@ -47,26 +40,28 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleAddMemberSubmit = (values, {setSubmitting}) => {
-		const { addChannelMember, channelName, orgName } = this.props;
+	handleSubmit = (values, {setSubmitting}) => {
+		const { updateMembersCall, channelName, orgName } = this.props;
 		const { invitedUsers } = values;
-		for (let member of invitedUsers) {
-			addChannelMember(orgName, channelName, member);
-		}
+		const action = "POST"
+		updateMembersCall(orgName, channelName, invitedUsers, action );
 		setSubmitting(false);
 	};
+
+	handleRemoveMember = username => {
+		const { orgName, channelName, updateMembersCall } = this.props
+		const action = "DELETE"
+		updateMembersCall(orgName, channelName, username, action)
+	}
 
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelName, channelMembers, removeChannelMember, orgName} = this.props;
+		const { channelMembers, updateMembersCall } = this.props;
 		console.log({channelMembers})
-		const channelMembersDisplay = services.utilityService.isEmpty(
-			channelMembers
-		) ? (
-			<h2>Loading users...</h2>
-		) : (
-			channelMembers.map(({ username }) => (
+		const channelMembersDisplay = services.utilityService.isEmpty(channelMembers)
+			? <h2>Loading users...</h2>
+			: ( channelMembers.map(({ username }) => (
 				<div key={username} className={sidebarItem}>
 					<p className={sidebarUser}>{username}</p>
 					<CanView
@@ -77,13 +72,7 @@ class ChannelSideBar extends Component {
 								className={remove}
 								type="button"
 								value={username}
-								onClick={() =>
-									removeChannelMember(
-										orgName,
-										channelName,
-										username
-									)
-								}
+								onClick={() => updateMembersCall(username)}
 							>
 								<FontAwesomeIcon icon={faUserMinus} />
 							</button>
@@ -100,7 +89,7 @@ class ChannelSideBar extends Component {
 						invitedUsers: [],
 					}}
 					validationSchema={this.validationSchema}
-					onSubmit={this.handleAddMemberSubmit}
+					onSubmit={this.handleSubmit}
 				>
 					{({ values }) => (
 						<Form className={customForm}>

@@ -76,21 +76,21 @@ const initActions = function (channelService) {
 	};
 
 	//JUST API CALL TO SEND NEW CHANNEL MEMBER INFO TO SERVER
-	const addChannelMember = (orgName, channelName, addMember) => async () => {
+	const updateMembersCall = (orgName, channelName, members, action) => async () => {
 		const [err, _] = await to(
-			channelService.addChannelMember(orgName, channelName, addMember)
+			channelService.updateMembers(orgName, channelName, members, action)
 		);
 		if (err) {
-			throw new Error("Could not add member to channel");
+			throw new Error("Could not update channel members list");
 		}
 	};
 
 	// Action to add one new member to a channel
-	const memberAddToChannel = actionCreator(types.ADD_A_MEMBER_TO_CHANNEL);
-	const addAMemberToChannel = (orgName, channelName, username) => (
+	const membersAddToChannel = actionCreator(types.ADD_MEMBERS_TO_CHANNEL);
+	const addMembersToChannel = (orgName, channelName, newMembers) => (
 		dispatch
 	) => {
-		dispatch(memberAddToChannel({ orgName, channelName, username }));
+		dispatch(membersAddToChannel({ orgName, channelName, newMembers }));
 	};
 
 	//Actions above here have been tested and work as expected
@@ -157,8 +157,8 @@ const initActions = function (channelService) {
 		channelDeleted,
 
 		toggleChannelSideBar,
-		addChannelMember,
-		addAMemberToChannel,
+		updateMembersCall,
+		addMembersToChannel,
 
 		fetchMemberNames,
 		removeChannelMember,

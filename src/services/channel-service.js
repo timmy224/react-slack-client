@@ -59,16 +59,16 @@ const ChannelService = function (apiService) {
 			.then((data) => data.successful);
 	};
 
-	const addChannelMember = (orgName, channelName, addMember) => {
+	const updateMembers = (orgName, channelName, members, action) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
 			action: "STORE",
 			channel_name: channelName,
-			new_member_username: addMember,
+			members: [...members],
 			org_name: orgName,
 		};
 		const options = {
-			method: "POST",
+			method: action,
 			body: JSON.stringify(post_data),
 			headers: {
 				"Content-Type": "application/json",
@@ -128,7 +128,7 @@ const ChannelService = function (apiService) {
 		createChannel,
 		deleteChannel,
 		
-		addChannelMember,
+		updateMembers,
 
 		fetchMemberNames,
 		removeChannelMember,
