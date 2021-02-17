@@ -3,11 +3,9 @@ import { connect } from "react-redux";
 import { actions } from "../../../context";
 import * as Yup from 'yup';
 import { Formik, Form, FieldArray } from "formik";
-
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import CustomButton from '../../UI/CustomButton/CustomButton';
 import CustomFormInput from '../../UI/CustomFormInput/FormInput';
-
 import styles from '../../UI/CustomModal/CustomModal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -81,7 +79,7 @@ class CreateOrgModal extends Component {
                                         {values.invitedUsers?.length > 0 ? (
                                             <div className={newUserInput}>
                                                 <p className={modalSubheader}>New Members Invite</p>
-                                                {values.invitedUsers.map((user, index) =>(
+                                                {values.invitedUsers.map((_user, index) =>(
                                                     <div key={index} className={newUserDisplay}>
                                                         <CustomFormInput 
                                                             fieldType="nameDisplay" 

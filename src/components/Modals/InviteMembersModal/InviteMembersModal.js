@@ -6,7 +6,6 @@ import CustomFormInput from '../../UI/CustomFormInput/FormInput';
 import CustomModal from '../../UI/CustomModal/CustomModal';
 import * as Yup from 'yup';
 import { Formik, Form, FieldArray} from "formik";
-
 import styles from '../../UI/CustomModal/CustomModal.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -38,7 +37,6 @@ class InviteMembersModal extends Component {
         const { org, sendInvites, handleInviteMembersModal } = this.props
         const { invitedUsers } = values
         sendInvites(org.name, invitedUsers)
-            .then(this.handlehide());
         setSubmitting(false)
         handleInviteMembersModal(false)
         
@@ -64,8 +62,8 @@ class InviteMembersModal extends Component {
                                 {({insert, remove}) =>(
                                     <div className={inviteMembersDisplay}>
                                         <div className={newUserInput}>
-                                            {values.invitedUsers.map((email, index) =>(
-                                                <div key={email} className={newUserDisplay}>
+                                            {values.invitedUsers.map((_email, index) =>(
+                                                <div key={index} className={newUserDisplay}>
                                                     <CustomFormInput 
                                                         fieldType="nameDisplay" 
                                                         name={`invitedUsers.${index}`} 
@@ -86,6 +84,7 @@ class InviteMembersModal extends Component {
                                             >  
                                             <FontAwesomeIcon icon={faPlus} />
                                             </CustomButton>
+                                            
                                         </div>
                                     </div>
                                 )}
@@ -93,7 +92,6 @@ class InviteMembersModal extends Component {
                             <CustomButton 
                                 type='submit'
                                 btnType="enter" 
-                                disabled={values.invitedUsers.length === 0 ? true : false}
                                 >Submit
                             </CustomButton>
                         </Form>
