@@ -4,7 +4,7 @@ import { actions } from "../../context";
 import { partition } from "lodash-es";
 
 import * as Yup from "yup";
-import { Formik, Form, FieldArray } from "formik";
+import { Formik, Form, FieldArray} from "formik";
 import CanView from "../CanView/CanView";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
@@ -49,16 +49,19 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = (values, { setSubmitting, setStatus }) => {
-		debugger;
+	handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
+		// debugger;
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
-		const { invitedUsers } = values;
+		let { invitedUsers } = values;
+		console.log("invited users:",invitedUsers )
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
 		console.log({usersPartition})
-		const validUsers = usersPartition[1]
+		const validUsers = usersPartition[0]
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
+		resetForm()
+		// invitedUsers =[]
 	};
 
 	handleRemoveMember = username => {

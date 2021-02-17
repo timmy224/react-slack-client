@@ -91,8 +91,10 @@ const initActions = function (channelService) {
 
 	const removeChannelMember = (orgName, channelName, removedMember) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
+		if (currentMembers){
 		const updatedMembers = cloneDeep(currentMembers).filter(({username})=>username !== removedMember)
-		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
+		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }))
+		}
 	};
 
 	return {
