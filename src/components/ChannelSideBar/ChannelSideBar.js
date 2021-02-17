@@ -9,7 +9,7 @@ import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes,faPlus, faUserMinus } from "@fortawesome/free-solid-svg-icons";
+import {faTimes,faUserMinus } from "@fortawesome/free-solid-svg-icons";
 import formStyles from "../UI/CustomModal/CustomModal.module.css";
 import styles from "./ChannelSideBar.module.css";
 
@@ -29,17 +29,21 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = {
-	fetchMemberNames: actions.channel.fetchMemberNames,
-	addChannelMember: actions.channel.addChannelMember,
-	removeChannelMember: actions.channel.removeChannelMember,
-	updateAddMember: actions.channel.updateAddMember,
-	
+	updateMembersCall: actions.channel.updateMembersCall,
 };
+
+//TODO
+//Filter out user so he is not allowed to delete himself
+//Make a dropdown menu so we can assign members new roles
+//Make a button so user can delete himself and assign admin 
+//role to a different user if channel is left without admin
+//Confirm that you want to remove a member
+//Have field input and enter button removed once entered
+//Check if Invited Users are part of org if not ask if you 
+//should send an org invite if permission allow
+//Test code and ensure everything works as expected
+
 class ChannelSideBar extends Component {
-	// componentDidMount() {
-	// 	const { fetchMemberNames, channelName, orgName} = this.props;
-	// 	fetchMemberNames(orgName, channelName);
-	// }
 	validationSchema = () =>
 		Yup.object().shape({
 			invitedUsers: Yup.array().of(
@@ -47,26 +51,27 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleAddMemberSubmit = (values, {setSubmitting}) => {
-		const { addChannelMember, channelName, orgName } = this.props;
+	handleSubmit = (values, {setSubmitting}) => {
+		const { updateMembersCall, channelName, orgName } = this.props;
 		const { invitedUsers } = values;
-		for (let member of invitedUsers) {
-			addChannelMember(orgName, channelName, member);
-		}
+		const method = "POST", action = "STORE"
+		updateMembersCall(orgName, channelName, invitedUsers, method, action );
 		setSubmitting(false);
 	};
+
+	handleRemoveMember = username => {
+		const { orgName, channelName, updateMembersCall } = this.props
+		const method = "DELETE"
+		updateMembersCall(orgName, channelName, [username], method)
+	}
 
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelName, channelMembers, removeChannelMember, orgName} = this.props;
-		console.log({channelMembers})
-		const channelMembersDisplay = services.utilityService.isEmpty(
-			channelMembers
-		) ? (
-			<h2>Loading users...</h2>
-		) : (
-			channelMembers.map(({ username }) => (
+		const { channelMembers } = this.props;
+		const channelMembersDisplay = services.utilityService.isEmpty(channelMembers)
+			? <h2>Loading users...</h2>
+			: ( channelMembers.map(({ username }) => (
 				<div key={username} className={sidebarItem}>
 					<p className={sidebarUser}>{username}</p>
 					<CanView
@@ -77,13 +82,7 @@ class ChannelSideBar extends Component {
 								className={remove}
 								type="button"
 								value={username}
-								onClick={() =>
-									removeChannelMember(
-										orgName,
-										channelName,
-										username
-									)
-								}
+								onClick={() => this.handleRemoveMember(username)}
 							>
 								<FontAwesomeIcon icon={faUserMinus} />
 							</button>
@@ -100,7 +99,7 @@ class ChannelSideBar extends Component {
 						invitedUsers: [],
 					}}
 					validationSchema={this.validationSchema}
-					onSubmit={this.handleAddMemberSubmit}
+					onSubmit={this.handleSubmit}
 				>
 					{({ values }) => (
 						<Form className={customForm}>

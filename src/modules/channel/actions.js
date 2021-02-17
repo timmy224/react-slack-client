@@ -37,10 +37,7 @@ const initActions = function (channelService) {
 		dispatch(channelAddedTo({ orgName, channel }));
 	};
 
-	const channelDeleted = (orgName, channelName) => async (
-		dispatch,
-		getState
-	) => {
+	const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
 		dispatch(removeChannel(orgName, channelName));
 		const isCurrentOrg = getState().org.org?.name === orgName;
 		if (isCurrentOrg) {
@@ -68,84 +65,34 @@ const initActions = function (channelService) {
 		dispatch(modalCreateShow(show));
 	};
 
-	// BELOW ARE NEW CHANNEL ACTIONS
-
 	const channelSideBarShow = actionCreator(types.SHOW_CHANNEL_SIDE_BAR);
 	const toggleChannelSideBar = (show) => (dispatch) => {
 		dispatch(channelSideBarShow(show));
 	};
 
-	//JUST API CALL TO SEND NEW CHANNEL MEMBER INFO TO SERVER
-	const addChannelMember = (orgName, channelName, addMember) => async () => {
+	const updateMembersCall = (orgName, channelName, members, method, action) => async () => {
 		const [err, _] = await to(
-			channelService.addChannelMember(orgName, channelName, addMember)
+			channelService.updateMembers(orgName, channelName, members, method, action)
 		);
 		if (err) {
-			throw new Error("Could not add member to channel");
+			throw new Error("Could not update channel members list");
 		}
 	};
 
-	// Action to add one new member to a channel
-	const memberAddToChannel = actionCreator(types.ADD_A_MEMBER_TO_CHANNEL);
-	const addAMemberToChannel = (orgName, channelName, username) => (
-		dispatch
-	) => {
-		dispatch(memberAddToChannel({ orgName, channelName, username }));
-	};
-
-	//Actions above here have been tested and work as expected
-
-	const channelMembersSet = actionCreator(types.SET_CHANNEL_MEMBERS);
-	const setChannelMembers = (orgName, channelName, members) => (dispatch) => {
-		members = Object.fromEntries(
-			members.map((member) => [member.username, member])
-		);
-		dispatch(channelMembersSet({ orgName, channelName, members }));
-	};
-
-	const removedChannelMember = (orgName, channelName, removedMember) => (
-		dispatch,
-		getState
-	) => {
-		const allChannelMembers = getState().channel.channels[orgName][
-			channelName
-		].members;
-		if (allChannelMembers) {
-			let members = cloneDeep(allChannelMembers);
-			members = members.filter(
-				(member) => member.username !== removedMember
-			);
-			dispatch(channelMembersSet({ orgName, channelName, members }));
+	const setChannelMembers = actionCreator(types.SET_CHANNEL_MEMBERS);
+	const addMembersToChannel = (orgName, channelName, newMembers) => (dispatch, getState) => {
+		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
+		const updatedMembers = cloneDeep(currentMembers)
+		for (const username of newMembers) {
+			updatedMembers.push({ username: username });
 		}
+		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
 	};
 
-	const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);
-	const fetchMemberNames = (orgName, channelName) => async (dispatch) => {
-		const [err, nameMembers] = await to(
-			channelService.fetchMemberNames(orgName, channelName)
-		);
-		if (err) {
-			throw new Error("Could not fetch names of channel members");
-		}
-		dispatch(nameOfMembersFetch(nameMembers));
-	};
-
-	const channelMemberRemove = actionCreator(types.REMOVE_CHANNEL_MEMBER);
-	const removeChannelMember = (orgName, channelName, removeMember) => async (
-		dispatch
-	) => {
-		const [err, memberRemoved] = await to(
-			channelService.removeChannelMember(
-				orgName,
-				channelName,
-				removeMember
-			)
-		);
-		if (err) {
-			throw new Error("Could not remove member from channel");
-		}
-		dispatch(channelMemberRemove(memberRemoved));
-		dispatch(fetchMemberNames(orgName, channelName));
+	const removeChannelMember = (orgName, channelName, removedMember) => (dispatch, getState) => {
+		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
+		const updatedMembers = cloneDeep(currentMembers).filter(({username})=>username !== removedMember)
+		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
 	};
 
 	return {
@@ -155,16 +102,11 @@ const initActions = function (channelService) {
 		addedToChannel,
 		showCreateChannelModal,
 		channelDeleted,
-
 		toggleChannelSideBar,
-		addChannelMember,
-		addAMemberToChannel,
-
-		fetchMemberNames,
+		updateMembersCall,
+		addMembersToChannel,
 		removeChannelMember,
-		removedChannelMember,
 	};
 };
-//  CHANGED reducer action, types and channel service in order to be able to fetch names of members. Now you have to test and use destructuring in order to display
 
 export default initActions;

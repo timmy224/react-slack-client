@@ -9,7 +9,6 @@ const initReducer = () => {
 		channels: {},
 		showCreateChannelModal: false,
 		showChannelSideBar: false,
-		channelMemberNames: [],
 	};
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -43,29 +42,11 @@ const initReducer = () => {
 					showChannelSideBar: payload,
 				};
 
-			case types.ADD_A_MEMBER_TO_CHANNEL: {
-				const { orgName, channelName, username } = payload;
-				const path = ["channels", orgName, channelName, "members"];
-				const members = state.channels[orgName]?.[channelName]?.members
-					? [...state.channels[orgName]?.[channelName]?.members]
-					: [];
-				members.push({ username: username });
-				return set(path, members, state);
-			}
-
-				
 			case types.SET_CHANNEL_MEMBERS: {
-				const { orgName, channelName, members } = payload;
+				const { orgName, channelName, updatedMembers } = payload;
 				const path = ["channels", orgName, channelName, "members"];
-				return set(path, members, state);
+				return set(path, updatedMembers, state);
 			}
-
-			case types.FETCH_CHANNEL_MEMBER_NAMES:
-				return {
-					...state,
-					channelMemberNames: payload,
-				};
-
 			default:
 				return state;
 		}

@@ -59,60 +59,17 @@ const ChannelService = function (apiService) {
 			.then((data) => data.successful);
 	};
 
-	const addChannelMember = (orgName, channelName, addMember) => {
+	const updateMembers = (orgName, channelName, members, method, action) => {
 		const url = `${config.API_URL}/channel/members/`;
-		const post_data = {
-			action: "STORE",
+		const data = {
 			channel_name: channelName,
-			new_member_username: addMember,
+			members: members,
 			org_name: orgName,
 		};
+		if (action) data["action"] = action
 		const options = {
-			method: "POST",
-			body: JSON.stringify(post_data),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		return apiService
-			.go(url, options)
-			.then((response) => response.json())
-			.then((data) => data.successful);
-	};
-
-
-
-
-	const fetchMemberNames = (orgName, channelName) => {
-		const url = `${config.API_URL}/channel/members/`;
-		const post_data = {
-			action: "GET",
-			channel_name: channelName,
-			org_name: orgName,
-		};
-		const options = {
-			method: "POST",
-			body: JSON.stringify(post_data),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		return apiService
-			.go(url, options)
-			.then((response) => response.json())
-			.then((data) => JSON.parse(data.channel_members));
-	};
-
-	const removeChannelMember = (orgName, channelName, removeMember) => {
-		const url = `${config.API_URL}/channel/members/`;
-		const post_data = {
-			channel_name: channelName,
-			removed_username: removeMember,
-			org_name: orgName,
-		};
-		const options = {
-			method: "DELETE",
-			body: JSON.stringify(post_data),
+			method: method,
+			body: JSON.stringify(data),
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -126,12 +83,8 @@ const ChannelService = function (apiService) {
 	return Object.freeze({
 		fetchChannels,
 		createChannel,
-		deleteChannel,
-		
-		addChannelMember,
-
-		fetchMemberNames,
-		removeChannelMember,
+		deleteChannel,		
+		updateMembers,
 	});
 };
 
