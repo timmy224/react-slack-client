@@ -19,15 +19,9 @@ const initActions = function (channelService) {
 		channels = Object.fromEntries(
 			channels.map((channel) => [channel.name, channel])
 		);
-		dispatch(orgChannelsSet({orgName, channels}));
+		dispatch(orgChannelsSet({ orgName, channels }));
 	};
-	const channelMemberSet = actionCreator(types.SET_CHANNEL_MEMBERS);
-	const setChannelMembers = (orgName, channelName, members) => (dispatch) =>{
-		members = Object.fromEntries(
-			members.map((member) => [member.username, member])
-		);
-		dispatch(channelMemberSet({orgName, channelName, members}))
-	};
+
 	const deleteChannel = (channelName) => async (dispatch, getState) => {
 		const orgName = getState().org.org.name;
 		const [err, _] = await to(
@@ -38,68 +32,93 @@ const initActions = function (channelService) {
 		}
 	};
 
-	const channelNameSet = actionCreator(types.CHANNEL_NAME_SET);
-	const setCreateChannelName = (channel_name) => (dispatch) => {
-		dispatch(channelNameSet(channel_name));
-	};
-
-	const channelNameTaken = actionCreator(types.CHANNEL_NAME_TAKEN);
-	const takenChannelName = (isChannelNameTaken) => (dispatch) => {
-		dispatch(channelNameTaken(isChannelNameTaken));
-	};
-
 	const channelAddedTo = actionCreator(types.ADDED_TO_CHANNEL);
 	const addedToChannel = (orgName, channel) => (dispatch) => {
-		dispatch(channelAddedTo({orgName, channel}));
+		dispatch(channelAddedTo({ orgName, channel }));
 	};
 
-    const channelDeleted = (orgName, channelName) => async (dispatch, getState) => {
-        dispatch(removeChannel(orgName, channelName));
-        const isCurrentOrg = getState().org.org?.name === orgName;
-        if (isCurrentOrg) {
-            const isCurrentChannelDeleted = getState().chat.type === "channel" && getState().chat.channel?.name === channelName;
-            if (isCurrentChannelDeleted) {
-                dispatch(actions.chat.setChannel(null));
-                dispatch(actions.sidebar.selectDefaultChannel());
-            }
-        }
-    };
+	const channelDeleted = (orgName, channelName) => async (
+		dispatch,
+		getState
+	) => {
+		dispatch(removeChannel(orgName, channelName));
+		const isCurrentOrg = getState().org.org?.name === orgName;
+		if (isCurrentOrg) {
+			const isCurrentChannelDeleted =
+				getState().chat.type === "channel" &&
+				getState().chat.channel?.name === channelName;
+			if (isCurrentChannelDeleted) {
+				dispatch(actions.chat.setChannel(null));
+				dispatch(actions.sidebar.selectDefaultChannel());
+			}
+		}
+	};
 
 	const removeChannel = (orgName, channelName) => (dispatch, getState) => {
 		const allOrgChannels = getState().channel.channels[orgName];
 		if (allOrgChannels) {
 			const channels = cloneDeep(allOrgChannels);
 			delete channels[channelName];
-			dispatch(orgChannelsSet({orgName, channels}));
+			dispatch(orgChannelsSet({ orgName, channels }));
 		}
 	};
-	const removedChannelMember =  (orgName, channelName, removedMember) => (dispatch, getState) => {
-		const allChannelMembers = getState().channel.channels[orgName][channelName].members;
-		if(allChannelMembers){
-			let members = cloneDeep(allChannelMembers)
-			members = members.filter(member => member.username !== removedMember)
-			dispatch(channelMemberSet({orgName, channelName, members}));
-		}
-	}
-	// const modalCreateShow = actionCreator(types.SHOW_CREATE_MODAL);
-	// const showCreateModal = (show) => (dispatch) => {
-	// 	dispatch(modalCreateShow(show));
-	// };
+
+	const modalCreateShow = actionCreator(types.SHOW_CREATE_CHANNEL_MODAL);
+	const showCreateChannelModal = (show) => (dispatch) => {
+		dispatch(modalCreateShow(show));
+	};
+
+	// BELOW ARE NEW CHANNEL ACTIONS
 
 	const channelSideBarShow = actionCreator(types.SHOW_CHANNEL_SIDE_BAR);
 	const toggleChannelSideBar = (show) => (dispatch) => {
 		dispatch(channelSideBarShow(show));
 	};
 
-	const privateChannel = actionCreator(types.CREATE_PRIVATE);
-	const createPrivate = (isChannelPrivate) => (dispatch) => {
-		dispatch(privateChannel(isChannelPrivate));
+	//JUST API CALL TO SEND NEW CHANNEL MEMBER INFO TO SERVER
+	const addChannelMember = (orgName, channelName, addMember) => async () => {
+		const [err, _] = await to(
+			channelService.addChannelMember(orgName, channelName, addMember)
+		);
+		if (err) {
+			throw new Error("Could not add member to channel");
+		}
 	};
 
-	const usersPrivate = actionCreator(types.PRIVATE_CHANNEL_USERS);
-	const privateChannelUsers = (privateUsers) => (dispatch) => {
-		dispatch(usersPrivate(privateUsers));
+	// Action to add one new member to a channel
+	const memberAddToChannel = actionCreator(types.ADD_A_MEMBER_TO_CHANNEL);
+	const addAMemberToChannel = (orgName, channelName, username) => (
+		dispatch
+	) => {
+		dispatch(memberAddToChannel({ orgName, channelName, username }));
 	};
+
+	//Actions above here have been tested and work as expected
+
+	const channelMembersSet = actionCreator(types.SET_CHANNEL_MEMBERS);
+	const setChannelMembers = (orgName, channelName, members) => (dispatch) => {
+		members = Object.fromEntries(
+			members.map((member) => [member.username, member])
+		);
+		dispatch(channelMembersSet({ orgName, channelName, members }));
+	};
+
+	const removedChannelMember = (orgName, channelName, removedMember) => (
+		dispatch,
+		getState
+	) => {
+		const allChannelMembers = getState().channel.channels[orgName][
+			channelName
+		].members;
+		if (allChannelMembers) {
+			let members = cloneDeep(allChannelMembers);
+			members = members.filter(
+				(member) => member.username !== removedMember
+			);
+			dispatch(channelMembersSet({ orgName, channelName, members }));
+		}
+	};
+
 	const nameOfMembersFetch = actionCreator(types.FETCH_CHANNEL_MEMBER_NAMES);
 	const fetchMemberNames = (orgName, channelName) => async (dispatch) => {
 		const [err, nameMembers] = await to(
@@ -110,19 +129,7 @@ const initActions = function (channelService) {
 		}
 		dispatch(nameOfMembersFetch(nameMembers));
 	};
-	const channelMemberAdd = actionCreator(types.ADD_CHANNEL_MEMBER);
-	const addChannelMember = (orgName, channelName, addMember, channel) => async (
-		dispatch
-	) => {
-		const [err, memberAdded] = await to(
-			channelService.addChannelMember(orgName, channelName, addMember, channel)
-		);
-		if (err) {
-			throw new Error("Could not add member to channel");
-		}
-		dispatch(channelMemberAdd(memberAdded));
-		dispatch(fetchMemberNames(orgName, channelName));
-	};
+
 	const channelMemberRemove = actionCreator(types.REMOVE_CHANNEL_MEMBER);
 	const removeChannelMember = (orgName, channelName, removeMember) => async (
 		dispatch
@@ -140,32 +147,21 @@ const initActions = function (channelService) {
 		dispatch(channelMemberRemove(memberRemoved));
 		dispatch(fetchMemberNames(orgName, channelName));
 	};
-	// const addMemberUpdate = actionCreator(types.UPDATE_ADD_MEMBER);
-	// const updateAddMember = (addMember) => (dispatch) => {
-	// 	dispatch(addMemberUpdate(addMember));
-	// };
-	const modalCreateShow = actionCreator(types.SHOW_CREATE_CHANNEL_MODAL);
-	const showCreateChannelModal = (show) => (dispatch) => {
-		dispatch(modalCreateShow(show));
-	};
-	
+
 	return {
 		fetchChannels,
-		setCreateChannelName,
-		takenChannelName,
-		deleteChannel,
-		// showCreateModal,
-		createPrivate,
-		privateChannelUsers,
-		toggleChannelSideBar,
-		fetchMemberNames,
-		addChannelMember,
-		removeChannelMember,
-		// updateAddMember,
-		addedToChannel,
-		channelDeleted,
 		setOrgChannels,
+		deleteChannel,
+		addedToChannel,
 		showCreateChannelModal,
+		channelDeleted,
+
+		toggleChannelSideBar,
+		addChannelMember,
+		addAMemberToChannel,
+
+		fetchMemberNames,
+		removeChannelMember,
 		removedChannelMember,
 	};
 };

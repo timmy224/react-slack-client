@@ -59,6 +59,30 @@ const ChannelService = function (apiService) {
 			.then((data) => data.successful);
 	};
 
+	const addChannelMember = (orgName, channelName, addMember) => {
+		const url = `${config.API_URL}/channel/members/`;
+		const post_data = {
+			action: "STORE",
+			channel_name: channelName,
+			new_member_username: addMember,
+			org_name: orgName,
+		};
+		const options = {
+			method: "POST",
+			body: JSON.stringify(post_data),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		return apiService
+			.go(url, options)
+			.then((response) => response.json())
+			.then((data) => data.successful);
+	};
+
+
+
+
 	const fetchMemberNames = (orgName, channelName) => {
 		const url = `${config.API_URL}/channel/members/`;
 		const post_data = {
@@ -77,28 +101,6 @@ const ChannelService = function (apiService) {
 			.go(url, options)
 			.then((response) => response.json())
 			.then((data) => JSON.parse(data.channel_members));
-	};
-
-	const addChannelMember = (orgName, channelName, addMember, channel) => {
-		const url = `${config.API_URL}/channel/members/`;
-		const post_data = {
-			action: "STORE",
-			channel_name: channelName,
-			new_member_username: addMember,
-			org_name: orgName,
-			channel: channel,
-		};
-		const options = {
-			method: "POST",
-			body: JSON.stringify(post_data),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		return apiService
-			.go(url, options)
-			.then((response) => response.json())
-			.then((data) => data.successful);
 	};
 
 	const removeChannelMember = (orgName, channelName, removeMember) => {
@@ -125,8 +127,10 @@ const ChannelService = function (apiService) {
 		fetchChannels,
 		createChannel,
 		deleteChannel,
-		fetchMemberNames,
+		
 		addChannelMember,
+
+		fetchMemberNames,
 		removeChannelMember,
 	});
 };

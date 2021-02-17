@@ -109,6 +109,18 @@ function SocketService(chatService) {
             console.log("org-deleted", orgName);
             store.dispatch(actions.org.handleOrgDeleted(orgName));
         });
+
+        //BELOW ARE NEW CHANNEL EVENTS
+
+        //// Event to add one new member to a channel
+		socket.on("new-channel-member", info => {
+			const { org_name: orgName, channel_name: channelName, new_member:username } = info;		
+            console.log(`User ${username} has been added to channel ${channelName}`);
+            store.dispatch(actions.channel.addAMemberToChannel(orgName, channelName, username));			
+        });
+
+        //EVENTS above here have been tested and work as expected
+
         //TO ALL IN CHANNEL with a removed member 
 			socket.on("channel-member-removed", (data) => {
 			let channelName = data.channel_name;
@@ -125,7 +137,8 @@ function SocketService(chatService) {
             );
             store.dispatch(actions.sidebar.selectChannel(channelName))
             send("leave-channel", data);
-        });
+            });
+        
         //TO Removed member
 		socket.on("removed-from-channel", (data) => {
 			let channelName = data.channel_name;
@@ -133,16 +146,8 @@ function SocketService(chatService) {
 			let channelId = data.channel_id;
 			let orgName = data.org_name;
             store.dispatch(actions.channel.channelDeleted(orgName, channelName))
-		});
-		socket.on("member-added-to-channel", (data) => {
-			let addedUsername = data.added_username;
-			let channelName = data.channel_name;
-            let orgName = data.org_name;
-            let channel = data.channel			
-            console.log(`User ${addedUsername} has been added to channel ${channelName}`);
-            //allows refresh for new added member
-           store.dispatch(actions.channel.addedToChannel(orgName, channel));			
-		});
+        });
+        
 		socket.on("new-member-added-to-channel", (data) => {
 			let addedUsername = data.added_username;
 			let channelName = data.channel_name;

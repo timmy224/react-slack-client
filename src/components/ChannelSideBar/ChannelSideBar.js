@@ -15,16 +15,15 @@ import styles from "./ChannelSideBar.module.css";
 
 const mapStateToProps = (state) => {
 	const mapping = {
-		org: state.org.org,
+		orgName: state.org.org.name,
 		channelName: state.chat.channel?.name,
 		channel: state.chat.channel,
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
-		user: state.user.username,
   	};
-	const { org, channelName } = mapping;
-	if (org) {
-		mapping.channelMembers = state.channel.channels[org.name]?.[channelName]?.members
+	const { orgName, channelName } = mapping;
+	if (orgName) {
+		mapping.channelMembers = state.channel.channels[orgName]?.[channelName]?.members
 	}
   	return mapping;
 };
@@ -37,10 +36,10 @@ const mapActionsToProps = {
 	
 };
 class ChannelSideBar extends Component {
-	componentDidMount() {
-		const { fetchMemberNames, channelName, org } = this.props;
-		fetchMemberNames(org.name, channelName);
-	}
+	// componentDidMount() {
+	// 	const { fetchMemberNames, channelName, orgName} = this.props;
+	// 	fetchMemberNames(orgName, channelName);
+	// }
 	validationSchema = () =>
 		Yup.object().shape({
 			invitedUsers: Yup.array().of(
@@ -49,10 +48,10 @@ class ChannelSideBar extends Component {
 		});
 
 	handleAddMemberSubmit = (values, {setSubmitting}) => {
-		const { addChannelMember, channelName, org, channel } = this.props;
+		const { addChannelMember, channelName, orgName } = this.props;
 		const { invitedUsers } = values;
 		for (let member of invitedUsers) {
-			addChannelMember(org.name, channelName, member, channel);
+			addChannelMember(orgName, channelName, member);
 		}
 		setSubmitting(false);
 	};
@@ -60,15 +59,14 @@ class ChannelSideBar extends Component {
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelName, channelMembers, removeChannelMember, org, user,} = this.props;
-		const nonUserMembers = channelMembers?.filter( member => member.username !== user);
-
+		const { channelName, channelMembers, removeChannelMember, orgName} = this.props;
+		console.log({channelMembers})
 		const channelMembersDisplay = services.utilityService.isEmpty(
 			channelMembers
 		) ? (
 			<h2>Loading users...</h2>
 		) : (
-			nonUserMembers.map(({ username }) => (
+			channelMembers.map(({ username }) => (
 				<div key={username} className={sidebarItem}>
 					<p className={sidebarUser}>{username}</p>
 					<CanView
@@ -81,7 +79,7 @@ class ChannelSideBar extends Component {
 								value={username}
 								onClick={() =>
 									removeChannelMember(
-										org.name,
+										orgName,
 										channelName,
 										username
 									)
