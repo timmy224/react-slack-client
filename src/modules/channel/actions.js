@@ -73,16 +73,16 @@ const initActions = function (channelService) {
 	};
 
 	//JUST API CALL TO SEND NEW CHANNEL MEMBER INFO TO SERVER
-	const updateMembersCall = (orgName, channelName, members, method) => async () => {
+	const updateMembersCall = (orgName, channelName, members, method, action) => async () => {
 		const [err, _] = await to(
-			channelService.updateMembers(orgName, channelName, members, method)
+			channelService.updateMembers(orgName, channelName, members, method, action)
 		);
 		if (err) {
 			throw new Error("Could not update channel members list");
 		}
 	};
 
-	// Action to add one new member to a channel
+	// Action to add new members to a channel
 	const setChannelMembers = actionCreator(types.SET_CHANNEL_MEMBERS);
 	const addMembersToChannel = (orgName, channelName, newMembers) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
@@ -93,6 +93,7 @@ const initActions = function (channelService) {
 		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
 	};
 
+	// Action to remove one member from a channel list
 	const removeChannelMember = (orgName, channelName, removedMember) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
 		const updatedMembers = cloneDeep(currentMembers).filter(({username})=>username !== removedMember)

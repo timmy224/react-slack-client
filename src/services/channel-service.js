@@ -66,7 +66,7 @@ const ChannelService = function (apiService) {
 			members: members,
 			org_name: orgName,
 		};
-		if (action) data.action = action
+		if (action) data["action"] = action
 		const options = {
 			method: method,
 			body: JSON.stringify(data),

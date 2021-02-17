@@ -44,9 +44,9 @@ const initReducer = () => {
 				};
 
 			case types.SET_CHANNEL_MEMBERS: {
-				const { orgName, channelName, members } = payload;
-				const path = ["channels", orgName, channelName];
-				return set(path, members, state);
+				const { orgName, channelName, updatedMembers } = payload;
+				const path = ["channels", orgName, channelName, "members"];
+				return set(path, updatedMembers, state);
 			}
 
 			case types.FETCH_CHANNEL_MEMBER_NAMES:
