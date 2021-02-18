@@ -8,6 +8,7 @@ import { Formik, Form, FieldArray } from "formik";
 import CanView from "../CanView/CanView";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
+import ConfirmModal from "../Modals/ConfirmModal/ConfirmModal";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes,faUserMinus } from "@fortawesome/free-solid-svg-icons";
@@ -22,8 +23,9 @@ const mapStateToProps = (state) => {
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
 		currentUser: state.user.username,
-		orgMembers: Object.keys(state.org.org.members)
-  	};
+		showConfirmationModal: state.channel.showConfirmationModal,
+		orgMembers: Object.keys(state.org.org.members),
+	};
 	const { orgName, channelName } = mapping;
 	if (orgName) {
 		mapping.channelMembers = state.channel.channels[orgName]?.[channelName]?.members
@@ -33,6 +35,7 @@ const mapStateToProps = (state) => {
 
 const mapActionsToProps = {
 	updateMembersCall: actions.channel.updateMembersCall,
+	handleConfirmationModal: actions.channel.showConfirmationModal
 };
 
 //TODO
@@ -49,13 +52,16 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = (values, { setSubmitting, setStatus }) => {
+	handleSubmit = ({invitedUsers}, { setSubmitting, setStatus }) => {
 		debugger;
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
-		const { invitedUsers } = values;
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
-		console.log({usersPartition})
-		const validUsers = usersPartition[1]
+		const invalidUsers = usersPartition[1]
+		if (invalidUsers.length > 0) {
+			this.handleNonOrgMembers(invalidUsers)
+		}
+
+		const validUsers = usersPartition[0]
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
@@ -65,6 +71,35 @@ class ChannelSideBar extends Component {
 		const { orgName, channelName, updateMembersCall } = this.props
 		const method = "DELETE"
 		updateMembersCall(orgName, channelName, [username], method)
+	}
+
+	handleNonOrgMembers = invalidUsers => {
+		const { showConfirmationModal, handleConfirmationModal } = this.props
+		return(
+			<CanView
+				resource="org-member"
+				action="invite"
+				yes={() => (
+					< ConfirmModal
+						type = "inviteUser"
+						handleResponse = { this.handleResponse }
+						showConfirmationModal = { showConfirmationModal }
+						handleConfirmationModal = { handleConfirmationModal }
+						info = {invalidUsers}
+					/>
+				)}
+				no={() => <p></p>}
+			/>
+		)
+	}
+
+	handleResponse = (sendInvites) => {
+		console.log(sendInvites)
+		// if (sendInvites) {
+		// 	const { org, sendInvites} = this.props;
+		// 	const { invitedUsers } = values;
+		// 	sendInvites(org.name, invitedUsers);
+		// }
 	}
 
 	render() {

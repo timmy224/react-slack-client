@@ -9,6 +9,7 @@ const initReducer = () => {
 		channels: {},
 		showCreateChannelModal: false,
 		showChannelSideBar: false,
+		showConfirmationModal: false,
 	};
 
     const reducer = (state = INITIAL_STATE, action) => {
@@ -47,6 +48,12 @@ const initReducer = () => {
 				const path = ["channels", orgName, channelName, "members"];
 				return set(path, updatedMembers, state);
 			}
+
+			case types.SHOW_CONFIRMATION_MODAL:
+				return {
+					...state,
+					showConfirmationModal: payload,
+				};
 			default:
 				return state;
 		}

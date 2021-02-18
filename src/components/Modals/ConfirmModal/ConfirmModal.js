@@ -1,11 +1,14 @@
 import React from "react";
+import { services } from "../../../context";
 
-import styles from "../OrgSettingsModal.module.css";
+import styles from "../OrgSettingsModal/OrgSettingsModal.module.css";
 import CustomButton from "../../UI/CustomButton/CustomButton";
 import CustomModal from "../../UI/CustomModal/CustomModal";
 
 const ConfirmModal = props => {
-	const {description, handleResponse, showConfirmationModal, handleConfirmationModal} = props
+    const { type, handleResponse, showConfirmationModal, handleConfirmationModal, info } = props
+    const titleFunction = services.modalOptionsService[type]
+    const title = titleFunction(info)
     const form = (
         <form className={styles.customForm}>
             <div class={styles.btns}>
@@ -26,7 +29,7 @@ const ConfirmModal = props => {
         <CustomModal
             show={showConfirmationModal}
             onHide={() => handleConfirmationModal(false)}
-            title= {description}
+            title= {title}
         >
             {form}
         </CustomModal>

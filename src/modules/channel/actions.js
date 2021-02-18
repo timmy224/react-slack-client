@@ -95,6 +95,11 @@ const initActions = function (channelService) {
 		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
 	};
 
+	const confirmationModalShow = actionCreator(types.SHOW_CONFIRMATION_MODAL);
+	const showConfirmationModal = (show) => (dispatch) => {
+		dispatch(confirmationModalShow(show));
+	};
+
 	return {
 		fetchChannels,
 		setOrgChannels,
@@ -106,6 +111,7 @@ const initActions = function (channelService) {
 		updateMembersCall,
 		addMembersToChannel,
 		removeChannelMember,
+		showConfirmationModal,
 	};
 };
 
