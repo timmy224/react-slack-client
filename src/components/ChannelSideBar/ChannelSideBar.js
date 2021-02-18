@@ -52,14 +52,15 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = ({invitedUsers}, { setSubmitting, setStatus, resetForm }) => {
-		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
+	handleSubmit = ({invitedUsers}, { setSubmitting, resetForm, setStatus }) => {
+		const { updateMembersCall, channelName, orgName, orgMembers, handleConfirmationModal } = this.props;
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
 		const invalidUsers = usersPartition[1]
-		if (invalidUsers.length > 0) {
-			this.handleNonOrgMembers(invalidUsers)
+		if (invalidUsers.length > 0) { 
+			handleConfirmationModal(true);
+			setStatus(`User(s): ${invalidUsers.join(', ')} not part of org`)
 		}
-
+		
 		const validUsers = usersPartition[0]
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
@@ -75,19 +76,22 @@ class ChannelSideBar extends Component {
 
 	handleNonOrgMembers = invalidUsers => {
 		const { showConfirmationModal, handleConfirmationModal } = this.props
+		handleConfirmationModal(true);
 		return(
 			<CanView
 				resource="org-member"
 				action="invite"
-				yes={() => (
-					< ConfirmModal
-						type = "inviteUser"
-						handleResponse = { this.handleResponse }
-						showConfirmationModal = { showConfirmationModal }
-						handleConfirmationModal = { handleConfirmationModal }
-						info = {invalidUsers}
-					/>
-				)}
+				yes={() => {
+					return(
+						< ConfirmModal
+							type="inviteUser"
+							handleResponse={this.handleResponse}
+							showConfirmationModal={showConfirmationModal}
+							handleConfirmationModal={handleConfirmationModal}
+							info={invalidUsers}
+						/>
+					)
+				}}
 				no={() => <p></p>}
 			/>
 		)
@@ -104,8 +108,8 @@ class ChannelSideBar extends Component {
 
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
-		const { inviteMembersDisplay, newUserDisplay } = formStyles;
-		const { channelMembers, currentUser } = this.props;
+		const { inviteMembersDisplay, newUserDisplay, errorMsg } = formStyles;
+		const { channelMembers, currentUser, showConfirmationModal, handleConfirmationModal  } = this.props;
 		let channelMembersDisplay = <div></div>
 		if (channelMembers){ 
 		const nonUserMembers = channelMembers.filter(({username}) => username !== currentUser)
@@ -141,8 +145,9 @@ class ChannelSideBar extends Component {
 					validationSchema={this.validationSchema}
 					onSubmit={this.handleSubmit}
 				>
-					{({ values }) => (
+					{({ values, status }) => (
 						<Form className={customForm}>
+							{status && <p className={errorMsg}>{status}</p>}
 							<FieldArray name="invitedUsers">
 								{({ insert, remove, push }) => (
 									<div className={inviteMembersDisplay}>
@@ -207,6 +212,22 @@ class ChannelSideBar extends Component {
 						no={() => null}
 					/>
 				</div>
+				<CanView
+					resource="org-member"
+					action="invite"
+					yes={() => {
+						return (
+							<ConfirmModal
+								type="inviteUser"
+								handleResponse={this.handleResponse}
+								showConfirmationModal={showConfirmationModal}
+								handleConfirmationModal={handleConfirmationModal}
+								info={["luis@gmail.com"]}
+							/>
+						);
+					}}
+					no={() => <p></p>}
+				/>
 			</div>
 		);
 	}
