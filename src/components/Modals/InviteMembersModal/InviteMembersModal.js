@@ -70,7 +70,7 @@ class InviteMembersModal extends Component {
                                                         placeholder="react_slack@gmail.com"
                                                         />
                                                     <CustomButton
-                                                        btnType="delete"
+                                                        btntype="delete"
                                                         type="button"
                                                         onClick={() => remove(index)}
                                                         > 
@@ -91,7 +91,7 @@ class InviteMembersModal extends Component {
                             </FieldArray>
                             <CustomButton 
                                 type='submit'
-                                btnType="enter" 
+                                btntype="enter" 
                                 >Submit
                             </CustomButton>
                         </Form>

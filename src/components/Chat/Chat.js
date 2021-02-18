@@ -67,14 +67,14 @@ class Chat extends Component {
     }
 
     render() {
-        let { chatType, channel, partnerUsername, toggleChannelSideBar, showChannelSideBar } = this.props;
+        let { chatType, channel, partnerUsername, toggleChannelSideBar, showChannelSideBar, channelMembersLength} = this.props;
         const { messagesWrapper, ctaCreateChannel, chat, boxFirst, boxFill, boxEnd } = styles;
         const canDisplay = (chatType === "channel" && channel !== null) || (chatType === "private" && partnerUsername !== null);
         if (canDisplay) {
             let messages = this.props.messages ? this.props.messages : [];
             let chatHeader = this.props.chatType === "channel"
                 ? <ChannelChatHeader
-					numberOfUsers={channel.members.length}
+					numberOfUsers={channelMembersLength}
 					channelName={channel.name}
 					showChannelSideBar={showChannelSideBar}
 					toggleChannelSideBar={toggleChannelSideBar} />
@@ -116,11 +116,15 @@ const mapStateToProps = (state) => {
     }
     const { chatType, channel, partnerUsername } = mapping;
     const orgName = mapping.org?.name;
+    
     switch (chatType) {
         case "channel":
             if (channel) {
                 const channelName = channel.name;
                 mapping.messages = state.message.messages[orgName]?.channel?.[channelName];
+                if (orgName) {
+		mapping.channelMembersLength = state.channel.channels[orgName]?.[channelName]?.members.length
+	}
             }            
             break;
         case "private":

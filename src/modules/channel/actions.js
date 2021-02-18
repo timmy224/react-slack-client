@@ -80,6 +80,7 @@ const initActions = function (channelService) {
 	};
 
 	const setChannelMembers = actionCreator(types.SET_CHANNEL_MEMBERS);
+
 	const addMembersToChannel = (orgName, channelName, newMembers) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
 		const updatedMembers = cloneDeep(currentMembers)
@@ -91,8 +92,10 @@ const initActions = function (channelService) {
 
 	const removeChannelMember = (orgName, channelName, removedMember) => (dispatch, getState) => {
 		const currentMembers = getState().channel.channels[orgName]?.[channelName]?.members
+		if (currentMembers){
 		const updatedMembers = cloneDeep(currentMembers).filter(({username})=>username !== removedMember)
-		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }));
+		dispatch(setChannelMembers({ orgName, channelName, updatedMembers }))
+		}
 	};
 
 	const confirmationModalShow = actionCreator(types.SHOW_CONFIRMATION_MODAL);

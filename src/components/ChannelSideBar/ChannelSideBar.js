@@ -4,7 +4,7 @@ import { actions } from "../../context";
 import { partition } from "lodash-es";
 
 import * as Yup from "yup";
-import { Formik, Form, FieldArray } from "formik";
+import { Formik, Form, FieldArray} from "formik";
 import CanView from "../CanView/CanView";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
@@ -52,8 +52,7 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = ({invitedUsers}, { setSubmitting, setStatus }) => {
-		debugger;
+	handleSubmit = ({invitedUsers}, { setSubmitting, setStatus, resetForm }) => {
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
 		const invalidUsers = usersPartition[1]
@@ -65,6 +64,7 @@ class ChannelSideBar extends Component {
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
+		resetForm()
 	};
 
 	handleRemoveMember = username => {
@@ -106,8 +106,10 @@ class ChannelSideBar extends Component {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
 		const { inviteMembersDisplay, newUserDisplay } = formStyles;
 		const { channelMembers, currentUser } = this.props;
+		let channelMembersDisplay = <div></div>
+		if (channelMembers){ 
 		const nonUserMembers = channelMembers.filter(({username}) => username !== currentUser)
-		const channelMembersDisplay = (
+		channelMembersDisplay = (
 			nonUserMembers.map(({ username }) => (
 					<div key={username} className={sidebarItem}>
 						<p className={sidebarUser}>{username}</p>
@@ -129,7 +131,7 @@ class ChannelSideBar extends Component {
 						/>
 					</div>
 				))
-		);
+		)}
 		const form = (
 			<>
 				<Formik
@@ -177,7 +179,7 @@ class ChannelSideBar extends Component {
 							</FieldArray>
 							<button
 								type="submit"
-								btnType="enter"
+								btnype="enter"
 								className={`${
 									values.invitedUsers.length === 0 ? disable: null} ${customButton}`}
 							>
