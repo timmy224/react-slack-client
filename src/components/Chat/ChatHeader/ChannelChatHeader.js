@@ -13,7 +13,7 @@ function ChannelChatHeader(props) {
 				className={chatMemberDisplay}
 				onClick={() => toggleChannelSideBar(!showChannelSideBar)}
 			>
-				{`${numberOfUsers} ${membersLabel}`}</div>{" "}
+				{`${numberOfUsers} ${membersLabel}`}</div>
 		</div>
 	);
 }

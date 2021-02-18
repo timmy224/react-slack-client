@@ -19,7 +19,6 @@ const mapStateToProps = (state) => ({
 	isInitialized: state.main.isInitialized,
 	showChannelSideBar: state.channel.showChannelSideBar,
 	orgs: state.org.orgs,
-	org: state.org.org,
 });
 
 const mapActionsToProps = {
@@ -62,7 +61,7 @@ class MainComponent extends Component {
 
     render() {
         const { createFirstOrgCta, ctaHeader, ctaIcon, main, mainWrapper, sidebar, tempChat } = styles;
-        const { isInitialized, orgs,showChannelSideBar, org } = this.props;
+        const { isInitialized, orgs,showChannelSideBar } = this.props;
         const { isEmpty } = services.utilityService;
         const sideBar = !isEmpty(orgs) ? <SideBar /> : (
             <div className={sidebar}>
@@ -80,10 +79,7 @@ class MainComponent extends Component {
                         <OrgsSidebar />
                         {sideBar}
                         {chat}
-						{showChannelSideBar ? (
-								<ChannelSideBar />
-							) : null}
-							{/* <ChannelSideBar orgName={org.name} /> */}
+						{showChannelSideBar && <ChannelSideBar />}	
                     </div>
                     : null}
             </div>

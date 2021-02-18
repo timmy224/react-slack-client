@@ -5,7 +5,7 @@ import ChatItem from "./ChatItem/ChatItem";
 import ChannelChatHeader from "./ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "./ChatHeader/PrivateChatHeader.js";
 import styles from "./Chat.module.css"
-// Depends on chatService, socketService
+// Depends on chatService, socketService, dateTimeService
 import {actions, services} from "../../context";
 
 class Chat extends Component {
@@ -67,14 +67,14 @@ class Chat extends Component {
     }
 
     render() {
-        let { chatType, channel, partnerUsername, toggleChannelSideBar, showChannelSideBar, channelMembersLength} = this.props;
+        let { chatType, channel, partnerUsername, toggleChannelSideBar, showChannelSideBar, channelMembers} = this.props;
         const { messagesWrapper, ctaCreateChannel, chat, boxFirst, boxFill, boxEnd } = styles;
         const canDisplay = (chatType === "channel" && channel !== null) || (chatType === "private" && partnerUsername !== null);
         if (canDisplay) {
             let messages = this.props.messages ? this.props.messages : [];
             let chatHeader = this.props.chatType === "channel"
                 ? <ChannelChatHeader
-					numberOfUsers={channelMembersLength}
+					numberOfUsers={channelMembers.length}
 					channelName={channel.name}
 					showChannelSideBar={showChannelSideBar}
 					toggleChannelSideBar={toggleChannelSideBar} />
@@ -122,10 +122,8 @@ const mapStateToProps = (state) => {
             if (channel) {
                 const channelName = channel.name;
                 mapping.messages = state.message.messages[orgName]?.channel?.[channelName];
-                if (orgName) {
-		mapping.channelMembersLength = state.channel.channels[orgName]?.[channelName]?.members.length
-	}
-            }            
+                mapping.channelMembers = state.channel.channels[orgName]?.[channelName]?.members
+	        }          
             break;
         case "private":
             mapping.messages = state.message.messages[orgName]?.private?.[partnerUsername];

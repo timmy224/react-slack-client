@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
 		currentUser: state.user.username,
-		orgMembers: Object.keys(state.org.org.members),
+		orgMembers: state.org.org.members,
 	};
 	const { orgName, channelName } = mapping;
 	if (orgName) {
@@ -43,24 +43,26 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
+	handleSubmit = ({invitedUsers}, { setSubmitting, resetForm }) => {
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
-		const { invitedUsers} = values
-		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
-		const validUsers = usersPartition[0]
+		const orgMembersList = Object.keys(orgMembers)
+		const validUsers = this.handleInvitedUsersList(invitedUsers, orgMembersList, resetForm)
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
-		const invalidUsers = usersPartition[1];
+	};
+
+	handleInvitedUsersList = (userList, orgMembers, resetForm) => {
+		const [validUsers, invalidUsers] = partition(userList, username => orgMembers.includes(username))
 		if (invalidUsers.length > 0) {
-			const error = this.handleInvalidUsers(invalidUsers)
-			resetForm({
-				status : error,
-			})
-		}else {
+			const error = this.handleInvalidUsers(invalidUsers);
+			resetForm({status: error,});
+		} else {
 			resetForm();
 		}
-	};
+		return validUsers
+
+	}
 
 	handleInvalidUsers = invalidUsers => {
 		if (invalidUsers.length === 1) {
@@ -117,7 +119,7 @@ class ChannelSideBar extends Component {
 				>
 					{({ values, status }) => (
 						<Form className={customForm}>
-							{status ? <p className={errorMsg}>{status}</p> : null}
+							{status && <p className={errorMsg}>{status}</p>}
 								<FieldArray name="invitedUsers">
 									{({ insert, remove, push }) => (
 										<div className={inviteMembersDisplay}>
