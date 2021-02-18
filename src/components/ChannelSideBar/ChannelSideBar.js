@@ -8,7 +8,6 @@ import { Formik, Form, FieldArray} from "formik";
 import CanView from "../CanView/CanView";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import CustomFormInput from "../UI/CustomFormInput/FormInput";
-import ConfirmModal from "../Modals/ConfirmModal/ConfirmModal";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes,faUserMinus } from "@fortawesome/free-solid-svg-icons";
@@ -36,12 +35,6 @@ const mapActionsToProps = {
 	updateMembersCall: actions.channel.updateMembersCall,
 };
 
-//TODO
-//Have field input and enter button removed once entered
-//Check if Invited Users are part of org if not ask if you 
-	//should send an org invite if permission allow
-//Test code and ensure everything works as expected
-
 class ChannelSideBar extends Component {
 	validationSchema = () =>
 		Yup.object().shape({
@@ -50,18 +43,32 @@ class ChannelSideBar extends Component {
 			),
 		});
 
-	handleSubmit = ({invitedUsers}, { setSubmitting, setStatus, resetForm }) => {
+	handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
+		const { invitedUsers} = values
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
-		const invalidUsers = usersPartition[1]
-		if (invalidUsers.length > 0) setStatus(`User(s): ${invalidUsers.join(', ')} are not a part of this org`)
-
 		const validUsers = usersPartition[0]
 		const method = "POST", action = "STORE"
 		updateMembersCall(orgName, channelName, validUsers, method, action );
 		setSubmitting(false);
-		resetForm()
+		const invalidUsers = usersPartition[1];
+		if (invalidUsers.length > 0) {
+			const error = this.handleInvalidUsers(invalidUsers)
+			resetForm({
+				status : error,
+			})
+		}else {
+			resetForm();
+		}
 	};
+
+	handleInvalidUsers = invalidUsers => {
+		if (invalidUsers.length === 1) {
+			return `User: ${invalidUsers.join(", ")} is not a part of this org`
+		} else {
+			return `Users: ${invalidUsers.join(", ")} are not a part of this org`
+		}
+	}
 
 	handleRemoveMember = username => {
 		const { orgName, channelName, updateMembersCall } = this.props
@@ -110,51 +117,51 @@ class ChannelSideBar extends Component {
 				>
 					{({ values, status }) => (
 						<Form className={customForm}>
-							{status && <p className={errorMsg}>{status}</p>}
-							<FieldArray name="invitedUsers">
-								{({ insert, remove, push }) => (
-									<div className={inviteMembersDisplay}>
-										{values.invitedUsers.map(
-											(_email, index) => (
-												<div
-													key={index}
-													className={newUserDisplay}
-												>
-													<CustomFormInput
-														fieldType="nameDisplay"
-														name={`invitedUsers.${index}`}
-														placeholder="react_slack@gmail.com"
-													/>
-													<button
-														className={cancel}
-														type="button"
-														onClick={() =>remove(index)}
+							{status ? <p className={errorMsg}>{status}</p> : null}
+								<FieldArray name="invitedUsers">
+									{({ insert, remove, push }) => (
+										<div className={inviteMembersDisplay}>
+											{values.invitedUsers.map(
+												(_email, index) => (
+													<div
+														key={index}
+														className={newUserDisplay}
 													>
-														<FontAwesomeIcon
-															icon={faTimes}
+														<CustomFormInput
+															fieldType="nameDisplay"
+															name={`invitedUsers.${index}`}
+															placeholder="react_slack@gmail.com"
 														/>
-													</button>
-												</div>
-											)
-										)}
-										<CustomButton
-											type="button"
-											onClick={() => push("")}
-										>Add Member
-										</CustomButton>
-									</div>
-								)}
-							</FieldArray>
-							<button
-								type="submit"
-								btnype="enter"
-								className={`${
-									values.invitedUsers.length === 0 ? disable: null} ${customButton}`}
-							>
-								Submit
-							</button>
-						</Form>
-					)}
+														<button
+															className={cancel}
+															type="button"
+															onClick={() =>remove(index)}
+														>
+															<FontAwesomeIcon
+																icon={faTimes}
+															/>
+														</button>
+													</div>
+												)
+											)}
+											<CustomButton
+												type="button"
+												onClick={() => push("")}
+											>Add Member
+											</CustomButton>
+										</div>
+									)}
+								</FieldArray>
+								<button
+									type="submit"
+									btnype="enter"
+									className={`${
+										values.invitedUsers.length === 0 ? disable: null} ${customButton}`}
+								>
+									Submit
+								</button>
+							</Form>
+						)}
 				</Formik>
 			</>
 		);
@@ -168,6 +175,7 @@ class ChannelSideBar extends Component {
 						<p className={sidebarUser}>{currentUser}</p>
 					</div>
 					{channelMembersDisplay}
+					{form}
 				</div>
 			</div>
 		);
