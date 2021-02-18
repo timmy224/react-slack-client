@@ -56,9 +56,7 @@ class ChannelSideBar extends Component {
 		const { updateMembersCall, channelName, orgName, orgMembers } = this.props;
 		const usersPartition = partition(invitedUsers, username => orgMembers.includes(username))
 		const invalidUsers = usersPartition[1]
-		if (invalidUsers.length > 0) {
-			this.handleNonOrgMembers(invalidUsers)
-		}
+		if (invalidUsers.length > 0) setStatus(`User(s): ${invalidUsers.join(', ')} are not a part of this org`)
 
 		const validUsers = usersPartition[0]
 		const method = "POST", action = "STORE"
@@ -73,38 +71,9 @@ class ChannelSideBar extends Component {
 		updateMembersCall(orgName, channelName, [username], method)
 	}
 
-	handleNonOrgMembers = invalidUsers => {
-		const { showConfirmationModal, handleConfirmationModal } = this.props
-		return(
-			<CanView
-				resource="org-member"
-				action="invite"
-				yes={() => (
-					< ConfirmModal
-						type = "inviteUser"
-						handleResponse = { this.handleResponse }
-						showConfirmationModal = { showConfirmationModal }
-						handleConfirmationModal = { handleConfirmationModal }
-						info = {invalidUsers}
-					/>
-				)}
-				no={() => <p></p>}
-			/>
-		)
-	}
-
-	handleResponse = (sendInvites) => {
-		console.log(sendInvites)
-		// if (sendInvites) {
-		// 	const { org, sendInvites} = this.props;
-		// 	const { invitedUsers } = values;
-		// 	sendInvites(org.name, invitedUsers);
-		// }
-	}
-
 	render() {
 		const { channelSideBar, header, body, sidebarItem, sidebarUser, customForm, remove, disable, customButton, cancel } = styles;
-		const { inviteMembersDisplay, newUserDisplay } = formStyles;
+		const { inviteMembersDisplay, newUserDisplay, errorMsg } = formStyles;
 		const { channelMembers, currentUser } = this.props;
 		let channelMembersDisplay = <div></div>
 		if (channelMembers){ 
@@ -141,8 +110,9 @@ class ChannelSideBar extends Component {
 					validationSchema={this.validationSchema}
 					onSubmit={this.handleSubmit}
 				>
-					{({ values }) => (
+					{({ values, status }) => (
 						<Form className={customForm}>
+							{status && <p className={errorMsg}>{status}</p>}
 							<FieldArray name="invitedUsers">
 								{({ insert, remove, push }) => (
 									<div className={inviteMembersDisplay}>
@@ -200,12 +170,6 @@ class ChannelSideBar extends Component {
 						<p className={sidebarUser}>{currentUser}</p>
 					</div>
 					{channelMembersDisplay}
-					<CanView
-						resource="channel-member"
-						action="add"
-						yes={() => <>{form}</>}
-						no={() => null}
-					/>
 				</div>
 			</div>
 		);
