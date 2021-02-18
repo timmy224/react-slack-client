@@ -15,7 +15,6 @@ import ApiService from "./api-service";
 import DemoService from "./demo-service";
 import InvitationService from "./invitation-service";
 import OrgService from "./org-service";
-import ModalOptionsService from "./modal-options-service";
 
 const configureServices = () => {    
     const storageService = StorageService();
@@ -33,7 +32,6 @@ const configureServices = () => {
     const demoService = DemoService();
     const invitationService  = InvitationService(apiService);
     const orgService = OrgService(apiService);
-    const modalOptionsService = ModalOptionsService();
   
     return {
         storageService,
@@ -51,7 +49,6 @@ const configureServices = () => {
         demoService,
         invitationService,
         orgService,
-        modalOptionsService
     };
 };
 

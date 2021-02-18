@@ -23,7 +23,6 @@ const mapStateToProps = (state) => {
 		addMember: state.channel.addMember,
 		channelId: state.chat.channelId,
 		currentUser: state.user.username,
-		showConfirmationModal: state.channel.showConfirmationModal,
 		orgMembers: Object.keys(state.org.org.members),
 	};
 	const { orgName, channelName } = mapping;
@@ -35,7 +34,6 @@ const mapStateToProps = (state) => {
 
 const mapActionsToProps = {
 	updateMembersCall: actions.channel.updateMembersCall,
-	handleConfirmationModal: actions.channel.showConfirmationModal
 };
 
 //TODO
