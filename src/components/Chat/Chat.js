@@ -6,46 +6,88 @@ import ChannelChatHeader from "./ChatHeader/ChannelChatHeader.js";
 import PrivateChatHeader from "./ChatHeader/PrivateChatHeader.js";
 import styles from "./Chat.module.css"
 import { actions, services } from "../../context";
+import { ReactComponent } from "*.svg";
 
 class Chat extends Component {
+    // NOTE: look into document ref for doc event handler in React docs
     pageVisibility = () => {
         let hidden, visibilityChange;
         if (typeof document.hidden !== "undefined") {
           hidden = "hidden";
-          visibilityChange = "visibilitychange";
+          //visibilityChange = "visibilitychange";
         } else if (typeof document.msHidden !== "undefined") {
           hidden = "msHidden";
-          visibilityChange = "msvisibilitychange";
+          //visibilityChange = "msvisibilitychange";
         } else if (typeof document.webkitHidden !== "undefined") {
           hidden = "webkitHidden";
-          visibilityChange = "webkitvisibilitychange";
+          //visibilityChange = "webkitvisibilitychange";
         }
-        return { hidden, visibilityChange };
+        return { hidden };
+        //return { hidden, visibilityChange };
     }
 
-    /* 
-    ### Pseudo for page visiblity
-    type = this.state.type
-    if pageVisible:
-        if type == 'channel':
-            if this.state.readStatus[type][channelName] == last message's read dt:
-                no new messages have arrived when page was inactive
-                pass - > no need to change
-            else:
-                new message arrived when page was inactive
-                change state to match last read message read dt
+    handleVisibilityChange(prevProps) {
+        let hidden = this.pageVisibility();
+        if (!document[hidden]) {
+            let { chatType, org, channel, partnerUsername, messages } = this.props;
+            let { readStatusChannel, readStatusPrivate } = this.props;
+            switch (chatType) {
+                case "channel":
+                    let channelMessages = messages[org.name].channel[channelName];
+                    let recentChannelMessageDt = channelMessages[channelMessages.length -1].sentDt
+                    if (readStatusChannel[channel.name] !== recentChannelMessageDt) {
+                        // update readStatus for channel in reducer
+                        this.props.setReadStatusChannel(channel.name, recentChannelMessageDt)
+                        // socket event update
+                        let readStatus = services.readStatusService.prepareReadStatus(
+                            chatType, org.name, channel.name, recentChannelMessageDt
+                        );
+                        this.props.sendReadStatus(readStatus);
+                        this.props.updateChannelStatus(channel.name, false);
+                    } 
+                    break;
+                case "private": 
+                    let privateMessages = messages[orgName].private[partnerUsername]
+                    let recentPrivateMessageDt = privateMessages[privateMessages.length -1].sendDt
+                    if (readStatusPrivate[partnerUsername] !== recentPrivateMessageDt) {
+                        // update readStatus for private message in reducer
+                        this.props.setReadStatusPrivate(partnerUsername, recentPrivateMessageDt)
+                        // socket event update
+                        let readStatus = services.readStatusService.prepareReadStatus(
+                            chatType, org.name, partnerUsername, recentPrivateMessageDt
+                        );
+                        this.props.sendReadStatus(readStatus);
+                        this.props.updatePrivateStatus(partnerUsername, false);
+                    }
+                default:
+                    break;
+            }
+        }
+    }
 
-        if type == 'private':   
-            if this.state.readStatus[type][partnerUsername] == last message's read dt:
-                no new messages have arrived when page was inactive
-                pass - > no need to change
-            else:
-                new message arrived when page was inactive
-                change state to match last read message read dt
+    componentDidUpdate(prevProps) {
+        this.handleVisibilityChange(prevProps);
+    }
 
-    ### Pseudo for Read status prep -> fire when visibility change
-    last chat item's date time= chatItems[chatItems.length - 1].readDt
-    const prepareReadStatus = (type, orgName, destination, readDt)
+    componentDidMount() {
+        window.onScroll = () => {
+            if (window.pageYOffset === 0) {
+                // NOTE insert fetch previous messages function here
+            }
+        };
+    }
+
+    componentWillUnmount() {
+        window.onScroll = null;
+    }
+
+    /* TODO
+    ### Update reducer with lodash set path
+
+    ### HTML conditional - chatItem element
+    1. Insert chat element in messages mapping - DONE
+    2. Create New Message Line Component
+    3. Tie selected a diff channel/user in sidebar to remove new message line
     */
 
     onEnterPressed = () => {
@@ -72,11 +114,31 @@ class Chat extends Component {
         }
     }
 
+    lastReadDt(chatType, chatName) {
+        const { readStatusChannel, readStatusPrivate } = this.props;
+        let lastReadDt = null;
+        if (chatType == "channel") {
+            lastReadDt = readStatusChannel[chatName];
+        } else if (chatType == "private") {
+            lastReadDt = readStatusPrivate[chatName];
+        }
+        return lastReadDt;
+    }
+
+    // refactor Konrad's code for dateSeparator to accomodate for newMessageLine
+    newMessageChatSeparator(dateTime) {
+        const newMessageSeparatorItem = {
+            itemType: "new-message-separator",
+            dateTime, 
+            key: dateTime
+        }
+        return newMessageSeparatorItem;
+    }
+
     createChatItems(messages) {
         const chatItems = []
         const { dateTimeService }  = services;
         const messageMap = this.createMessageChatItemMap(messages);
-        // NOTE add unread message HTML element here 
         Object.entries(messageMap).forEach(entry => {
             const [dateKey, messageChatItems] = entry;
             const dateStr = dateTimeService.str(dateTimeService.dt(dateKey, "YYYY/MM/DD"), "dddd, MMMM Do");            
@@ -91,8 +153,10 @@ class Chat extends Component {
         return chatItems;
     }
 
-    createMessageChatItemMap(messages) {
+    createMessageChatItemMap(messages, chatType, chatName) {
         const { dateTimeService, chatService } = services;
+        let newMessageSeparatorInserted = false;
+        const lastReadDt = this.lastReadDt(chatType, chatName);
         const messageMap = messages
         .map(message => ({ itemType: "message", ...message, key: message.sender + message.sent_dt}))
         .reduce((acc, messageChatItem) => {
@@ -100,6 +164,10 @@ class Chat extends Component {
             const key = dateTimeService.str(sentDt, "YYYY/MM/DD");
             if (!acc[key]) {
                 acc[key] = [];
+            }
+            if (!newMessageSeparatorInserted && messageChatItem.sentdt == lastReadDt) {
+                let newMessageSeparatorItem = this.newMessageChatSeparator(lastReadDt);
+                acc[key].push(newMessageSeparatorItem);
             }
             acc[key].push(messageChatItem);
             return acc;
@@ -148,7 +216,9 @@ const mapStateToProps = (state) => {
         partnerUsername: state.chat.partnerUsername,
         channel: state.chat.channel,
         currentInput: state.chat.currentInput,
-        org: state.org.org,   
+        org: state.org.org,
+        readStatusPrivate: state.readStatus.statusPrivate,
+        readStatusChannel: state.readStatus.statusChannel
     }
     const { chatType, channel, partnerUsername } = mapping;
     const orgName = mapping.org?.name;
@@ -173,7 +243,11 @@ const mapActionsToProps = {
     messageReceived: actions.message.messageReceived,
     fetchPrevChannelMessages: actions.message.fetchPrevChannelMessages,
     fetchPrevPrivateMessages: actions.message.fetchPrevPrivateMessages,
+    setReadStatusChannel: actions.readStatus.readStatusSetChannel,
+    setReadStatusPrivate: actions.readStatus.readStatusSetPrivate,
     sendReadStatus: actions.readStatus.sendReadStatus,
+    updateChannelStatus: actions.sidebar.updateChannelStatus,
+    updateprivateStatus: actions.sidebar.updatePrivateStatus,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Chat);

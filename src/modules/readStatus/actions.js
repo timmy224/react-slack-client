@@ -1,10 +1,8 @@
 import types from "./types";
 import { actionCreator } from "../utils";
+import { actions } from "../../context";
 
-const initActions = function (readStatusService, dateTimeService) {
-    const MESSAGE_DT_FORMAT = "YYYY/MM/DD HH:mm:ss:SSS";
-    const systemDateTime = dateTimeService.str(dateTimeService.now(), MESSAGE_DT_FORMAT);
-    
+const initActions = function (readStatusService) {
     // setting read statuses client-side 
     const readStatusSetChannel = actionCreator(types.READ_STATUS_SET_CHANNEL);
     const setReadStatusChannel = (channel, dateTime) => dispatch => {
@@ -27,12 +25,14 @@ const initActions = function (readStatusService, dateTimeService) {
         for (const channelStatus in readStatuses['channel_statuses']) {
             for (const [channelName, readDateTime] in Object.entries(channelStatus)) {
                 dispatch(setReadStatusChannel(channelName, readDateTime));
+                dispatch(actions.sidebar.updateChannelStatus(channelName, true));
             }
         }
         // iterate through read_status['private_statuses'] and set client state
         for (const privateStatus in readStatuses['private_statuses']) {
             for (const [partnerUsername, readDateTime] in Object.entries(privateStatus)) {
                 dispatch(setReadStatusPrivate(partnerUsername, readDateTime));
+                dispatch(actions.sidebar.updatePrivateStatus(partnerUsername, true));
             }  
         }
     };

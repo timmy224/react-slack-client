@@ -24,6 +24,16 @@ const initActions = function (utilityService) {
         }
     };
 
+    const channelStatusUpdate = actionCreator(types.UNREAD_CHANNEL);
+    const updateChannelStatus = (channelName, status) => (dispatch, getState) => {
+        dispatch(channelStatusUpdate(channelName, status));
+    };
+
+    const privateStatusUpdate = actionCreator(types.UNREAD_PRIVATE);
+    const updatePrivateStatus = (partnerUsername, status) => (dispatch, getState) => {
+        dispatch(privateStatusUpdate(partnerUsername, status));
+    };
+
     const userSelect = actionCreator(types.USER_SELECT);
     const selectUser = username => (dispatch, getState) => {
         const orgName = getState().org.org.name;
@@ -38,6 +48,8 @@ const initActions = function (utilityService) {
         selectChannel, 
         selectDefaultChannel,
         selectUser,
+        updateChannelStatus,
+        updatePrivateStatus,
     };
 }
 

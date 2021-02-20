@@ -14,10 +14,12 @@ import { faPlus, faCaretDown, faTrashAlt, faHashtag } from "@fortawesome/free-so
 
 class SideBar extends Component {
     selectChannel = (channelName) => {
+        this.props.updateChannelStatus(prevState.channelName, false);
         this.props.selectChannel(channelName);
     }
 
     selectUser = (username) => {
+        this.props.updatePrivateStatus(prevState.partnerUsername, false);
         this.props.selectUser(username);
     }
 
@@ -25,10 +27,32 @@ class SideBar extends Component {
         this.props.deleteChannel(channelName);
     }
 
+    setChannelStyle = (selectedChannel, channelName, sidebarItemHighLightClass, sidebarItemBold) => {
+        let styles = {};
+        if (selectedChannel && selectedChannel.name === channelName) {
+            styles = Object.assign(styles, sidebarItemHighLightClass);
+        }
+        if (this.props.unreadChannels[channelName]) {
+            styles = Object.assign(styles, sidebarItemBold);
+        }
+        return styles
+    }
+
+    setPrivateStyle = (selectedPartner, username, sidebarItemHighLightClass, sidebarItemBold) => {
+        let styles = {};
+        if (selectedPartner && selectedPartner === username) {
+            styles = Object.assign(styles, sidebarItemHighLightClass);
+        }
+        if (this.props.unreadPrivates[username]) {
+            styles = Object.assign(styles, sidebarItemBold);
+        }
+        return styles
+    }
+
     render() {
         const { sidebarChannel, unstyledButton, channelDelete, sidebarUser, orgNameHeader, sidebar,
                 orgOptions, sidebarBody, sidebarSectionHeading, sidebarSectionHeadingExpand, sidebarSectionHeadingLabel, 
-                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItem, orgName, loginCircle, loggedIn, channelIcon } = styles;
+                sidebarSectionHeadingRight, container, sidebarEnd, logoutBtn, sidebarItemHighlightClass, sidebarItemBold, sidebarItem, orgName, loginCircle, loggedIn, channelIcon } = styles;
         const { org, channels, orgMembers, selectedChannel, selectedPartner, handleCreateChannelModal, handleOrgSettingsModal } = this.props;
         let isChannelsEmpty = services.utilityService.isEmpty(channels);
         let channelsDisplay = isChannelsEmpty ?
@@ -36,7 +60,7 @@ class SideBar extends Component {
             : (Object.values(channels).map(channel => 
                 <div 
                     key={channel.name} 
-                    className={`${selectedChannel && selectedChannel.name === channel.name ? sidebarItemHighlightClass : null} ${sidebarItem}`}
+                    className={`${this.setChannelStyle(selectedChannel, channel.name, sidebarItemHighlightClass, sidebarItemBold)} ${sidebarItem}`}
                     onClick={() => this.selectChannel(channel.name)}>
                     <div className={channelIcon}>
                         <FontAwesomeIcon icon={faHashtag} transform="grow-1" color="#99a59e" />
@@ -65,7 +89,7 @@ class SideBar extends Component {
                 : (Object.values(orgMembers).map(({ username, logged_in }) => 
                     <div 
                         key={username} 
-                        className={`${selectedPartner && selectedPartner === username ? sidebarItemHighlightClass : null} ${sidebarItem}`}
+                        className={`${this.setChannelStyle(selectedPartner, username, sidebarItemHighlightClass, sidebarItemBold)} ${sidebarItem}`}
                         onClick={() => this.selectUser(username)}>
                         <div className={`${loginCircle} ${logged_in ? loggedIn : null}`}></div>
                         <p className={sidebarUser}>{username}</p>                        
@@ -136,6 +160,8 @@ const mapStateToProps = (state) => {
         org: state.org.org,
         selectedChannel: state.chat.channel,
         selectedPartner: state.chat.partnerUsername,
+        unreadChannels: state.sidebar.unreadChannels,
+        unreadPrivates: state.sidebar.unreadPrivates
     };
     const { org } = mapping;
     if (org) {
@@ -152,6 +178,8 @@ const mapActionsToProps = {
     handleCreateChannelModal: actions.channel.showCreateChannelModal,
     logout: actions.user.logout,
     handleOrgSettingsModal: actions.org.showOrgSettingsModal,
+    updateChannelStatus: actions.sidebar.updateChannelStatus,
+    updatePrivateStatus: actions.sidebar.updatePrivateStatus,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

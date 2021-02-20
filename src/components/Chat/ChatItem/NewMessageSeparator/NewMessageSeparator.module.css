@@ -1,0 +1,23 @@
+.newMessageSeparator {
+    display: flex;
+    align-items: right;    
+    color: #9c464f;
+    text-align: center;
+    font-size: 15px;
+}
+
+.newMessageSeparator span {
+    border: 1px solid #fff7f9;
+    padding: 5px 20px 5px 20px;
+    border-radius: 15px;
+}
+
+.newMessageSeparator::before, 
+.newMessageSeparator::after {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    content: " ";
+    height: 0px;
+    border-bottom: 1px solid rgb(90, 90, 90);
+}

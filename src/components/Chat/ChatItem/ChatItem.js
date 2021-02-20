@@ -16,8 +16,11 @@ function ChatItem({item}) {
         case "date-separator":
             const dateSeparator = item;
             return <DateSeparator dateStr={dateSeparator.dateStr} />
-        default:
 
+        case "new-message-separator":
+            const newMessageSeparator = item;
+            return <NewMessageSeparator dateStr={newMessageSeparator.datestr} />
+        default:
     }
 
 }

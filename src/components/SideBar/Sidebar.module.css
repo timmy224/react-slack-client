@@ -110,6 +110,10 @@
     background-color: #424242;
 }
 
+.sidebarItemBold {
+    font-weight: bold;
+}
+
 .sidebarItem p {
     cursor: default;
 }

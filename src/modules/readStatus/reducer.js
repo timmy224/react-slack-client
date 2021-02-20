@@ -1,14 +1,13 @@
 import types from "./types";
-import sidebarTypes from "../sidebar/types";
-import userTypes from "../user/types";
 
 const initReducer = () => {
     /* type can be "private" or "channel" depending on what kind of chat we have open. 
     partnerUsername will be set to the username of the person we're chatting with.
     channel will be set to the channel we're chatting in. */
     const INITIAL_STATE = {
+        // used to store last message datetime
         statusPrivate: {},
-        statusChannel: {}
+        statusChannel: {},
     };
 
     const reducer = (state = INITIAL_STATE, action) => {
